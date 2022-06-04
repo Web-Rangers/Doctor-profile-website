@@ -174,7 +174,7 @@ export default function Clinics() {
                     <input className={styles.searchInput} type="text" placeholder="Search" />
                 </div>
             </div>
-            <Table columns={columns} data={data} pagination={{ pageSize: 8, initialPage: 1 }} />
+            <Table columns={columns} data={data} pagination={{ pageSize: 10, initialPage: 1 }} />
         </div>
     )
 }

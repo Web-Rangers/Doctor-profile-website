@@ -5,6 +5,12 @@
   gap: 20px;
 }
 
+.tableBody {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .tableHeader {
   background-color: #d9def3;
 }
@@ -19,9 +25,9 @@
 
 .tableCellTemplate {
   display: grid;
-  padding: 15px;
+  padding: 5px;
   height: 100%;
-  white-space: nowrap;
+  max-height: 60px;
   line-height: 20px;
   font-size: 16px;
   letter-spacing: 0.04em;
@@ -47,6 +53,7 @@
 
 .tableHeaderCell {
   font-weight: 500;
+  padding: 15px;
 }
 
 .tableRow {

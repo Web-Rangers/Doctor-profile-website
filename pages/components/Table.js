@@ -9,6 +9,16 @@ export default function Table({ columns, data, pagination }) {
     const [options, setOptions] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
 
+
+
+    const getStartPage = () => {
+        return (currentPage - 1) * (pagination.pageSize || 10) + 1;
+    }
+
+    const getEndPage = () => {
+        return Math.min(currentPage * (pagination.pageSize || 10), data.length);
+    }
+
     const selectPage = (selectedOption) => {
         setCurrentPage(selectedOption.value);
         setSelectedOption(selectedOption);
@@ -32,10 +42,12 @@ export default function Table({ columns, data, pagination }) {
                 )
             })}
         </div>
+        <div className={styles.tableBody}>
         {diplayedData.map((record, index) => <TableRow columnsDefinition={columns} record={record} key={`table-row-${index}`} />)}
+        </div>
         {pagination ? (
             <div className={styles.pagination}>
-                <div className={styles.recordCounter}>{`${(currentPage - 1) * (pagination.pageSize || 10) + 1}-${(currentPage - 1) * (pagination.pageSize || 10) + (pagination?.pageSize || 10)} of ${data.length} records`}</div>
+                <div className={styles.recordCounter}>{`${getStartPage()}-${getEndPage()} of ${data.length} records`}</div>
                 <div className={styles.paginationControls}>
                     <span className={styles.paginatorTitle}>The page you’er on</span>
                     {options.length > 0 && (<Select
@@ -47,8 +59,12 @@ export default function Table({ columns, data, pagination }) {
                         value={selectedOption}
                         onChange={selectPage} />)}
                     <div className={styles.paginationButtons}>
-                        <ReactSVG src="/images/icons/paginator/prev.svg" className={`${styles.paginationBtn} ${currentPage === 1 ? styles.disable : ""}`} onClick={() => { setCurrentPage(origin => origin - 1) }}></ReactSVG>
-                        <ReactSVG src="/images/icons/paginator/next.svg" className={`${styles.paginationBtn} ${currentPage === options.length ? styles.disable : ""}`} onClick={() => { setCurrentPage(origin => origin + 1) }}></ReactSVG>
+                        <ReactSVG src="/images/icons/paginator/prev.svg"
+                            className={`${styles.paginationBtn} ${currentPage === 1 ? styles.disable : ""}`}
+                            onClick={() => { setCurrentPage(origin => origin - 1) }} />
+                        <ReactSVG src="/images/icons/paginator/next.svg"
+                            className={`${styles.paginationBtn} ${currentPage === options.length ? styles.disable : ""}`}
+                            onClick={() => { setCurrentPage(origin => origin + 1) }} />
                     </div>
 
                 </div>
