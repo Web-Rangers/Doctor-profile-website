@@ -26,6 +26,7 @@
   flex-direction: row;
   align-items: stretch;
   gap: 16px;
+  cursor: text;
 }
 
 .searchImg,

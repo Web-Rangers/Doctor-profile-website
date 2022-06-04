@@ -43,7 +43,7 @@ export default function Table({ columns, data, pagination }) {
             })}
         </div>
         <div className={styles.tableBody}>
-        {diplayedData.map((record, index) => <TableRow columnsDefinition={columns} record={record} key={`table-row-${index}`} />)}
+            {diplayedData.map((record, index) => <TableRow columnsDefinition={columns} record={record} key={`table-row-${index}`} />)}
         </div>
         {pagination ? (
             <div className={styles.pagination}>

@@ -166,12 +166,12 @@ export default function Clinics() {
         <div className={styles.container}>
             <div className={styles.pageHeader}>
                 <h3>All clinics</h3>
-                <div className={styles.searchContainer}>
+                <div className={styles.searchContainer} onClick={() => { document.getElementById("search-input")?.focus() }}>
                     <ReactSVG
                         src={"/images/icons/inputs/search.svg"}
                         className={styles.searchImg}
                     />
-                    <input className={styles.searchInput} type="text" placeholder="Search" />
+                    <input id="search-input" className={styles.searchInput} type="text" placeholder="Search" />
                 </div>
             </div>
             <Table columns={columns} data={data} pagination={{ pageSize: 10, initialPage: 1 }} />
