@@ -8,6 +8,7 @@ import SideBarLayout from "../../../layouts/SideBarLayout";
 import tabStyles from "../../../styles/components/Tabs.module.scss";
 import styles from "../../../styles/pages/clinic_detailed.module.scss";
 import tableStyles from "../../../styles/components/Table.module.css";
+import Breadcrumbs from "nextjs-breadcrumbs";
 
 interface ActionProps {
   icon?: string;
@@ -101,35 +102,40 @@ const branches = [
     branchId: "896568984605",
     workingHours: "10:30-17:00",
     status: true,
-  },{
+  },
+  {
     city: "Tbilisi",
     address: "14 Merab Aleksidze St",
     contact: "386 904 204",
     branchId: "476097356897",
     workingHours: "11:30-18:00",
     status: false,
-  },{
+  },
+  {
     city: "Batumi",
     address: "7 Simon Chikovani St",
     contact: "702 942 424",
     branchId: "0757462129067",
     workingHours: "09:30-16:00",
     status: true,
-  },{
+  },
+  {
     city: "Tbilisi",
     address: "30b Mikheil Chiaureli St",
     contact: "104 794 209",
     branchId: "7082453675100",
     workingHours: "08:00-17:00",
     status: true,
-  },{
+  },
+  {
     city: "Kutaisi",
     address: "8 Simon Chikovani St",
     contact: "573 673 367",
     branchId: "707005790797",
     workingHours: "07:30-18:00",
     status: false,
-  },{
+  },
+  {
     city: "Akhaltsikhe",
     address: "11 Simon Chikovani St",
     contact: "865 234 056",
@@ -144,7 +150,11 @@ export default function ClinicDetailed() {
     <div className={styles.container}>
       <div className={styles.pageHeader}>
         <h3>Clinics</h3>
-        <div></div>
+        <Breadcrumbs
+          omitRootLabel={true}
+          listClassName={styles.breadcrumbs}
+          replaceCharacterList={[{ from: "_", to: " " }]}
+        />
       </div>
       <div className={styles.pageBody}>
         <div className={styles.row}>

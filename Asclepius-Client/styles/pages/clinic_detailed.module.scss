@@ -213,3 +213,24 @@
 .tableRow {
   grid-template-columns: 15% 24% 15% 18% 18% 10%;
 }
+
+.breadcrumbs {
+  display: flex;
+  flex-direction: row;
+
+  color: #8f8f8f;
+  gap: 15px;
+  li::marker {
+    content: "";
+  }
+  li:not(:last-child) {
+    a {
+      color: #2751f2;
+    }
+
+    &::after {
+      content: ">";
+      margin-left: 15px;
+    }
+  }
+}
