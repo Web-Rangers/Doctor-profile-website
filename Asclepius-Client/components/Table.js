@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import styles from "../styles/components/Table.module.css";
 import Select from "react-select";
 import { ReactSVG } from "react-svg";
+import classNames from "classnames";
 
-export default function Table({ columns, data, pagination }) {
+export default function Table({ columns, data, pagination, rowClassName }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [diplayedData, setDisplayedData] = useState([]);
     const [options, setOptions] = useState([]);
@@ -33,7 +34,7 @@ export default function Table({ columns, data, pagination }) {
     }, [currentPage])
 
     return (<div className={styles.table}>
-        <div className={`${styles.tableHeader} ${styles.tableRowTemplate}`}>
+        <div className={classNames(styles.tableHeader, styles.tableRowTemplate, rowClassName)}>
             {columns.map(({ key, title, headerStyle }) => {
                 return (
                     <div className={`${styles.tableHeaderCell} ${styles.tableCellTemplate}`} style={headerStyle ? headerStyle : null} key={key}>
@@ -43,7 +44,7 @@ export default function Table({ columns, data, pagination }) {
             })}
         </div>
         <div className={styles.tableBody}>
-            {diplayedData.map((record, index) => <TableRow columnsDefinition={columns} record={record} key={`table-row-${index}`} />)}
+            {diplayedData.map((record, index) => <TableRow columnsDefinition={columns} record={record} key={`table-row-${index}`} rowClassName={rowClassName} />)}
         </div>
         {pagination ? (
             <div className={styles.pagination}>
@@ -73,9 +74,9 @@ export default function Table({ columns, data, pagination }) {
     </div>);
 }
 
-const TableRow = ({ record, columnsDefinition }) => {
+const TableRow = ({ record, columnsDefinition, rowClassName }) => {
     return (
-        <div className={`${styles.tableRow} ${styles.tableRowTemplate}`}>
+        <div className={classNames(styles.tableRow, styles.tableRowTemplate, rowClassName)}>
             {columnsDefinition.map(({ dataIndex, render }, index) => {
                 if (render)
                     return render(record[dataIndex], `data-${record.key}-${index}`);
