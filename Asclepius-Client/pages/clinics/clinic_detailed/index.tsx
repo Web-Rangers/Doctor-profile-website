@@ -51,6 +51,15 @@ const BranchActions = () => {
     );
 };
 
+const GalleryActions = () => {
+    return (
+        <div className={styles.branchActions}>
+            <button className={styles.edit}>Edit</button>
+            <button className={styles.add}>Add photo</button>
+        </div>
+    );
+};
+
 const OfferActions = () => {
     return (
         <div className={styles.branchActions}>
@@ -455,7 +464,10 @@ export default function ClinicDetailed() {
                             </Card>
                         </TabPanel>
                         <TabPanel className={tabStyles.tabPanel}>
-                            Photo gallery
+                            <Card
+                                cardTitle="Photo gallery"
+                                cardActions={<GalleryActions />}
+                            ></Card>
                         </TabPanel>
                     </Tabs>
                 </div>
