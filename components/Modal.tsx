@@ -16,7 +16,7 @@ export default function Modal({
     return (
         <>
             <div
-                className={classNames([styles.modalBack, className])}
+                className={classNames(styles.modalBack)}
                 onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
@@ -24,7 +24,9 @@ export default function Modal({
                 }}
             ></div>
 
-            <div className={styles.modal}>{children}</div>
+            <div className={classNames(className, styles.modal)}>
+                {children}
+            </div>
         </>
     );
 }

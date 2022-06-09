@@ -31,13 +31,13 @@
   min-width: 240px;
   padding-top: 110px;
   display: flex;
-  z-index: 999;
+  z-index: 10;
 }
 .pageArea {
   background: #F0F0F0;
   width: calc(100% - 240px);
   height: 100%;
-  z-index: 50;
+  z-index: 10;
   padding: 36px;
   padding-top: 40px;
   padding-bottom: 20px;
