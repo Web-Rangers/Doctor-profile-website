@@ -122,6 +122,9 @@
   padding: 0;
   margin-bottom: 30px;
   gap: 30px;
+  &.noMargin {
+    margin: 0;
+  }
 }
 
 .dataIndex {
@@ -211,7 +214,7 @@
 }
 
 .tableRow {
-  grid-template-columns: 15% 24% 15% 18% 18% 10%;
+  grid-template-columns: 14% 23% 15% 18% 17% 13%;
 }
 
 .breadcrumbs {
@@ -233,4 +236,18 @@
       margin-left: 15px;
     }
   }
+}
+
+.textButton{
+  background: transparent;
+  border: none;
+  width: min-content;
+  white-space: nowrap;
+  color: #2751f2;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  cursor: pointer;
 }

@@ -9,6 +9,7 @@ import tabStyles from "../../../styles/components/Tabs.module.scss";
 import styles from "../../../styles/pages/clinic_detailed.module.scss";
 import tableStyles from "../../../styles/components/Table.module.css";
 import Breadcrumbs from "nextjs-breadcrumbs";
+import classNames from "classnames";
 
 interface ActionProps {
   icon?: string;
@@ -232,6 +233,13 @@ export default function ClinicDetailed() {
                   Velit officia consequat duis enim velit mollit. Amet minim
                   mollit non deserunt ullamco est sit aliqua dolor do amet sint.
                   Amet minim
+                </div>
+              </div>
+              <div className={classNames(styles.dataRow, styles.noMargin)}>
+                <div className={styles.dataIndex}>
+                </div>
+                <div className={styles.dataValue}>
+                  <button className={styles.textButton}>See all</button>
                 </div>
               </div>
             </Card>
