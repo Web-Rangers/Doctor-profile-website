@@ -14,6 +14,7 @@ import GalleryCard from '../../../../components/GalleryCard';
 import { useState } from 'react';
 import Modal from '../../../../components/Modal';
 import CheckBox from '../../../../components/CheckBox';
+import Input from '../../../../components/Input';
 
 interface ActionProps {
     icon?: string;
@@ -133,8 +134,79 @@ export default function Branch() {
     const [galleryIsEditing, setGalleryIsEditing] = useState(false);
     const [servisecIsEditing, setServisecIsEditing] = useState(false);
     const [stuffModalIsOpen, setStuffModalIsOpen] = useState(false);
+    const [branchModalIsOpen, setBranchModalIsOpen] = useState(false);
+    const [modalMode, setModalMode] = useState('add');
     return (
         <>
+            {branchModalIsOpen && (
+                <Modal
+                    onBackClick={() => setBranchModalIsOpen(false)}
+                    className={styles.branchModal}
+                >
+                    <span className={styles.modalTitle}>Edit this branch</span>
+                    <div className={styles.modalContent}>
+                        <div className={styles.modalContentRow}>
+                            <Input
+                                type="text"
+                                label="Phone number"
+                                value={
+                                    modalMode === 'add' ? '' : '480-555-0103'
+                                }
+                            />
+                            <Input type="select" label="Status" value="Open" />
+                        </div>
+                        <div className={styles.modalContentRow}>
+                            <Input
+                                type="text"
+                                label="Address"
+                                value={
+                                    modalMode === 'add'
+                                        ? ''
+                                        : '4140 Parker Rd. Allentown, New Mexico 31134'
+                                }
+                            />
+                            <Input
+                                type="time"
+                                label="Working hours"
+                                value={modalMode === 'add' ? '' : '11:00-19:00'}
+                            />
+                        </div>
+                        <div className={styles.modalContentRow}>
+                            <Input
+                                type="text"
+                                label="About clinic"
+                                multiline
+                                value={
+                                    modalMode === 'add'
+                                        ? ''
+                                        : 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.  Velit officia consequat duis enim velit mollit. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.'
+                                }
+                            />
+                        </div>
+                    </div>
+                    <div className={styles.whiteSpace}></div>
+                    <div className={styles.modalActions}>
+                        <button
+                            className={classNames(
+                                styles.modalAction,
+                                cDStyles.edit
+                            )}
+                            onClick={() => setBranchModalIsOpen(false)}
+                        >
+                            Cnacel
+                        </button>
+                        <button
+                            className={classNames(
+                                styles.modalAction,
+                                cDStyles.add
+                            )}
+                            onClick={() => setBranchModalIsOpen(false)}
+                        >
+                            Save
+                        </button>
+                    </div>
+                </Modal>
+            )}
             {stuffModalIsOpen && (
                 <Modal onBackClick={() => setStuffModalIsOpen(false)}>
                     <span className={cDStyles.modalText}>
@@ -223,7 +295,13 @@ export default function Branch() {
                             <Card
                                 cardTitle="Detailded information"
                                 cardActions={
-                                    <EditAction icon="/images/icons/inputs/edit.svg" />
+                                    <EditAction
+                                        icon="/images/icons/inputs/edit.svg"
+                                        onClick={() => {
+                                            setModalMode('edit');
+                                            setBranchModalIsOpen(true);
+                                        }}
+                                    />
                                 }
                             >
                                 <div className={cDStyles.dataRow}>

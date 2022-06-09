@@ -227,7 +227,7 @@ export default function ClinicDetailed() {
             {clinicEdtModalIsOpen && (
                 <Modal
                     onBackClick={() => setClinicEdtModalIsOpen(false)}
-                    className={styles.clinicModal}
+                    className={styles.branchModal}
                 >
                     <span className={styles.modalTitle}>Edit this clinic</span>
                     <div className={styles.modalContent}>
