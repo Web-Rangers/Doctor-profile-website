@@ -1,3 +1,8 @@
-Asclepius-Client/.pnp.cjs
-Asclepius-Client/.pnp.loader.mjs
-Asclepius-Client/.vscode/
+.next/
+.yarn/
+node_modules/
+pnpm-lock.yaml
+yarn.lock
+.pnp.cjs
+.pnp.loader.mjs
+.vscode/
