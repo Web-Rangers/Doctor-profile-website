@@ -1,0 +1,38 @@
+.cardBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px;
+    align-items: flex-start;
+    background: #f4f7ff;
+    border-bottom: 7px solid #2751f2;
+    border-radius: 2px;
+}
+
+.cardHeader {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0.04em;
+    text-align: left;
+    color: #312e45;
+}
+
+.iconContainer {
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
