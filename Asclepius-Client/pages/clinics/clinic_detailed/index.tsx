@@ -11,6 +11,7 @@ import styles from "../../../styles/pages/clinic_detailed.module.scss";
 import tableStyles from "../../../styles/components/Table.module.css";
 import Breadcrumbs from "nextjs-breadcrumbs";
 import classNames from "classnames";
+import StuffCard from "../../../components/StuffCard";
 
 interface ActionProps {
     icon?: string;
@@ -54,6 +55,34 @@ const OfferActions = () => {
     return (
         <div className={styles.branchActions}>
             <button className={styles.add}>Add branch</button>
+        </div>
+    );
+};
+
+const StuffActions = () => {
+    return (
+        <div className={styles.branchActions}>
+            <div
+                className={styles.searchContainer}
+                onClick={() => {
+                    document.getElementById("search-input")?.focus();
+                }}
+            >
+                <ReactSVG
+                    src={"/images/icons/inputs/search.svg"}
+                    className={classNames(
+                        styles.searchImg,
+                        styles.iconContainer
+                    )}
+                />
+                <input
+                    id="search-input"
+                    className={styles.searchInput}
+                    type="text"
+                    placeholder="Search"
+                />
+            </div>
+            <button className={styles.add}>Add doctor</button>
         </div>
     );
 };
@@ -395,7 +424,35 @@ export default function ClinicDetailed() {
                             </Card>
                         </TabPanel>
                         <TabPanel className={tabStyles.tabPanel}>
-                            Stuff
+                            <Card
+                                cardTitle="Stuff"
+                                cardActions={<StuffActions />}
+                            >
+                                <div className={styles.stuffCardContainer}>
+                                    {Array.from(new Array(5).keys()).map(
+                                        (i) => (
+                                            <StuffCard
+                                                key={"stuff" + i}
+                                                data={{
+                                                    icon: "/images/icons/stuff/stuff1.png",
+                                                    address:
+                                                        "11 Simon Chikovani St",
+                                                    amountOfOrders: 143,
+                                                    city: "Akhaltsikhe",
+                                                    clinic: "Medical House",
+                                                    description:
+                                                        "Dentist•Clinic doctor",
+                                                    gender: "Male",
+                                                    name: "Brooklyn Simmons",
+                                                    rating: 4.7,
+                                                    registrationDate:
+                                                        "04.11.2017",
+                                                }}
+                                            />
+                                        )
+                                    )}
+                                </div>
+                            </Card>
                         </TabPanel>
                         <TabPanel className={tabStyles.tabPanel}>
                             Photo gallery

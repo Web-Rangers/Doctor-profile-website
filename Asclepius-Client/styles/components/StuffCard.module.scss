@@ -1,0 +1,127 @@
+.cardBody {
+    display: flex;
+    flex-direction: row;
+    background: #f4f7ff;
+    border-radius: 4px;
+    padding: 30px;
+    position: relative;
+}
+
+.presonalColumn {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+}
+
+.cardDescription {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 15px;
+    padding-left: 30px;
+    gap: 20px;
+    .datRow {
+        display: grid;
+        grid-template-columns: 15% 35% 30% 20%;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.04em;
+        text-align: left;
+        .datLabel {
+            color: #808083;
+        }
+        .datValue {
+            color: #1c1a27;
+        }
+    }
+}
+
+.icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.name {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: 0.04em;
+    text-align: center;
+}
+
+.description {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.04em;
+    text-align: center;
+}
+
+.clinicRating {
+    > .rating {
+        margin-right: 15px;
+    }
+    > .clinicRatingCount,
+    > .clinicRatingDelimiter,
+    > .clinicRatingMax {
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.04em;
+        text-align: center;
+        color: #b3b1bb;
+    }
+    > .clinicRatingCount {
+        margin-left: 15px;
+        color: #ffc14e;
+    }
+}
+
+.cardActions {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    width: 20px;
+    height: 20px;
+}
+
+.iconContainer {
+    cursor: pointer;
+    height: 100%;
+    * {
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.actionsList {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: -30px;
+    padding: 5px;
+    background: #fff;
+    min-width: 140px;
+    background: #ffffff;
+    box-shadow: 1px 3px 13px rgba(190, 187, 203, 0.6);
+    border-radius: 2px;
+}
+
+.actionItem {
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+}
