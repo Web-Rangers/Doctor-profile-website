@@ -217,9 +217,9 @@
 }
 
 .edit {
-    border: 2px solid #2751F2;
+    border: 2px solid #2751f2;
     background: transparent;
-    color: #2751F2;
+    color: #2751f2;
     border-radius: 4px;
     padding: 15px 30px;
     min-width: 160px;
@@ -231,7 +231,7 @@
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     &:hover {
-        background: #DBE2FD;
+        background: #dbe2fd;
     }
     &:active {
         background: #0f32b7;
@@ -250,7 +250,7 @@
     color: #8f8f8f;
     gap: 15px;
     li::marker {
-        content: "";
+        content: '';
     }
     li:not(:last-child) {
         a {
@@ -258,7 +258,7 @@
         }
 
         &::after {
-            content: ">";
+            content: '>';
             margin-left: 15px;
         }
     }
@@ -327,7 +327,7 @@
     height: 100%;
     width: 385px;
     background-color: #ffffff;
-    border: 1px solid #B3B1BB;
+    border: 1px solid #b3b1bb;
     border-radius: 4px;
     padding: 20px 18px;
     display: flex;
@@ -362,7 +362,7 @@
     }
 }
 
-.galleryCardContainer{
+.galleryCardContainer {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -370,9 +370,24 @@
     margin-bottom: -30px;
 }
 
-.galleryCard{
+.galleryCard {
     max-width: calc(33.333% - 30px);
     width: 100%;
     margin-right: 30px;
     margin-bottom: 30px;
+}
+
+.modalTitle {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.04em;
+    text-align: left;
+}
+
+.modalActions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 30px;
 }

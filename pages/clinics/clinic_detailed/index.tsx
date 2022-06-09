@@ -14,6 +14,7 @@ import classNames from 'classnames';
 import StuffCard from '../../../components/StuffCard';
 import GalleryCard from '../../../components/GalleryCard';
 import { useState } from 'react';
+import Modal from '../../../components/Modal';
 
 interface ActionProps {
     icon?: string;
@@ -218,307 +219,362 @@ const branches = [
 
 export default function ClinicDetailed() {
     const [galleryIsEditing, setGalleryIsEditing] = useState(false);
+    const [stuffModalIsOpen, setStuffModalIsOpen] = useState(false);
     return (
-        <div className={styles.container}>
-            <div className={styles.pageHeader}>
-                <h3>Clinics</h3>
-                <Breadcrumbs
-                    omitRootLabel={true}
-                    listClassName={styles.breadcrumbs}
-                    replaceCharacterList={[{ from: '_', to: ' ' }]}
-                />
-            </div>
-            <div className={styles.pageBody}>
-                <div className={styles.row}>
-                    <div className={styles.colSmall}>
-                        <Card className={styles.smallCard}>
-                            <img
-                                src={'/images/icons/clinics/medicalhouse.png'}
-                                className={styles.clinicIcon}
-                            />
-                            <div className={styles.clinicName}>
-                                Medical House
-                            </div>
-                            <div className={styles.clinicRating}>
-                                <StarRatings
-                                    rating={4}
-                                    starRatedColor="#FFC14E"
-                                    numberOfStars={5}
-                                    starDimension="15px"
-                                    starSpacing="2.5px"
-                                    className={styles.rating}
-                                ></StarRatings>
-                                <span className={styles.clinicRatingCount}>
-                                    4
-                                </span>
-                                <span className={styles.clinicRatingDelimiter}>
-                                    /
-                                </span>
-                                <span className={styles.clinicRatingMax}>
-                                    5
-                                </span>
-                            </div>
-                            <div className={styles.clinicInf}>
-                                <ReactSVG
-                                    src="/images/icons/clinics/clock.svg"
-                                    className={styles.iconContainer}
-                                />
-                                <span className={styles.clinicInfText}>
-                                    10:00-20:00
-                                </span>
-                            </div>
-                            <div className={styles.clinicInf}>
-                                <ReactSVG
-                                    src="/images/icons/clinics/phone.svg"
-                                    className={styles.iconContainer}
-                                />
-                                <span className={styles.clinicInfText}>
-                                    480-555-0103
-                                </span>
-                            </div>
-                            <div className={styles.clinicInf}>
-                                <ReactSVG
-                                    src="/images/icons/clinics/location.svg"
-                                    className={styles.iconContainer}
-                                />
-                                <span className={styles.clinicInfText}>
-                                    4140 Parker Rd. Allentown, New Mexico 31134
-                                </span>
-                            </div>
-                        </Card>
-                    </div>
-                    <div className={styles.colLarge}>
-                        <Card
-                            cardTitle="Detailded information"
-                            cardActions={
-                                <EditAction icon="/images/icons/inputs/edit.svg" />
-                            }
+        <>
+            {stuffModalIsOpen && (
+                <Modal onBackClick={() => setStuffModalIsOpen(false)}>
+                    <span className={styles.modalTitle}>
+                        Are you sure you want to remove this doctor?
+                    </span>
+                    <div className={styles.modalActions}>
+                        <button
+                            className={classNames(
+                                styles.modalAction,
+                                styles.edit
+                            )}
+                            onClick={() => setStuffModalIsOpen(false)}
                         >
-                            <div className={styles.dataRow}>
-                                <div className={styles.dataIndex}>E-mail</div>
-                                <div className={styles.dataValue}>
-                                    MedHouse@gmail.com
-                                </div>
-                            </div>
-                            <div className={styles.dataRow}>
-                                <div className={styles.dataIndex}>
-                                    Amount of orders
-                                </div>
-                                <div className={styles.dataValue}>128</div>
-                            </div>
-                            <div className={styles.dataRow}>
-                                <div className={styles.dataIndex}>
-                                    Registration date
-                                </div>
-                                <div className={styles.dataValue}>
-                                    05.11.2018
-                                </div>
-                            </div>
-                            <div className={styles.dataRow}>
-                                <div className={styles.dataIndex}>E-mail</div>
-                                <div className={styles.dataValue}>
-                                    MedHouse@gmail.com
-                                </div>
-                            </div>
-                            <div className={styles.dataRow}>
-                                <div className={styles.dataIndex}>
-                                    About clinic
-                                </div>
-                                <div className={styles.dataValue}>
-                                    Amet minim mollit non deserunt ullamco est
-                                    sit aliqua dolor do amet sint. Velit officia
-                                    consequat duis enim velit mollit. Velit
-                                    officia consequat duis enim velit mollit.
-                                    Amet minim mollit non deserunt ullamco est
-                                    sit aliqua dolor do amet sint. Amet minim
-                                </div>
-                            </div>
-                            <div
-                                className={classNames(
-                                    styles.dataRow,
-                                    styles.noMargin
-                                )}
-                            >
-                                <div className={styles.dataIndex}></div>
-                                <div className={styles.dataValue}>
-                                    <button className={styles.textButton}>
-                                        See all
-                                    </button>
-                                </div>
-                            </div>
-                        </Card>
+                            Cnacel
+                        </button>
+                        <button
+                            className={classNames(
+                                styles.modalAction,
+                                styles.add
+                            )}
+                            onClick={() => setStuffModalIsOpen(false)}
+                        >
+                            Delete
+                        </button>
                     </div>
+                </Modal>
+            )}
+            <div className={styles.container}>
+                <div className={styles.pageHeader}>
+                    <h3>Clinics</h3>
+                    <Breadcrumbs
+                        omitRootLabel={true}
+                        listClassName={styles.breadcrumbs}
+                        replaceCharacterList={[{ from: '_', to: ' ' }]}
+                    />
                 </div>
-                <div className={styles.tabContainer}>
-                    <Tabs>
-                        <TabList className={tabStyles.tabList}>
-                            <Tab
-                                className={tabStyles.tab}
-                                tabIndex="1"
-                                selectedClassName={tabStyles.selectedTab}
-                            >
-                                <ReactSVG
-                                    src="/images/icons/tabs/branch.svg"
-                                    className={styles.iconContainer}
+                <div className={styles.pageBody}>
+                    <div className={styles.row}>
+                        <div className={styles.colSmall}>
+                            <Card className={styles.smallCard}>
+                                <img
+                                    src={
+                                        '/images/icons/clinics/medicalhouse.png'
+                                    }
+                                    className={styles.clinicIcon}
                                 />
-                                <span>Branches</span>
-                            </Tab>
-                            <Tab
-                                className={tabStyles.tab}
-                                tabIndex="2"
-                                selectedClassName={tabStyles.selectedTab}
-                            >
-                                <ReactSVG
-                                    src="/images/icons/tabs/offer.svg"
-                                    className={styles.iconContainer}
-                                />
-                                <span>Offers</span>
-                            </Tab>
-                            <Tab
-                                className={tabStyles.tab}
-                                tabIndex="3"
-                                selectedClassName={tabStyles.selectedTab}
-                            >
-                                <ReactSVG
-                                    src="/images/icons/tabs/stuff.svg"
-                                    className={styles.iconContainer}
-                                />
-                                <span>Stuff</span>
-                            </Tab>
-                            <Tab
-                                className={tabStyles.tab}
-                                tabIndex="4"
-                                selectedClassName={tabStyles.selectedTab}
-                            >
-                                <ReactSVG
-                                    src="/images/icons/tabs/gallery.svg"
-                                    className={styles.iconContainer}
-                                />
-                                <span>Photo gallery</span>
-                            </Tab>
-                        </TabList>
-                        <TabPanel className={tabStyles.tabPanel}>
-                            <Card
-                                cardTitle="Branches"
-                                cardActions={<BranchActions />}
-                            >
-                                <Table
-                                    columns={branchColumns}
-                                    data={branches}
-                                    pagination={false}
-                                    rowClassName={styles.tableRow}
-                                ></Table>
-                            </Card>
-                        </TabPanel>
-                        <TabPanel className={tabStyles.tabPanel}>
-                            <Card
-                                cardTitle="Offers"
-                                cardActions={<OfferActions />}
-                            >
-                                <div className={styles.cardContainer}>
-                                    {Array.from(new Array(5).keys()).map(
-                                        (i) => (
-                                            <OfferCard
-                                                key={'offer' + i}
-                                                title="15.06.2022 - 06.06.2022"
-                                                className={styles.offerCard}
-                                            >
-                                                <div className={styles.title}>
-                                                    {i !== 1 &&
-                                                        'First visit: free!'}
-                                                    {i === 1 &&
-                                                        'Second visit: freeeee freeeeeeee!'}
-                                                </div>
-                                                <div
-                                                    className={
-                                                        styles.description
-                                                    }
-                                                >
-                                                    Amet minim mollit non
-                                                    deserunt ullamco est sit
-                                                    aliqua dolor do amet sint.
-                                                    Velit officia consequat duis
-                                                    enim velit mollit.
-                                                    Exercitation veniam
-                                                    consequat sunt nostrud amet.
-                                                </div>
-                                                <div className={styles.type}>
-                                                    Silver card
-                                                </div>
-                                            </OfferCard>
-                                        )
-                                    )}
+                                <div className={styles.clinicName}>
+                                    Medical House
                                 </div>
-                            </Card>
-                        </TabPanel>
-                        <TabPanel className={tabStyles.tabPanel}>
-                            <Card
-                                cardTitle="Stuff"
-                                cardActions={<StuffActions />}
-                            >
-                                <div className={styles.stuffCardContainer}>
-                                    {Array.from(new Array(5).keys()).map(
-                                        (i) => (
-                                            <StuffCard
-                                                key={'stuff' + i}
-                                                data={{
-                                                    icon: '/images/icons/stuff/stuff1.png',
-                                                    address:
-                                                        '11 Simon Chikovani St',
-                                                    amountOfOrders: 143,
-                                                    city: 'Akhaltsikhe',
-                                                    clinic: 'Medical House',
-                                                    description:
-                                                        'Dentist•Clinic doctor',
-                                                    gender: 'Male',
-                                                    name: 'Brooklyn Simmons',
-                                                    rating: 4.7,
-                                                    registrationDate:
-                                                        '04.11.2017',
-                                                }}
-                                            />
-                                        )
-                                    )}
+                                <div className={styles.clinicRating}>
+                                    <StarRatings
+                                        rating={4}
+                                        starRatedColor="#FFC14E"
+                                        numberOfStars={5}
+                                        starDimension="15px"
+                                        starSpacing="2.5px"
+                                        className={styles.rating}
+                                    ></StarRatings>
+                                    <span className={styles.clinicRatingCount}>
+                                        4
+                                    </span>
+                                    <span
+                                        className={styles.clinicRatingDelimiter}
+                                    >
+                                        /
+                                    </span>
+                                    <span className={styles.clinicRatingMax}>
+                                        5
+                                    </span>
                                 </div>
-                            </Card>
-                        </TabPanel>
-                        <TabPanel className={tabStyles.tabPanel}>
-                            <Card
-                                cardTitle="Photo gallery"
-                                cardActions={
-                                    <GalleryActions
-                                        onEdit={() => {
-                                            setGalleryIsEditing(
-                                                !galleryIsEditing
-                                            );
-                                        }}
-                                        isEdit={galleryIsEditing}
+                                <div className={styles.clinicInf}>
+                                    <ReactSVG
+                                        src="/images/icons/clinics/clock.svg"
+                                        className={styles.iconContainer}
                                     />
+                                    <span className={styles.clinicInfText}>
+                                        10:00-20:00
+                                    </span>
+                                </div>
+                                <div className={styles.clinicInf}>
+                                    <ReactSVG
+                                        src="/images/icons/clinics/phone.svg"
+                                        className={styles.iconContainer}
+                                    />
+                                    <span className={styles.clinicInfText}>
+                                        480-555-0103
+                                    </span>
+                                </div>
+                                <div className={styles.clinicInf}>
+                                    <ReactSVG
+                                        src="/images/icons/clinics/location.svg"
+                                        className={styles.iconContainer}
+                                    />
+                                    <span className={styles.clinicInfText}>
+                                        4140 Parker Rd. Allentown, New Mexico
+                                        31134
+                                    </span>
+                                </div>
+                            </Card>
+                        </div>
+                        <div className={styles.colLarge}>
+                            <Card
+                                cardTitle="Detailded information"
+                                cardActions={
+                                    <EditAction icon="/images/icons/inputs/edit.svg" />
                                 }
                             >
-                                <div className={styles.galleryCardContainer}>
-                                    {Array.from(new Array(6).keys()).map(
-                                        (i) => (
-                                            <GalleryCard
-                                                id={'gallery' + i}
-                                                key={'gallery' + i}
-                                                src={
-                                                    '/images/gallery/photo' +
-                                                    (i + 1) +
-                                                    '.png'
-                                                }
-                                                className={styles.galleryCard}
-                                                isEdit={galleryIsEditing}
-                                            />
-                                        )
+                                <div className={styles.dataRow}>
+                                    <div className={styles.dataIndex}>
+                                        E-mail
+                                    </div>
+                                    <div className={styles.dataValue}>
+                                        MedHouse@gmail.com
+                                    </div>
+                                </div>
+                                <div className={styles.dataRow}>
+                                    <div className={styles.dataIndex}>
+                                        Amount of orders
+                                    </div>
+                                    <div className={styles.dataValue}>128</div>
+                                </div>
+                                <div className={styles.dataRow}>
+                                    <div className={styles.dataIndex}>
+                                        Registration date
+                                    </div>
+                                    <div className={styles.dataValue}>
+                                        05.11.2018
+                                    </div>
+                                </div>
+                                <div className={styles.dataRow}>
+                                    <div className={styles.dataIndex}>
+                                        E-mail
+                                    </div>
+                                    <div className={styles.dataValue}>
+                                        MedHouse@gmail.com
+                                    </div>
+                                </div>
+                                <div className={styles.dataRow}>
+                                    <div className={styles.dataIndex}>
+                                        About clinic
+                                    </div>
+                                    <div className={styles.dataValue}>
+                                        Amet minim mollit non deserunt ullamco
+                                        est sit aliqua dolor do amet sint. Velit
+                                        officia consequat duis enim velit
+                                        mollit. Velit officia consequat duis
+                                        enim velit mollit. Amet minim mollit non
+                                        deserunt ullamco est sit aliqua dolor do
+                                        amet sint. Amet minim
+                                    </div>
+                                </div>
+                                <div
+                                    className={classNames(
+                                        styles.dataRow,
+                                        styles.noMargin
                                     )}
+                                >
+                                    <div className={styles.dataIndex}></div>
+                                    <div className={styles.dataValue}>
+                                        <button className={styles.textButton}>
+                                            See all
+                                        </button>
+                                    </div>
                                 </div>
                             </Card>
-                        </TabPanel>
-                    </Tabs>
+                        </div>
+                    </div>
+                    <div className={styles.tabContainer}>
+                        <Tabs>
+                            <TabList className={tabStyles.tabList}>
+                                <Tab
+                                    className={tabStyles.tab}
+                                    tabIndex="1"
+                                    selectedClassName={tabStyles.selectedTab}
+                                >
+                                    <ReactSVG
+                                        src="/images/icons/tabs/branch.svg"
+                                        className={styles.iconContainer}
+                                    />
+                                    <span>Branches</span>
+                                </Tab>
+                                <Tab
+                                    className={tabStyles.tab}
+                                    tabIndex="2"
+                                    selectedClassName={tabStyles.selectedTab}
+                                >
+                                    <ReactSVG
+                                        src="/images/icons/tabs/offer.svg"
+                                        className={styles.iconContainer}
+                                    />
+                                    <span>Offers</span>
+                                </Tab>
+                                <Tab
+                                    className={tabStyles.tab}
+                                    tabIndex="3"
+                                    selectedClassName={tabStyles.selectedTab}
+                                >
+                                    <ReactSVG
+                                        src="/images/icons/tabs/stuff.svg"
+                                        className={styles.iconContainer}
+                                    />
+                                    <span>Stuff</span>
+                                </Tab>
+                                <Tab
+                                    className={tabStyles.tab}
+                                    tabIndex="4"
+                                    selectedClassName={tabStyles.selectedTab}
+                                >
+                                    <ReactSVG
+                                        src="/images/icons/tabs/gallery.svg"
+                                        className={styles.iconContainer}
+                                    />
+                                    <span>Photo gallery</span>
+                                </Tab>
+                            </TabList>
+                            <TabPanel className={tabStyles.tabPanel}>
+                                <Card
+                                    cardTitle="Branches"
+                                    cardActions={<BranchActions />}
+                                >
+                                    <Table
+                                        columns={branchColumns}
+                                        data={branches}
+                                        pagination={false}
+                                        rowClassName={styles.tableRow}
+                                    ></Table>
+                                </Card>
+                            </TabPanel>
+                            <TabPanel className={tabStyles.tabPanel}>
+                                <Card
+                                    cardTitle="Offers"
+                                    cardActions={<OfferActions />}
+                                >
+                                    <div className={styles.cardContainer}>
+                                        {Array.from(new Array(5).keys()).map(
+                                            (i) => (
+                                                <OfferCard
+                                                    key={'offer' + i}
+                                                    title="15.06.2022 - 06.06.2022"
+                                                    className={styles.offerCard}
+                                                >
+                                                    <div
+                                                        className={styles.title}
+                                                    >
+                                                        {i !== 1 &&
+                                                            'First visit: free!'}
+                                                        {i === 1 &&
+                                                            'Second visit: freeeee freeeeeeee!'}
+                                                    </div>
+                                                    <div
+                                                        className={
+                                                            styles.description
+                                                        }
+                                                    >
+                                                        Amet minim mollit non
+                                                        deserunt ullamco est sit
+                                                        aliqua dolor do amet
+                                                        sint. Velit officia
+                                                        consequat duis enim
+                                                        velit mollit.
+                                                        Exercitation veniam
+                                                        consequat sunt nostrud
+                                                        amet.
+                                                    </div>
+                                                    <div
+                                                        className={styles.type}
+                                                    >
+                                                        Silver card
+                                                    </div>
+                                                </OfferCard>
+                                            )
+                                        )}
+                                    </div>
+                                </Card>
+                            </TabPanel>
+                            <TabPanel className={tabStyles.tabPanel}>
+                                <Card
+                                    cardTitle="Stuff"
+                                    cardActions={<StuffActions />}
+                                >
+                                    <div className={styles.stuffCardContainer}>
+                                        {Array.from(new Array(5).keys()).map(
+                                            (i) => (
+                                                <StuffCard
+                                                    key={'stuff' + i}
+                                                    data={{
+                                                        icon: '/images/icons/stuff/stuff1.png',
+                                                        address:
+                                                            '11 Simon Chikovani St',
+                                                        amountOfOrders: 143,
+                                                        city: 'Akhaltsikhe',
+                                                        clinic: 'Medical House',
+                                                        description:
+                                                            'Dentist•Clinic doctor',
+                                                        gender: 'Male',
+                                                        name: 'Brooklyn Simmons',
+                                                        rating: 4.7,
+                                                        registrationDate:
+                                                            '04.11.2017',
+                                                    }}
+                                                    onDelete={() => {
+                                                        setStuffModalIsOpen(
+                                                            true
+                                                        );
+                                                    }}
+                                                />
+                                            )
+                                        )}
+                                    </div>
+                                </Card>
+                            </TabPanel>
+                            <TabPanel className={tabStyles.tabPanel}>
+                                <Card
+                                    cardTitle="Photo gallery"
+                                    cardActions={
+                                        <GalleryActions
+                                            onEdit={() => {
+                                                setGalleryIsEditing(
+                                                    !galleryIsEditing
+                                                );
+                                            }}
+                                            isEdit={galleryIsEditing}
+                                        />
+                                    }
+                                >
+                                    <div
+                                        className={styles.galleryCardContainer}
+                                    >
+                                        {Array.from(new Array(6).keys()).map(
+                                            (i) => (
+                                                <GalleryCard
+                                                    id={'gallery' + i}
+                                                    key={'gallery' + i}
+                                                    src={
+                                                        '/images/gallery/photo' +
+                                                        (i + 1) +
+                                                        '.png'
+                                                    }
+                                                    className={
+                                                        styles.galleryCard
+                                                    }
+                                                    isEdit={galleryIsEditing}
+                                                />
+                                            )
+                                        )}
+                                    </div>
+                                </Card>
+                            </TabPanel>
+                        </Tabs>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
