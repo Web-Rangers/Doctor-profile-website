@@ -1,17 +1,19 @@
-import { ReactSVG } from "react-svg";
-import ReactSelect from "react-select";
-import Card from "../../../components/Card";
-import OfferCard from "../../../components/OfferCard";
-import StarRatings from "react-star-ratings";
-import Table from "../../../components/Table";
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import SideBarLayout from "../../../layouts/SideBarLayout";
-import tabStyles from "../../../styles/components/Tabs.module.scss";
-import styles from "../../../styles/pages/clinic_detailed.module.scss";
-import tableStyles from "../../../styles/components/Table.module.css";
-import Breadcrumbs from "nextjs-breadcrumbs";
-import classNames from "classnames";
-import StuffCard from "../../../components/StuffCard";
+import { ReactSVG } from 'react-svg';
+import ReactSelect from 'react-select';
+import Card from '../../../components/Card';
+import OfferCard from '../../../components/OfferCard';
+import StarRatings from 'react-star-ratings';
+import Table from '../../../components/Table';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import SideBarLayout from '../../../layouts/SideBarLayout';
+import tabStyles from '../../../styles/components/Tabs.module.scss';
+import styles from '../../../styles/pages/clinic_detailed.module.scss';
+import tableStyles from '../../../styles/components/Table.module.css';
+import Breadcrumbs from 'nextjs-breadcrumbs';
+import classNames from 'classnames';
+import StuffCard from '../../../components/StuffCard';
+import GalleryCard from '../../../components/GalleryCard';
+import { useState } from 'react';
 
 interface ActionProps {
     icon?: string;
@@ -25,12 +27,12 @@ const EditAction = ({ onClick, icon }: ActionProps) => (
 const BranchActions = () => {
     const options = [
         {
-            value: "1",
-            label: "Services",
+            value: '1',
+            label: 'Services',
         },
         {
-            value: "2",
-            label: "Ohther options",
+            value: '2',
+            label: 'Ohther options',
         },
     ];
     return (
@@ -51,11 +53,27 @@ const BranchActions = () => {
     );
 };
 
-const GalleryActions = () => {
+interface GalleryActionsProps {
+    isEdit?: boolean;
+    onEdit?: () => void;
+    onAdd?: () => void;
+    onDelete?: () => void;
+}
+
+const GalleryActions = ({
+    onEdit,
+    onAdd,
+    isEdit,
+    onDelete,
+}: GalleryActionsProps) => {
     return (
         <div className={styles.branchActions}>
-            <button className={styles.edit}>Edit</button>
-            <button className={styles.add}>Add photo</button>
+            <button className={styles.edit} onClick={onEdit}>
+                {isEdit ? 'Cancel' : 'Edit'}
+            </button>
+            <button className={styles.add} onClick={isEdit ? onDelete : onAdd}>
+                {isEdit ? 'Delete' : 'Add photo'}
+            </button>
         </div>
     );
 };
@@ -74,11 +92,11 @@ const StuffActions = () => {
             <div
                 className={styles.searchContainer}
                 onClick={() => {
-                    document.getElementById("search-input")?.focus();
+                    document.getElementById('search-input')?.focus();
                 }}
             >
                 <ReactSVG
-                    src={"/images/icons/inputs/search.svg"}
+                    src={'/images/icons/inputs/search.svg'}
                     className={classNames(
                         styles.searchImg,
                         styles.iconContainer
@@ -98,36 +116,36 @@ const StuffActions = () => {
 
 const branchColumns = [
     {
-        key: "city",
-        title: "City",
-        dataIndex: "city",
+        key: 'city',
+        title: 'City',
+        dataIndex: 'city',
     },
     {
-        key: "address",
-        title: "Address",
-        dataIndex: "address",
+        key: 'address',
+        title: 'Address',
+        dataIndex: 'address',
     },
     {
-        key: "contact",
-        title: "Contact",
-        dataIndex: "contact",
+        key: 'contact',
+        title: 'Contact',
+        dataIndex: 'contact',
     },
     {
-        key: "branchId",
-        title: "Branch Id",
-        dataIndex: "branchId",
+        key: 'branchId',
+        title: 'Branch Id',
+        dataIndex: 'branchId',
     },
     {
-        key: "workingHours",
-        title: "Working hours",
-        dataIndex: "workingHours",
+        key: 'workingHours',
+        title: 'Working hours',
+        dataIndex: 'workingHours',
     },
     {
-        key: "status",
-        title: "Status",
-        dataIndex: "status",
+        key: 'status',
+        title: 'Status',
+        dataIndex: 'status',
         headerStyle: {
-            justifyContent: "center",
+            justifyContent: 'center',
         },
         render: (status, key) => {
             return (
@@ -139,7 +157,7 @@ const branchColumns = [
                                 : tableStyles.statusClose
                         }`}
                     >
-                        {status ? "Open" : "Close"}
+                        {status ? 'Open' : 'Close'}
                     </div>
                 </div>
             );
@@ -149,56 +167,57 @@ const branchColumns = [
 
 const branches = [
     {
-        city: "Tbilisi",
-        address: "7 Simon Chikovani St",
-        contact: "947 536 759",
-        branchId: "896568984605",
-        workingHours: "10:30-17:00",
+        city: 'Tbilisi',
+        address: '7 Simon Chikovani St',
+        contact: '947 536 759',
+        branchId: '896568984605',
+        workingHours: '10:30-17:00',
         status: true,
     },
     {
-        city: "Tbilisi",
-        address: "14 Merab Aleksidze St",
-        contact: "386 904 204",
-        branchId: "476097356897",
-        workingHours: "11:30-18:00",
+        city: 'Tbilisi',
+        address: '14 Merab Aleksidze St',
+        contact: '386 904 204',
+        branchId: '476097356897',
+        workingHours: '11:30-18:00',
         status: false,
     },
     {
-        city: "Batumi",
-        address: "7 Simon Chikovani St",
-        contact: "702 942 424",
-        branchId: "0757462129067",
-        workingHours: "09:30-16:00",
+        city: 'Batumi',
+        address: '7 Simon Chikovani St',
+        contact: '702 942 424',
+        branchId: '0757462129067',
+        workingHours: '09:30-16:00',
         status: true,
     },
     {
-        city: "Tbilisi",
-        address: "30b Mikheil Chiaureli St",
-        contact: "104 794 209",
-        branchId: "7082453675100",
-        workingHours: "08:00-17:00",
+        city: 'Tbilisi',
+        address: '30b Mikheil Chiaureli St',
+        contact: '104 794 209',
+        branchId: '7082453675100',
+        workingHours: '08:00-17:00',
         status: true,
     },
     {
-        city: "Kutaisi",
-        address: "8 Simon Chikovani St",
-        contact: "573 673 367",
-        branchId: "707005790797",
-        workingHours: "07:30-18:00",
+        city: 'Kutaisi',
+        address: '8 Simon Chikovani St',
+        contact: '573 673 367',
+        branchId: '707005790797',
+        workingHours: '07:30-18:00',
         status: false,
     },
     {
-        city: "Akhaltsikhe",
-        address: "11 Simon Chikovani St",
-        contact: "865 234 056",
-        branchId: "896568984605",
-        workingHours: "12:00-16:00",
+        city: 'Akhaltsikhe',
+        address: '11 Simon Chikovani St',
+        contact: '865 234 056',
+        branchId: '896568984605',
+        workingHours: '12:00-16:00',
         status: true,
     },
 ];
 
 export default function ClinicDetailed() {
+    const [galleryIsEditing, setGalleryIsEditing] = useState(false);
     return (
         <div className={styles.container}>
             <div className={styles.pageHeader}>
@@ -206,7 +225,7 @@ export default function ClinicDetailed() {
                 <Breadcrumbs
                     omitRootLabel={true}
                     listClassName={styles.breadcrumbs}
-                    replaceCharacterList={[{ from: "_", to: " " }]}
+                    replaceCharacterList={[{ from: '_', to: ' ' }]}
                 />
             </div>
             <div className={styles.pageBody}>
@@ -214,7 +233,7 @@ export default function ClinicDetailed() {
                     <div className={styles.colSmall}>
                         <Card className={styles.smallCard}>
                             <img
-                                src={"/images/icons/clinics/medicalhouse.png"}
+                                src={'/images/icons/clinics/medicalhouse.png'}
                                 className={styles.clinicIcon}
                             />
                             <div className={styles.clinicName}>
@@ -400,15 +419,15 @@ export default function ClinicDetailed() {
                                     {Array.from(new Array(5).keys()).map(
                                         (i) => (
                                             <OfferCard
-                                                key={"offer" + i}
+                                                key={'offer' + i}
                                                 title="15.06.2022 - 06.06.2022"
                                                 className={styles.offerCard}
                                             >
                                                 <div className={styles.title}>
                                                     {i !== 1 &&
-                                                        "First visit: free!"}
+                                                        'First visit: free!'}
                                                     {i === 1 &&
-                                                        "Second visit: freeeee freeeeeeee!"}
+                                                        'Second visit: freeeee freeeeeeee!'}
                                                 </div>
                                                 <div
                                                     className={
@@ -441,21 +460,21 @@ export default function ClinicDetailed() {
                                     {Array.from(new Array(5).keys()).map(
                                         (i) => (
                                             <StuffCard
-                                                key={"stuff" + i}
+                                                key={'stuff' + i}
                                                 data={{
-                                                    icon: "/images/icons/stuff/stuff1.png",
+                                                    icon: '/images/icons/stuff/stuff1.png',
                                                     address:
-                                                        "11 Simon Chikovani St",
+                                                        '11 Simon Chikovani St',
                                                     amountOfOrders: 143,
-                                                    city: "Akhaltsikhe",
-                                                    clinic: "Medical House",
+                                                    city: 'Akhaltsikhe',
+                                                    clinic: 'Medical House',
                                                     description:
-                                                        "Dentist•Clinic doctor",
-                                                    gender: "Male",
-                                                    name: "Brooklyn Simmons",
+                                                        'Dentist•Clinic doctor',
+                                                    gender: 'Male',
+                                                    name: 'Brooklyn Simmons',
                                                     rating: 4.7,
                                                     registrationDate:
-                                                        "04.11.2017",
+                                                        '04.11.2017',
                                                 }}
                                             />
                                         )
@@ -466,8 +485,35 @@ export default function ClinicDetailed() {
                         <TabPanel className={tabStyles.tabPanel}>
                             <Card
                                 cardTitle="Photo gallery"
-                                cardActions={<GalleryActions />}
-                            ></Card>
+                                cardActions={
+                                    <GalleryActions
+                                        onEdit={() => {
+                                            setGalleryIsEditing(
+                                                !galleryIsEditing
+                                            );
+                                        }}
+                                        isEdit={galleryIsEditing}
+                                    />
+                                }
+                            >
+                                <div className={styles.galleryCardContainer}>
+                                    {Array.from(new Array(6).keys()).map(
+                                        (i) => (
+                                            <GalleryCard
+                                                id={'gallery' + i}
+                                                key={'gallery' + i}
+                                                src={
+                                                    '/images/gallery/photo' +
+                                                    (i + 1) +
+                                                    '.png'
+                                                }
+                                                className={styles.galleryCard}
+                                                isEdit={galleryIsEditing}
+                                            />
+                                        )
+                                    )}
+                                </div>
+                            </Card>
                         </TabPanel>
                     </Tabs>
                 </div>

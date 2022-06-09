@@ -235,6 +235,7 @@
     }
     &:active {
         background: #0f32b7;
+        color: #fff;
     }
 }
 
@@ -359,4 +360,19 @@
         outline: none;
         box-shadow: none;
     }
+}
+
+.galleryCardContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-right: -30px;
+    margin-bottom: -30px;
+}
+
+.galleryCard{
+    max-width: calc(33.333% - 30px);
+    width: 100%;
+    margin-right: 30px;
+    margin-bottom: 30px;
 }
