@@ -11,9 +11,14 @@
     object-position: center;
 }
 
-.cardActions{
+.cardActions {
     z-index: 10;
     position: absolute;
     top: 16px;
     left: 16px;
+}
+
+input.checkbox + label::before {
+    background: rgba(179, 177, 187, 0.6);
+    border: 1px solid #fdfdfd;
 }

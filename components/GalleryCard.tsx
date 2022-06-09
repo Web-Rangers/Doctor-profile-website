@@ -28,6 +28,7 @@ export default function GalleryCard({
                     <CheckBox
                         id={id}
                         checked={isSelect}
+                        className={styles.checkbox}
                         onChange={(newValue) => setIsSelect(newValue)}
                     />
                 </div>
