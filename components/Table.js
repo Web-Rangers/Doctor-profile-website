@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styles from "../styles/components/Table.module.css";
+import styles from "styles/components/Table.module.css";
 import Select from "react-select";
 import { ReactSVG } from "react-svg";
 import classNames from "classnames";

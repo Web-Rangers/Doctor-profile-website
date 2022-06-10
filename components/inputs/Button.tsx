@@ -1,4 +1,4 @@
-import styles from '../styles/components/Button.module.scss';
+import styles from 'styles/components/inputs/Button.module.scss';
 import classNames from 'classnames';
 
 export interface ButtonProps {

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import styles from '../styles/components/Modal.module.scss';
+import styles from 'styles/components/modals/Modal.module.scss';
 
 interface ModalPorps {
     children?: React.ReactNode;

@@ -1,9 +1,6 @@
-import Input from './Input';
-import Modal from './Modal';
-import styles from '../styles/components/BranchModal.module.scss';
-import classNames from 'classnames';
+import styles from 'styles/components/modals/BranchModal.module.scss';
 import { useState } from 'react';
-import Button from './Button';
+import { Button, Input, Modal } from 'components';
 
 interface BranchData {
     phone?: string;
@@ -20,13 +17,13 @@ interface BranchModalProps {
     mode: 'add' | 'edit';
 }
 
-export default function BranchModal({
+const BranchModal = ({
     onClose,
     onSave,
     onCancel,
     data = {},
     mode,
-}: BranchModalProps) {
+}: BranchModalProps) => {
     const [phone, setPhone] = useState(mode === 'edit' ? data.phone : '');
     const [address, setAddress] = useState(mode === 'edit' ? data.address : '');
     const [time, setTime] = useState(mode === 'edit' ? data.time : '');
@@ -88,4 +85,6 @@ export default function BranchModal({
             </div>
         </Modal>
     );
-}
+};
+
+export default BranchModal;

@@ -1,6 +1,5 @@
 import classNames from 'classnames';
-import styles from '../styles/components/Input.module.scss';
-import { useState } from 'react';
+import styles from 'styles/components/inputs/Input.module.scss';
 import { ReactSVG } from 'react-svg';
 
 interface InputProps {

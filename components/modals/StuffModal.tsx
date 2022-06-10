@@ -1,7 +1,5 @@
-import Modal from './Modal';
-import styles from '../styles/components/StuffModal.module.scss';
-import classNames from 'classnames';
-import Button from './Button';
+import styles from 'styles/components/modals/StuffModal.module.scss';
+import { Button, Modal } from 'components';
 
 interface StuffModalProps {
     onClose?: () => void;

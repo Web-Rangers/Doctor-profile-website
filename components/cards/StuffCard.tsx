@@ -1,8 +1,8 @@
-import classNames from "classnames";
-import styles from "../styles/components/StuffCard.module.scss";
-import StarRatings from "react-star-ratings";
-import { ReactSVG } from "react-svg";
-import { useState } from "react";
+import classNames from 'classnames';
+import styles from 'styles/components/cards/StuffCard.module.scss';
+import StarRatings from 'react-star-ratings';
+import { ReactSVG } from 'react-svg';
+import { useState } from 'react';
 
 interface offerData {
     icon?: string;
@@ -12,7 +12,7 @@ interface offerData {
     clinic?: string;
     address?: string;
     city?: string;
-    gender?: "Male" | "Female";
+    gender?: 'Male' | 'Female';
     registrationDate?: string;
     amountOfOrders?: number;
 }
@@ -21,8 +21,8 @@ interface StuffCardProps {
     children?: React.ReactNode;
     className?: string;
     data: offerData;
-    onEdit?: ()=>void;
-    onDelete?: ()=>void;
+    onEdit?: () => void;
+    onDelete?: () => void;
 }
 
 export default function StuffCard({
@@ -44,7 +44,7 @@ export default function StuffCard({
                 />
                 <div
                     className={styles.actionsList}
-                    style={isOpen ? { display: "block" } : {}}
+                    style={isOpen ? { display: 'block' } : {}}
                 >
                     <div className={styles.actionItem} onClick={onEdit}>
                         <ReactSVG

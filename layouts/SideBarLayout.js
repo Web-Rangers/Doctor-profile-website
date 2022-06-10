@@ -1,5 +1,5 @@
-import Navigation from "../components/Navigation";
-import styles from "../styles/layouts/SideBarLayout.module.css";
+import Navigation from "components/Navigation";
+import styles from "styles/layouts/SideBarLayout.module.css";
 
 export default function SideBarLayout({ children }) {
     return (

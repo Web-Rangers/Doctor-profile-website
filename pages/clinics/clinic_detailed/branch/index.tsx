@@ -1,22 +1,22 @@
 import { ReactSVG } from 'react-svg';
-import Card from '../../../../components/Card';
-import OfferCard from '../../../../components/OfferCard';
+import {
+    OfferCard,
+    GalleryCard,
+    Card,
+    StuffCard,
+    CheckBox,
+    StuffModal,
+    BranchModal,
+} from 'components';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import SideBarLayout from '../../../../layouts/SideBarLayout';
-import tabStyles from '../../../../styles/components/Tabs.module.scss';
-import cDStyles from '../../../../styles/pages/clinic_detailed.module.scss';
-import styles from '../../../../styles/pages/branch.module.scss';
-import tableStyles from '../../../../styles/components/Table.module.css';
+import SideBarLayout from 'layouts/SideBarLayout';
+import tabStyles from 'styles/components/tabs/Tabs.module.scss';
+import cDStyles from 'styles/pages/clinic_detailed.module.scss';
+import styles from 'styles/pages/branch.module.scss';
+import tableStyles from 'styles/components/Table.module.css';
 import Breadcrumbs from 'nextjs-breadcrumbs';
 import classNames from 'classnames';
-import StuffCard from '../../../../components/StuffCard';
-import GalleryCard from '../../../../components/GalleryCard';
 import { useState } from 'react';
-import Modal from '../../../../components/Modal';
-import CheckBox from '../../../../components/CheckBox';
-import Input from '../../../../components/Input';
-import StuffModal from '../../../../components/StuffModal';
-import BranchModal from '../../../../components/BranchModal';
 
 interface ActionProps {
     icon?: string;
@@ -141,20 +141,11 @@ export default function Branch() {
     return (
         <>
             {branchModalIsOpen && (
-                <BranchModal 
+                <BranchModal
                     onClose={() => setBranchModalIsOpen(false)}
-                    mode={
-                        modalMode === 'add' ? 'add' : 'edit'
-                    }
+                    mode={modalMode === 'add' ? 'add' : 'edit'}
                     onCancel={() => setBranchModalIsOpen(false)}
                     onSave={() => setBranchModalIsOpen(false)}
-                />
-            )}
-            {stuffModalIsOpen && (
-                <StuffModal
-                    onClose={() => setStuffModalIsOpen(false)}
-                    onAccept={() => setStuffModalIsOpen(false)}
-                    onCancel={() => setStuffModalIsOpen(false)}
                 />
             )}
             <div className={cDStyles.container}>
@@ -415,6 +406,19 @@ export default function Branch() {
                                     <div
                                         className={cDStyles.stuffCardContainer}
                                     >
+                                        {stuffModalIsOpen && (
+                                            <StuffModal
+                                                onClose={() =>
+                                                    setStuffModalIsOpen(false)
+                                                }
+                                                onAccept={() =>
+                                                    setStuffModalIsOpen(false)
+                                                }
+                                                onCancel={() =>
+                                                    setStuffModalIsOpen(false)
+                                                }
+                                            />
+                                        )}
                                         {Array.from(new Array(5).keys()).map(
                                             (i) => (
                                                 <StuffCard

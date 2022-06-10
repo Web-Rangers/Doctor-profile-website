@@ -1,9 +1,6 @@
-import Modal from './Modal';
-import styles from '../styles/components/ClinicModal.module.scss';
-import Input from './Input';
-import classNames from 'classnames';
+import styles from '/styles/components/modals/ClinicModal.module.scss';
+import { Input, Button, Modal } from 'components';
 import { useState } from 'react';
-import Button from './Button';
 
 interface ClinicData {
     email?: string;
@@ -96,7 +93,7 @@ export default function ClinicModal({
                 />
                 <Button
                     label="Save"
-                    variant='fill'
+                    variant="fill"
                     onClick={() =>
                         onSave?.call(null, {
                             email,

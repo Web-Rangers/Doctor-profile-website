@@ -1,24 +1,24 @@
 import { ReactSVG } from 'react-svg';
 import ReactSelect from 'react-select';
-import Card from '../../../components/Card';
-import OfferCard from '../../../components/OfferCard';
+import {
+    Card,
+    OfferCard,
+    StuffCard,
+    GalleryCard,
+    ClinicModal,
+    StuffModal,
+    Button,
+    Table,
+} from 'components';
 import StarRatings from 'react-star-ratings';
-import Table from '../../../components/Table';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import SideBarLayout from '../../../layouts/SideBarLayout';
-import tabStyles from '../../../styles/components/Tabs.module.scss';
-import styles from '../../../styles/pages/clinic_detailed.module.scss';
-import tableStyles from '../../../styles/components/Table.module.css';
+import SideBarLayout from 'layouts/SideBarLayout';
+import tabStyles from 'styles/components/tabs/Tabs.module.scss';
+import styles from 'styles/pages/clinic_detailed.module.scss';
+import tableStyles from 'styles/components/Table.module.css';
 import Breadcrumbs from 'nextjs-breadcrumbs';
 import classNames from 'classnames';
-import StuffCard from '../../../components/StuffCard';
-import GalleryCard from '../../../components/GalleryCard';
 import { useState } from 'react';
-import Modal from '../../../components/Modal';
-import Input from '../../../components/Input';
-import ClinicModal from '../../../components/ClinicModal';
-import StuffModal from '../../../components/StuffModal';
-import Button from '../../../components/Button';
 
 interface ActionProps {
     icon?: string;

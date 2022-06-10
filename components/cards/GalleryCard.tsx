@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import styles from '../styles/components/GalleryCard.module.scss';
+import styles from 'styles/components/cards/GalleryCard.module.scss';
 import { useState } from 'react';
-import CheckBox from './CheckBox';
+import { CheckBox } from 'components';
 
 interface GalleryCardProps {
     children?: React.ReactNode;

@@ -1,4 +1,4 @@
-import styles from "../styles/components/Navigation.module.css"
+import styles from "styles/components/Navigation.module.css"
 import Link from "next/link"
 import { ReactSVG } from 'react-svg'
 import { useRouter } from "next/router"

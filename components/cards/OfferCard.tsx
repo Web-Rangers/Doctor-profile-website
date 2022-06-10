@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ReactSVG } from "react-svg";
-import styles from "../styles/components/OfferCard.module.scss";
+import styles from "styles/components/cards/OfferCard.module.scss";
 
 interface OfferCardProps {
     children?: React.ReactNode;
