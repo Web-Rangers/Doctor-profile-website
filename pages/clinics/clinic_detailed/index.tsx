@@ -16,6 +16,7 @@ import GalleryCard from '../../../components/GalleryCard';
 import { useState } from 'react';
 import Modal from '../../../components/Modal';
 import Input from '../../../components/Input';
+import ClinicModal from '../../../components/BranchModal';
 
 interface ActionProps {
     icon?: string;
@@ -218,6 +219,15 @@ const branches = [
     },
 ];
 
+const clinicData = {
+    email: 'MedHouse@gmail.com',
+    phone: '480-555-0103',
+    address: '4140 Parker Rd. Allentown, New Mexico 31134',
+    time: '11:00-19:00',
+    registrationDate: '01.01.2001',
+    about: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.  Velit officia consequat duis enim velit mollit. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+};
+
 export default function ClinicDetailed() {
     const [galleryIsEditing, setGalleryIsEditing] = useState(false);
     const [stuffModalIsOpen, setStuffModalIsOpen] = useState(false);
@@ -225,74 +235,15 @@ export default function ClinicDetailed() {
     return (
         <>
             {clinicEdtModalIsOpen && (
-                <Modal
-                    onBackClick={() => setClinicEdtModalIsOpen(false)}
-                    className={styles.branchModal}
-                >
-                    <span className={styles.modalTitle}>Edit this clinic</span>
-                    <div className={styles.modalContent}>
-                        <div className={styles.modalContentRow}>
-                            <Input
-                                type="email"
-                                label="E-mail"
-                                value="MedHouse@gmail.com"
-                            />
-                            <Input
-                                type="text"
-                                label="Phone number"
-                                value="MedHouse@gmail.com"
-                            />
-                        </div>
-                        <div className={styles.modalContentRow}>
-                            <Input
-                                type="time"
-                                label="Working hours"
-                                value="11:00-19:00"
-                            />
-                            <Input
-                                type="text"
-                                label="Registration date"
-                                value="01.01.2001"
-                            />
-                        </div>
-                        <div className={styles.modalContentRow}>
-                            <Input
-                                type="text"
-                                label="Address"
-                                value="4140 Parker Rd. Allentown, New Mexico 31134"
-                            />
-                        </div>
-                        <div className={styles.modalContentRow}>
-                            <Input
-                                type="text"
-                                label="About clinic"
-                                multiline
-                                value="Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.  Velit officia consequat duis enim velit mollit. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint."
-                            />
-                        </div>
-                    </div>
-                    <div className={styles.whiteSpace}></div>
-                    <div className={styles.modalActions}>
-                        <button
-                            className={classNames(
-                                styles.modalAction,
-                                styles.edit
-                            )}
-                            onClick={() => setClinicEdtModalIsOpen(false)}
-                        >
-                            Cnacel
-                        </button>
-                        <button
-                            className={classNames(
-                                styles.modalAction,
-                                styles.add
-                            )}
-                            onClick={() => setClinicEdtModalIsOpen(false)}
-                        >
-                            Save
-                        </button>
-                    </div>
-                </Modal>
+                <ClinicModal
+                    data={clinicData}
+                    onClose={() => setClinicEdtModalIsOpen(false)}
+                    onSave={(newData) => {
+                        console.log(newData);
+                        setClinicEdtModalIsOpen(false);
+                    }}
+                    onCancel={() => setClinicEdtModalIsOpen(false)}
+                />
             )}
             {stuffModalIsOpen && (
                 <Modal onBackClick={() => setStuffModalIsOpen(false)}>

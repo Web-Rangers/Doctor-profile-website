@@ -1,0 +1,43 @@
+div.modal {
+    align-items: flex-start;
+    justify-content: flex-start ;
+    min-width: 685px;
+    min-height: 575px;
+    .modalActions {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 35px;
+        justify-content: flex-end;
+    }
+}
+
+.modalTitle {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: 0.04em;
+    text-align: left;
+}
+
+.modalContent{
+    width: 100%;    
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    .modalContentRow{
+        display: flex;
+        flex-direction: row;
+        gap: 35px;
+        > * {
+            flex: 1 0 40%;
+        }
+    }
+}
+
+
+.whiteSpace{
+    flex-basis: 0%;
+    flex-grow: 1;
+
+}

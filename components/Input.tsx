@@ -22,6 +22,7 @@ export default function Input({
     placeholder,
     type,
     multiline,
+    onChange,
     ...props
 }: InputProps) {
     if (type === 'text' && multiline) {
@@ -48,7 +49,7 @@ export default function Input({
                     value={value}
                     placeholder={placeholder}
                     onChange={(event) =>
-                        onchange?.call(null, event.target.value)
+                        onChange?.call(null, event.target.value)
                     }
                 />
                 {type === 'time' && (
