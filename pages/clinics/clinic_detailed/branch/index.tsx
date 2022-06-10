@@ -15,6 +15,8 @@ import { useState } from 'react';
 import Modal from '../../../../components/Modal';
 import CheckBox from '../../../../components/CheckBox';
 import Input from '../../../../components/Input';
+import StuffModal from '../../../../components/StuffModal';
+import BranchModal from '../../../../components/BranchModal';
 
 interface ActionProps {
     icon?: string;
@@ -139,100 +141,21 @@ export default function Branch() {
     return (
         <>
             {branchModalIsOpen && (
-                <Modal
-                    onBackClick={() => setBranchModalIsOpen(false)}
-                    className={styles.branchModal}
-                >
-                    <span className={styles.modalTitle}>Edit this branch</span>
-                    <div className={styles.modalContent}>
-                        <div className={styles.modalContentRow}>
-                            <Input
-                                type="text"
-                                label="Phone number"
-                                value={
-                                    modalMode === 'add' ? '' : '480-555-0103'
-                                }
-                            />
-                            <Input type="select" label="Status" value="Open" />
-                        </div>
-                        <div className={styles.modalContentRow}>
-                            <Input
-                                type="text"
-                                label="Address"
-                                value={
-                                    modalMode === 'add'
-                                        ? ''
-                                        : '4140 Parker Rd. Allentown, New Mexico 31134'
-                                }
-                            />
-                            <Input
-                                type="time"
-                                label="Working hours"
-                                value={modalMode === 'add' ? '' : '11:00-19:00'}
-                            />
-                        </div>
-                        <div className={styles.modalContentRow}>
-                            <Input
-                                type="text"
-                                label="About clinic"
-                                multiline
-                                value={
-                                    modalMode === 'add'
-                                        ? ''
-                                        : 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.  Velit officia consequat duis enim velit mollit. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.'
-                                }
-                            />
-                        </div>
-                    </div>
-                    <div className={styles.whiteSpace}></div>
-                    <div className={styles.modalActions}>
-                        <button
-                            className={classNames(
-                                styles.modalAction,
-                                cDStyles.edit
-                            )}
-                            onClick={() => setBranchModalIsOpen(false)}
-                        >
-                            Cnacel
-                        </button>
-                        <button
-                            className={classNames(
-                                styles.modalAction,
-                                cDStyles.add
-                            )}
-                            onClick={() => setBranchModalIsOpen(false)}
-                        >
-                            Save
-                        </button>
-                    </div>
-                </Modal>
+                <BranchModal 
+                    onClose={() => setBranchModalIsOpen(false)}
+                    mode={
+                        modalMode === 'add' ? 'add' : 'edit'
+                    }
+                    onCancel={() => setBranchModalIsOpen(false)}
+                    onSave={() => setBranchModalIsOpen(false)}
+                />
             )}
             {stuffModalIsOpen && (
-                <Modal onBackClick={() => setStuffModalIsOpen(false)}>
-                    <span className={cDStyles.modalText}>
-                        Are you sure you want to remove this doctor?
-                    </span>
-                    <div className={cDStyles.modalActions}>
-                        <button
-                            className={classNames(
-                                cDStyles.modalAction,
-                                cDStyles.edit
-                            )}
-                            onClick={() => setStuffModalIsOpen(false)}
-                        >
-                            Cnacel
-                        </button>
-                        <button
-                            className={classNames(
-                                cDStyles.modalAction,
-                                cDStyles.add
-                            )}
-                            onClick={() => setStuffModalIsOpen(false)}
-                        >
-                            Delete
-                        </button>
-                    </div>
-                </Modal>
+                <StuffModal
+                    onClose={() => setStuffModalIsOpen(false)}
+                    onAccept={() => setStuffModalIsOpen(false)}
+                    onCancel={() => setStuffModalIsOpen(false)}
+                />
             )}
             <div className={cDStyles.container}>
                 <div className={cDStyles.pageHeader}>

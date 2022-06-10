@@ -1,0 +1,97 @@
+@import '../colors.scss';
+@import '../variable.scss';
+
+.btn {
+    display: inline-block;
+    font-family: 'RedHatDisplay';
+    height: $input-height-base;
+    padding: $input-padding-base;
+    margin-bottom: 0;
+    font-size: $size-font-base;
+    font-weight: 500;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: none;
+    border-radius: 4px;
+    transition: all 0.2s ease-out;
+    &.rounded {
+        border-radius: $input-height-base/2;
+    }
+}
+
+.btn:disabled {
+    background-color: $disabled;
+    color: $disabled-text;
+    cursor: default;
+    pointer-events: none;
+}
+
+.small {
+    height: $input-height-small;
+    padding: $input-padding-small;
+    font-size: $size-font-small;
+    &.rounded {
+        border-radius: $input-height-small/2;
+    }
+}
+
+.large {
+    height: $input-height-large;
+    padding: $input-padding-large;
+    font-size: $size-font-large;
+    &.rounded {
+        border-radius: $input-height-large/2;
+    }
+}
+
+.fill {
+    background-color: $primary;
+    color: $primary-text;
+    &:hover {
+        background: $primary-light;
+    }
+    &:active,
+    &:focus {
+        background: $primary-dark;
+    }
+}
+
+.outline {
+    background-color: transparent;
+    border: 1px solid $primary;
+    color: $primary;
+    &:hover {
+        background: $primary-extra-light;
+    }
+    &:active,
+    &:focus {
+        background: $primary-dark;
+        color: $primary-text;
+    }
+}
+
+.text {
+    background-color: transparent;
+    border: none;
+    color: $primary;
+    &:hover {
+        color: $primary-light;
+    }
+    &:active,
+    &:focus {
+        color: $primary-dark;
+    }
+    &:disabled {
+        background: transparent;
+        color: $disabled-text;
+    }
+}

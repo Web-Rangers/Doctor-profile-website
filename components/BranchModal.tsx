@@ -1,71 +1,49 @@
-import Modal from './Modal';
-import styles from '../styles/components/ClinicModal.module.scss';
 import Input from './Input';
+import Modal from './Modal';
+import styles from '../styles/components/BranchModal.module.scss';
 import classNames from 'classnames';
 import { useState } from 'react';
+import Button from './Button';
 
-interface ClinicData {
-    email?: string;
+interface BranchData {
     phone?: string;
     address?: string;
     time?: string;
-    registrationDate?: string;
     about?: string;
 }
 
-interface ClinicModalProps {
+interface BranchModalProps {
     onClose?: () => void;
-    onSave?: (newData: ClinicData) => void;
+    onSave?: (newData: BranchData) => void;
     onCancel?: () => void;
-    data: ClinicData;
+    data?: BranchData;
+    mode: 'add' | 'edit';
 }
 
-export default function ClinicModal({
+export default function BranchModal({
     onClose,
     onSave,
     onCancel,
-    data,
-}: ClinicModalProps) {
-    const [email, setEmail] = useState(data.email);
-    const [phone, setPhone] = useState(data.phone);
-    const [address, setAddress] = useState(data.address);
-    const [time, setTime] = useState(data.time);
-    const [registrationDate, setRegistrationDate] = useState(
-        data.registrationDate
-    );
-    const [about, setAbout] = useState(data.about);
+    data = {},
+    mode,
+}: BranchModalProps) {
+    const [phone, setPhone] = useState(mode === 'edit' ? data.phone : '');
+    const [address, setAddress] = useState(mode === 'edit' ? data.address : '');
+    const [time, setTime] = useState(mode === 'edit' ? data.time : '');
+    const [about, setAbout] = useState(mode === 'edit' ? data.about : '');
 
     return (
         <Modal onBackClick={onClose} className={styles.modal}>
-            <span className={styles.modalTitle}>Edit this clinic</span>
+            <span className={styles.modalTitle}>Edit this branch</span>
             <div className={styles.modalContent}>
                 <div className={styles.modalContentRow}>
-                    <Input
-                        type="email"
-                        label="E-mail"
-                        value={email}
-                        onChange={(value) => setEmail(value)}
-                    />
                     <Input
                         type="text"
                         label="Phone number"
                         value={phone}
                         onChange={(value) => setPhone(value)}
                     />
-                </div>
-                <div className={styles.modalContentRow}>
-                    <Input
-                        type="time"
-                        label="Working hours"
-                        value={time}
-                        onChange={(value) => setTime(value)}
-                    />
-                    <Input
-                        type="text"
-                        label="Registration date"
-                        value={registrationDate}
-                        onChange={(value) => setRegistrationDate(value)}
-                    />
+                    <Input type="select" label="Status" value="Open" />
                 </div>
                 <div className={styles.modalContentRow}>
                     <Input
@@ -73,6 +51,12 @@ export default function ClinicModal({
                         label="Address"
                         value={address}
                         onChange={(value) => setAddress(value)}
+                    />
+                    <Input
+                        type="time"
+                        label="Working hours"
+                        value={time}
+                        onChange={(value) => setTime(value)}
                     />
                 </div>
                 <div className={styles.modalContentRow}>
@@ -87,27 +71,20 @@ export default function ClinicModal({
             </div>
             <div className={styles.whiteSpace}></div>
             <div className={styles.modalActions}>
-                <button
-                    className={classNames(styles.modalAction, styles.edit)}
+                <Button
+                    label="Cancel"
+                    variant="outline"
                     onClick={onCancel}
-                >
-                    Cnacel
-                </button>
-                <button
-                    className={classNames(styles.modalAction, styles.add)}
+                    size="large"
+                />
+                <Button
+                    label="Save"
+                    variant="fill"
                     onClick={() =>
-                        onSave?.call(null, {
-                            email,
-                            phone,
-                            address,
-                            time,
-                            registrationDate,
-                            about,
-                        })
+                        onSave?.call(null, { phone, address, time, about })
                     }
-                >
-                    Save
-                </button>
+                    size="large"
+                />
             </div>
         </Modal>
     );

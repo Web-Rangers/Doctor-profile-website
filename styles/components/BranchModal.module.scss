@@ -1,8 +1,8 @@
 div.modal {
     align-items: flex-start;
     justify-content: flex-start;
-    min-width: 685px;
-    min-height: 575px;
+    min-width: 800px;
+    min-height: 650px;
     .modalActions {
         width: 100%;
         display: flex;
@@ -30,14 +30,16 @@ div.modal {
         flex-direction: row;
         gap: 35px;
         > * {
-            flex: 1 0 40%;
+            flex: 1 0 calc(30% - 35px);
+        }
+        > *:not(:last-child) {
+            flex: 1 0 calc(70% - 35px);
         }
     }
 }
 
 .whiteSpace {
-    flex-basis: 0%;
-    flex-grow: 1;
+    flex: 1 1 0%;
 }
 
 .outline {

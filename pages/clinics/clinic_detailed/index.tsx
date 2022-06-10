@@ -16,7 +16,9 @@ import GalleryCard from '../../../components/GalleryCard';
 import { useState } from 'react';
 import Modal from '../../../components/Modal';
 import Input from '../../../components/Input';
-import ClinicModal from '../../../components/BranchModal';
+import ClinicModal from '../../../components/ClinicModal';
+import StuffModal from '../../../components/StuffModal';
+import Button from '../../../components/Button';
 
 interface ActionProps {
     icon?: string;
@@ -51,7 +53,7 @@ const BranchActions = () => {
                 options={options}
                 className={styles.filter}
             ></ReactSelect>
-            <button className={styles.add}>Add branch</button>
+            <Button label="Add branch" size="large" variant="fill" />
         </div>
     );
 };
@@ -71,12 +73,18 @@ const GalleryActions = ({
 }: GalleryActionsProps) => {
     return (
         <div className={styles.branchActions}>
-            <button className={styles.edit} onClick={onEdit}>
-                {isEdit ? 'Cancel' : 'Edit'}
-            </button>
-            <button className={styles.add} onClick={isEdit ? onDelete : onAdd}>
-                {isEdit ? 'Delete' : 'Add photo'}
-            </button>
+            <Button
+                label={isEdit ? 'Cancel' : 'Edit'}
+                onClick={onEdit}
+                variant="outline"
+                size="large"
+            />
+            <Button
+                label={isEdit ? 'Delete' : 'Add photo'}
+                onClick={isEdit ? onDelete : onAdd}
+                variant="fill"
+                size="large"
+            />
         </div>
     );
 };
@@ -84,7 +92,7 @@ const GalleryActions = ({
 const OfferActions = () => {
     return (
         <div className={styles.branchActions}>
-            <button className={styles.add}>Add branch</button>
+            <Button label="Add offer" size="large" variant="fill" />
         </div>
     );
 };
@@ -112,7 +120,7 @@ const StuffActions = () => {
                     placeholder="Search"
                 />
             </div>
-            <button className={styles.add}>Add doctor</button>
+            <Button label="Add doctor" size="large" variant="fill" />
         </div>
     );
 };
@@ -246,31 +254,11 @@ export default function ClinicDetailed() {
                 />
             )}
             {stuffModalIsOpen && (
-                <Modal onBackClick={() => setStuffModalIsOpen(false)}>
-                    <span className={styles.modalText}>
-                        Are you sure you want to remove this doctor?
-                    </span>
-                    <div className={styles.modalActions}>
-                        <button
-                            className={classNames(
-                                styles.modalAction,
-                                styles.edit
-                            )}
-                            onClick={() => setStuffModalIsOpen(false)}
-                        >
-                            Cnacel
-                        </button>
-                        <button
-                            className={classNames(
-                                styles.modalAction,
-                                styles.add
-                            )}
-                            onClick={() => setStuffModalIsOpen(false)}
-                        >
-                            Delete
-                        </button>
-                    </div>
-                </Modal>
+                <StuffModal
+                    onClose={() => setStuffModalIsOpen(false)}
+                    onAccept={() => setStuffModalIsOpen(false)}
+                    onCancel={() => setStuffModalIsOpen(false)}
+                />
             )}
             <div className={styles.container}>
                 <div className={styles.pageHeader}>
