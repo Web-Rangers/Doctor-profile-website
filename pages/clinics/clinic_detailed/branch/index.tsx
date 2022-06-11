@@ -1,12 +1,11 @@
 import { ReactSVG } from 'react-svg';
 import {
-    OfferCard,
-    GalleryCard,
     Card,
-    StuffCard,
-    CheckBox,
-    StuffModal,
     BranchModal,
+    ServicesTab,
+    OffersTab,
+    StuffTab,
+    GalleryTab,
 } from 'components';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
@@ -40,102 +39,7 @@ const Status = ({ active }: { active: boolean }) => {
     );
 };
 
-interface ServiceProps {
-    isEdit?: boolean;
-    onEdit?: () => void;
-    onAdd?: () => void;
-    onDelete?: () => void;
-}
-
-const ServiceActions = ({
-    onEdit,
-    onAdd,
-    isEdit,
-    onDelete,
-}: GalleryActionsProps) => {
-    return (
-        <div className={cDStyles.branchActions}>
-            <button className={cDStyles.edit} onClick={onEdit}>
-                {isEdit ? 'Cancel' : 'Edit'}
-            </button>
-            <button
-                className={cDStyles.add}
-                onClick={isEdit ? onDelete : onAdd}
-            >
-                {isEdit ? 'Save' : 'Add service'}
-            </button>
-        </div>
-    );
-};
-
-interface GalleryActionsProps {
-    isEdit?: boolean;
-    onEdit?: () => void;
-    onAdd?: () => void;
-    onDelete?: () => void;
-}
-
-const GalleryActions = ({
-    onEdit,
-    onAdd,
-    isEdit,
-    onDelete,
-}: GalleryActionsProps) => {
-    return (
-        <div className={cDStyles.branchActions}>
-            <button className={cDStyles.edit} onClick={onEdit}>
-                {isEdit ? 'Cancel' : 'Edit'}
-            </button>
-            <button
-                className={cDStyles.add}
-                onClick={isEdit ? onDelete : onAdd}
-            >
-                {isEdit ? 'Delete' : 'Add photo'}
-            </button>
-        </div>
-    );
-};
-
-const OfferActions = () => {
-    return (
-        <div className={cDStyles.branchActions}>
-            <button className={cDStyles.add}>Add branch</button>
-        </div>
-    );
-};
-
-const StuffActions = () => {
-    return (
-        <div className={cDStyles.branchActions}>
-            <div
-                className={cDStyles.searchContainer}
-                onClick={() => {
-                    document.getElementById('search-input')?.focus();
-                }}
-            >
-                <ReactSVG
-                    src={'/images/icons/inputs/search.svg'}
-                    className={classNames(
-                        cDStyles.searchImg,
-                        cDStyles.iconContainer
-                    )}
-                />
-                <input
-                    id="search-input"
-                    className={cDStyles.searchInput}
-                    type="text"
-                    placeholder="Search"
-                />
-            </div>
-            <button className={cDStyles.add}>Add doctor</button>
-        </div>
-    );
-};
-
 export default function Branch() {
-    const [galleryIsEditing, setGalleryIsEditing] = useState(false);
-    const [servisecIsEditing, setServisecIsEditing] = useState(false);
-    const [stuffModalIsOpen, setStuffModalIsOpen] = useState(false);
     const [branchModalIsOpen, setBranchModalIsOpen] = useState(false);
     const [modalMode, setModalMode] = useState('add');
     return (
@@ -319,174 +223,68 @@ export default function Branch() {
                                 </Tab>
                             </TabList>
                             <TabPanel className={tabStyles.tabPanel}>
-                                <Card
-                                    cardTitle="Services"
-                                    cardActions={
-                                        <ServiceActions
-                                            isEdit={servisecIsEditing}
-                                            onEdit={() =>
-                                                setServisecIsEditing(
-                                                    !servisecIsEditing
-                                                )
-                                            }
-                                        />
-                                    }
-                                >
-                                    <div className={styles.servicesContainer}>
-                                        {Array.from(new Array(50).keys()).map(
-                                            (i) => (
-                                                <CheckBox
-                                                    id={'service' + i}
-                                                    key={'service' + i}
-                                                    label={'Service ' + i}
-                                                ></CheckBox>
-                                            )
-                                        )}
-                                    </div>
-                                </Card>
+                                <ServicesTab
+                                    services={Array.from(
+                                        new Array(50).keys()
+                                    ).map((x) => {
+                                        return {
+                                            name: 'Service ' + x,
+                                            enabled: true,
+                                        };
+                                    })}
+                                />
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
-                                <Card
-                                    cardTitle="Offers"
-                                    cardActions={<OfferActions />}
-                                >
-                                    <div className={cDStyles.cardContainer}>
-                                        {Array.from(new Array(5).keys()).map(
-                                            (i) => (
-                                                <OfferCard
-                                                    key={'offer' + i}
-                                                    title="15.06.2022 - 06.06.2022"
-                                                    className={
-                                                        cDStyles.offerCard
-                                                    }
-                                                >
-                                                    <div
-                                                        className={
-                                                            cDStyles.title
-                                                        }
-                                                    >
-                                                        {i !== 1 &&
-                                                            'First visit: free!'}
-                                                        {i === 1 &&
-                                                            'Second visit: freeeee freeeeeeee!'}
-                                                    </div>
-                                                    <div
-                                                        className={
-                                                            cDStyles.description
-                                                        }
-                                                    >
-                                                        Amet minim mollit non
-                                                        deserunt ullamco est sit
-                                                        aliqua dolor do amet
-                                                        sint. Velit officia
-                                                        consequat duis enim
-                                                        velit mollit.
-                                                        Exercitation veniam
-                                                        consequat sunt nostrud
-                                                        amet.
-                                                    </div>
-                                                    <div
-                                                        className={
-                                                            cDStyles.type
-                                                        }
-                                                    >
-                                                        Silver card
-                                                    </div>
-                                                </OfferCard>
-                                            )
-                                        )}
-                                    </div>
-                                </Card>
-                            </TabPanel>
-                            <TabPanel className={tabStyles.tabPanel}>
-                                <Card
-                                    cardTitle="Stuff"
-                                    cardActions={<StuffActions />}
-                                >
-                                    <div
-                                        className={cDStyles.stuffCardContainer}
-                                    >
-                                        {stuffModalIsOpen && (
-                                            <StuffModal
-                                                onClose={() =>
-                                                    setStuffModalIsOpen(false)
-                                                }
-                                                onAccept={() =>
-                                                    setStuffModalIsOpen(false)
-                                                }
-                                                onCancel={() =>
-                                                    setStuffModalIsOpen(false)
-                                                }
-                                            />
-                                        )}
-                                        {Array.from(new Array(5).keys()).map(
-                                            (i) => (
-                                                <StuffCard
-                                                    key={'stuff' + i}
-                                                    data={{
-                                                        icon: '/images/icons/stuff/stuff1.png',
-                                                        address:
-                                                            '11 Simon Chikovani St',
-                                                        amountOfOrders: 143,
-                                                        city: 'Akhaltsikhe',
-                                                        clinic: 'Medical House',
-                                                        description:
-                                                            'Dentist•Clinic doctor',
-                                                        gender: 'Male',
-                                                        name: 'Brooklyn Simmons',
-                                                        rating: 4.7,
-                                                        registrationDate:
-                                                            '04.11.2017',
-                                                    }}
-                                                    onDelete={() => {
-                                                        setStuffModalIsOpen(
-                                                            true
-                                                        );
-                                                    }}
-                                                />
-                                            )
-                                        )}
-                                    </div>
-                                </Card>
-                            </TabPanel>
-                            <TabPanel className={tabStyles.tabPanel}>
-                                <Card
-                                    cardTitle="Photo gallery"
-                                    cardActions={
-                                        <GalleryActions
-                                            onEdit={() => {
-                                                setGalleryIsEditing(
-                                                    !galleryIsEditing
-                                                );
-                                            }}
-                                            isEdit={galleryIsEditing}
-                                        />
-                                    }
-                                >
-                                    <div
-                                        className={
-                                            cDStyles.galleryCardContainer
+                                <OffersTab
+                                    offers={Array.from(new Array(5).keys()).map(
+                                        (i) => {
+                                            return {
+                                                title:
+                                                    i !== 1
+                                                        ? 'First visit: free!'
+                                                        : 'Second visit: freeeee freeeeeeee!',
+                                                description:
+                                                    'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
+                                                type:
+                                                    i !== 1
+                                                        ? 'Silver card'
+                                                        : 'Gold card',
+                                                period: '15.06.2022 - 06.06.2022',
+                                            };
                                         }
-                                    >
-                                        {Array.from(new Array(6).keys()).map(
-                                            (i) => (
-                                                <GalleryCard
-                                                    id={'gallery' + i}
-                                                    key={'gallery' + i}
-                                                    src={
-                                                        '/images/gallery/photo' +
-                                                        (i + 1) +
-                                                        '.png'
-                                                    }
-                                                    className={
-                                                        cDStyles.galleryCard
-                                                    }
-                                                    isEdit={galleryIsEditing}
-                                                />
-                                            )
-                                        )}
-                                    </div>
-                                </Card>
+                                    )}
+                                />
+                            </TabPanel>
+                            <TabPanel className={tabStyles.tabPanel}>
+                                <StuffTab
+                                    stuff={Array.from(new Array(5).keys()).map(
+                                        (i) => ({
+                                            icon: '/images/icons/stuff/stuff1.png',
+                                            address: '11 Simon Chikovani St',
+                                            amountOfOrders: 143,
+                                            city: 'Akhaltsikhe',
+                                            clinic: 'Medical House',
+                                            description:
+                                                'Dentist•Clinic doctor',
+                                            gender: 'Male',
+                                            name: 'Brooklyn Simmons',
+                                            rating: 4.7,
+                                            registrationDate: '04.11.2017',
+                                        })
+                                    )}
+                                />
+                            </TabPanel>
+                            <TabPanel className={tabStyles.tabPanel}>
+                                <GalleryTab
+                                    images={Array.from(new Array(6).keys()).map(
+                                        (i) => ({
+                                            src:
+                                                '/images/gallery/photo' +
+                                                (i + 1) +
+                                                '.png',
+                                        })
+                                    )}
+                                />
                             </TabPanel>
                         </Tabs>
                     </div>

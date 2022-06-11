@@ -4,7 +4,7 @@ import StarRatings from 'react-star-ratings';
 import { ReactSVG } from 'react-svg';
 import { useState } from 'react';
 
-interface offerData {
+interface stuffData {
     icon?: string;
     name?: string;
     description?: string;
@@ -20,7 +20,7 @@ interface offerData {
 interface StuffCardProps {
     children?: React.ReactNode;
     className?: string;
-    data: offerData;
+    data: stuffData;
     onEdit?: () => void;
     onDelete?: () => void;
 }

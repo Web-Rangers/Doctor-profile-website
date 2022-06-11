@@ -15,33 +15,3 @@
 .whiteSpace {
     flex: 1 1 0%;
 }
-
-.servicesContainer {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-direction: row;
-    flex-wrap: wrap;
-    max-height: 500px;
-    overflow-y: auto;
-    margin-right: -30px;
-    margin-bottom: -30px;
-    &::-webkit-scrollbar-track {
-        background: #cfd9ff;
-    }
-    &::-webkit-scrollbar-thumb {
-        background: #2751f2;
-    }
-    > * {
-        width: calc(33.333% - 30px);
-        margin-right: 30px;
-        margin-bottom: 30px;
-    }
-}
-
-.modalActions {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 30px;
-}

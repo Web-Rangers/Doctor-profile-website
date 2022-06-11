@@ -1,10 +1,12 @@
 import classNames from 'classnames';
+import { useState } from 'react';
 import styles from 'styles/components/inputs/CheckBox.module.scss';
 
 interface CheckBoxProps {
     className?: string;
     label?: string;
     checked?: boolean;
+    defaultChecked?: boolean;
     onChange?: (checked: boolean) => void;
     id?: string;
 }
@@ -15,8 +17,10 @@ export default function CheckBox({
     checked,
     onChange,
     id,
+    defaultChecked,
     ...props
 }: CheckBoxProps) {
+    const [isChecked, setIsChecked] = useState(defaultChecked);
     return (
         <>
             <input
@@ -24,6 +28,7 @@ export default function CheckBox({
                 type={'checkbox'}
                 className={classNames([styles.checkBox, className])}
                 checked={checked}
+                defaultChecked={defaultChecked}
                 onChange={() => onChange && onChange(!checked)}
             />
             <label htmlFor={id} className={styles.checkBoxLabel}>
