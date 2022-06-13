@@ -6,3 +6,4 @@ yarn.lock
 .pnp.cjs
 .pnp.loader.mjs
 .vscode/
+.yarnrc.yml
