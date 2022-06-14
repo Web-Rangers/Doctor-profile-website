@@ -1,4 +1,4 @@
-import { AboutDoctorTab, Button, Card } from "components";
+import { AboutDoctorTab, Button, Card, DoctorEducationTab } from "components";
 import SideBarLayout from "layouts/SideBarLayout";
 import Breadcrumbs from "nextjs-breadcrumbs";
 import { ReactSVG } from "react-svg";
@@ -142,7 +142,57 @@ export default function DoctorsDetailed() {
               />
             </TabPanel>
             <TabPanel className={tabStyles.tabPanel}>b</TabPanel>
-            <TabPanel className={tabStyles.tabPanel}>c</TabPanel>
+            <TabPanel className={tabStyles.tabPanel}>
+              <DoctorEducationTab
+                certificates={[
+                  {
+                    creditialId: "123456789",
+                    creditialUri: "www.google.com",
+                    issuedAt: "01.01.2020",
+                    issuedBy: "Medical univercity",
+                    name: "Certificate in neurology",
+                  },
+                  {
+                    creditialId: "123456789",
+                    creditialUri: "www.medical.com",
+                    issuedAt: "Don't expire",
+                    issuedBy: "Harvard BioScience",
+                    name: "Rare diseases of the nervous system",
+                  },
+                ]}
+                education={[
+                  {
+                    degree: "Doctor of Medicine",
+                    endDate: "01.01.2020",
+                    school: "Medical univercity",
+                    startDate: "01.01.2010",
+                    fieldsOfStudey: "Neurology",
+                    media: [
+                      {
+                        src: "/images/doctors/detailed/media1.png",
+                        alt: "media1",
+                      },
+                      {
+                        src: "/images/doctors/detailed/media2.png",
+                        alt: "media2",
+                      },
+                      {
+                        src: "/images/doctors/detailed/media3.png",
+                        alt: "media3",
+                      },
+                    ],
+                  },
+                  {
+                    degree: "Doctor of Medicine",
+                    endDate: "01.01.2020",
+                    school: "Medical univercity",
+                    startDate: "01.01.2010",
+                    fieldsOfStudey: "Neurology",
+                    media: [],
+                  },
+                ]}
+              />
+            </TabPanel>
             <TabPanel className={tabStyles.tabPanel}>d</TabPanel>
           </Tabs>
         </div>

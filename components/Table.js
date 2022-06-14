@@ -4,7 +4,7 @@ import Select from "react-select";
 import { ReactSVG } from "react-svg";
 import classNames from "classnames";
 
-export default function Table({ columns, data, pagination, rowClassName }) {
+export default function Table({ columns = [], data = [], pagination = false, rowClassName = null, cellClassName = null, headerClassName = null }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [diplayedData, setDisplayedData] = useState([]);
     const [options, setOptions] = useState([]);
@@ -34,17 +34,17 @@ export default function Table({ columns, data, pagination, rowClassName }) {
     }, [currentPage])
 
     return (<div className={styles.table}>
-        <div className={classNames(styles.tableHeader, styles.tableRowTemplate, rowClassName)}>
+        <div className={classNames(styles.tableHeader, styles.tableRowTemplate, rowClassName, headerClassName)}>
             {columns.map(({ key, title, headerStyle }) => {
                 return (
-                    <div className={`${styles.tableHeaderCell} ${styles.tableCellTemplate}`} style={headerStyle ? headerStyle : null} key={key}>
+                    <div className={`${styles.tableHeaderCell} ${styles.tableCellTemplate} ${cellClassName}`} style={headerStyle ? headerStyle : null} key={key}>
                         {title}
                     </div>
                 )
             })}
         </div>
         <div className={styles.tableBody}>
-            {diplayedData.map((record, index) => <TableRow columnsDefinition={columns} record={record} key={`table-row-${index}`} rowClassName={rowClassName} />)}
+            {diplayedData.map((record, index) => <TableRow columnsDefinition={columns} record={record} key={`table-row-${index}`} rowClassName={rowClassName} cellClassName={cellClassName} />)}
         </div>
         {pagination ? (
             <div className={styles.pagination}>
@@ -74,14 +74,14 @@ export default function Table({ columns, data, pagination, rowClassName }) {
     </div>);
 }
 
-const TableRow = ({ record, columnsDefinition, rowClassName }) => {
+const TableRow = ({ record, columnsDefinition, rowClassName, cellClassName }) => {
     return (
         <div className={classNames(styles.tableRow, styles.tableRowTemplate, rowClassName)}>
             {columnsDefinition.map(({ dataIndex, render }, index) => {
                 if (render)
                     return render(record[dataIndex], `data-${record.key}-${index}`);
                 return (
-                    <div className={`${styles.tableCell} ${styles.tableCellTemplate}`} key={`data-${record.key}-${index}`} >
+                    <div className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`} key={`data-${record.key}-${index}`} >
                         {record[dataIndex]}
                     </div>
                 );

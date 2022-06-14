@@ -1,0 +1,82 @@
+div.tableRow {
+  background-color: #f4f7ff;
+  grid-template-columns: 30% 20% 14% 14% 16% 6%;
+}
+
+div.tableHeader {
+  background-color: transparent;
+}
+
+div.tableCell {
+  padding: 20px 15px;
+}
+
+.educationContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.educationCard {
+  background-color: #f4f7ff;
+  box-shadow: none;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1 0 calc(20% - 20px);
+    .title {
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: 0.04em;
+      text-align: left;
+      color: #808083;
+    }
+    .value {
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: 0.04em;
+      text-align: left;
+      color: #312e45;
+    }
+
+    .mediaValue {
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+      flex-wrap: wrap;
+      color: #2751f2;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: 0.04em;
+      text-align: left;
+      .media {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+      }
+    }
+  }
+  .column:nth-child(2n) {
+    flex: 1 0 calc(30% - 20px);
+  }
+}
+
+.icon {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
