@@ -32,3 +32,12 @@
 .selectedTab {
   border-bottom: 1px solid #2751f2;
 }
+
+.tabPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 30px;
+}
