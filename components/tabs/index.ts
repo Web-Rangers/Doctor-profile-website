@@ -4,3 +4,4 @@ export { default as GalleryTab } from './GalleryTab';
 export { default as StuffTab } from './StuffTab';
 export { default as AboutDoctorTab } from './AboutDoctorTab';
 export { default as DoctorEducationTab } from './DoctorEducationTab';
+export { default as DoctorServicesTab } from './DoctorServicesTab';

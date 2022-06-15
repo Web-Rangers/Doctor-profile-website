@@ -1,4 +1,10 @@
-import { AboutDoctorTab, Button, Card, DoctorEducationTab } from "components";
+import {
+  AboutDoctorTab,
+  Button,
+  Card,
+  DoctorEducationTab,
+  DoctorServicesTab,
+} from "components";
 import SideBarLayout from "layouts/SideBarLayout";
 import Breadcrumbs from "nextjs-breadcrumbs";
 import { ReactSVG } from "react-svg";
@@ -141,7 +147,60 @@ export default function DoctorsDetailed() {
                 }}
               />
             </TabPanel>
-            <TabPanel className={tabStyles.tabPanel}>b</TabPanel>
+            <TabPanel className={tabStyles.tabPanel}>
+              <DoctorServicesTab
+                services={[
+                  {
+                    name: "Neurology",
+                    price: "100",
+                    doctorCommission: "10",
+                    platformCommission: "40",
+                  },
+                  {
+                    name: "Cardiology",
+                    price: "100",
+                    doctorCommission: "10",
+                    platformCommission: "40",
+                  },
+                  {
+                    name: "Dental",
+                    price: "100",
+                    doctorCommission: "10",
+                    platformCommission: "40",
+                  },
+                  {
+                    name: "General Medicine",
+                    price: "100",
+                    doctorCommission: "10",
+                    platformCommission: "40",
+                  },
+                  {
+                    name: "Orthopedics",
+                    price: "100",
+                    doctorCommission: "10",
+                    platformCommission: "40",
+                  },
+                  {
+                    name: "Pediatrics",
+                    price: "100",
+                    doctorCommission: "10",
+                    platformCommission: "40",
+                  },
+                  {
+                    name: "Psychiatry",
+                    price: "100",
+                    doctorCommission: "10",
+                    platformCommission: "40",
+                  },
+                  {
+                    name: "Surgery",
+                    price: "100",
+                    doctorCommission: "10",
+                    platformCommission: "40",
+                  },
+                ]}
+              />
+            </TabPanel>
             <TabPanel className={tabStyles.tabPanel}>
               <DoctorEducationTab
                 certificates={[
