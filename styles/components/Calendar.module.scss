@@ -346,9 +346,121 @@
             flex-direction: row;
             align-items: flex-end;
             justify-content: flex-end;
+
             .iconContainer {
                 cursor: pointer;
             }
         }
     }
+}
+
+.weekContainer {
+    position: relative;
+    overflow-y: scroll;
+    max-height: 550px;
+    display: grid;
+    width: 100%;
+    grid-template-columns: 80px repeat(7, 1fr);
+    grid-template-rows: repeat(1440, 1.2px);
+    z-index: 10;
+
+    .event {
+        border-radius: 2px;
+        padding: 5px;
+        z-index: 10;
+
+        .eventTitle {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 21px;
+            letter-spacing: 0.04em;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 70%;
+        }
+
+        .eventTime {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 21px;
+            letter-spacing: 0.04em;
+            text-align: left;
+
+        }
+    }
+}
+
+.weekHeader {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr);
+    padding-right: 3px;
+
+    .dayInWeek {
+        background-color: #F4F7FF;
+        padding: 12px 0;
+        border-top: 1px solid #B9B9E0;
+        border-bottom: 1px solid #B9B9E0;
+
+        &:nth-child(2) {
+            border-left: 1px solid #B9B9E0;
+        }
+
+        &:last-child {
+            border-right: 1px solid #B9B9E0;
+        }
+
+    }
+
+    span {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 21px;
+        letter-spacing: 0.04em;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        &.date {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 32px;
+            letter-spacing: 0.04em;
+            text-align: center;
+        }
+    }
+}
+
+.hour {
+    display: flex;
+    z-index: 10;
+    align-items: flex-start;
+}
+
+.line {
+    border-right: 1px solid #B9B9E0;
+    z-index: 9;
+}
+
+/* width */
+.weekContainer::-webkit-scrollbar {
+    width: 3px;
+}
+
+/* Track */
+.weekContainer::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+.weekContainer::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.weekContainer::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

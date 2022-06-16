@@ -6,6 +6,38 @@ import classNames from "classnames";
 
 const today = new Date();
 
+const _schedule = [
+    {
+        date: today,
+        events: [
+            {
+                id: "1",
+                time: "10:00 - 12:00",
+                title: "Приветствие",
+                color: "#2751F2",
+            },
+            {
+                id: "2",
+                time: "12:00 - 14:00",
+                title: "Приветствие",
+                color: "#D92EC9",
+            },
+            {
+                id: "3",
+                time: "14:00 - 16:00",
+                title: "Приветствие",
+                color: "#00A875",
+            },
+            {
+                id: "4",
+                time: "16:00 - 18:00",
+                title: "Приветствие",
+                color: "#00A875",
+            },
+        ]
+    }
+];
+
 enum DayName {
     Monday = 0,
     Tuesday = 1,
@@ -14,6 +46,28 @@ enum DayName {
     Friday = 4,
     Saturday = 5,
     Sunday = 6,
+}
+
+declare global {
+    interface Date {
+        GetFirstDayOfWeek(): Date,
+        GetLastDayOfWeek(): Date,
+        GetWeekDay(weekday): Date,
+    }
+}
+
+Date.prototype.GetFirstDayOfWeek = function () {
+    const date = new Date(this.getFullYear(), this.getMonth(), this.getDate());
+    return (new Date(date.setDate(date.getDate() - date.getDay() + (date.getDay() == 0 ? -6 : 1))));
+}
+Date.prototype.GetLastDayOfWeek = function () {
+    const date = new Date(this.getFullYear(), this.getMonth(), this.getDate());
+    return (new Date(date.setDate(date.getDate() - date.getDay() + (date.getDay() == 0 ? 0 : 7))));
+}
+Date.prototype.GetWeekDay = function (weekday) {
+    const date = new Date(this.getFullYear(), this.getMonth(), this.getDate());
+    const day = this.getDay();
+    return new Date(date.setDate(date.getDate() - day + (day == 0 ? -6 : 1) + weekday));
 }
 
 function daysInMonth(month: number, year: number) {
@@ -78,33 +132,10 @@ export default function Calendar() {
                         </div>
                     </div>
                     {mode === "month" && (
-                        <MonthView date={today} schedule={[
-                            {
-                                date: today,
-                                events: [
-                                    {
-                                        id: "1",
-                                        title: "10:00 - 12:00",
-                                        color: "#2751F2",
-                                    },
-                                    {
-                                        id: "2",
-                                        title: "12:00 - 14:00",
-                                        color: "#D92EC9",
-                                    },
-                                    {
-                                        id: "3",
-                                        title: "14:00 - 16:00",
-                                        color: "#F9F871",
-                                    },
-                                    {
-                                        id: "4",
-                                        title: "16:00 - 18:00",
-                                        color: "#F9F871",
-                                    },
-                                ]
-                            }
-                        ]} />
+                        <MonthView date={today} schedule={_schedule} />
+                    )}
+                    {mode === "week" && (
+                        <WeekView date={today} schedule={_schedule} />
                     )}
                 </div>
             ) : (
@@ -183,6 +214,7 @@ function TimeSlot({ label }: TimeSlotProps) {
 
 interface Event {
     id: string;
+    time: string;
     title: string;
     color: string;
 }
@@ -200,7 +232,7 @@ interface ViewProps {
 function MonthView({ date, schedule = [] }: ViewProps) {
     const [days, setDays] = useState<React.ReactNode[] | null>(null);
     const [events, setEvents] = useState<React.ReactNode[] | null>(null);
-    const [positions, setPositions] = useState({});
+    const [positions, setPositions] = useState(null);
     function configureDays() {
         const daysCount = daysInMonth(date.getMonth(), date.getFullYear());
         const days = [];
@@ -289,13 +321,13 @@ function MonthView({ date, schedule = [] }: ViewProps) {
                             backgroundColor: opacityColor(event.color, 0.05),
                             borderLeft: `3px solid ${event.color}`,
                         }}
-                        title={event.title}
+                        title={event.time}
                         id={event.id}
                     />
                 })}
                 {events.length > 2 && <div className={styles.moreEvents}>
                     <ReactSVG src="/images/icons/calendar/more.svg" className={styles.iconContainer} />
-                    </div>}
+                </div>}
             </div>
         })
         setEvents(events);
@@ -318,6 +350,129 @@ function MonthView({ date, schedule = [] }: ViewProps) {
     );
 }
 
+function WeekView({ date, schedule = [] }: ViewProps) {
+    const [hours, setHours] = useState<React.ReactNode[]>();
+    const [events, setEvents] = useState<React.ReactNode[]>();
+    const [linesV, setLinesV] = useState<React.ReactNode[]>();
+
+    function configureHours() {
+        const hours = [];
+        let hour = 0;
+        for (let i = 0; i < 1440; i += 60) {
+            hours.push(
+                <Hour
+                    key={`h${i}`}
+                    number={hour++}
+                    style={{
+                        gridColumnStart: 1,
+                        gridColumnEnd: 1,
+                        gridRowStart: i + 1,
+                        gridRowEnd: i + 60
+                    }}
+                />
+            )
+        }
+        setHours(hours);
+    }
+
+    function configureEvents() {
+        const events = schedule.map((day) => {
+            // destructure like this to prevent variable name conflicts
+            const events = day.events;
+            const dayDate = day.date
+            if (((dayDate.getTime() >= date.GetFirstDayOfWeek().getTime()) && (dayDate.getTime() <= date.GetLastDayOfWeek().getTime()))) {
+                const column = (dayDate.getDay() === 0 ? 7 : dayDate.getDay()) + 1;
+                return events.map((event, index) => {
+                    const hourMinutes = event.time.split(':');
+                    return <Event
+                        key={`e${index}`}
+                        style={{
+                            gridColumnStart: column,
+                            gridColumnEnd: column + 1,
+                            gridRowStart: parseInt(hourMinutes[0]) * 60 + parseInt(hourMinutes[1]) > 0 ? parseInt(hourMinutes[0]) * 60 + parseInt(hourMinutes[1]) : 1,
+                            gridRowEnd: (parseInt(hourMinutes[0]) * 60 + parseInt(hourMinutes[1])) + 42,
+                            backgroundColor: opacityColor(event.color, 0.05),
+                            borderLeft: `3px solid ${event.color}`,
+                            color: event.color,
+                            height: 'auto'
+                        }}
+                        title={event.title}
+                        time={event.time}
+                        id={event.id}
+                    />
+                })
+            }
+        })
+        setEvents(events);
+    }
+
+    useEffect(() => {
+        const linesV = [];
+        for (let i = 1; i < 9; i++) {
+            linesV.push(
+                <div
+                    key={`l${i}`}
+                    className={styles.line}
+                    style={{
+                        gridColumnStart: i,
+                        gridColumnEnd: i + 1,
+                        gridRowStart: 1,
+                        gridRowEnd: 1440,
+                        backgroundColor: i > 1 && "#fff"
+                    }}
+                />
+            )
+        }
+        setLinesV(linesV);
+    }, [])
+
+    useEffect(() => {
+        configureHours();
+        configureEvents();
+    }, [date, schedule])
+
+    return (
+        <div>
+            <div className={styles.weekHeader}>
+                <span />
+                <span className={styles.dayInWeek}>
+                    <span>Mon</span>
+                    <span className={styles.date}>{date.GetWeekDay(0).getDate()}</span>
+                </span>
+                <span className={styles.dayInWeek}>
+                    <span>Tue</span>
+                    <span className={styles.date}>{date.GetWeekDay(1).getDate()}</span>
+                </span>
+                <span className={styles.dayInWeek}>
+                    <span>Wed</span>
+                    <span className={styles.date}>{date.GetWeekDay(2).getDate()}</span>
+                </span>
+                <span className={styles.dayInWeek}>
+                    <span>Thu</span>
+                    <span className={styles.date}>{date.GetWeekDay(3).getDate()}</span>
+                </span>
+                <span className={styles.dayInWeek}>
+                    <span>Fri</span>
+                    <span className={styles.date}>{date.GetWeekDay(4).getDate()}</span>
+                </span>
+                <span className={styles.dayInWeek}>
+                    <span>Sat</span>
+                    <span className={styles.date}>{date.GetWeekDay(5).getDate()}</span>
+                </span>
+                <span className={styles.dayInWeek}>
+                    <span>Sun</span>
+                    <span className={styles.date}>{date.GetWeekDay(6).getDate()}</span>
+                </span>
+            </div>
+            <div className={styles.weekContainer}>
+                {hours}
+                {events}
+                {linesV}
+            </div>
+        </div>
+    )
+}
+
 interface DayProps {
     number: number;
     style: React.CSSProperties;
@@ -325,8 +480,9 @@ interface DayProps {
 
 interface EventProps {
     style: React.CSSProperties;
-    title: string;
+    title?: string;
     id: string;
+    time?: string;
 }
 
 interface DayHeaderProps {
@@ -350,10 +506,24 @@ function Day({ number, ...props }: DayProps) {
     </div>
 }
 
-function Event({ style, title, id }: EventProps) {
+function Event({ style, title, time, id }: EventProps) {
     return <div className={styles.event} style={style}>
         <div className={styles.eventTitle}>
             {title}
         </div>
+        <div className={styles.eventTime}>
+            {time}
+        </div>
     </div>
+}
+
+function Hour({ number, ...props }) {
+    return (
+        <div
+            className={styles.hour}
+            {...props}
+        >
+            <span className={styles.hourNumber}>{`${number < 10 ? `0${number}` : number}:00`}</span>
+        </div>
+    )
 }
