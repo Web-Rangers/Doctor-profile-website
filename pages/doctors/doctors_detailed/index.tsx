@@ -1,6 +1,7 @@
 import {
   AboutDoctorTab,
   Button,
+  Calendar,
   Card,
   DoctorEducationTab,
   DoctorServicesTab,
@@ -61,7 +62,7 @@ export default function DoctorsDetailed() {
               <span>(603) 555-0123</span>
             </div>
           </div>
-          <EditAction icon="/images/icons/inputs/edit.svg" onClick={() => {}} />
+          <EditAction icon="/images/icons/inputs/edit.svg" onClick={() => { }} />
         </Card>
         <div className={styles.tabContainer}>
           <Tabs>
@@ -252,7 +253,9 @@ export default function DoctorsDetailed() {
                 ]}
               />
             </TabPanel>
-            <TabPanel className={tabStyles.tabPanel}>d</TabPanel>
+            <TabPanel className={tabStyles.tabPanel}>
+              <Calendar />
+            </TabPanel>
           </Tabs>
         </div>
       </div>

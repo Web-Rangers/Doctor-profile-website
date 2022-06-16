@@ -8,6 +8,7 @@ export interface ButtonProps {
     onClick?: () => void;
     size?: 'small' | 'medium' | 'large';
     disabled?: boolean;
+    className?: string;
     width?: string | number;
 }
 
@@ -18,12 +19,13 @@ const Button = ({
     size = 'small',
     variant = 'fill',
     disabled = false,
+    className
 }: ButtonProps) => {
     return (
         <button
             className={classNames(styles.btn, styles[variant], styles[size], {
                 [styles.rounded]: rounded,
-            })}
+            }, className)}
             onClick={onClick}
             disabled={disabled}
         >

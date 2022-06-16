@@ -3,6 +3,7 @@ import styles from "styles/components/Table.module.css";
 import Select from "react-select";
 import { ReactSVG } from "react-svg";
 import classNames from "classnames";
+import { Button } from "components";
 
 interface ColumnDefinition {
   key: string;
