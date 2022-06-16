@@ -390,6 +390,26 @@
 
         }
     }
+
+    /* width */
+    &::-webkit-scrollbar {
+        width: 3px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
 }
 
 .weekHeader {
@@ -445,22 +465,98 @@
     z-index: 9;
 }
 
-/* width */
-.weekContainer::-webkit-scrollbar {
-    width: 3px;
+.lineB {
+    border-bottom: 1px solid #B9B9E0;
+    z-index: 9;
 }
 
-/* Track */
-.weekContainer::-webkit-scrollbar-track {
-    background: #f1f1f1;
+
+.dayHeader {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr);
+    padding-right: 3px;
+
+    span {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 32px;
+        letter-spacing: 0.04em;
+        text-align: center;
+        height: 80px;
+        grid-column-start: 2;
+        grid-column-end: 9;
+        background: #F4F7FF;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #A8A1BC;
+        border-radius: 0px;
+    }
 }
 
-/* Handle */
-.weekContainer::-webkit-scrollbar-thumb {
-    background: #888;
+.dayContainer {
+    display: grid;
+    grid-template-columns: 80px repeat(70, 1fr);
+    grid-template-rows: repeat(1440, 1.2px);
+    z-index: 10;
+    max-height: 550px;
+    overflow-y: scroll;
+
+    .event {
+        border-radius: 2px;
+        padding: 5px;
+        z-index: 10;
+
+        .eventTitle {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 21px;
+            letter-spacing: 0.04em;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .eventTime {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 21px;
+            letter-spacing: 0.04em;
+            text-align: left;
+
+        }
+    }
+
+    /* width */
+    &::-webkit-scrollbar {
+        width: 3px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
 }
 
-/* Handle on hover */
-.weekContainer::-webkit-scrollbar-thumb:hover {
-    background: #555;
+.areaDay {
+    background: #fff;
+    border-left: 1px solid #B9B9E0;
+    border-right: 1px solid #B9B9E0;
+}
+
+.whiteSpace{
+    flex: 1 1 auto;
 }

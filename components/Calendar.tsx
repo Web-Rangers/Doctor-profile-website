@@ -12,25 +12,25 @@ const _schedule = [
         events: [
             {
                 id: "1",
-                time: "10:00 - 12:00",
+                time: "9:00 - 9:40",
                 title: "Приветствие",
                 color: "#2751F2",
             },
             {
                 id: "2",
-                time: "12:00 - 14:00",
+                time: "9:50 - 10:30",
                 title: "Приветствие",
                 color: "#D92EC9",
             },
             {
                 id: "3",
-                time: "14:00 - 16:00",
+                time: "14:00 - 15:40",
                 title: "Приветствие",
                 color: "#00A875",
             },
             {
                 id: "4",
-                time: "16:00 - 18:00",
+                time: "16:10 - 18:00",
                 title: "Приветствие",
                 color: "#00A875",
             },
@@ -46,6 +46,21 @@ enum DayName {
     Friday = 4,
     Saturday = 5,
     Sunday = 6,
+}
+
+enum MonthName {
+    January = 0,
+    February = 1,
+    March = 2,
+    April = 3,
+    May = 4,
+    June = 5,
+    July = 6,
+    August = 7,
+    September = 8,
+    October = 9,
+    November = 10,
+    December = 11,
 }
 
 declare global {
@@ -91,6 +106,7 @@ function opacityColor(color: string, factor: number) {
 export default function Calendar() {
     const [whole, setWhole] = useState(false);
     const [mode, setMode] = useState("month");
+    const [date, setDate] = useState(today);
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -98,7 +114,7 @@ export default function Calendar() {
                     Calendar
                 </div>
                 <div className={styles.headerRight}>
-                    <Button label="Whole calender" size="large" variant="fill" onClick={() => { setWhole(!whole) }} />
+                    <Button label={whole ? "⟵ Back" : "Whole calender"} size="large" variant={whole ? "text" : "fill"} onClick={() => { setWhole(!whole) }} />
                 </div>
             </div>
             {whole ? (
@@ -116,26 +132,54 @@ export default function Calendar() {
                     </div>
                     <div className={styles.calendarHeader}>
                         <div className={styles.datePeriod}>
-                            June, 2022
+                            {mode === "month" && `${MonthName[date.getMonth()]}, ${date.getFullYear()}`}
+                            {mode === "week" && `${date.GetFirstDayOfWeek().getDate()} - ${date.GetLastDayOfWeek().getDate()} ${MonthName[date.GetLastDayOfWeek().getMonth()]}, ${date.GetLastDayOfWeek().getFullYear()}`}
+                            {mode === "day" && `${date.getDate()} ${MonthName[date.getMonth()]}, ${date.getFullYear()}`}
                         </div>
+
                         <div className={styles.calendarControls}>
                             <ReactSVG
                                 src="/images/icons/paginator/prev.svg"
                                 className={styles.paginationBtn}
-                                onClick={() => { }}
+                                onClick={() => { 
+                                    if (mode === "month") {
+                                        setDate(new Date(date.getFullYear(), date.getMonth() - 1, 1));
+                                    }
+                                    if (mode === "week") {
+                                        setDate(new Date(date.GetFirstDayOfWeek().getFullYear(), date.GetFirstDayOfWeek().getMonth(), date.GetFirstDayOfWeek().getDate() - 7));
+                                    }
+                                    if (mode === "day") {
+                                        setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1));
+                                    }
+                                }}
                             />
                             <ReactSVG
                                 src="/images/icons/paginator/next.svg"
                                 className={styles.paginationBtn}
-                                onClick={() => { }}
+                                onClick={() => { 
+                                    if (mode === "month") {
+                                        setDate(new Date(date.getFullYear(), date.getMonth() + 1, 1));
+                                    }
+                                    if (mode === "week") {
+                                        setDate(new Date(date.GetLastDayOfWeek().getFullYear(), date.GetLastDayOfWeek().getMonth(), date.GetLastDayOfWeek().getDate() + 7));
+                                    }
+                                    if (mode === "day") {
+                                        setDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1));
+                                    }
+                                }}
                             />
                         </div>
+                        <div className={styles.whiteSpace} />
+                        <Button label="Add" size="large" variant="fill" onClick={() => { }} />
                     </div>
                     {mode === "month" && (
-                        <MonthView date={today} schedule={_schedule} />
+                        <MonthView date={date} schedule={_schedule} />
                     )}
                     {mode === "week" && (
-                        <WeekView date={today} schedule={_schedule} />
+                        <WeekView date={date} schedule={_schedule} />
+                    )}
+                    {mode === "day" && (
+                        <DayView date={date} schedule={_schedule} />
                     )}
                 </div>
             ) : (
@@ -468,6 +512,110 @@ function WeekView({ date, schedule = [] }: ViewProps) {
                 {hours}
                 {events}
                 {linesV}
+            </div>
+        </div>
+    )
+}
+
+function DayView({ date, schedule }) {
+    const [hours, setHours] = useState<React.ReactNode>();
+    const [events, setEvents] = useState<React.ReactNode>();
+    const [linesH, setLinesH] = useState<React.ReactNode>();
+
+    function configureHours() {
+        const hours = [];
+        let hour = 0;
+        for (let i = 0; i < 1440; i += 60) {
+            hours.push(
+                <Hour
+                    key={`h${i}`}
+                    number={hour++}
+                    style={{
+                        gridColumnStart: 1,
+                        gridColumnEnd: 72,
+                        gridRowStart: i + 1,
+                        gridRowEnd: i + 60
+                    }}
+                />
+            )
+        }
+        setHours(hours);
+    }
+
+    function configureEvents() {
+        const events = schedule.map((day) => {
+            // destructure like this to prevent variable name conflicts
+            const events = day.events;
+            const dayDate = day.date
+            if (dayDate.getDate() == date.getDate()) {
+                return events.map((event, index) => {
+                    const [startTime, endTime] = event.time.split('-');
+                    const hourMinutes = startTime.split(':');
+                    const hourMinutesEnd = endTime.split(':');
+                    return <Event
+                        key={`e${index}`}
+                        style={{
+                            gridColumnStart: parseInt(hourMinutes[1]) > 0 ? parseInt(hourMinutes[1]) + 3 : 3,
+                            gridColumnEnd: parseInt(hourMinutesEnd[0]) > parseInt(hourMinutes[0]) ? 70 : parseInt(hourMinutesEnd[1]),
+                            gridRowStart: (parseInt(hourMinutes[0]) * 60 > 0 ? parseInt(hourMinutes[0]) * 60 : 1) + parseInt(hourMinutes[1]),
+                            gridRowEnd: (parseInt(hourMinutesEnd[0]) * 60) + parseInt(hourMinutesEnd[1]),
+                            backgroundColor: opacityColor(event.color, 0.05),
+                            borderLeft: `3px solid ${event.color}`,
+                            color: event.color,
+                            height: 'auto'
+                        }}
+                        title={event.title}
+                        time={event.time}
+                        id={event.id}
+                    />
+                })
+            }
+        })
+        setEvents(events);
+    }
+
+    useEffect(() => {
+        const linesH = [];
+        for (let i = 1; i < 25; i++) {
+            linesH.push(
+                <div
+                    key={`l${i}`}
+                    className={styles.lineB}
+                    style={{
+                        gridColumnStart: 2,
+                        gridColumnEnd: 72,
+                        gridRowStart: i * 60,
+                        gridRowEnd: i + 60,
+                    }}
+                />
+            )
+        }
+        setLinesH(linesH);
+    }, [])
+
+    useEffect(() => {
+        configureHours();
+        configureEvents()
+    }, [date, schedule])
+
+    return (
+        <div>
+            <div className={styles.dayHeader}>
+                <span>{DayName[date.getDay()]}</span>
+            </div>
+            <div className={styles.dayContainer}>
+                {hours}
+                {events}
+                {linesH}
+                <div
+                    className={styles.areaDay}
+                    style={{
+                        gridColumnStart: 2,
+                        gridColumnEnd: 72,
+                        gridRowStart: 1,
+                        gridRowEnd: 1441,
+                    }}
+                />
             </div>
         </div>
     )
