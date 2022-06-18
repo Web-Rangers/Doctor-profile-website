@@ -1,6 +1,7 @@
 import styles from "styles/components/tabs/AboutDoctorTab.module.scss";
-import { Card, Button } from "components";
+import { Card, Button, Modal, Input, Select } from "components";
 import { ReactSVG } from "react-svg";
+import { useState } from "react";
 
 interface Media {
   src: string;
@@ -33,12 +34,109 @@ const EditAction = ({ onClick, icon }: ActionProps) => (
 );
 
 export default function AboutDoctorTab({ doctor = {} }: AboutDoctorTabProps) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [gender, setGender] = useState<string>("");
+  const [clinic, setClinic] = useState<string>("");
   return (
     <>
+      {isEditing && (
+        <Modal
+          onBackClick={() => {
+            setIsEditing(false);
+          }}
+        >
+          <div className={styles.modal}>
+            <div className={styles.modalHeader}>
+              <div className={styles.modalTitle}>Edit information</div>
+              <div className={styles.modalClose}>
+                <ReactSVG
+                  src={"/images/icons/inputs/x.svg"}
+                  onClick={() => {
+                    setIsEditing(false);
+                  }}
+                  className={styles.close}
+                />
+              </div>
+            </div>
+            <div className={styles.modalBody}>
+              <div className={styles.editRow}>
+                <div className={styles.editColumn}>
+                  <Input label="ID" />
+                  <Input label="IBAN" />
+                  <Input label="Branch" />
+                </div>
+                <div className={styles.editColumn}>
+                  <Input label="Date of birth" type="date" />
+                  <Select
+                    label="Gender"
+                    labelStyle="outside"
+                    options={[
+                      {
+                        label: "Male",
+                        value: "1",
+                      },
+                      {
+                        label: "Female",
+                        value: "2",
+                      },
+                    ]}
+                    onChange={(value) => {
+                      setGender(value);
+                    }}
+                    value={gender}
+                  />
+                  <Select
+                    label="Clinic"
+                    labelStyle="outside"
+                    options={[
+                      {
+                        label: "Clinic 1",
+                        value: "1",
+                      },
+                      {
+                        label: "Clinic 2",
+                        value: "2",
+                      },
+                    ]}
+                    onChange={(value) => {
+                      setClinic(value);
+                    }}
+                    value={clinic}
+                  />
+                </div>
+              </div>
+              <Input label="About me" type="text" multiline />
+            </div>
+            <div className={styles.modalFooter}>
+              <Button
+                label="Cancel"
+                size="large"
+                variant="outline"
+                onClick={() => {
+                  setIsEditing(false);
+                }}
+              />
+              <Button
+                label="Save"
+                size="large"
+                variant="fill"
+                onClick={() => {
+                  setIsEditing(false);
+                }}
+              />
+            </div>
+          </div>
+        </Modal>
+      )}
       <Card
         cardTitle="Info"
         cardActions={
-          <EditAction icon="/images/icons/inputs/edit.svg" onClick={() => {}} />
+          <EditAction
+            icon="/images/icons/inputs/edit.svg"
+            onClick={() => {
+              setIsEditing(true);
+            }}
+          />
         }
       >
         <div className={styles.container}>

@@ -14,6 +14,7 @@ interface SelectProps {
   onChange: (value: string) => void;
   value?: string;
   className?: string;
+  labelStyle?: "inside" | "outside";
 }
 
 export default function Select({
@@ -22,6 +23,7 @@ export default function Select({
   label,
   value,
   className,
+  labelStyle = "inside",
 }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(
@@ -33,40 +35,45 @@ export default function Select({
   }, [value]);
 
   return (
-    <div className={classNames(styles.select, className)}>
-      <div
-        className={styles.body}
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}
-      >
+    <div className={classNames(styles.container, className)}>
+      {labelStyle === "outside" && <div className={styles.label}>{label}</div>}
+      <div className={classNames(styles.select)}>
         <div
-          className={classNames(styles.label, {
-            [styles.selectedLabel]: value,
-          })}
+          className={styles.body}
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
         >
-          <span>{selected?.label || label}</span>
-        </div>
-        <ReactSVG
-          src={"/images/icons/inputs/select.svg"}
-          className={classNames(styles.arrow, { [styles.up]: isOpen })}
-        />
-      </div>
-      <div className={classNames(styles.wrapper, { [styles.active]: isOpen })}>
-        {options.map((option) => (
           <div
-            className={classNames(styles.option, {
-              [styles.active]: option === selected,
+            className={classNames(styles.label, {
+              [styles.selectedLabel]: value,
             })}
-            onClick={() => {
-              onChange(option.value);
-              setSelected(option);
-              setIsOpen(!isOpen);
-            }}
           >
-            {option.label}
+            <span>{selected?.label || (labelStyle === "inside" && label)}</span>
           </div>
-        ))}
+          <ReactSVG
+            src={"/images/icons/inputs/select.svg"}
+            className={classNames(styles.arrow, { [styles.up]: isOpen })}
+          />
+        </div>
+        <div
+          className={classNames(styles.wrapper, { [styles.active]: isOpen })}
+        >
+          {options.map((option) => (
+            <div
+              className={classNames(styles.option, {
+                [styles.active]: option === selected,
+              })}
+              onClick={() => {
+                onChange(option.value);
+                setSelected(option);
+                setIsOpen(!isOpen);
+              }}
+            >
+              {option.label}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
