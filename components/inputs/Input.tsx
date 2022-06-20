@@ -1,11 +1,12 @@
 import classNames from 'classnames';
 import styles from 'styles/components/inputs/Input.module.scss';
 import { ReactSVG } from 'react-svg';
+import Link from 'next/link';
 
 interface InputProps {
     children?: React.ReactNode;
     className?: string;
-    type?: 'text' | 'time' | 'email' | 'date' | 'select';
+    type?: 'text' | 'time' | 'email' | 'date' | 'password';
     value?: string;
     onChange?: (value: string) => void;
     label?: string;
@@ -47,6 +48,7 @@ export default function Input({
                 <input
                     value={value}
                     placeholder={placeholder}
+                    type={type}
                     onChange={(event) =>
                         onChange?.call(null, event.target.value)
                     }
@@ -54,6 +56,12 @@ export default function Input({
                 {type === 'time' && (
                     <ReactSVG
                         src={'/images/icons/inputs/clock.svg'}
+                        className={classNames(styles.iconContainer)}
+                    />
+                )}
+                {type === 'password' && (
+                    <ReactSVG
+                        src={'/images/icons/inputs/eye-off.svg'}
                         className={classNames(styles.iconContainer)}
                     />
                 )}
