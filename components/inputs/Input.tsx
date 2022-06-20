@@ -65,6 +65,12 @@ export default function Input({
                         className={classNames(styles.iconContainer)}
                     />
                 )}
+                {type === 'date' && (
+                    <ReactSVG
+                        src={'/images/icons/inputs/calendar.svg'}
+                        className={classNames(styles.iconContainer)}
+                    />
+                )}
             </div>
         </div>
     );
