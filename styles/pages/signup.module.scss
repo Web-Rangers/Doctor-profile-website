@@ -1,0 +1,321 @@
+.page {
+    background: #f0f0f0;
+    width: 100%;
+    min-height: 100vh;
+    padding-bottom: 65px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 65px;
+    gap: 65px;
+    max-width: 1165px;
+    margin: 0 auto;
+}
+
+.stepper {
+    width: 820px;
+}
+
+.startContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+
+    > .startHeader {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 32px;
+        letter-spacing: 0.04em;
+        text-align: left;
+    }
+
+    > .startActions {
+        display: flex;
+        flex-direction: row;
+        justify-items: center;
+        align-items: center;
+        gap: 35px;
+        width: 100%;
+
+        > .startAction {
+            cursor: pointer;
+            transition: all 0.3s ease-out;
+            height: 340px;
+            padding: 42px;
+            gap: 35px;
+            flex: 1;
+            background: #ffffff;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            > img {
+                height: 190px;
+                object-fit: cover;
+                object-position: center;
+            }
+            > .title {
+                font-size: 18px;
+                font-weight: 500;
+                line-height: 24px;
+                letter-spacing: 0.04em;
+                text-align: center;
+            }
+            &:hover {
+                transform: scale(1.02);
+            }
+        }
+    }
+}
+
+.moveContainer {
+    width: 100%;
+    gap: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    button {
+        min-width: 200px;
+    }
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    > .card {
+        width: 100%;
+        .cardBody {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            .photoChange {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 35px;
+                .doctorImage {
+                    width: 160px;
+                    height: 160px;
+                    object-fit: cover;
+                    object-position: center;
+                }
+            }
+            .editRow {
+                display: flex;
+                flex-direction: row;
+                justify-content: stretch;
+                align-items: stretch;
+                gap: 35px;
+                > div {
+                    flex: 1;
+                }
+                .editColumn {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 25px;
+                }
+            }
+        }
+        .actions {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            .add {
+                padding-right: 0;
+            }
+        }
+    }
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .editTitle {
+        flex: 0;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 24px;
+        letter-spacing: 0.04em;
+        text-align: left;
+    }
+    .editRow {
+        flex: 1;
+    }
+}
+
+.fileInput {
+    border: 3px dashed #b3b1bb;
+    border-radius: 4px;
+    min-height: 225px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    button {
+        margin-left: 25px;
+    }
+}
+
+.iconContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > div {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.filesContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    .file {
+        flex: 1;
+        border: 1px solid #b3b1bb;
+        border-radius: 4px;
+        min-width: 40%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        padding: 15px;
+        .preview {
+            margin-right: 15px;
+            width: 52px;
+            height: 52px;
+            object-fit: cover;
+            object-position: center;
+        }
+        .info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            overflow: hidden;
+            .name {
+                font-size: 16px;
+                font-weight: 600;
+                line-height: 21px;
+                letter-spacing: 0.04em;
+                text-align: left;
+            }
+            .size {
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 24px;
+                letter-spacing: 0.04em;
+                text-align: left;
+            }
+        }
+        .iconContainer {
+            cursor: pointer;
+            height: 100%;
+        }
+    }
+}
+
+.whiteSpace {
+    flex: 1 1;
+}
+
+.verificationRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    padding: 20px 20px 20px 70px;
+    .photoContainer {
+        flex: 1 0 25%;
+    }
+    .verificationImage {
+        height: 190px;
+        object-fit: cover;
+        object-position: center;
+    }
+    .uploadBlock {
+        flex: 1 0 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        .uploadText {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 32px;
+            letter-spacing: 0.04em;
+            text-align: left;
+        }
+    }
+
+    .requirements {
+        flex: 1 0 25%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: min-content;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 32px;
+        letter-spacing: 0.04em;
+        text-align: left;
+        color: #2751f2;
+        .iconConteiner {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            div {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+}
+
+.finishContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+    align-items: center;
+    justify-content: center;
+    > img {
+        height: 200px;
+        object-fit: cover;
+        object-position: center;
+    }
+    > .finishText {
+        max-width: 600px;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.04em;
+        text-align: center;
+    }
+    >button{
+        padding-left: 90px;
+        padding-right: 90px;
+    }
+}

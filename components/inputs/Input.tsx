@@ -12,6 +12,7 @@ interface InputProps {
     label?: string;
     multiline?: boolean;
     placeholder?: string;
+    style?: React.CSSProperties;
 }
 
 export default function Input({
@@ -23,16 +24,18 @@ export default function Input({
     type,
     multiline,
     onChange,
+    style,
     ...props
 }: InputProps) {
     if (type === 'text' && multiline) {
         return (
             <div className={classNames([styles.inputContainer, className])}>
                 {label && <span className={styles.label}>{label}</span>}
-                <div className={styles.input}>
+                <div className={styles.input} >
                     <textarea
                         value={value}
                         placeholder={placeholder}
+                        style={style}
                         onChange={(event) =>
                             onchange?.call(null, event.target.value)
                         }
@@ -48,7 +51,7 @@ export default function Input({
                 <input
                     value={value}
                     placeholder={placeholder}
-                    type={type}
+                    // type={type}
                     onChange={(event) =>
                         onChange?.call(null, event.target.value)
                     }
