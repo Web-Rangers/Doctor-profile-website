@@ -1,0 +1,222 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.pageHeader {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    padding: 0;
+}
+
+.pageHeaderLeft {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 55px;
+}
+
+.pageBody {
+    width: 100%;
+    margin-top: 40px;
+    height: calc(100% - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: stretch;
+    background: transparent;
+    padding: 0;
+    gap: 30px;
+
+    > .tabContainer {
+        width: 100%;
+    }
+}
+
+.breadcrumbs {
+    display: flex;
+    flex-direction: row;
+
+    color: #8f8f8f;
+    gap: 15px;
+    li::marker {
+        content: '';
+    }
+    li:not(:last-child) {
+        a {
+            color: #2751f2;
+        }
+
+        &::after {
+            content: '>';
+            margin-left: 15px;
+        }
+    }
+}
+.doctorRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    flex: 0 0 190px;
+    padding: 30px;
+    margin: 0;
+    gap: 30px;
+}
+
+.imageContainer {
+    flex: 1 0 130px;
+    max-width: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.image {
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+}
+
+.infoContainer {
+    flex: 1 0 auto;
+    height: 100%;
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.name {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: 0.04em;
+    text-align: left;
+}
+
+.speciality,
+.mail,
+.phone {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.04em;
+    text-align: left;
+    div {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.edit {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+.iconContainer {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    div {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .infoColumn,
+    .infoShortColumn {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        flex: 1 0 55%;
+        gap: 60px;
+        .dataRow {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 25px;
+            .dataTitle {
+                flex: 1 0 40%;
+                color: #b3b1bb;
+                font-size: 18px;
+                font-weight: 500;
+                line-height: 24px;
+                letter-spacing: 0.04em;
+                text-align: left;
+            }
+            .dataValue {
+                flex: 1 0 60%;
+                color: #1c1a27;
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 24px;
+                letter-spacing: 0.04em;
+                text-align: left;
+                .addFamily {
+                    padding: 0;
+                }
+            }
+        }
+    }
+    .infoShortColumn {
+        flex: 1 0 35%;
+    }
+}
+
+.orderActions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 40px;
+    .selectContainer, .dateContainer {
+        display: flex;
+        gap: 25px;
+        align-items: center;
+        span {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 24px;
+            letter-spacing: 0em;
+            text-align: left;
+        }
+        .statusSelect{
+            min-width: 180px;
+        }
+    }
+}
+.tableRow {
+    grid-template-columns: 13% 20% 12% 15% 10% 10% 7% 8% 5%;
+}

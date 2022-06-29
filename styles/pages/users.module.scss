@@ -1,0 +1,90 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    .pageHeader {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background: transparent;
+        padding: 0;
+        .addUser {
+            padding-left: 75px;
+            padding-right: 75px;
+        }
+    }
+    .cardContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        gap: 30px;
+        .filterContainer {
+            display: flex;
+            flex-direction: row;
+            gap: 25px;
+            .searchContainer {
+                height: 100%;
+                width: 340px;
+                background-color: #ffffff;
+                border-radius: 4px;
+                border: 1px solid #B3B1BB;
+                padding: 20px 18px;
+                display: flex;
+                flex-direction: row;
+                align-items: stretch;
+                gap: 16px;
+                cursor: text;
+            }
+
+            .searchImg,
+            .searchImg div {
+                width: 20px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .searchImg * {
+                fill: #312e45;
+            }
+
+            .searchInput {
+                border: none;
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 20px;
+                letter-spacing: 0em;
+                text-align: left;
+            }
+
+            .searchInput:focus {
+                outline: none;
+                box-shadow: none;
+            }
+
+            .dateInput {
+                max-width: 200px;
+            }
+
+            .whiteSpace{
+                flex: 1;
+            }
+        }
+        .table {
+            padding-top: 0;
+        }
+        .tableRow {
+            grid-template-columns: 5% 35% 13% 13% 15% 20% 20% 15% 18%;
+        }
+        .tableCell{
+            padding: 15px;
+        }
+    }
+}

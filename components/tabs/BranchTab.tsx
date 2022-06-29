@@ -108,7 +108,7 @@ export default function BranchTab({ branchs }: BranchTabProps) {
       <Table
         columns={branchColumns}
         data={branchs}
-        pagination={false}
+        pagination={null}
         rowClassName={styles.tableRow}
       ></Table>
     </Card>
