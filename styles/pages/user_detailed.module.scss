@@ -177,7 +177,11 @@
                 text-align: left;
             }
             .dataValue {
-                flex: 1 0 60%;
+                flex: 1 0 50%;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 15px;
                 color: #1c1a27;
                 font-size: 18px;
                 font-weight: 400;
@@ -218,5 +222,13 @@
     }
 }
 .tableRow {
-    grid-template-columns: 13% 20% 12% 15% 10% 10% 7% 8% 5%;
+    grid-template-columns: 12% 20% 13% 16% 12% 7% 7% 8% 5%;
+}
+
+.tableCell{
+    padding: 10px;
+}
+
+.infoAction{
+    cursor: pointer;
 }

@@ -1,0 +1,27 @@
+.switch {
+    display: flex;
+    background-color: #e1dfeb;
+    height: 30px;
+    border-radius: 15px;
+    width: 60px;
+    transition: all .3s ease-out;
+    cursor: pointer;
+    .switchInput {
+        display: none;
+    }
+    .circle {
+        height: 22px;
+        width: 22px;
+        margin: 4px;
+        background-color: #b3b1bb;
+        border-radius: 50%;
+        transition: all .3s ease-out;
+    }
+    &.acitve {
+        background-color: #2751f2;
+        .circle {
+            background-color: #fff;
+            transform: translateX(30px);
+        }
+    }
+}

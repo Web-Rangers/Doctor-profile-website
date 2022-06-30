@@ -1,23 +1,11 @@
-import {
-    AboutDoctorTab,
-    Button,
-    Calendar,
-    Card,
-    DoctorEducationTab,
-    DoctorServicesTab,
-    Input,
-    Modal,
-    Select,
-    Table,
-} from 'components';
+import { Button, Card, Select, Switch, Table, DatePicker } from 'components';
 import SideBarLayout from 'layouts/SideBarLayout';
 import Breadcrumbs from 'nextjs-breadcrumbs';
 import { ReactSVG } from 'react-svg';
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import styles from 'styles/pages/user_detailed.module.scss';
-import tabStyles from 'styles/components/tabs/Tabs.module.scss';
 import { useState } from 'react';
 import tableStyles from 'styles/components/Table.module.scss';
+import classNames from 'classnames';
 
 interface ActionProps {
     icon?: string;
@@ -53,17 +41,20 @@ const orderColumns = [
         key: 'status',
         title: 'Status',
         dataIndex: 'status',
+
         render: (record, key) => {
             return (
-                <div className={tableStyles.tableStatusCellTemplate} key={key}>
-                    <div
-                        className={tableStyles.tableStatus}
-                        style={{
-                            color: record.color,
-                        }}
-                    >
-                        {record.title}
-                    </div>
+                <div
+                    className={classNames(
+                        tableStyles.tableCellTemplate,
+                        styles.tableCell
+                    )}
+                    key={key}
+                    style={{
+                        color: record.color,
+                    }}
+                >
+                    {record.title}
                 </div>
             );
         },
@@ -72,21 +63,68 @@ const orderColumns = [
         key: 'type',
         title: 'Type',
         dataIndex: 'type',
+        cellStyle: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        headerStyle: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
     },
     {
         key: 'price',
         title: 'Price',
         dataIndex: 'price',
+        cellStyle: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+        },
+        headerStyle: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+        },
     },
     {
         key: 'grade',
         title: 'Grade',
         dataIndex: 'grade',
+        cellStyle: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+        },
+        headerStyle: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+        },
     },
     {
         key: 'actions',
         title: '',
         dataIndex: 'actions',
+        render: (record, key) => {
+            return (
+                <div
+                    className={classNames(
+                        tableStyles.tableCellTemplate,
+                        styles.tableCell,
+                        styles.infoAction
+                    )}
+                    key={key}
+                >
+                    <ReactSVG
+                        src="/images/icons/table/info.svg"
+                        className={styles.iconContainer}
+                    />
+                </div>
+            );
+        },
     },
 ];
 
@@ -104,10 +142,103 @@ const data = [
         price: '22',
         grade: '5',
     },
+    {
+        date: '08.01.2022',
+        clinic: 'Medicine 4517 Washington Ave ',
+        service: 'Blood Test',
+        doctor: 'Brooklyn Simmons',
+        status: {
+            title: 'Canceled',
+            color: '#E32323',
+        },
+        type: 'Clinic',
+        price: '10',
+        grade: '4.8',
+    },
+    {
+        date: '10.04.2022',
+        clinic: 'Natus Medical 2715 Ash Dr. San Jose',
+        service: 'General ckeckup',
+        doctor: 'Darrell Steward',
+        status: {
+            title: 'In progress',
+            color: '#FFC14E',
+        },
+        type: 'Home',
+        price: '2000',
+        grade: '4.2',
+    },
+    {
+        date: '29.11.2022',
+        clinic: 'FONAR 8502 Preston Rd. Inglewood',
+        service: 'Сonsultation',
+        doctor: 'Esther Howard',
+        status: {
+            title: 'Done',
+            color: '#00A875',
+        },
+        type: 'Online',
+        price: '150',
+        grade: '3.2',
+    },
+    {
+        date: '04.04.2022',
+        clinic: 'Stryker Corp 3517 W. Gray St. Utica',
+        service: 'Сonsultation',
+        doctor: 'Courtney Henry',
+        status: {
+            title: 'In progress',
+            color: '#FFC14E',
+        },
+        type: 'Clinic',
+        price: '10',
+        grade: '4.6',
+    },
+    {
+        date: '10.04.2022',
+        clinic: 'Natus Medical 2715 Ash Dr. San Jose',
+        service: 'General ckeckup',
+        doctor: 'Darrell Steward',
+        status: {
+            title: 'In progress',
+            color: '#FFC14E',
+        },
+        type: 'Home',
+        price: '2000',
+        grade: '4.2',
+    },
+    {
+        date: '29.11.2022',
+        clinic: 'FONAR 8502 Preston Rd. Inglewood',
+        service: 'Сonsultation',
+        doctor: 'Esther Howard',
+        status: {
+            title: 'Done',
+            color: '#00A875',
+        },
+        type: 'Online',
+        price: '150',
+        grade: '3.2',
+    },
+    {
+        date: '04.04.2022',
+        clinic: 'Stryker Corp 3517 W. Gray St. Utica',
+        service: 'Сonsultation',
+        doctor: 'Courtney Henry',
+        status: {
+            title: 'In progress',
+            color: '#FFC14E',
+        },
+        type: 'Clinic',
+        price: '10',
+        grade: '4.6',
+    },
 ];
 
 export default function UserDetailed() {
+    const [isActive, setIsActive] = useState(true);
     const [selectedStatus, setSelectedStatus] = useState('');
+    const [dateRange, setDateRange] = useState('');
     return (
         <div className={styles.container}>
             <div className={styles.pageHeader}>
@@ -189,7 +320,13 @@ export default function UserDetailed() {
                                 <div className={styles.dataTitle}>
                                     Сard status
                                 </div>
-                                <div className={styles.dataValue}>Active</div>
+                                <div className={styles.dataValue}>
+                                    <Switch
+                                        checked={isActive}
+                                        onChange={(value) => setIsActive(value)}
+                                    />
+                                    {isActive ? 'Active' : 'Deactive'}
+                                </div>
                             </div>
                         </div>
                         <div className={styles.infoShortColumn}>
@@ -233,10 +370,11 @@ export default function UserDetailed() {
                         <div className={styles.orderActions}>
                             <div className={styles.dateContainer}>
                                 <span>Date range</span>
-                                <Input
-                                    type="date"
-                                    placeholder="01.01.2001-03.01.2001"
-                                ></Input>
+                                <DatePicker
+                                    mode="range"
+                                    value={dateRange}
+                                    onChange={setDateRange}
+                                />
                             </div>
                             <div className={styles.selectContainer}>
                                 <span>Status</span>
@@ -265,6 +403,7 @@ export default function UserDetailed() {
                     <Table
                         columns={orderColumns}
                         rowClassName={styles.tableRow}
+                        cellClassName={styles.tableCell}
                         data={data}
                         pagination={{ pageSize: 5, initialPage: 1 }}
                     />

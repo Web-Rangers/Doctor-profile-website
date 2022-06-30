@@ -1,12 +1,11 @@
 import classNames from 'classnames';
 import styles from 'styles/components/inputs/Input.module.scss';
 import { ReactSVG } from 'react-svg';
-import Link from 'next/link';
 
 interface InputProps {
     children?: React.ReactNode;
     className?: string;
-    type?: 'text' | 'time' | 'email' | 'date' | 'password';
+    type?: 'text' | 'time' | 'email' | 'password';
     value?: string;
     onChange?: (value: string) => void;
     label?: string;
@@ -31,7 +30,7 @@ export default function Input({
         return (
             <div className={classNames([styles.inputContainer, className])}>
                 {label && <span className={styles.label}>{label}</span>}
-                <div className={styles.input} >
+                <div className={styles.input}>
                     <textarea
                         value={value}
                         placeholder={placeholder}
@@ -65,12 +64,6 @@ export default function Input({
                 {type === 'password' && (
                     <ReactSVG
                         src={'/images/icons/inputs/eye-off.svg'}
-                        className={classNames(styles.iconContainer)}
-                    />
-                )}
-                {type === 'date' && (
-                    <ReactSVG
-                        src={'/images/icons/inputs/calendar.svg'}
                         className={classNames(styles.iconContainer)}
                     />
                 )}
