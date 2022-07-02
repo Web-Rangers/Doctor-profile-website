@@ -2,7 +2,6 @@
 @import 'styles/variable.scss';
 
 .btn {
-    display: inline-block;
     font-family: 'RedHatDisplay';
     height: $input-height-base;
     padding: $input-padding-base;
@@ -26,6 +25,10 @@
     &.rounded {
         border-radius: $input-height-base/2;
     }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 .btn:disabled {
@@ -77,6 +80,11 @@
         background: $primary-dark;
         color: $primary-text;
     }
+}
+
+.selected {
+    background: $primary-dark;
+    color: $primary-text;
 }
 
 .text {

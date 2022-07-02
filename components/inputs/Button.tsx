@@ -7,9 +7,11 @@ export interface ButtonProps {
     rounded?: boolean;
     onClick?: () => void;
     size?: 'small' | 'medium' | 'large';
+    selected?: boolean;
     disabled?: boolean;
     className?: string;
     width?: string | number;
+    icon?: React.ReactNode;
 }
 
 const Button = ({
@@ -19,17 +21,27 @@ const Button = ({
     size = 'small',
     variant = 'fill',
     disabled = false,
-    className
+    selected,
+    className,
+    icon,
 }: ButtonProps) => {
     return (
         <button
-            className={classNames(styles.btn, styles[variant], styles[size], {
-                [styles.rounded]: rounded,
-            }, className)}
+            className={classNames(
+                styles.btn,
+                styles[variant],
+                styles[size],
+                {
+                    [styles.rounded]: rounded,
+                    [styles.selected]: selected,
+                },
+                className
+            )}
             onClick={onClick}
             disabled={disabled}
         >
             {label}
+            {icon}
         </button>
     );
 };

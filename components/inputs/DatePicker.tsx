@@ -403,7 +403,7 @@ const RangePicker = ({
                 <Day
                     key={`dp${i}`}
                     number={i}
-                    className={classNames(styles.otherDays )}
+                    className={classNames(styles.otherDays)}
                     style={{
                         gridColumnStart: column,
                         gridColumnEnd: column + 1,
@@ -602,11 +602,13 @@ const RangePicker = ({
             dateStartChange?.call(null, '');
             return;
         }
+        if (dateStart === undefined) return;
         dateStartChange?.call(null, dateStart.toLocaleDateString());
     }, [dateStart]);
 
     useEffect(() => {
         if (!dateEnd) {
+            if (!dateStart) return;
             dateEndChange?.call(null, dateStart?.toLocaleDateString(), '');
             return;
         }

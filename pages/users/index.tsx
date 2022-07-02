@@ -1,19 +1,79 @@
 import { ReactSVG } from 'react-svg';
-import { Button, Card, Input, Table } from 'components';
+import {
+    Button,
+    Card,
+    DatePicker,
+    Input,
+    Range,
+    Select,
+    Table,
+} from 'components';
 import SideBarLayout from 'layouts/SideBarLayout';
 import styles from 'styles/pages/users.module.scss';
+import tableStyles from 'styles/components/Table.module.scss';
+import classNames from 'classnames';
+import { useState } from 'react';
+import Breadcrumbs from 'nextjs-breadcrumbs';
 
 export default function Users() {
+    const [min, setMin] = useState(0);
+    const [max, setMax] = useState(20);
+    const [gender, setGender] = useState<'male' | 'female'>();
+    const [filterOpen, setFilterOpen] = useState(false);
+    const [dateRange, setDateRange] = useState('');
+    const [paymentType, setPaymentType] = useState<
+        'online' | 'inhouse' | 'inclinic'
+    >();
+    const [cardType, setCardType] = useState<'silver' | 'gold' | 'platinum'>();
+    const onRangeChange = (min, max) => {
+        setMin(min);
+        setMax(max);
+    };
     const columns = [
         {
             key: 'actions',
             title: '',
             dataIndex: 'actions',
+            render: (record, key) => {
+                return (
+                    <div
+                        className={classNames(
+                            tableStyles.tableCellTemplate,
+                            styles.actionCell
+                        )}
+                        key={key}
+                    >
+                        <ReactSVG src="\images\icons\table\pencil.svg" />
+                    </div>
+                );
+            },
         },
         {
-            key: 'name',
+            key: 'person',
             title: 'Name',
-            dataIndex: 'name',
+            dataIndex: 'person',
+            render: (record, key) => {
+                return (
+                    <div
+                        className={classNames(
+                            tableStyles.tableCellTemplate,
+                            styles.nameCell
+                        )}
+                        key={key}
+                    >
+                        <div className={styles.photoContainer}>
+                            <img
+                                className={styles.photo}
+                                src={record.photo}
+                            ></img>
+                        </div>
+                        <div className={styles.nameCol}>
+                            <div className={styles.name}>{record.name}</div>
+                            <div className={styles.gender}>{record.gender}</div>
+                        </div>
+                    </div>
+                );
+            },
         },
         {
             key: 'birth',
@@ -54,7 +114,151 @@ export default function Users() {
 
     const data = [
         {
-            name: 'Kathryn Murphy',
+            person: {
+                name: 'Kathryn Murphy',
+                gender: 'Female',
+                photo: '/images/users/user1.png',
+            },
+            birth: '14.08.1999',
+            card: 'Platinum',
+            city: 'Akhaltsikhe',
+            company: 'Disney Company',
+            registration: '14.08.1999',
+            orders: '143',
+            lastDate: '14.08.1999',
+        },
+        {
+            person: {
+                name: 'Kathryn Murphy',
+                gender: 'Female',
+                photo: '/images/users/user1.png',
+            },
+            birth: '14.08.1999',
+            card: 'Platinum',
+            city: 'Akhaltsikhe',
+            company: 'Disney Company',
+            registration: '14.08.1999',
+            orders: '143',
+            lastDate: '14.08.1999',
+        },
+        {
+            person: {
+                name: 'Kathryn Murphy',
+                gender: 'Female',
+                photo: '/images/users/user1.png',
+            },
+            birth: '14.08.1999',
+            card: 'Platinum',
+            city: 'Akhaltsikhe',
+            company: 'Disney Company',
+            registration: '14.08.1999',
+            orders: '143',
+            lastDate: '14.08.1999',
+        },
+        {
+            person: {
+                name: 'Kathryn Murphy',
+                gender: 'Female',
+                photo: '/images/users/user1.png',
+            },
+            birth: '14.08.1999',
+            card: 'Platinum',
+            city: 'Akhaltsikhe',
+            company: 'Disney Company',
+            registration: '14.08.1999',
+            orders: '143',
+            lastDate: '14.08.1999',
+        },
+        {
+            person: {
+                name: 'Kathryn Murphy',
+                gender: 'Female',
+                photo: '/images/users/user1.png',
+            },
+            birth: '14.08.1999',
+            card: 'Platinum',
+            city: 'Akhaltsikhe',
+            company: 'Disney Company',
+            registration: '14.08.1999',
+            orders: '143',
+            lastDate: '14.08.1999',
+        },
+        {
+            person: {
+                name: 'Kathryn Murphy',
+                gender: 'Female',
+                photo: '/images/users/user1.png',
+            },
+            birth: '14.08.1999',
+            card: 'Platinum',
+            city: 'Akhaltsikhe',
+            company: 'Disney Company',
+            registration: '14.08.1999',
+            orders: '143',
+            lastDate: '14.08.1999',
+        },
+        {
+            person: {
+                name: 'Kathryn Murphy',
+                gender: 'Female',
+                photo: '/images/users/user1.png',
+            },
+            birth: '14.08.1999',
+            card: 'Platinum',
+            city: 'Akhaltsikhe',
+            company: 'Disney Company',
+            registration: '14.08.1999',
+            orders: '143',
+            lastDate: '14.08.1999',
+        },
+        {
+            person: {
+                name: 'Kathryn Murphy',
+                gender: 'Female',
+                photo: '/images/users/user1.png',
+            },
+            birth: '14.08.1999',
+            card: 'Platinum',
+            city: 'Akhaltsikhe',
+            company: 'Disney Company',
+            registration: '14.08.1999',
+            orders: '143',
+            lastDate: '14.08.1999',
+        },
+        {
+            person: {
+                name: 'Kathryn Murphy',
+                gender: 'Female',
+                photo: '/images/users/user1.png',
+            },
+            birth: '14.08.1999',
+            card: 'Platinum',
+            city: 'Akhaltsikhe',
+            company: 'Disney Company',
+            registration: '14.08.1999',
+            orders: '143',
+            lastDate: '14.08.1999',
+        },
+        {
+            person: {
+                name: 'Kathryn Murphy',
+                gender: 'Female',
+                photo: '/images/users/user1.png',
+            },
+            birth: '14.08.1999',
+            card: 'Platinum',
+            city: 'Akhaltsikhe',
+            company: 'Disney Company',
+            registration: '14.08.1999',
+            orders: '143',
+            lastDate: '14.08.1999',
+        },
+        {
+            person: {
+                name: 'Kathryn Murphy',
+                gender: 'Female',
+                photo: '/images/users/user1.png',
+            },
             birth: '14.08.1999',
             card: 'Platinum',
             city: 'Akhaltsikhe',
@@ -68,13 +272,22 @@ export default function Users() {
     return (
         <div className={styles.container}>
             <div className={styles.pageHeader}>
-                <h3>Users</h3>
-                <Button
-                    className={styles.addUser}
-                    variant="fill"
-                    size="large"
-                    label="Add user"
-                />
+                <div className={styles.headerLeft}>
+                    <h3>Users</h3>
+                    <Button
+                        className={styles.addUser}
+                        variant="fill"
+                        size="large"
+                        label="Add user"
+                    />
+                </div>
+                <div className={styles.headerRight}>
+                    <Breadcrumbs
+                        omitRootLabel={true}
+                        listClassName={styles.breadcrumbs}
+                        replaceCharacterList={[{ from: '_', to: ' ' }]}
+                    />
+                </div>
             </div>
             <Card>
                 <div className={styles.cardContainer}>
@@ -98,13 +311,210 @@ export default function Users() {
                                 placeholder="Search"
                             />
                         </div>
-                        <Input
-                            type="date"
-                            placeholder="Date interval"
-                            className={styles.dateInput}
+                        <DatePicker
+                            mode="range"
+                            value={dateRange}
+                            onChange={setDateRange}
                         />
                         <div className={styles.whiteSpace}></div>
-                        <Button variant="outline" size="large" label="Filter" />
+                        <div className={styles.filterBtnContainer}>
+                            <Button
+                                variant="outline"
+                                size="large"
+                                label="Filter"
+                                onClick={() => setFilterOpen(!filterOpen)}
+                                icon={
+                                    <ReactSVG
+                                        src="/images/icons/inputs/filter.svg"
+                                        className={classNames(
+                                            styles.iconContainer,
+                                            styles.active
+                                        )}
+                                    />
+                                }
+                            />
+                            <div
+                                className={classNames(styles.filtersContainer, {
+                                    [styles.open]: filterOpen,
+                                })}
+                            >
+                                <div className={styles.filterRow}>
+                                    <div className={styles.filterTitle}>
+                                        Date of birth
+                                    </div>
+                                    <div className={styles.filterInput}>
+                                        <DatePicker mode="range" />
+                                    </div>
+                                </div>
+                                <div className={styles.filterRow}>
+                                    <div className={styles.filterTitle}>
+                                        Date of registration
+                                    </div>
+                                    <div className={styles.filterInput}>
+                                        <DatePicker mode="range" />
+                                    </div>
+                                </div>
+                                <div className={styles.filterRow}>
+                                    <div className={styles.filterTitle}>
+                                        City
+                                    </div>
+                                    <div className={styles.filterInput}>
+                                        <Select
+                                            label=""
+                                            options={[
+                                                {
+                                                    label: 'Minsk',
+                                                    value: 'minsk',
+                                                },
+                                            ]}
+                                            onChange={() => {}}
+                                        />
+                                    </div>
+                                </div>
+                                <div className={styles.filterRow}>
+                                    <div className={styles.filterTitle}>
+                                        Gender
+                                    </div>
+                                    <div className={styles.filterInput}>
+                                        <Button
+                                            label="Male"
+                                            variant="outline"
+                                            size="large"
+                                            className={styles.filterBtn}
+                                            selected={gender === 'male'}
+                                            onClick={() => setGender('male')}
+                                        />
+                                        <Button
+                                            label="Female"
+                                            variant="outline"
+                                            size="large"
+                                            className={styles.filterBtn}
+                                            selected={gender === 'female'}
+                                            onClick={() => setGender('female')}
+                                        />
+                                    </div>
+                                </div>
+                                <div className={styles.filterRow}>
+                                    <div className={styles.filterTitle}>
+                                        Interval of visits
+                                    </div>
+                                    <div className={styles.filterInput}>
+                                        <Input
+                                            className={styles.intervalInput}
+                                            value={min > max ? max : min}
+                                            onChange={(value) => {}}
+                                        />
+                                        <div className={styles.divider} />
+                                        <Input
+                                            className={styles.intervalInput}
+                                            value={min < max ? max : min}
+                                        />
+                                        <Range
+                                            min={min}
+                                            max={max}
+                                            minValue={0}
+                                            maxValue={100}
+                                            step={1}
+                                            onChange={onRangeChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className={styles.filterRow}>
+                                    <div className={styles.filterTitle}>
+                                        Card payment type
+                                    </div>
+                                    <div className={styles.filterInput}>
+                                        <Button
+                                            label="Online"
+                                            variant="outline"
+                                            size="large"
+                                            className={styles.filterBtn}
+                                            selected={paymentType === 'online'}
+                                            onClick={() =>
+                                                setPaymentType('online')
+                                            }
+                                        />
+                                        <Button
+                                            label="In-house"
+                                            variant="outline"
+                                            size="large"
+                                            className={styles.filterBtn}
+                                            selected={paymentType === 'inhouse'}
+                                            onClick={() =>
+                                                setPaymentType('inhouse')
+                                            }
+                                        />
+                                        <Button
+                                            label="In clinic"
+                                            variant="outline"
+                                            size="large"
+                                            className={styles.filterBtn}
+                                            selected={
+                                                paymentType === 'inclinic'
+                                            }
+                                            onClick={() =>
+                                                setPaymentType('inclinic')
+                                            }
+                                        />
+                                    </div>
+                                </div>
+                                <div className={styles.filterRow}>
+                                    <div className={styles.filterTitle}>
+                                        Card type
+                                    </div>
+                                    <div className={styles.filterInput}>
+                                        <Button
+                                            label="Silver"
+                                            variant="outline"
+                                            size="large"
+                                            className={styles.filterBtn}
+                                            selected={cardType === 'silver'}
+                                            onClick={() =>
+                                                setCardType('silver')
+                                            }
+                                        />
+                                        <Button
+                                            label="Gold"
+                                            variant="outline"
+                                            size="large"
+                                            className={styles.filterBtn}
+                                            selected={cardType === 'gold'}
+                                            onClick={() => setCardType('gold')}
+                                        />
+                                        <Button
+                                            label="Platinum"
+                                            variant="outline"
+                                            size="large"
+                                            className={styles.filterBtn}
+                                            selected={cardType === 'platinum'}
+                                            onClick={() =>
+                                                setCardType('platinum')
+                                            }
+                                        />
+                                    </div>
+                                </div>
+                                <div className={styles.divider} />
+                                <div className={styles.actionRow}>
+                                    <Button
+                                        label="Reset filter"
+                                        className={styles.resetButton}
+                                        size="large"
+                                        variant="text"
+                                        icon={
+                                            <ReactSVG
+                                                src="/images/icons/inputs/reset.svg"
+                                                className={styles.iconContainer}
+                                            />
+                                        }
+                                    />
+                                    <Button
+                                        label="Apply"
+                                        variant="fill"
+                                        size="large"
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <Table
                         className={styles.table}
@@ -112,7 +522,7 @@ export default function Users() {
                         data={data}
                         rowClassName={styles.tableRow}
                         cellClassName={styles.tableCell}
-                        pagination={{ pageSize: 10, initialPage: 1 }}
+                        pagination={{ pageSize: 8, initialPage: 1 }}
                     />
                 </div>
             </Card>

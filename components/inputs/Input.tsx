@@ -6,8 +6,8 @@ interface InputProps {
     children?: React.ReactNode;
     className?: string;
     type?: 'text' | 'time' | 'email' | 'password';
-    value?: string;
-    onChange?: (value: string) => void;
+    value?: string | number;
+    onChange?: (value: string | number) => void;
     label?: string;
     multiline?: boolean;
     placeholder?: string;

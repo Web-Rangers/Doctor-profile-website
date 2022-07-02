@@ -1,0 +1,36 @@
+.container {
+    display: block;
+    position: relative;
+    min-width: 300px;
+    padding: 4px 0;
+    height: 12px;
+    .rail,
+    .track {
+        position: absolute;
+        width: 100%;
+        height: 4px;
+        background-color: #dfdee6;
+    }
+    .handle1,
+    .handle2 {
+        position: absolute;
+        cursor: pointer;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #b3b1bb;
+        transform: translateX(-50%) translateY(calc(-50% + 2px));
+        transition: background 0.3s ease-out;
+        &:hover {
+            background: #2751f2;
+        }
+    }
+    .handle2 {
+        left: 20%;
+    }
+    .track {
+        background: #2751f2;
+        left: 0%;
+        width: 20%;
+    }
+}

@@ -87,6 +87,7 @@
 
 .pickerContainer,
 .rangePickerContainer {
+    z-index: 1000;
     &.closed {
         display: none;
     }
