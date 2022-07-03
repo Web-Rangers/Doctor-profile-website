@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classNames, { Value } from 'classnames';
 import styles from 'styles/components/inputs/Input.module.scss';
 import { ReactSVG } from 'react-svg';
 import { useEffect, useState } from 'react';
@@ -146,7 +146,15 @@ export default function DatePicker({
                     className={classNames(styles.iconContainer)}
                     onClick={() => setIsOpen(!isOpen)}
                 />
-                {mode === 'single' && <Picker />}
+                {mode === 'single' && (
+                    <Picker
+                        isOpen={isOpen}
+                        onClose={() => setIsOpen(false)}
+                        onChange={(start) => {
+                            onChange?.call(null, start);
+                        }}
+                    />
+                )}
                 {mode === 'range' && (
                     <RangePicker
                         isOpen={isOpen}
@@ -171,7 +179,13 @@ interface RangePickerProps {
     onClose?: () => void;
 }
 
-const Picker = () => {
+interface PickerProps {
+    isOpen?: boolean;
+    onChange?: (value) => void;
+    onClose?: () => void;
+}
+
+const Picker = ({ isOpen, onChange, onClose }: PickerProps) => {
     const [days, setDays] = useState([]);
     const [date, setDate] = useState(new Date());
     const [selected, setSelected] = useState<Date>();
@@ -273,10 +287,13 @@ const Picker = () => {
     }
     useEffect(() => {
         configureDays();
-        console.log(selected);
     }, [date, selected]);
     return (
-        <div className={styles.pickerContainer}>
+        <div
+            className={classNames(styles.pickerContainer, {
+                [styles.closed]: !isOpen,
+            })}
+        >
             <div className={styles.pickerHeader}>
                 <div
                     className={styles.moveBtn}

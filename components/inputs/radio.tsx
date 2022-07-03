@@ -15,8 +15,6 @@ interface RadioProps {
 export default function Radio({
     className,
     label,
-    checked,
-    onChange,
     id,
     defaultChecked,
     name,

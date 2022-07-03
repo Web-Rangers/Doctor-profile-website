@@ -1,0 +1,93 @@
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 35px;
+}
+
+.smallColumnLeft {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 45%;
+    gap: 25px;
+}
+
+.columnLeft {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 65%;
+    gap: 25px;
+    .genderRadio {
+        .genderLabel {
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 21px;
+            letter-spacing: 0.04em;
+            text-align: left;
+            color: #312e45;
+        }
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: 30px;
+    }
+}
+
+.columnRight {
+    flex: 1 0 calc(35% - 35px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    .label {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 24px;
+        letter-spacing: 0.04em;
+        text-align: center;
+    }
+}
+
+.inputColumn {
+    align-items: unset;
+    justify-content: unset;
+}
+
+.halfw {
+    flex: 1 0 calc(50% - 35px);
+    align-items: stretch;
+    justify-content: stretch;
+}
+
+.label {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 21px;
+    letter-spacing: 0.04em;
+    text-align: left;
+    color: #312e45;
+}
+
+.doctorImage {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.aboutMe {
+    margin-top: 25px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 35px;
+}
