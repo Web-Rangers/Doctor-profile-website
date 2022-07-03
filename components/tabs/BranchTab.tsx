@@ -1,6 +1,6 @@
 import { Card, Table, Button, Select } from "components";
 import styles from "styles/components/tabs/BranchTab.module.scss";
-import tableStyles from "styles/components/Table.module.css";
+import tableStyles from "styles/components/Table.module.scss";
 import ReactSelect from "react-select";
 import { ReactSVG } from "react-svg";
 import { useState } from "react";

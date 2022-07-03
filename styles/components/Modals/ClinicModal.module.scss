@@ -25,12 +25,27 @@ div.modal {
     display: flex;
     flex-direction: column;
     gap: 25px;
+    .center{
+        align-items: center;
+        justify-content: center;
+    }
     .modalContentRow {
         display: flex;
         flex-direction: row;
         gap: 35px;
         > * {
             flex: 1 0 40%;
+        }
+        > .image {
+            flex: unset;
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            object-position: center;
+        }
+        > .imageChange {
+            flex: unset;
+            width: min-content;
         }
     }
 }

@@ -1,10 +1,12 @@
 import { ReactSVG } from 'react-svg';
-import { Table } from 'components';
+import { Table, AddClinicModal, Button } from 'components';
 import SideBarLayout from 'layouts/SideBarLayout';
 import styles from 'styles/pages/clinics.module.css';
-import tableStyles from 'styles/components/Table.module.css';
+import tableStyles from 'styles/components/Table.module.scss';
+import { useState } from 'react';
 
 export default function Clinics() {
+    const [isModalOpen, setModalOpen] = useState(false);
     const columns = [
         {
             key: 'icon',
@@ -188,33 +190,51 @@ export default function Clinics() {
     ];
 
     return (
-        <div className={styles.container}>
-            <div className={styles.pageHeader}>
-                <h3>All clinics</h3>
-                <div
-                    className={styles.searchContainer}
-                    onClick={() => {
-                        document.getElementById('search-input')?.focus();
+        <>
+            {isModalOpen && (
+                <AddClinicModal
+                    onCancel={() => setModalOpen(false)}
+                    onClose={() => setModalOpen(false)}
+                    onSave={() => {
+                        setModalOpen(false);
                     }}
-                >
-                    <ReactSVG
-                        src={'/images/icons/inputs/search.svg'}
-                        className={styles.searchImg}
-                    />
-                    <input
-                        id="search-input"
-                        className={styles.searchInput}
-                        type="text"
-                        placeholder="Search"
-                    />
+                />
+            )}
+            <div className={styles.container}>
+                <div className={styles.pageHeader}>
+                    <div className={styles.headerLeft}>
+                        <h3>All clinics</h3>
+                        <Button
+                            label="Add clinic"
+                            size="large"
+                            onClick={() => setModalOpen(!isModalOpen)}
+                        />
+                    </div>
+                    <div
+                        className={styles.searchContainer}
+                        onClick={() => {
+                            document.getElementById('search-input')?.focus();
+                        }}
+                    >
+                        <ReactSVG
+                            src={'/images/icons/inputs/search.svg'}
+                            className={styles.searchImg}
+                        />
+                        <input
+                            id="search-input"
+                            className={styles.searchInput}
+                            type="text"
+                            placeholder="Search"
+                        />
+                    </div>
                 </div>
+                <Table
+                    columns={columns}
+                    data={data}
+                    pagination={{ pageSize: 10, initialPage: 1 }}
+                />
             </div>
-            <Table
-                columns={columns}
-                data={data}
-                pagination={{ pageSize: 10, initialPage: 1 }}
-            />
-        </div>
+        </>
     );
 }
 
