@@ -9,18 +9,36 @@
 
     .imageContainer {
         width: 50%;
-        height: 100%;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: flex-end;
+        align-items: center;
         padding: 0 60px;
-
-        .image {
-            max-width: 600px;
-            width: 100%;
-            object-fit: cover;
-            object-position: center;
+        background-image: url("/images/authorization/auth.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: none;
+        .text {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            color: #ffffff;
+            max-width: 500px;
+            .welcomeText {
+                font-size: 36px;
+                font-weight: 700;
+                line-height: 48px;
+                letter-spacing: 0.04em;
+                text-align: left;
+            }
+            .descText {
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 24px;
+                letter-spacing: 0.04em;
+                text-align: left;
+            }
         }
     }
 
@@ -50,7 +68,7 @@
             p {
                 margin: 0;
             }
-            .input{
+            .input {
                 width: 100%;
             }
             .forgot {
@@ -59,37 +77,42 @@
                 line-height: 16px;
                 letter-spacing: 0em;
                 text-align: right;
-                color: #B3B1BB;
+                color: #b3b1bb;
                 margin-top: -20px;
-                display: flex; 
+                display: flex;
                 align-items: flex-end;
                 justify-content: flex-end;
                 width: 100%;
             }
-            .actions{
+            .actions {
                 width: 100%;
                 display: flex;
-                flex-direction: row;
-                justify-content: flex-start;
-                align-items: center;
-                .signInBtn{
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                .signInBtn {
                     min-width: 225px;
                 }
-                >span{
+                > .row {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                }
+                span {
                     font-size: 18px;
                     font-weight: 400;
                     line-height: 24px;
                     letter-spacing: 0.04em;
                     text-align: left;
-                    
-                    margin-left: 45px;
                 }
-                .sgnUpBtn{
+                .sgnUpBtn {
                     padding-left: 5px;
                     padding-right: 0;
                 }
-                .cancelBtn{
-                    color: #312E45;
+                .cancelBtn {
+                    color: #312e45;
                     margin-left: 10px;
                 }
             }
