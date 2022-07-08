@@ -50,7 +50,7 @@ export default function Input({
                 <input
                     value={value}
                     placeholder={placeholder}
-                    // type={type}
+                    type={type}
                     onChange={(event) =>
                         onChange?.call(null, event.target.value)
                     }
