@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import styles from 'styles/components/Table.module.scss';
+import styles from 'styles/components/TableWithDropdown.module.scss';
 import Select from 'react-select';
 import { ReactSVG } from 'react-svg';
 import classNames from 'classnames';
 import { Button } from 'components';
+
 
 interface ColumnDefinition {
     key: string;
@@ -44,6 +45,7 @@ export default function Table({
     const [diplayedData, setDisplayedData] = useState([]);
     const [options, setOptions] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
+    const [dropdown, setDropdown] = useState([]);
 
     const getStartPage = () => {
         return (currentPage - 1) * (pagination.pageSize || 10) + 1;
@@ -81,6 +83,14 @@ export default function Table({
         setDisplayedData(data);
     }, [data])
 
+    useEffect(()=>{
+        const getDataKeys = data?.map((item, i)=>({
+            key: i,
+            dropdown: false,
+        }))
+        setDropdown(getDataKeys)
+    },[])
+
     const tableHeader = (
         <div
             className={styles.headerBack}
@@ -101,20 +111,35 @@ export default function Table({
                     headerClassName
                 )}
             >
-                {columns.map(({ key, title, headerStyle }) => {
-                    return (
-                        <div
-                            className={`${styles.tableHeaderCell} ${styles.tableCellTemplate} ${cellClassName}`}
-                            style={headerStyle ? headerStyle : null}
-                            key={key}
-                        >
-                            {title}
-                        </div>
-                    );
+                {columns?.map(({ key, title, headerStyle, dataIndex }) => {
+                    if(dataIndex !== 'hidden'){
+                        return (
+                            <div
+                                className={`${styles.tableHeaderCell} ${styles.tableCellTemplate} ${cellClassName}`}
+                                style={headerStyle ? headerStyle : null}
+                                key={key}
+                            >
+                                {title}
+                            </div>
+                        );
+                    }
                 })}
             </div>
         </div>
     );
+
+    const dropdownFunc = (index) => {
+        setDropdown((prevState)=>{
+            const setNewData = prevState.map((item)=>{
+                if(item.key === index){
+                    return {...item, dropdown: !item.dropdown}
+                }else {
+                    return {...item, dropdown: false}
+                }
+            })
+            return setNewData
+        })
+    }
 
     return (
         <div className={classNames(styles.table, className)}>
@@ -130,15 +155,45 @@ export default function Table({
                         header.scrollTo(target.scrollLeft, 0);
                 }}
             >
-                {diplayedData.map((record, index) => (
-                    <TableRow
-                        columnsDefinition={columns}
-                        record={record}
-                        key={`table-row-${index}`}
-                        rowClassName={rowClassName}
-                        cellClassName={cellClassName}
-                    />
-                ))}
+                {diplayedData.map((record, index) => {
+                    return (
+                        <>
+                            <div 
+                                className={classNames(styles.column, {
+                                    [styles.columnOpen]: dropdown[index].dropdown,
+                                })} 
+                                onClick={()=> dropdownFunc(index)}>
+                                <TableRow
+                                    columnsDefinition={columns}
+                                    record={record}
+                                    key={`table-row-${index}`}
+                                    rowClassName={rowClassName}
+                                    cellClassName={cellClassName}
+                                />
+                                <div className={classNames(styles.dropdown, 
+                                    {
+                                        [styles.statusOpen]: dropdown[index].dropdown,
+                                        [styles.statusClosed]: !dropdown[index].dropdown,
+                                      }
+                                    )}>
+                                    {
+                                        columns?.map((item, i)=>{
+                                            if(item.dataIndex === 'hidden'){
+                                                return <>
+                                                    <div className={styles.dropdownCol}>
+                                                        <h2>{item.title}</h2>
+                                                        <span>{record[item.key]}</span>
+                                                    </div>
+                                                </>
+                                            }
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        </>
+                    )
+                })}
+                
             </div>
             {pagination ? (
                 <div className={styles.pagination}>
@@ -217,7 +272,7 @@ const TableRow = ({
                     if (render)
                         return render(
                             record[dataIndex],
-                            `data-${record.key}-${index}`
+                            `data-${record.key}-${index}`,
                         );
                     return (
                         <div
