@@ -25,6 +25,11 @@ export default function Tags({tags, setTags, labelLayout, label, className}){
         }
     }
 
+    const handleChange = (event) => {
+        setTagValue(event.target.value); 
+        setInputSize(event.target.value.length+1)
+    }
+
     return (
         <>
         <div className={classNames(className)}>
@@ -70,7 +75,7 @@ export default function Tags({tags, setTags, labelLayout, label, className}){
                 <input 
                     className={styles.tagInput}
                     onKeyUp={(e)=> {addTag(e, 'enter')}}
-                    onChange={(e)=> {setTagValue(e.target.value); setInputSize(e.target.value.length+1)}}
+                    onChange={(e)=> handleChange(e)}
                     value={tagValue} 
                     ref={inputRef}
                     size={inputSize}
