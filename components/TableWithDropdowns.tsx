@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styles from 'styles/components/TableWithDropdown.module.scss';
 import Select from 'react-select';
 import { ReactSVG } from 'react-svg';
@@ -55,13 +55,17 @@ export default function Table({
         return Math.min(currentPage * (pagination.pageSize || 10), data.length);
     };
 
+    const dataCallback = useCallback((data)=>{
+        setDisplayedData(data);
+    }, [data])
+
     const selectPage = (selectedOption) => {
         setCurrentPage(selectedOption.value);
         setSelectedOption(selectedOption);
     };
 
     useEffect(() => {
-        if (!pagination) return setDisplayedData(data);
+        if (!pagination) return dataCallback(data);
         setSelectedOption(options[currentPage - 1]);
         setOptions(
             Array.from(
@@ -70,18 +74,13 @@ export default function Table({
                 ).keys()
             ).map((i) => ({ value: i + 1, label: i + 1 }))
         );
-        setDisplayedData(
+        dataCallback(
             data.slice(
                 (currentPage - 1) * (pagination.pageSize || 10),
                 currentPage * (pagination.pageSize || 10)
             )
         );
     }, [currentPage, data]);
-
-    //update data if user use search
-    useEffect(()=>{
-        setDisplayedData(data);
-    }, [data])
 
     useEffect(()=>{
         const getDataKeys = data?.map((item, i)=>({
