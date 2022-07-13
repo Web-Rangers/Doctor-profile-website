@@ -3,7 +3,7 @@ import { Input, Button, Modal, Select } from 'components';
 import { useState } from 'react';
 import classNames from 'classnames';
 
-export default function AddAdmin({
+export default function AddAdminModal({
     onClose,
     onSave,
     onCancel,

@@ -1,11 +1,11 @@
 import {useState} from 'react';
 import SideBarLayout from 'layouts/SideBarLayout';
-import styles from 'styles/pages/admins.module.scss';
 import Breadcrumbs from 'nextjs-breadcrumbs'; 
-import {  Card, Input, Select, Button, Table, DatePicker, AddAdmin  } from 'components';
+import {  Card, Input, Select, Button, Table, DatePicker, AddAdminModal  } from 'components';
 import { ReactSVG } from "react-svg";
 import classNames from 'classnames';
 import TableStyles from 'styles/components/TableWithDropdown.module.scss';
+import styles from 'styles/pages/admins.module.scss';
 
 export default function Admins() {
     const [isModalOpen, setModalOpen] = useState(false);
@@ -168,7 +168,7 @@ export default function Admins() {
 
     return <>
         {isModalOpen && 
-            <AddAdmin 
+            <AddAdminModal 
                 onCancel={()=> setModalOpen(false)}
                 onClose={()=> setModalOpen(false)}
                 onSave={()=> setModalOpen(false)}
