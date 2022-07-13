@@ -29,6 +29,7 @@ interface TableProps {
     cellClassName?: string;
     headerClassName?: string;
     bodyClassName?: string;
+    dropdownClassname: string;
 }
 
 export default function Table({
@@ -40,6 +41,7 @@ export default function Table({
     headerClassName,
     bodyClassName,
     className,
+    dropdownClassname = ''
 }: TableProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const [diplayedData, setDisplayedData] = useState([]);
@@ -169,7 +171,7 @@ export default function Table({
                                     rowClassName={rowClassName}
                                     cellClassName={cellClassName}
                                 />
-                                <div className={classNames(styles.dropdown, 
+                                <div className={classNames(styles.dropdown, dropdownClassname,
                                     {
                                         [styles.statusOpen]: dropdown[index].dropdown,
                                         [styles.statusClosed]: !dropdown[index].dropdown,
