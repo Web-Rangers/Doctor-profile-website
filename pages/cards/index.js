@@ -383,19 +383,19 @@ export default function Cards() {
                                     </div>
                                     <div className={styles.filterBl_2}>
                                         <div className={styles.minMax}>
-                                        <h2>Number of people</h2>
-                                        <div>                                        
-                                                <Input
+                                            <h2>Number of people</h2>
+                                            <div>                                        
+                                                    <Input
+                                                            className={styles.intervalInput}
+                                                            value={min}
+                                                            onChange={(value) => setMin(value)}
+                                                        />
+                                                    <div className={styles.divider} />
+                                                    <Input
                                                         className={styles.intervalInput}
-                                                        value={min}
-                                                        onChange={(value) => setMin(value)}
+                                                        value={max}
+                                                        onChange={(value) => setMax(value)}
                                                     />
-                                                <div className={styles.divider} />
-                                                <Input
-                                                    className={styles.intervalInput}
-                                                    value={max}
-                                                    onChange={(value) => setMax(value)}
-                                                />
                                             </div> 
                                         </div>
                                         <div className={styles.selects}>
