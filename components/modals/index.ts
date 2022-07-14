@@ -6,3 +6,4 @@ export { default as AddClinicModal } from './AddClinicModal';
 export { default as AddOrder } from './AddOrder';
 export { default as AddAdminModal } from './AddAdminModal.js';
 export { default as EditCard } from './EditCard.js';
+export { default as MessageModal } from './MessageModal.js';
