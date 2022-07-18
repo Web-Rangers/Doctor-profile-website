@@ -389,12 +389,14 @@ export default function Cards() {
                                                             className={styles.intervalInput}
                                                             value={min}
                                                             onChange={(value) => setMin(value)}
+                                                            defaultValue={min}
                                                         />
                                                     <div className={styles.divider} />
                                                     <Input
                                                         className={styles.intervalInput}
                                                         value={max}
                                                         onChange={(value) => setMax(value)}
+                                                        defaultValue={max}
                                                     />
                                             </div> 
                                         </div>

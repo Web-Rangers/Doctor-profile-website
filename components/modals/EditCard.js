@@ -8,6 +8,8 @@ export default function AddAdmin({
     onSave,
     onCancel,
 }) {
+    const [price, setPrice] = useState('123');
+    const [cost, setCost] = useState('123');
     const [promotion, setPromotion] = useState('');
     const [cardType, setCardType] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
@@ -26,7 +28,9 @@ export default function AddAdmin({
                         label="Price" 
                         className={styles.modalInput} 
                         placeholder='Enter price...' 
-                        value="123"
+                        value={price}
+                        defaultValue={price}
+                        onChange={(e)=>setPrice(e.value)}
                     />
                     <Select 
                         label="Status"
@@ -48,7 +52,9 @@ export default function AddAdmin({
                         label="Cost for family members" 
                         className={styles.modalInput} 
                         placeholder='Enter cost for family members...' 
-                        value="123"
+                        value={cost}
+                        defaultValue={cost}
+                        onChange={(e)=>setCost(e.value)}
                     />
                     <Select 
                         label="Card type"
