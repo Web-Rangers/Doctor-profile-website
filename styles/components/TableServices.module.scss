@@ -24,7 +24,7 @@
     }
     .columnOpen {
         box-shadow: 0px 4px 6px rgba(190, 187, 203, 0.25);
-        border-left: 3px solid #2751F2;
+        margin-left:2px;
         .arrow {
             transform: rotate(90deg)
         }
@@ -33,6 +33,7 @@
         }
         .dropdown {
             padding: 30px;
+            padding-left:10px;
         }
     }
     .statusOpen {
@@ -230,4 +231,27 @@
     margin-right:10px;
     color: #2751f2 !important;
     font-weight: 600!important;
+}
+
+.subService{
+    display: grid;
+    gap:20px;
+    margin-bottom:20px;
+    grid-template-columns: 5% 22% 77% 31% 45% 15%!important;
+}
+
+.servicesAction {
+    display: flex;
+    margin-right:auto;
+    justify-content: flex-end;
+    margin-left:0px;
+    gap:10px;
+}
+
+.arrow {
+    margin-right:10px;
+}
+
+.subValue {
+    margin-left:17px;
 }
