@@ -7,3 +7,4 @@ export { default as AddOrder } from './AddOrder';
 export { default as AddAdminModal } from './AddAdminModal.js';
 export { default as EditCard } from './EditCard.js';
 export { default as MessageModal } from './MessageModal.js';
+export { default as EditOrderModal } from './EditOrderModal.js';

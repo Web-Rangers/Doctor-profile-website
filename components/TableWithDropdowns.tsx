@@ -10,6 +10,7 @@ interface ColumnDefinition {
     key: string;
     title: string;
     dataIndex: string;
+    form: string;
     headerStyle?: React.CSSProperties;
     cellStyle?: React.CSSProperties;
     render?: (record: any, key: any) => React.ReactNode;
@@ -112,7 +113,7 @@ export default function Table({
                     headerClassName
                 )}
             >
-                {columns?.map(({ key, title, headerStyle, dataIndex }) => {
+                {columns?.map(({ key, title, headerStyle, dataIndex, form=null }) => {
                     if(dataIndex !== 'hidden'){
                         return (
                             <div
@@ -183,7 +184,19 @@ export default function Table({
                                                 return <>
                                                     <div className={styles.dropdownCol}>
                                                         <h2>{item.title}</h2>
-                                                        <span>{record[item.key]}</span>
+                                                        {
+                                                            item.form == 'array_boxes' ? 
+                                                            <div>
+                                                            {
+                                                                record[item.key]?.map((e)=>{
+                                                                    return <span className={styles.arrayBoxes}>{e}</span>
+                                                                })
+                                                            }
+                                                            </div>
+                                                            :
+                                                            <span>{record[item.key]}</span>
+
+                                                        }
                                                     </div>
                                                 </>
                                             }
@@ -275,6 +288,7 @@ const TableRow = ({
                             record[dataIndex],
                             `data-${record.key}-${index}`,
                         );
+                    
                     return (
                         <div
                             className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
