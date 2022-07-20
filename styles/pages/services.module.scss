@@ -52,13 +52,6 @@
         justify-content: space-between;
         flex-wrap: wrap;
         align-items: flex-end;
-        .servSelects {
-            div {
-                &:first-child {
-                    color:#B3B1BB;
-                }
-            }
-        }
         .servInput {
             width: 48.5%;
             margin-bottom:25px;
