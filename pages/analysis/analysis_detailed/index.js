@@ -46,6 +46,16 @@ export default function AnalysisDetailed() {
             key: 'reviews',
             title: 'Reviews',
             dataIndex: 'reviews',
+            render: (record, key) =>{
+                return (
+                    <div className={styles.review}>
+                        <ReactSVG 
+                            src="../images/icons/table/star.svg"
+                        />
+                        <span>{record}</span>
+                    </div>
+                )
+            }
         },
         {
             key: 'tool',
