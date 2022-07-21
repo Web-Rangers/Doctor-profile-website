@@ -111,6 +111,14 @@ button:focus {
     }
     .tableBody{
         margin-left:20px;
+        .columnOpen {
+            .tableRow {
+                background-color:red;
+            }
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
     }
     .tableRow {
         grid-template-columns: 15% 13% 13% 11% 10% 14% 10% 7% 6% !important;
@@ -143,6 +151,20 @@ button:focus {
 .tableGroup {
     display: flex;
     flex-direction: column;
+}
+
+.group {
+    display: flex;
+    align-items: center;
+    div {
+        display: flex;
+        flex-direction: column;
+        span{
+            &:nth-child(2){
+                color:#838383;
+            }
+        }
+    }
 }
 
 .tableActons {
@@ -289,4 +311,8 @@ button:focus {
     display: flex;
     justify-content: flex-end;
     margin-top:20px;
+}
+
+.arrow {
+    margin-right:15px;
 }

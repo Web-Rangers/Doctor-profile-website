@@ -5,6 +5,7 @@ import tableStyles from "styles/components/Table.module.scss";
 import { useState } from "react";
 import Breadcrumbs from "nextjs-breadcrumbs";
 import classNames from "classnames";
+import TableStyles from 'styles/components/TableWithDropdown.module.scss';
 import styles from "styles/pages/orders.module.scss";
 
 export default function Orders() {
@@ -30,9 +31,15 @@ export default function Orders() {
             dataIndex: "order_id",
             render: (record, key) => {
                 return (
-                      <div className={styles.tableGroup}>
-                          <span>{record.id}</span>
-                          <span>{record.name}</span>
+                      <div className={styles.group}>
+                        <ReactSVG
+                            className={classNames(styles.arrow, TableStyles.arrow)}
+                            src={"/images/icons/table/arrow.svg"}
+                        />
+                        <div>
+                            <span>{record.id}</span>
+                            <span>{record.name}</span>
+                        </div>
                       </div>
                   );
             },
