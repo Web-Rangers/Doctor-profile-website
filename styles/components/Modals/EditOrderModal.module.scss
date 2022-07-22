@@ -2,7 +2,20 @@
     align-items: flex-start;
     justify-content: flex-start;
     min-width: 870px;
-    min-height: 575px;
+    max-height: 90%;
+    overflow-y:auto;
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #BFCCFF;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #2751F2; 
+    }  
+    &::-webkit-scrollbar-thumb:hover {
+        background: #1641ed; 
+      }
     .modalActions {
         width: 100%;
         display: flex;
