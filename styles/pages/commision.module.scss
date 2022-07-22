@@ -62,6 +62,11 @@
         span {
             color: #B3B1BB;
         }
+        input {
+            &::placeholder {
+                color:#B3B1BB;
+            }
+        }
         &:nth-child(2){
             width: 30%;
         }

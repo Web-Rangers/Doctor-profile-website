@@ -80,8 +80,10 @@
             justify-content: flex-start;
             align-items: center;
             div {
-                margin-right:10px;
                 color:#1C1A27;
+                &:nth-child(2){
+                    margin-left:10px;
+                }
                 h2 {
                     margin:0;
                     font-size:17px;
@@ -141,6 +143,7 @@
 
 .tableActons {
     display: flex;
+    align-items: center;
     gap:10px;
 }
 
@@ -168,4 +171,11 @@
     div {
         width: 100%;
     }
+}
+
+.review {
+    display: flex;
+    justify-self: flex-start;
+    gap:10px;
+    align-items: center;
 }

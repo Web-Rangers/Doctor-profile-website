@@ -1,14 +1,18 @@
 import {useState, useEffect} from 'react';
 import SideBarLayout from 'layouts/SideBarLayout';
 import Breadcrumbs from 'nextjs-breadcrumbs';
-import {  Card, Input, Select, Tags, Button, Table  } from 'components';
+import {  Card, Input, Select, Tags, Button, TableServices, EditServiceModal, AddSubserviceModal  } from 'components';
+import TableStyles from 'styles/components/TableWithDropdown.module.scss';
 import styles from 'styles/pages/services.module.scss';
 import { ReactSVG } from "react-svg";
+import classNames from "classnames";
 
 export default function Services() {
     const [type, setType] = useState();
     const [tags, setTags] = useState([]);
     const [tableSearch, setTableSearch] = useState('');
+    const [isEditModalOpen, setEditModalOpen] = useState(false);
+    const [isSubModalOpen, setSubModalOpen] = useState(false);
 
     const offerColumns = [
         {
@@ -32,18 +36,46 @@ export default function Services() {
             dataIndex: 'duration',
         },
         {
+            key: 'child_services',
+            title: '',
+            dataIndex: 'child_services',
+            render: ()=> {
+                return (
+                    <div 
+                        className={styles.childServices}
+                        onClick={()=>setSubModalOpen(true)}
+                    >
+                        <ReactSVG
+                            className={styles.plusBgn}
+                            src='images/icons/inputs/plus.svg'
+                        />
+                        <span>chid service</span>
+                    </div>
+                )
+            }
+        },
+        {
             key: "actions",
             title: "",
             dataIndex: "actions",
             render: (record, key) => {
               return (
                     <div className={styles.tableActions}>
-                        <ReactSVG src={"/images/icons/table/edit.svg"} className={styles.iconContainer}/>
+                        <ReactSVG 
+                            src={"/images/icons/table/edit.svg"} 
+                            className={styles.iconContainer}
+                            onClick={()=> setEditModalOpen(true)}
+                        />
                         <ReactSVG src={"/images/icons/table/delete.svg"} className={styles.iconContainer}/>
                     </div>
                 );
             },
         },
+        {
+            key: 'subServices',
+            title:'',
+            dataIndex: 'hidden',
+        }
     ];
 
     const analysisData = [
@@ -52,12 +84,36 @@ export default function Services() {
             name:'Anti-smooth muscle antibodies (ASMA)',
             service_type: 'In clinic',
             duration:'1000',
+            subServices: [
+            {
+                id: 758597125,
+                checkbox: false,
+                title: 'SubserviceName3',
+                status: 'Online',
+                duration: 5781,
+            },{
+                id: 758597123,
+                checkbox: false,
+                title: 'SubserviceName2',
+                status: 'Online',
+                duration: 1281,
+            },
+        ]
         },
         {
             service_id: '758597122',
             name:'Anti-Factor X | Activity',
             service_type: 'In clinic',
             duration:'1000',
+            subServices: [
+                {
+                    id: 758591122,
+                    checkbox: false,
+                    title: 'SubserviceName3',
+                    status: 'Online',
+                    duration: 5781,
+                }
+            ]
         },
         {
             service_id:'758597122',
@@ -76,6 +132,21 @@ export default function Services() {
             name:'Aluminum | Al (blood)',
             service_type: 'In clinic',
             duration:'1000',
+            subServices: [
+                {
+                    id: 758597121,
+                    checkbox: false,
+                    title: 'SubserviceName3',
+                    status: 'Online',
+                    duration: 5781,
+                },{
+                    id: 758597192,
+                    checkbox: false,
+                    title: 'SubserviceName2',
+                    status: 'Online',
+                    duration: 1281,
+                },
+            ]
         },
         {
             service_id: '758597122',
@@ -105,6 +176,18 @@ export default function Services() {
 
     return (
         <div className={styles.servicesContainer}>
+            {isEditModalOpen && 
+            <EditServiceModal 
+                onClose={()=>setEditModalOpen(false)}
+                onCancel={()=>setEditModalOpen(false)}
+            />}
+            {
+                isSubModalOpen &&
+                <AddSubserviceModal 
+                    onClose={()=> setSubModalOpen(false)}
+                    onCancel={()=> setSubModalOpen(false)}
+                />
+            }
             <div className={styles.pageHeader}>
                 <div className={styles.headerTitle}
                 >
@@ -133,7 +216,7 @@ export default function Services() {
                     <Select 
                         label="type"
                         labelStyle="outside"
-                        className={styles.servInput}
+                        className={classNames(styles.servInput, styles.servSelects)}
                         options={[
                             {
                                 label: "4140 Parker Rd. Allentown, New Mexico 31134",
@@ -176,7 +259,7 @@ export default function Services() {
                 </div>
 
                 <div className={styles.table}>                   
-                    <Table
+                    <TableServices
                         className={styles.table}
                         columns={offerColumns}
                         data={analysisData.filter((e)=> e.name.toLocaleLowerCase().includes(

@@ -73,7 +73,7 @@
         margin-left:20px;
     }
     .tableRow {
-        grid-template-columns: 16% 38% 16% 18% 6%!important;
+        grid-template-columns: 16% 38% 16% 12% 12% 5% !important;
         .time{
             text-align: center;
         }
@@ -98,6 +98,22 @@
             font-size:16px;
         }
     }
+}
+
+.serviceTitle {
+    display: flex;
+    align-items: center;
+    gap:20px;
+}
+
+.childServices {
+    display: flex;
+    align-items: center;
+    gap:5px;
+    color:#2751F2;
+    font-weight: 500;
+    font-size: 13px;
+    width: 10px;
 }
 
 .searchBar {
