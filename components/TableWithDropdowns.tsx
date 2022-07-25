@@ -180,12 +180,13 @@ export default function Table({
                                     )}>
                                     {
                                         columns?.map((item, i)=>{
+                                            let state = item.form !== 'array_boxes' && item.form !== 'review';
                                             if(item.dataIndex === 'hidden'){
                                                 return <>
                                                     <div className={styles.dropdownCol}>
                                                         <h2>{item.title}</h2>
                                                         {
-                                                            item.form == 'array_boxes' ? 
+                                                            item.form == 'array_boxes' && 
                                                             <div>
                                                             {
                                                                 record[item.key]?.map((e)=>{
@@ -193,9 +194,22 @@ export default function Table({
                                                                 })
                                                             }
                                                             </div>
-                                                            :
-                                                            <span>{record[item.key]}</span>
+                                                        }
 
+                                                        {
+                                                            item.form === 'review' && (
+                                                                <div className={styles.reviewBlock}>
+                                                                    <ReactSVG
+                                                                        src="/images/icons/table/star.svg"
+                                                                        className={styles.starBtn}
+                                                                    />
+                                                                    <span>{record[item.key]}</span>
+                                                                </div>
+                                                            )
+                                                        }
+                                                        
+                                                        {
+                                                            state && <span>{record[item.key]}</span>
                                                         }
                                                     </div>
                                                 </>
