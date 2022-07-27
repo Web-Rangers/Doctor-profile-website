@@ -1,0 +1,110 @@
+.cardBlock {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: #fff;
+    border: 1px solid #B3B1BB;
+    border-radius: 4px;
+    padding:30px;
+    margin-top:15px;
+    .aboutCard {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom:25px;
+        div {
+            margin-right:130px;
+            &:nth-child(3){
+                margin-right:0;
+            }
+            h2 {   
+                margin:0 0 10px;
+                font-size: 16px;
+                font-weight: 400;
+                color:#B3B1BB;
+            }
+            span {
+                font-size: 16px;
+                font-weight: 400;
+                color:#1C1A27;
+            }
+        }
+    }
+    .cardTitle {
+        margin:0 0 25px;
+    }
+    .editBtn{
+        position: absolute;
+        right:0;
+        margin-right:32px;
+        width: 20px;
+        cursor:pointer;
+    }
+    .cardImage {
+        margin-right:55px;
+    }
+    .cardBtns {
+        display: flex;
+        align-items: center;
+        .seeAllBtn {
+            margin-left:44px;
+            display: flex;
+            align-items: center;
+            span {
+                color:#2751F2;
+                font-weight: 500;
+                font-size: 18px;
+                cursor:pointer;
+            }
+            .arrowIcon {
+                margin-right:10px;
+                filter: invert(26%) sepia(51%) saturate(6772%) hue-rotate(227deg) brightness(97%) contrast(96%);
+            }
+            .rotateArrow {
+                transform: rotate(90deg);
+            }
+        }
+    }
+}
+
+.cardContainer{
+    margin-bottom:30px;
+}
+
+.cardDropdown {
+    display: none;
+}
+
+.activeDropdown {
+    display: block;
+    background:#fff;
+    box-shadow: 2px 6px 12px rgba(194, 193, 198, 0.45);
+    display: flex;
+    justify-content: space-between;
+    padding:42px 30px 27px;
+    margin-top:-15px;
+    div {
+        padding-right:20px;
+        h2 {
+            color: #B3B1BB;
+            font-weight: 500;
+            font-size: 17px;
+            margin: 0 0 10px;
+        }
+        span {
+            font-weight: 400;
+            font-size: 16px;
+        }
+    }
+}
+
+.addNewCard {
+    position: absolute;
+    top:20px;
+    right:30px;
+}
+
+.cards {
+    position: relative;
+    padding-top:33px;
+}

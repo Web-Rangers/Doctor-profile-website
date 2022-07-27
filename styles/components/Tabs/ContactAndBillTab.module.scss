@@ -1,0 +1,35 @@
+.cardColumns {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin:0 0 0;
+    .colCard {
+        width: 49%;
+        margin-bottom:25px;
+        height: auto;
+        .cardInfo {
+            margin-top: -15px;
+            div {
+                display: flex;
+                flex-direction: column;
+                margin-bottom:15px;
+                h2 {
+                    font-weight: 400;
+                    font-size: 16px;
+                    color: #B3B1BB;
+                    display: flex;
+                    align-items: center;
+                    margin-bottom:10px;
+                    span {
+                        display: block;
+                        width: 12px;
+                        height: 12px;
+                        margin-right:10px;
+                        border-radius:50%;
+                    }
+                }
+            }
+        }
+    }
+}

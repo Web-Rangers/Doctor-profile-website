@@ -1,0 +1,241 @@
+.stuffCard {
+    position: relative;
+}
+
+.table {
+    .tableHeader {
+        background-color: #F4F7FF!important;
+        padding:0 10px;
+    }
+    .tableBody{
+        margin-left:20px;
+        .columnOpen {
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    }
+    .tableRow {
+        grid-template-columns: 18% 13% 9% 11% 20% 14% 12% 3% !important;
+        .time{
+            text-align: center;
+        }
+        .tableRowTemplate {
+            background-color: red;
+        }
+        .tableCellTemplate{
+            padding:20px!important;
+        }
+        .tableActions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+    .tableRows {
+        display: flex;
+        justify-content: space-between;
+        h2 {
+            color: #B3B1BB;
+            font-weight: 200;
+            font-size:16px;
+        }
+    }
+}
+
+.group {
+    display: flex;
+    align-items: center;
+    div {
+        display: flex;
+        flex-direction: column;
+        span{
+            &:nth-child(2){
+                color:#838383;
+            }
+        }
+    }
+}
+
+.filterContainer {
+    -webkit-box-shadow: 0px 0px 28px 5px rgba(0, 0, 0, 0.09);
+    -moz-box-shadow: 0px 0px 28px 5px rgba(0, 0, 0, 0.09);
+    box-shadow: 0px 0px 28px 5px rgba(0, 0, 0, 0.09);
+    border-radius: 4px;
+    z-index: 100;
+    background-color: #fff;
+    padding: 30px;
+    position: absolute;
+    top: 180px;
+    right:15px;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    min-width: 765px;
+    gap: 20px;
+    &:after {
+        content: ' ';
+        width: 0;
+        height: 0;
+        position: absolute;
+        background-color: transparent;
+        border: 15px solid transparent;
+        border-bottom: 15px solid #fff;
+        top: -30px;
+        right: 33%;
+    }
+}
+
+.filterOpen {
+    display: block;
+}
+
+.filterSelectors{
+    .servInput {
+        width: 100%;
+        margin-bottom:30px;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: inherit;
+        align-items: center;
+        span {
+            width: 440px;
+        }
+    }
+    .selects {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom:30px;
+        h2 {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 21px;
+            letter-spacing: 0.04em;
+            text-align: left;
+            color: #312e45;
+            margin-top: 0;
+            margin-bottom: 17px;
+        }
+        div {
+            width: 460px;
+            display: flex;
+            gap:10px;
+        }
+        
+    }
+}
+
+.filterBtns {
+    display: flex;
+    justify-content: flex-end;
+    margin-top:35px;
+    padding-top:35px;
+    border-top:1px solid#B3B1BB;
+}
+
+.searchContainer {
+    height: 100%;
+    width: 395px;
+    background-color: #ffffff;
+    border: 1px solid #b3b1bb;
+    border-radius: 4px;
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    cursor: text;
+}
+
+.searchImg,
+.searchImg div {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.searchImg * {
+    fill: #312e45;
+}
+
+.searchInput {
+    border: none;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.searchInput:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.dropDwn {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    div {
+        width: 30%;
+        margin-bottom:25px;
+    }
+}
+
+.statusBtn {
+    position: relative;
+    padding:0 0 0 20px;
+    display: flex;
+    &:before {
+        content:'';
+        position: absolute;
+        left:0;
+        width: 12px;
+        height: 12px;
+        border-radius:50%;
+        top:50%;
+        transform: translateY(-50%);
+    }
+}
+
+.inprogress {
+    &:before {
+        background-color:#FFB224;
+    }
+}
+
+.done {
+    &:before {
+        background-color:#00A875;
+    }
+}
+
+.waiting {
+    &:before {
+        background-color:#2751F2;
+    }
+}
+
+.canceled {
+    &:before {
+        background-color: #FF3E6C;
+    }
+}
+
+.actionsRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    div{
+        display: flex;
+        gap:20px;
+    }
+}
+
+.arrow {
+    margin-right:15px;
+}
