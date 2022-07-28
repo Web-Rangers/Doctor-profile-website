@@ -70,7 +70,7 @@ export default function AddCompany(){
                 </div>
             </Card>
             <Card
-                cardTitle="Contacts"
+                cardTitle="Billing information"
                 className={styles.contacts}
             >
                 <Input
