@@ -4,7 +4,7 @@ import Breadcrumbs from 'nextjs-breadcrumbs';
 import {Card, Input, Button} from 'components';
 import styles from 'styles/pages/addCompany.module.scss';
 
-export default function AddCompany(){
+export default function EditCompany(){
     const [ltdName, setLtdName] = useState('Bob');
     const [displayName, setDisplayName] = useState('Jobs');
     const [taxId, setTaxId] = useState('123456');
@@ -21,7 +21,7 @@ export default function AddCompany(){
         <div className={styles.companyContainer}>
             <div className={styles.pageHeader}>
                 <div className={styles.headerTitle}>
-                    <h2>New company</h2>
+                    <h2>Edit</h2>
                 </div>
                 <div className={styles.headerBreadcrumbs}>
                     <Breadcrumbs
