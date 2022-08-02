@@ -1,6 +1,6 @@
 import styles from 'styles/components/modals/BranchModal.module.scss';
 import { useState } from 'react';
-import { Button, Input, Modal } from 'components';
+import { Button, Input, Modal, Select } from 'components';
 
 interface BranchData {
     phone?: string;
@@ -28,6 +28,7 @@ const BranchModal = ({
     const [address, setAddress] = useState(mode === 'edit' ? data.address : '');
     const [time, setTime] = useState(mode === 'edit' ? data.time : '');
     const [about, setAbout] = useState(mode === 'edit' ? data.about : '');
+    const [status, setStatus] = useState('open');
 
     return (
         <Modal onBackClick={onClose} className={styles.modal}>
@@ -38,22 +39,32 @@ const BranchModal = ({
                         type="text"
                         label="Phone number"
                         value={phone}
-                        onChange={(value) => setPhone(value)}
+                        onChange={(value) => setPhone(value.toString())}
                     />
-                    <Input type="select" label="Status" value="Open" />
+                    <Select
+                        label="Status"
+                        options={[
+                            { value: 'open', label: 'Open' },
+                            { value: 'close', label: 'Close' },
+                        ]}
+                        onChange={(value) => {
+                            setStatus(value);
+                        }}
+                        value={status}
+                    />
                 </div>
                 <div className={styles.modalContentRow}>
                     <Input
                         type="text"
                         label="Address"
                         value={address}
-                        onChange={(value) => setAddress(value)}
+                        onChange={(value) => setAddress(value.toString())}
                     />
                     <Input
                         type="time"
                         label="Working hours"
                         value={time}
-                        onChange={(value) => setTime(value)}
+                        onChange={(value) => setTime(value.toString())}
                     />
                 </div>
                 <div className={styles.modalContentRow}>
@@ -62,7 +73,7 @@ const BranchModal = ({
                         label="About clinic"
                         multiline
                         value={about}
-                        onChange={(value) => setAbout(value)}
+                        onChange={(value) => setAbout(value.toString())}
                     />
                 </div>
             </div>

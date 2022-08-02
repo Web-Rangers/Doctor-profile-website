@@ -78,7 +78,7 @@ export default function DoctorEducationTab({
         <Table
           columns={certificatesColumns}
           data={certificates}
-          pagination={false}
+          pagination={null}
           rowClassName={styles.tableRow}
           cellClassName={styles.tableCell}
           headerClassName={styles.tableHeader}
