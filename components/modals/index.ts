@@ -10,3 +10,4 @@ export { default as MessageModal } from './MessageModal.js';
 export { default as EditOrderModal } from './EditOrderModal.js';
 export { default as EditServiceModal } from './EditServiceModal.js';
 export { default as AddSubserviceModal } from './AddSubserviceModal.js';
+export { default as AddCardModal } from './AddCardModal.js';
