@@ -189,7 +189,9 @@ export default function Table({
                                                             record[item.key]?.map((obj, index)=>{
                                                                 return <>
                                                                     <div className={styles.subService}>
-                                                                        <CheckBox id={obj.id} />
+                                                                        <span className={styles.subCheckbox}>
+                                                                            <CheckBox id={obj.id} />
+                                                                        </span>
                                                                         <span>{obj.id}</span>
                                                                         <span>{obj.title}</span>
                                                                         <span>{obj.status}</span>
@@ -281,7 +283,6 @@ const TableRow = ({
     cellClassName,
     dropDown
 }: TableRowProps) => {
-    console.log(record)
     return (
         <div
             className={classNames(
@@ -307,20 +308,26 @@ const TableRow = ({
                         >
                             {index === 0 && record.subServices ?
                                 <>
-                                <ReactSVG
-                                    className={styles.arrow}
-                                    src={"/images/icons/table/arrow.svg"}
-                                />
-                                <span>{record[dataIndex]} </span>
+                                <div className={styles.checkB}>
+                                    <ReactSVG
+                                        className={styles.arrow}
+                                        src={"/images/icons/table/arrow.svg"}
+                                    />
+                                    <CheckBox id={record[dataIndex]} />
+                                </div>
                                 </>
                                 :
-                                index === 0 && !record.subServices ? 
+                                index === 0 &&
+                                <div className={styles.checkB}>
+                                    <div></div>
+                                    <CheckBox id={record[dataIndex]} />
+                                </div>
+                            }
+
+                            {                                                   
+                                index !== 0 &&
                                 <>
                                     <span className={styles.subValue}>{record[dataIndex]}</span>
-                                </> 
-                                : 
-                                <>
-                                    <span>{record[dataIndex]}</span>
                                 </> 
                             }
                         </div>

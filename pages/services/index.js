@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import SideBarLayout from 'layouts/SideBarLayout';
 import Breadcrumbs from 'nextjs-breadcrumbs';
-import {  Card, Input, Select, Tags, Button, TableServices, EditServiceModal, AddSubserviceModal  } from 'components';
+import {  Card, Input, Select, Tags, Button, TableServices, EditServiceModal, AddSubserviceModal, CheckBox  } from 'components';
 import TableStyles from 'styles/components/TableWithDropdown.module.scss';
 import styles from 'styles/pages/services.module.scss';
 import { ReactSVG } from "react-svg";
@@ -15,6 +15,11 @@ export default function Services() {
     const [isSubModalOpen, setSubModalOpen] = useState(false);
 
     const offerColumns = [
+        {
+            key: 'check_box',
+            title: '',
+            dataIndex: 'check_box',
+        },
         {
             key: 'service_id',
             title: 'Service Id',
@@ -80,8 +85,9 @@ export default function Services() {
 
     const analysisData = [
         {
+            check_box: '758597122',
             service_id: '758597122',
-            name:'Anti-smooth muscle antibodies (ASMA)',
+            name:'ServiceName1',
             service_type: 'In clinic',
             duration:'1000',
             subServices: [
@@ -101,8 +107,9 @@ export default function Services() {
         ]
         },
         {
+            check_box: '758597232',
             service_id: '758597122',
-            name:'Anti-Factor X | Activity',
+            name:'ServiceName2',
             service_type: 'In clinic',
             duration:'1000',
             subServices: [
@@ -116,20 +123,23 @@ export default function Services() {
             ]
         },
         {
+            check_box: '758594122',
             service_id:'758597122',
-            name:'Group B streptococcal screening',
+            name:'ServiceName3',
             service_type: 'In clinic',
             duration:'1000',
         },
         {
+            check_box: '758517122',
             service_id: '758597122',
-            name:'Adenovirus | Antibodies',
+            name:'ServiceName4',
             service_type: 'In clinic',
             duration:'1000',
         },
         {
+            check_box: '758591122',
             service_id: '758597122',
-            name:'Aluminum | Al (blood)',
+            name:'ServiceName5',
             service_type: 'In clinic',
             duration:'1000',
             subServices: [
@@ -149,26 +159,30 @@ export default function Services() {
             ]
         },
         {
+            check_box: '708597122',
             service_id: '758597122',
-            name:'Anti-U1RNP antibodies',
+            name:'ServiceName6',
             service_type: 'In clinic',
             duration:'1000',
         },
         {
+            check_box: '758547122',
             service_id: '758597122',
-            name:'Anti-U1RNP antibodies',
+            name:'ServiceName7',
             service_type: 'In clinic',
             duration:'1000',
         },
         {
+            check_box: '723597122',
             service_id: '758597122',
-            name:'Anti-U1RNP antibodies',
+            name:'ServiceName8',
             service_type: 'In clinic',
             duration:'1000',
         },
         {
+            check_box: '258597122',
             service_id: '758597122',
-            name:'Anti-U1RNP antibodies',
+            name:'ServiceName8',
             service_type: 'In clinic',
             duration:'1000',
         }
@@ -207,12 +221,39 @@ export default function Services() {
                     <h2>Add a service</h2>
                 </div>
                 <div className={styles.serviceInputsForm}>
-                    <Input 
-                        name="name"
-                        id="name"
-                        label="Name" 
-                        className={styles.servInput}
-                    />
+                    <div className={styles.inputWithFlags}>
+                        <ReactSVG
+                            className={styles.flag}
+                            src="../images/icons/flags/GB.svg"
+                        />
+                        <Input 
+                            className={styles.flagInput}
+                            label='Services name in English'
+                            placeholder='Enter name...'
+                        />
+                    </div>
+                    <div className={styles.inputWithFlags}>
+                        <ReactSVG
+                            className={styles.flag}
+                            src="../images/icons/flags/RU.svg"
+                        />
+                        <Input 
+                            className={styles.flagInput}
+                            label='Services name in Russian'
+                            placeholder='Введите название...'
+                        />
+                    </div>
+                    <div className={styles.inputWithFlags}>
+                        <ReactSVG
+                            className={styles.flag}
+                            src="../images/icons/flags/GE.svg"
+                        />
+                        <Input 
+                            className={styles.flagInput}
+                            label='Services name in Georgian'
+                            placeholder='შეიყვანეთ სათაური...'
+                        />
+                    </div>
                     <Select 
                         label="type"
                         labelStyle="outside"
@@ -232,7 +273,7 @@ export default function Services() {
                     <Tags 
                         tags={tags}
                         setTags={setTags}
-                        className={styles.servInput}
+                        className={classNames(styles.servInput, styles.tagInput)}
                         labelLayout='outside'
                         label='Tags'
                     />

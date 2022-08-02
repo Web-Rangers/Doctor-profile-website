@@ -36,7 +36,7 @@ export default function Select({
 
   return (
     <div className={classNames(styles.container, className)}>
-      {labelStyle === "outside" && <div className={styles.label}>{label}</div>}
+      {labelStyle === "outside" && <div className={styles.label}><span>{label}</span></div>}
       <div className={classNames(styles.select)}>
         <div
           className={styles.body}

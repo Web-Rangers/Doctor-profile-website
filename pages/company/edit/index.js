@@ -129,6 +129,6 @@ export default function EditCompany(){
     </>
 }
 
-AddCompany.getLayout = (page) => {
+EditCompany.getLayout = (page) => {
     return <SideBarLayout>{page}</SideBarLayout>
 }
