@@ -1,5 +1,5 @@
 import styles from "styles/components/tabs/AboutDoctorTab.module.scss";
-import { Card, Button, Modal, Input, Select } from "components";
+import { Card, Button, Modal, Input, Select, DatePicker } from "components";
 import { ReactSVG } from "react-svg";
 import { useState } from "react";
 
@@ -37,6 +37,7 @@ export default function AboutDoctorTab({ doctor = {} }: AboutDoctorTabProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [gender, setGender] = useState<string>("");
   const [clinic, setClinic] = useState<string>("");
+  const [birthDate, setBirthDate] = useState("");
   return (
     <>
       {isEditing && (
@@ -66,7 +67,7 @@ export default function AboutDoctorTab({ doctor = {} }: AboutDoctorTabProps) {
                   <Input label="Branch" />
                 </div>
                 <div className={styles.editColumn}>
-                  <Input label="Date of birth" type="date" />
+                  <DatePicker label="Date of birth" mode="single"/>
                   <Select
                     label="Gender"
                     labelStyle="outside"
