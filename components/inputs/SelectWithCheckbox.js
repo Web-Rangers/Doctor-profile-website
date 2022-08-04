@@ -9,7 +9,10 @@ export default function SelectWithCheckbox({
     label, 
     labelStyle, 
     className, 
-    values, 
+    values,
+    searchForm, 
+    checkboxBodyStyle,
+    checkboxChilds = null,
     changeValue}) {
     const [isOpen, setIsOpen] = useState(false);
     const [optionData, setOptionData] = useState([]);
@@ -65,9 +68,10 @@ export default function SelectWithCheckbox({
                     </div>
                 </div>
                 <div 
-                    className={classNames(styles.wrapper, styles.searchBox, { [styles.active]: isOpen })}
+                    className={classNames(styles.wrapper, styles.searchBox, checkboxBodyStyle, { [styles.active]: isOpen })}
                 >
                     <div className={styles.checkBoxForm}>
+                        {searchForm && 
                         <Input 
                             className={styles.search_box}
                             label="search"
@@ -76,8 +80,10 @@ export default function SelectWithCheckbox({
                             onChange={(value)=> setSearch(value)}
                             placeholder='Search'
                         />
-                        <div className={styles.checkBoxes}>
+                        }
+                        <div className={classNames(styles.checkBoxes, checkboxBodyStyle)}>
                             {
+                                searchForm ? 
                                 optionData?.filter((item)=> item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
                                             .map((opt)=>{
                                                 return <>
@@ -94,6 +100,37 @@ export default function SelectWithCheckbox({
                                                     </div>
                                                 </>
                                             })
+
+                                :
+                                optionData?.map((opt)=>{
+                                    return <>
+                                        <div className={classNames(styles.checkbox, styles.singleCheckbox)}>
+                                            <CheckBox 
+                                                type='checkbox'
+                                                id={opt.id}
+                                                value={opt.name}
+                                                checked={opt.checked}
+                                                defaultValue={opt.checked}
+                                                onChange={()=> handleChange(opt.id, !opt.checked, opt.name)}
+                                            />
+                                            <label htmlFor={opt.id}>{opt.name}</label>
+                                        </div>
+                                        {
+                                            checkboxChilds?.filter(x=> x.parentId === opt.id).map((e)=>{
+                                                return <>
+                                                    <div className={styles.childCheckbox}>
+                                                        <CheckBox 
+                                                            type='checkbox'
+                                                            id={e.id}
+                                                            value={e.title}
+                                                        />
+                                                        <label htmlFor={e.id}>{e.title}</label>
+                                                    </div>
+                                                </>
+                                            })
+                                        }
+                                    </>
+                                })
                             }
                         </div>
                     </div>

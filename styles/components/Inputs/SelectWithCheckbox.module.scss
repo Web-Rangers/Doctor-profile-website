@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-bottom:25px;
 }
 
 .label {
@@ -200,4 +201,15 @@
 
 .active {
   max-height: 600px!important;
+}
+
+.childCheckbox {
+  margin-left:35px;
+  display: flex;
+  align-items: center;
+  margin-bottom:20px;
+}
+
+.singleCheckbox {
+  width: 100%!important;
 }

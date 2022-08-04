@@ -114,6 +114,8 @@ export default function AddOffer() {
                     options={doctorsData}
                     className={styles.defaultInput}
                     values={checkedDoctors}
+                    searchForm={true}
+                    checkboxBodyStyle={styles.checkboxBody}
                     changeValue={(value)=> setCheckedDoctors(value)}
                 />
                 <Input
