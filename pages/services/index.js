@@ -311,6 +311,7 @@ export default function Services() {
                         headerClassName={styles.tableHeader}
                         bodyClassName={styles.tableBody}
                         pagination={{ pageSize: 8, initialPage: 1 }}
+                        detailedUrl={'/services/services_detailed'}
                     />
                 </div>
             </Card>

@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { ReactSVG } from 'react-svg';
 import classNames from 'classnames';
 import { CheckBox, Button } from 'components';
-
+import Link from 'next/link';
 
 interface ColumnDefinition {
     key: string;
@@ -32,6 +32,7 @@ interface TableProps {
     bodyClassName?: string;
     dropdownClassname: string;
     dropDown: any;
+    detailedUrl: string;
 }
 
 export default function Table({
@@ -43,7 +44,8 @@ export default function Table({
     headerClassName,
     bodyClassName,
     className,
-    dropdownClassname = ''
+    dropdownClassname = '',
+    detailedUrl='',
 }: TableProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const [diplayedData, setDisplayedData] = useState([]);
@@ -172,6 +174,7 @@ export default function Table({
                                     rowClassName={rowClassName}
                                     cellClassName={cellClassName}
                                     dropDown={()=> dropdownFunc(index)}
+                                    detailedUrl={detailedUrl}
                                 />
                                 <div className={classNames(styles.dropdown, dropdownClassname,
                                     {
@@ -274,6 +277,7 @@ interface TableRowProps {
     rowClassName?: string;
     cellClassName?: string;
     dropDown:any;
+    detailedUrl: string;
 }
 
 const TableRow = ({
@@ -281,7 +285,8 @@ const TableRow = ({
     columnsDefinition,
     rowClassName,
     cellClassName,
-    dropDown
+    dropDown,
+    detailedUrl
 }: TableRowProps) => {
     return (
         <div
@@ -290,7 +295,6 @@ const TableRow = ({
                 styles.tableRowTemplate,
                 rowClassName
             )}
-            onClick={()=> record.subServices && dropDown()}
         >
             {columnsDefinition.map(
                 ({ dataIndex, render, cellStyle }, index) => {
@@ -308,7 +312,8 @@ const TableRow = ({
                         >
                             {index === 0 && record.subServices ?
                                 <>
-                                <div className={styles.checkB}>
+                                <div className={styles.checkB} onClick={()=> record.subServices && dropDown()}>
+
                                     <ReactSVG
                                         className={styles.arrow}
                                         src={"/images/icons/table/arrow.svg"}
@@ -327,7 +332,9 @@ const TableRow = ({
                             {                                                   
                                 index !== 0 &&
                                 <>
-                                    <span className={styles.subValue}>{record[dataIndex]}</span>
+                                    <Link href={detailedUrl}>
+                                        <span className={styles.subValue}>{record[dataIndex]}</span>
+                                    </Link>
                                 </> 
                             }
                         </div>

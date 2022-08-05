@@ -14,6 +14,7 @@ import tableStyles from 'styles/components/Table.module.scss';
 import classNames from 'classnames';
 import { useState } from 'react';
 import Breadcrumbs from 'nextjs-breadcrumbs';
+import Link from 'next/link'
 
 export default function Users() {
     const [min, setMin] = useState(0);
@@ -274,12 +275,14 @@ export default function Users() {
             <div className={styles.pageHeader}>
                 <div className={styles.headerLeft}>
                     <h3>Users</h3>
-                    <Button
-                        className={styles.addUser}
-                        variant="fill"
-                        size="large"
-                        label="Add user"
-                    />
+                    <Link href="users/add">
+                        <Button
+                            className={styles.addUser}
+                            variant="fill"
+                            size="large"
+                            label="Add user"
+                        />
+                    </Link>
                 </div>
                 <div className={styles.headerRight}>
                     <Breadcrumbs

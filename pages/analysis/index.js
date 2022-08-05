@@ -131,6 +131,7 @@ export default function Analysis() {
                         headerClassName={styles.tableHeader}
                         bodyClassName={styles.tableBody}
                         pagination={{ pageSize: 8, initialPage: 1 }}
+                        detailedUrl={'/analysis/analysis_detailed'}
                     />
                 </div>
             </Card>
