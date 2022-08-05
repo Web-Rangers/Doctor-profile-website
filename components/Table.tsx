@@ -4,6 +4,7 @@ import Select from 'react-select';
 import { ReactSVG } from 'react-svg';
 import classNames from 'classnames';
 import { Button } from 'components';
+import Link from 'next/link';
 
 interface ColumnDefinition {
     key: string;
@@ -28,6 +29,7 @@ interface TableProps {
     cellClassName?: string;
     headerClassName?: string;
     bodyClassName?: string;
+    detailedUrl: string;
 }
 
 export default function Table({
@@ -39,6 +41,7 @@ export default function Table({
     headerClassName,
     bodyClassName,
     className,
+    detailedUrl=''
 }: TableProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const [diplayedData, setDisplayedData] = useState([]);
@@ -137,6 +140,7 @@ export default function Table({
                         key={`table-row-${index}`}
                         rowClassName={rowClassName}
                         cellClassName={cellClassName}
+                        detailedUrl={detailedUrl} 
                     />
                 ))}
             </div>
@@ -196,6 +200,7 @@ interface TableRowProps {
     record: any;
     rowClassName?: string;
     cellClassName?: string;
+    detailedUrl: string;
 }
 
 const TableRow = ({
@@ -203,6 +208,7 @@ const TableRow = ({
     columnsDefinition,
     rowClassName,
     cellClassName,
+    detailedUrl
 }: TableRowProps) => {
     return (
         <div
@@ -214,20 +220,44 @@ const TableRow = ({
         >
             {columnsDefinition.map(
                 ({ dataIndex, render, cellStyle }, index) => {
-                    if (render)
-                        return render(
-                            record[dataIndex],
-                            `data-${record.key}-${index}`
-                        );
-                    return (
-                        <div
-                            className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
-                            key={`data-${record.key}-${index}`}
-                            style={cellStyle ? cellStyle : null}
-                        >
-                            {record[dataIndex]}
-                        </div>
-                    );
+                    if (render){
+                        return <>
+                            {
+                                index !== columnsDefinition.length - 1 ? 
+                                <Link href={detailedUrl}>
+                                    {render(
+                                        record[dataIndex],
+                                        `data-${record.key}-${index}`
+                                    )}
+                                </Link> :  render(
+                                        record[dataIndex],
+                                        `data-${record.key}-${index}`
+                                    )
+                            }
+                            </>
+                    }
+                    return <>
+                        {
+                            index !== columnsDefinition.length + 1 ? 
+                            (
+                                <Link href={detailedUrl}>
+                                    <div
+                                        className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
+                                        key={`data-${record.key}-${index}`}
+                                        style={cellStyle ? cellStyle : null}
+                                    >
+                                        {record[dataIndex]}
+                                    </div>
+                                </Link>
+                                ) : <div
+                                    className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
+                                    key={`data-${record.key}-${index}`}
+                                    style={cellStyle ? cellStyle : null}
+                                >
+                                    {record[dataIndex]}
+                                </div>
+                        }
+                    </>
                 }
             )}
         </div>

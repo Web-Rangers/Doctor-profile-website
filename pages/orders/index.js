@@ -551,6 +551,7 @@ export default function Orders() {
                         bodyClassName={styles.tableBody}
                         pagination={{ pageSize: 10, initialPage: 1 }}
                         dropdownClassname={styles.dropDwn}
+                        detailedUrl="./orders/orders_detailed"
                     />
                 </Card>
             </div>

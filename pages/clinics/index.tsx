@@ -232,6 +232,7 @@ export default function Clinics() {
                     columns={columns}
                     data={data}
                     pagination={{ pageSize: 10, initialPage: 1 }}
+                    detailedUrl={'./clinics/clinic_detailed'}
                 />
             </div>
         </>

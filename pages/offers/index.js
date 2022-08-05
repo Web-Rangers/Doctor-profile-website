@@ -1,11 +1,12 @@
 import {useState} from 'react';
 import SideBarLayout from 'layouts/SideBarLayout';
 import Breadcrumbs from 'nextjs-breadcrumbs';
-import TableStyles from 'styles/components/TableWithDropdown.module.scss';
+import TableStyles from 'styles/components/TableWithSort.module.scss';
 import styles from 'styles/pages/offers.module.scss';
 import { ReactSVG } from "react-svg";
 import {  Card, TableWithSort, Input, Button, DatePicker, Select } from 'components';
 import classNames from 'classnames'; 
+import Link from 'next/link'
 
 export default function Offers (){
     const [searchValue, setSearchValue] = useState('')
@@ -23,7 +24,7 @@ export default function Offers (){
             render: (record, key) => {
               return (
                     <div className={styles.tableGroup}>
-                        <ReactSVG src={"/images/icons/table/arrow.svg"} className={classNames(styles.arrowIcon, TableStyles.arrow)}/>
+                        <ReactSVG src={"/images/icons/table/arrow.svg"} className={classNames(styles.arrow, TableStyles.arrow)}/>
                         <span>{record}</span>
                     </div>
                 );
@@ -82,10 +83,12 @@ export default function Offers (){
               return (
                     <>
                         <div class={styles.tableActions}>
-                            <ReactSVG 
-                                src={"/images/icons/table/edit.svg"} 
-                                className={styles.iconContainer}
-                            />
+                            <Link href="offers/edit">
+                                <ReactSVG 
+                                    src={"/images/icons/table/edit.svg"} 
+                                    className={styles.iconContainer}
+                                />
+                            </Link>
                             <ReactSVG 
                                 src={"/images/icons/table/delete.svg"} 
                                 className={styles.iconContainer}
@@ -503,11 +506,15 @@ export default function Offers (){
                         </div>
                     </div>
                     <div>
-                        <Button 
-                            label="Add an offer" 
-                            size="large" 
-                            variant="fill"
-                        />
+                        <Link href="offers/add">
+                            <a>
+                                <Button 
+                                    label="Add an offer" 
+                                    size="large" 
+                                    variant="fill"
+                                />
+                            </a>
+                        </Link>
                     </div>
                 </div>
 
@@ -523,6 +530,7 @@ export default function Offers (){
                         bodyClassName={styles.tableBody}
                         pagination={{ pageSize: 8, initialPage: 1 }}
                         dropdownClassname={styles.dropDown}
+                        detailedUrl={'/offers/offers_detailed'}
                     />
 
             </Card>

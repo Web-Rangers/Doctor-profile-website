@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { ReactSVG } from 'react-svg';
 import classNames from 'classnames';
 import { Button } from 'components';
-
+import Link from 'next/link';
 
 interface ColumnDefinition {
     key: string;
@@ -31,6 +31,7 @@ interface TableProps {
     headerClassName?: string;
     bodyClassName?: string;
     dropdownClassname: string;
+    detailedUrl: string;
 }
 
 export default function Table({
@@ -42,7 +43,8 @@ export default function Table({
     headerClassName,
     bodyClassName,
     className,
-    dropdownClassname = ''
+    dropdownClassname = '',
+    detailedUrl=''
 }: TableProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const [diplayedData, setDisplayedData] = useState([]);
@@ -194,20 +196,25 @@ export default function Table({
                                 className={classNames(styles.column, {
                                     [styles.columnOpen]: dropdown[index].dropdown,
                                 })} 
-                                onClick={()=> dropdownFunc(index)}>
-                                <TableRow
-                                    columnsDefinition={columns}
-                                    record={record}
-                                    key={`table-row-${index}`}
-                                    rowClassName={rowClassName}
-                                    cellClassName={cellClassName}
-                                />
+                            >
+                                <div>
+                                    <TableRow
+                                        columnsDefinition={columns}
+                                        record={record}
+                                        key={`table-row-${index}`}
+                                        rowClassName={rowClassName}
+                                        cellClassName={cellClassName}
+                                        dropDown={()=> dropdownFunc(index)}
+                                        detailedUrl={detailedUrl}
+                                    />
+                                </div>
                                 <div className={classNames(styles.dropdown, dropdownClassname,
                                     {
                                         [styles.statusOpen]: dropdown[index].dropdown,
                                         [styles.statusClosed]: !dropdown[index].dropdown,
                                       }
-                                    )}>
+                                    )}
+                                    >
                                     {
                                         columns?.map((item, i)=>{
                                             if(item.dataIndex === 'hidden'){
@@ -283,6 +290,8 @@ interface TableRowProps {
     record: any;
     rowClassName?: string;
     cellClassName?: string;
+    dropDown: any;
+    detailedUrl: string;
 }
 
 const TableRow = ({
@@ -290,6 +299,8 @@ const TableRow = ({
     columnsDefinition,
     rowClassName,
     cellClassName,
+    dropDown,
+    detailedUrl
 }: TableRowProps) => {
     return (
         <div
@@ -301,21 +312,58 @@ const TableRow = ({
         >
             {columnsDefinition.map(
                 ({ dataIndex, render, cellStyle }, index) => {
-                    if (render)
-                        return render(
-                            record[dataIndex],
-                            `data-${record.key}-${index}`,
-                        );
+                    let colLenght = columnsDefinition.filter(e=>e.dataIndex !=='hidden').length;
+                    if (render){
+                        return <>
+                        {
+                            index === 0 ? 
+                            <div onClick={()=> dropDown()}>
+                                {
+                                    render(
+                                        record[dataIndex],
+                                        `data-${record.key}-${index}`,
+                                    )
+                                }
+                            </div> 
+                            :
+                            (index !== colLenght - 1) ?  
+                            <Link href={detailedUrl}>
+                                {render(
+                                    record[dataIndex],
+                                    `data-${record.key}-${index}`,
+                                )}
+                            </Link> : 
+                                render(
+                                    record[dataIndex],
+                                    `data-${record.key}-${index}`,
+                                )
+                        }
+                        </>
+                    }
                     if(dataIndex !== 'hidden') {
-                        return (
-                            <div
-                                className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
-                                key={`data-${record.key}-${index}`}
-                                style={cellStyle ? cellStyle : null}
-                            >
-                                {record[dataIndex]}
-                            </div>
-                        );
+                        return <>
+                            {
+                                index === 0 ? 
+                                <div
+                                    className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
+                                    key={`data-${record.key}-${index}`}
+                                    style={cellStyle ? cellStyle : null}
+                                    onClick={()=> dropDown()}
+                                >
+                                    {record[dataIndex]}
+                                </div>
+                                :
+                                <Link href={detailedUrl}>
+                                    <div
+                                        className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
+                                        key={`data-${record.key}-${index}`}
+                                        style={cellStyle ? cellStyle : null}
+                                    >
+                                        {record[dataIndex]}
+                                    </div>
+                                </Link>
+                            }
+                        </>
                     }
                 }
             )}
