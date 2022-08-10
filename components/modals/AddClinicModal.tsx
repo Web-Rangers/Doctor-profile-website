@@ -2,6 +2,7 @@ import styles from '/styles/components/modals/ClinicModal.module.scss';
 import { Input, Button, Modal } from 'components';
 import { useState } from 'react';
 import classNames from 'classnames';
+import axios from 'axios';
 
 interface ClinicData {
     name?: string;
@@ -29,6 +30,37 @@ export default function AddClinicModal({
     const [address, setAddress] = useState('');
     const [time, setTime] = useState('');
     const [about, setAbout] = useState('');
+    const [startHours, setStartHours] = useState('');
+    const [endHours, setEndHours] = useState('');
+
+    let img = {
+        lastModified: 1656921762941,
+        lastModifiedDate: `Mon Jul 04 2022 12:02:42 GMT+0400 (Georgia Standard Time)`,
+        name: "user.png",
+        size: 30662,
+        type: "image/png",
+        webkitRelativePath: ""
+    };
+
+    const addClinic = async() => {
+        try {            
+            return axios.post("https://asclepius.pirveli.ge/v1/api/clinics/", {
+                "displayName": name,
+                "days": 1,
+                "startHours": startHours,
+                "endHours": endHours,
+                "address": address,
+                "logoBody": `${img}`,
+                "description": about
+            }, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              })        
+          } catch (err) {
+            console.log(err);
+          }
+    }
 
     return (
         <Modal onBackClick={onClose} className={styles.modal}>
@@ -62,6 +94,20 @@ export default function AddClinicModal({
                 </div>
                 <div className={styles.modalContentRow}>
                     <Input
+                        type="time"
+                        label="Start hours"
+                        value={startHours}
+                        onChange={(value: string) => setStartHours(value)}
+                    />
+                    <Input
+                        type="time"
+                        label="End hours"
+                        value={endHours}
+                        onChange={(value: string) => setEndHours(value)}
+                    />
+                </div>
+                <div className={styles.modalContentRow}>
+                    <Input
                         type="text"
                         label="Address"
                         value={address}
@@ -89,13 +135,20 @@ export default function AddClinicModal({
                 <Button
                     label="Add"
                     variant="fill"
-                    onClick={() =>
-                        onSave?.call(null, {
-                            phone,
-                            address,
-                            time,
-                            about,
-                        })
+                    onClick={() =>{
+                        
+                            {name && address && startHours && endHours ? 
+                            addClinic()
+                                .then((response)=>console.log(response))
+                                .then(()=>{
+                                    onSave?.call(null, {
+                                        phone,
+                                        address,
+                                        time,
+                                        about,
+                                    })
+                                }): alert('Fields are not filled')}
+                    }
                     }
                     size="large"
                 />
