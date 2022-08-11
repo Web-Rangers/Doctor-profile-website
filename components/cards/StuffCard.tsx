@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import styles from 'styles/components/cards/StuffCard.module.scss';
+import styles from 'styles/components/Cards/StuffCard.module.scss';
 import StarRatings from 'react-star-ratings';
 import { ReactSVG } from 'react-svg';
 import { useState } from 'react';

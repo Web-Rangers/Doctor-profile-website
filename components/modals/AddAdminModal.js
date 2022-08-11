@@ -1,4 +1,4 @@
-import styles from '/styles/components/modals/AdminModal.module.scss';
+import styles from '/styles/components/Modals/AdminModal.module.scss';
 import { Input, Button, Modal, Select } from 'components';
 import { useState } from 'react';
 import classNames from 'classnames';
@@ -19,27 +19,27 @@ export default function AddAdminModal({
                     <h2>New admin</h2>
                 </div>
                 <div className={styles.modalInputs}>
-                    <Input 
-                        label="Name" 
-                        className={styles.modalInput} 
-                        placeholder='Enter name...' 
+                    <Input
+                        label="Name"
+                        className={styles.modalInput}
+                        placeholder='Enter name...'
                     />
-                    <Input 
-                        label="Surname" 
-                        className={styles.modalInput} 
-                        placeholder='Enter surname...' 
+                    <Input
+                        label="Surname"
+                        className={styles.modalInput}
+                        placeholder='Enter surname...'
                     />
-                    <Input 
-                        label="Username" 
-                        className={styles.modalInput} 
-                        placeholder='Enter username...' 
+                    <Input
+                        label="Username"
+                        className={styles.modalInput}
+                        placeholder='Enter username...'
                     />
-                    <Input 
-                        label="Email" 
-                        className={styles.modalInput} 
-                        placeholder='Enter email...' 
+                    <Input
+                        label="Email"
+                        className={styles.modalInput}
+                        placeholder='Enter email...'
                     />
-                    <Select 
+                    <Select
                         label="Status"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -49,16 +49,16 @@ export default function AddAdminModal({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                         onChange={(value) => {
                             setStatusOption(value);
                         }}
                         value={statusOption}
                     />
                     {
-                        statusOption !== '' && 
+                        statusOption !== '' &&
                         <>
-                            <Select 
+                            <Select
                                 label="Clinic"
                                 labelStyle="outside"
                                 className={styles.modalInput}
@@ -68,7 +68,7 @@ export default function AddAdminModal({
                                         value: "1",
                                     },
                                     { label: "clinic 2", value: "2" },
-                                    ]}
+                                ]}
                                 onChange={(value) => {
                                     setClinic(value);
                                 }}
@@ -77,9 +77,9 @@ export default function AddAdminModal({
                         </>
                     }
                     {
-                        clinic !== '' && 
+                        clinic !== '' &&
                         <>
-                            <Select 
+                            <Select
                                 label="Branch"
                                 labelStyle="outside"
                                 className={styles.modalInput}
@@ -89,7 +89,7 @@ export default function AddAdminModal({
                                         value: "1",
                                     },
                                     { label: "branch 2", value: "2" },
-                                    ]}
+                                ]}
                                 onChange={(value) => {
                                     setBranch(value);
                                 }}
@@ -97,11 +97,11 @@ export default function AddAdminModal({
                             />
                         </>
                     }
-                    <Button 
-                        label="Add admin" 
-                        size="large" 
-                        variant="fill" 
-                        className={styles.modalInput} 
+                    <Button
+                        label="Add admin"
+                        size="large"
+                        variant="fill"
+                        className={styles.modalInput}
                     />
                 </div>
             </div>

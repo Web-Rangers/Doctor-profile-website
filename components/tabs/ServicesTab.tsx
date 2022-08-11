@@ -1,4 +1,4 @@
-import styles from 'styles/components/tabs/SerivcesTab.module.scss';
+import styles from 'styles/components/Tabs/SerivcesTab.module.scss';
 import { Card, Button, CheckBox } from 'components';
 import { useState } from 'react';
 

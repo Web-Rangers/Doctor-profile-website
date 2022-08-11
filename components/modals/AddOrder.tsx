@@ -1,4 +1,4 @@
-import styles from 'styles/components/modals/AddOrder.module.scss';
+import styles from 'styles/components/Modals/AddOrder.module.scss';
 import { Button, DatePicker, Input, Modal, Select } from 'components';
 import { useState } from 'react';
 
@@ -39,13 +39,13 @@ export default function AddOrder({
                         <Select
                             label="Branch"
                             labelStyle="outside"
-                            onChange={() => {}}
+                            onChange={() => { }}
                             options={[]}
                         />
                         <Select
                             label="Clinic"
                             labelStyle="outside"
-                            onChange={() => {}}
+                            onChange={() => { }}
                             options={[]}
                         />
                     </div>
@@ -53,7 +53,7 @@ export default function AddOrder({
                         <Select
                             label="Doctor"
                             labelStyle="outside"
-                            onChange={() => {}}
+                            onChange={() => { }}
                             options={[]}
                         />
                         <DatePicker label="Calendar" mode="single" />
@@ -66,8 +66,8 @@ export default function AddOrder({
                         step == 'first'
                             ? () => setStep('second')
                             : () => {
-                                  onAccept?.call(null);
-                              }
+                                onAccept?.call(null);
+                            }
                     }
                     variant="outline"
                     label={step == 'first' ? 'Next' : 'Save'}

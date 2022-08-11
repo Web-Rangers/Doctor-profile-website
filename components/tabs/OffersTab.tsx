@@ -1,11 +1,11 @@
-import styles from 'styles/components/tabs/OffersTab.module.scss';
+import styles from 'styles/components/Tabs/OffersTab.module.scss';
 import { Card, Button, OfferCard } from 'components';
 
 interface Offer {
     title: string;
     description: string;
     type: string;
-    period:string;
+    period: string;
 }
 
 interface OffersTabProps {

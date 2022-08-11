@@ -1,4 +1,4 @@
-import styles from '/styles/components/modals/EditCard.module.scss';
+import styles from '/styles/components/Modals/EditCard.module.scss';
 import { Input, Button, Modal, Select } from 'components';
 import { useState } from 'react';
 import classNames from 'classnames';
@@ -24,15 +24,15 @@ export default function EditCard({
                     <h2>Edit card</h2>
                 </div>
                 <div className={styles.modalInputs}>
-                    <Input 
-                        label="Price" 
-                        className={styles.modalInput} 
-                        placeholder='Enter price...' 
+                    <Input
+                        label="Price"
+                        className={styles.modalInput}
+                        placeholder='Enter price...'
                         value={price}
                         defaultValue={price}
-                        onChange={(e)=>setPrice(e.value)}
+                        onChange={(e) => setPrice(e.value)}
                     />
-                    <Select 
+                    <Select
                         label="Status"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -42,21 +42,21 @@ export default function EditCard({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                         onChange={(value) => {
                             setPromotion(value);
                         }}
                         value={promotion}
                     />
-                    <Input 
-                        label="Cost for family members" 
-                        className={styles.modalInput} 
-                        placeholder='Enter cost for family members...' 
+                    <Input
+                        label="Cost for family members"
+                        className={styles.modalInput}
+                        placeholder='Enter cost for family members...'
                         value={cost}
                         defaultValue={cost}
-                        onChange={(e)=>setCost(e.value)}
+                        onChange={(e) => setCost(e.value)}
                     />
-                    <Select 
+                    <Select
                         label="Card type"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -66,7 +66,7 @@ export default function EditCard({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                         onChange={(value) => {
                             setCardType(value);
                         }}
@@ -75,7 +75,7 @@ export default function EditCard({
                     <div className={styles.modalInput}>
                         <h2>Buffer</h2>
                         <div className={styles.modalSelects}>
-                            <Select 
+                            <Select
                                 label="Day"
                                 labelStyle="inside"
                                 className={styles.modalSelect}
@@ -85,13 +85,13 @@ export default function EditCard({
                                         value: "1",
                                     },
                                     { label: "2", value: "2" },
-                                    ]}
+                                ]}
                                 onChange={(value) => {
                                     setDay(value);
                                 }}
                                 value={day}
                             />
-                            <Select 
+                            <Select
                                 label="Hours"
                                 labelStyle="inside"
                                 className={styles.modalSelect}
@@ -101,13 +101,13 @@ export default function EditCard({
                                         value: "1",
                                     },
                                     { label: "2", value: "2" },
-                                    ]}
+                                ]}
                                 onChange={(value) => {
                                     setHours(value);
                                 }}
                                 value={hours}
                             />
-                            <Select 
+                            <Select
                                 label="Minutes"
                                 labelStyle="inside"
                                 className={styles.modalSelect}
@@ -117,7 +117,7 @@ export default function EditCard({
                                         value: "1",
                                     },
                                     { label: "2", value: "2" },
-                                    ]}
+                                ]}
                                 onChange={(value) => {
                                     setMinutes(value);
                                 }}
@@ -125,7 +125,7 @@ export default function EditCard({
                             />
                         </div>
                     </div>
-                    <Select 
+                    <Select
                         label="Expiration date"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -135,7 +135,7 @@ export default function EditCard({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                         onChange={(value) => {
                             setExpirationDate(value);
                         }}
@@ -143,18 +143,18 @@ export default function EditCard({
                     />
                 </div>
                 <div className={styles.editBtns}>
-                    <Button 
-                        label="Cancel" 
-                        size="large" 
-                        variant="outline" 
-                        className={styles.modalInput} 
-                        onClick={()=>onCancel()}
+                    <Button
+                        label="Cancel"
+                        size="large"
+                        variant="outline"
+                        className={styles.modalInput}
+                        onClick={() => onCancel()}
                     />
-                    <Button 
-                        label="Save" 
-                        size="large" 
-                        variant="fill" 
-                        className={styles.modalInput} 
+                    <Button
+                        label="Save"
+                        size="large"
+                        variant="fill"
+                        className={styles.modalInput}
                     />
                 </div>
             </div>

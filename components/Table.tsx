@@ -29,7 +29,7 @@ interface TableProps {
     cellClassName?: string;
     headerClassName?: string;
     bodyClassName?: string;
-    detailedUrl: string;
+    detailedUrl?: string;
 }
 
 export default function Table({
@@ -41,7 +41,7 @@ export default function Table({
     headerClassName,
     bodyClassName,
     className,
-    detailedUrl=''
+    detailedUrl = ''
 }: TableProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const [diplayedData, setDisplayedData] = useState([]);
@@ -135,7 +135,7 @@ export default function Table({
                         key={`table-row-${index}`}
                         rowClassName={rowClassName}
                         cellClassName={cellClassName}
-                        detailedUrl={detailedUrl} 
+                        detailedUrl={detailedUrl}
                     />
                 ))}
             </div>
@@ -143,9 +143,8 @@ export default function Table({
                 <div className={styles.pagination}>
                     <div
                         className={styles.recordCounter}
-                    >{`${getStartPage()}-${getEndPage()} of ${
-                        data.length
-                    } records`}</div>
+                    >{`${getStartPage()}-${getEndPage()} of ${data.length
+                        } records`}</div>
                     <div className={styles.paginationControls}>
                         <span className={styles.paginatorTitle}>
                             The page you’er on
@@ -164,20 +163,18 @@ export default function Table({
                         <div className={styles.paginationButtons}>
                             <ReactSVG
                                 src="/images/icons/paginator/prev.svg"
-                                className={`${styles.paginationBtn} ${
-                                    currentPage === 1 ? styles.disable : ''
-                                }`}
+                                className={`${styles.paginationBtn} ${currentPage === 1 ? styles.disable : ''
+                                    }`}
                                 onClick={() => {
                                     setCurrentPage((origin) => origin - 1);
                                 }}
                             />
                             <ReactSVG
                                 src="/images/icons/paginator/next.svg"
-                                className={`${styles.paginationBtn} ${
-                                    currentPage === options.length
+                                className={`${styles.paginationBtn} ${currentPage === options.length
                                         ? styles.disable
                                         : ''
-                                }`}
+                                    }`}
                                 onClick={() => {
                                     setCurrentPage((origin) => origin + 1);
                                 }}
@@ -215,21 +212,21 @@ const TableRow = ({
         >
             {columnsDefinition.map(
                 ({ dataIndex, render, cellStyle }, index) => {
-                    if (render){
+                    if (render) {
                         return <>
                             {
-                                index !== columnsDefinition.length - 1 ? 
-                                <Link href={detailedUrl}>
-                                    {render(
-                                        record[dataIndex],
-                                        `data-${record.key}-${index}`
-                                    )}
-                                </Link> :  render(
+                                index !== columnsDefinition.length - 1 ?
+                                    <Link href={detailedUrl}>
+                                        {render(
+                                            record[dataIndex],
+                                            `data-${record.key}-${index}`
+                                        )}
+                                    </Link> : render(
                                         record[dataIndex],
                                         `data-${record.key}-${index}`
                                     )
                             }
-                            </>
+                        </>
                     }
                     return <>
                         {

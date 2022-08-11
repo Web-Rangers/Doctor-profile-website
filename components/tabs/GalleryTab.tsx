@@ -1,4 +1,4 @@
-import styles from 'styles/components/tabs/GalleryTab.module.scss';
+import styles from 'styles/components/Tabs/GalleryTab.module.scss';
 import { Card, Button, GalleryCard } from 'components';
 import { useState } from 'react';
 

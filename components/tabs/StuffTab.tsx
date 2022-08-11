@@ -1,4 +1,4 @@
-import styles from 'styles/components/tabs/StuffTab.module.scss';
+import styles from 'styles/components/Tabs/StuffTab.module.scss';
 import { Card, Button, CheckBox, StuffModal, StuffCard } from 'components';
 import { useState } from 'react';
 import { ReactSVG } from 'react-svg';
