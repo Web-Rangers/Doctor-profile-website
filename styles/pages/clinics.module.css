@@ -5,6 +5,10 @@
     flex-direction: column;
 }
 
+.tableRow {
+    grid-template-columns: 7% 13% 35% 21% 15% 10%;
+}
+
 .pageHeader {
     width: 100%;
     height: 60px;
@@ -78,4 +82,18 @@
 
 .action {
     cursor: pointer;
+}
+
+.dataCheck {
+    margin:auto;
+    display: flex;
+    align-items: center;
+}
+
+.dataCheck img {
+    margin-right:10px;
+}
+
+.address {
+    margin: auto 20px;
 }

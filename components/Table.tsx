@@ -79,11 +79,6 @@ export default function Table({
         );
     }, [currentPage, data]);
 
-    //update data if user use search
-    useEffect(()=>{
-        setDisplayedData(data);
-    }, [data])
-
     const tableHeader = (
         <div
             className={styles.headerBack}
@@ -240,7 +235,7 @@ const TableRow = ({
                         {
                             index !== columnsDefinition.length + 1 ? 
                             (
-                                <Link href={detailedUrl}>
+                                <Link href={{ pathname: detailedUrl, query: { id: record['id'] } }}>
                                     <div
                                         className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
                                         key={`data-${record.key}-${index}`}

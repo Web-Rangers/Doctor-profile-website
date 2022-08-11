@@ -7,8 +7,10 @@ import tabStyles from 'styles/components/tabs/Tabs.module.scss';
 import styles from 'styles/pages/clinic_detailed.module.scss';
 import Breadcrumbs from 'nextjs-breadcrumbs';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BranchTab from 'components/tabs/BranchTab';
+import {useRouter} from 'next/router'
+import {useClinicData} from '../../../components/useClinicsData';
 
 interface ActionProps {
     icon?: string;
@@ -81,6 +83,13 @@ const clinicData = {
 
 export default function ClinicDetailed() {
     const [clinicEdtModalIsOpen, setClinicEdtModalIsOpen] = useState(false);
+    const router = useRouter();
+    const id = typeof router.query?.id === "string" ? router.query.id : "";
+
+    console.log(id)
+
+    const { data, refetch } = useClinicData(id)
+    console.log('this is data', data)
     return (
         <>
             {clinicEdtModalIsOpen && (

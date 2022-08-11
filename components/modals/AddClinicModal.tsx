@@ -1,8 +1,10 @@
 import styles from '/styles/components/modals/ClinicModal.module.scss';
-import { Input, Button, Modal } from 'components';
-import { useState } from 'react';
+import { Input, Button, Modal, CheckBox } from 'components';
+import { useState, useRef } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
+import {useQuery, useMutation} from '@tanstack/react-query';
+import {useClinicsData} from '../useClinicsData';
 
 interface ClinicData {
     name?: string;
@@ -18,6 +20,7 @@ interface ClinicModalProps {
     onClose?: () => void;
     onSave?: (newData: ClinicData) => void;
     onCancel?: () => void;
+    setBool?:any;
 }
 
 export default function AddClinicModal({
@@ -32,6 +35,8 @@ export default function AddClinicModal({
     const [about, setAbout] = useState('');
     const [startHours, setStartHours] = useState('');
     const [endHours, setEndHours] = useState('');
+    const [eligable, setEligable] = useState(false);
+    const { refetch } = useClinicsData()
 
     let img = {
         lastModified: 1656921762941,
@@ -43,24 +48,44 @@ export default function AddClinicModal({
     };
 
     const addClinic = async() => {
-        try {            
-            return axios.post("https://asclepius.pirveli.ge/v1/api/clinics/", {
+        return axios.post("/asclepius/v1/api/clinics/", {
                 "displayName": name,
                 "days": 1,
                 "startHours": startHours,
+                "phone": phone,
                 "endHours": endHours,
                 "address": address,
                 "logoBody": `${img}`,
-                "description": about
+                "description": about,
+                "eligibleForVAT": eligable
             }, {
                 headers: {
                   "Content-Type": "multipart/form-data",
                 },
-              })        
-          } catch (err) {
-            console.log(err);
-          }
+              }).then((response)=> {refetch(); console.log(response)})
     }
+
+    const addClinicMutation = () => {
+        return useMutation(addClinic)
+    }
+
+    const { mutate: addClinics } = addClinicMutation();
+ 
+    const handleClick = () => {
+        const clinicBody = {
+            "displayName": name,
+            "days": 1,
+            "startHours": startHours,
+            "endHours": endHours,
+            "address": address,
+            "logoBody": `${img}`,
+            "description": about
+        }
+
+        addClinics(clinicBody)
+    }
+
+    const imageRef = useRef();
 
     return (
         <Modal onBackClick={onClose} className={styles.modal}>
@@ -70,6 +95,21 @@ export default function AddClinicModal({
                     <img className={styles.image} src="/images/icons/clinics/placeholder.png" alt="" />
                     <Button className={styles.imageChange} label="change" size="large" />
                 </div>
+                {/* <form method="post">
+                    <input type="file" name="userPicture" ref={imageRef}/>
+                </form> */}
+                {/* <button
+                    onClick={()=> {
+                        const formData = new FormData();
+                        formData.append('image', imageRef.current.value)
+                        console.log(formData)
+                        for(const pair of formData.entries()){
+                            console.log(pair)
+                        }
+                    }}
+                >
+
+                </button> */}
                 <div className={styles.modalContentRow}>
                     <Input
                         type="text"
@@ -78,20 +118,14 @@ export default function AddClinicModal({
                         onChange={(value: string) => setName(value)}
                     />
                 </div>
-                <div className={styles.modalContentRow}>
+                {/* <div className={styles.modalContentRow}>
                     <Input
                         type="text"
                         label="Phone number"
                         value={phone}
                         onChange={(value: string) => setPhone(value)}
                     />
-                    <Input
-                        type="time"
-                        label="Working hours"
-                        value={time}
-                        onChange={(value: string) => setTime(value)}
-                    />
-                </div>
+                </div> */}
                 <div className={styles.modalContentRow}>
                     <Input
                         type="time"
@@ -123,6 +157,15 @@ export default function AddClinicModal({
                         onChange={(value: string) => setAbout(value)}
                     />
                 </div>
+                <div className={styles.modalContentRow}>
+                    <CheckBox 
+                        id='eligable_for_vat' 
+                        label='Eligable for VAT'
+                        className={styles.checkbox}
+                        defaultChecked={eligable}
+                        onChange={()=>{setEligable(!eligable)}}
+                    />
+                </div>
             </div>
             <div className={styles.whiteSpace}></div>
             <div className={styles.modalActions}>
@@ -136,18 +179,15 @@ export default function AddClinicModal({
                     label="Add"
                     variant="fill"
                     onClick={() =>{
-                        
                             {name && address && startHours && endHours ? 
-                            addClinic()
-                                .then((response)=>console.log(response))
-                                .then(()=>{
-                                    onSave?.call(null, {
-                                        phone,
-                                        address,
-                                        time,
-                                        about,
-                                    })
-                                }): alert('Fields are not filled')}
+                            handleClick()
+                            : alert('Fields are not filled')}
+                            onSave?.call(null, {
+                                phone,
+                                address,
+                                time,
+                                about,
+                            })
                     }
                     }
                     size="large"
