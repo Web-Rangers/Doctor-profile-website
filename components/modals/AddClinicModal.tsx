@@ -1,4 +1,4 @@
-import styles from '/styles/components/modals/ClinicModal.module.scss';
+import styles from '/styles/components/Modals/ClinicModal.module.scss';
 import { Input, Button, Modal } from 'components';
 import { useState } from 'react';
 import classNames from 'classnames';

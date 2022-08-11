@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import styles from '/styles/components/modals/AddCardModal.module.scss';
+import { useState } from 'react';
+import styles from '/styles/components/Modals/AddCardModal.module.scss';
 import { Input, Button, Modal, Select, SelectWithCheckbox } from 'components';
 
 export default function AddCardModal({
@@ -110,17 +110,17 @@ export default function AddCardModal({
                     <h2>New card</h2>
                 </div>
                 <div className={styles.modalInputs}>
-                    <Input 
-                        label="Name card type" 
-                        className={styles.modalInput} 
-                        placeholder='Enter name...' 
+                    <Input
+                        label="Name card type"
+                        className={styles.modalInput}
+                        placeholder='Enter name...'
                     />
-                    <Input 
-                        label="Price" 
-                        className={styles.modalInput} 
-                        placeholder='Enter surname...' 
+                    <Input
+                        label="Price"
+                        className={styles.modalInput}
+                        placeholder='Enter surname...'
                     />
-                    <Select 
+                    <Select
                         label="Card type"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -130,9 +130,9 @@ export default function AddCardModal({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                     />
-                    <Select 
+                    <Select
                         label="Promotion"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -142,12 +142,12 @@ export default function AddCardModal({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                     />
                     <div className={styles.buffer}>
                         <h2>Buffer</h2>
                         <div>
-                            <Select 
+                            <Select
                                 label="Days"
                                 labelStyle="inside"
                                 className={styles.modalInput}
@@ -157,9 +157,9 @@ export default function AddCardModal({
                                         value: "1",
                                     },
                                     { label: "Status 2", value: "2" },
-                                    ]}
+                                ]}
                             />
-                            <Select 
+                            <Select
                                 label="Hours"
                                 labelStyle="inside"
                                 className={styles.modalInput}
@@ -169,9 +169,9 @@ export default function AddCardModal({
                                         value: "1",
                                     },
                                     { label: "Status 2", value: "2" },
-                                    ]}
+                                ]}
                             />
-                            <Select 
+                            <Select
                                 label="Minutes"
                                 labelStyle="inside"
                                 className={styles.modalInput}
@@ -181,11 +181,11 @@ export default function AddCardModal({
                                         value: "1",
                                     },
                                     { label: "Status 2", value: "2" },
-                                    ]}
+                                ]}
                             />
                         </div>
                     </div>
-                    <Select 
+                    <Select
                         label="Expiration date"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -195,9 +195,9 @@ export default function AddCardModal({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                     />
-                    <SelectWithCheckbox 
+                    <SelectWithCheckbox
                         label="Clinic"
                         labelStyle="outside"
                         className={styles.checkboxes}
@@ -206,13 +206,13 @@ export default function AddCardModal({
                         checkboxBodyStyle={styles.checkboxBody}
                         values={checkedClinics}
                         checkboxChilds={[
-                            {id:'child-1', parentId: 1, title:'child 1'},
-                            {id:'child-3', parentId: 1, title:'child 2'},
-                            {id:'child-2', parentId: 2, title:'child 3'}
+                            { id: 'child-1', parentId: 1, title: 'child 1' },
+                            { id: 'child-3', parentId: 1, title: 'child 2' },
+                            { id: 'child-2', parentId: 2, title: 'child 3' }
                         ]}
-                        changeValue={(value)=> setCheckedClinics(value)}
+                        changeValue={(value) => setCheckedClinics(value)}
                     />
-                    <SelectWithCheckbox 
+                    <SelectWithCheckbox
                         label="Services"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -220,9 +220,9 @@ export default function AddCardModal({
                         options={servicesData}
                         checkboxBodyStyle={styles.checkboxBodySingle}
                         values={checkedServices}
-                        changeValue={(value)=> setCheckedServices(value)}
+                        changeValue={(value) => setCheckedServices(value)}
                     />
-                    <Select 
+                    <Select
                         label="Branch"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -232,7 +232,7 @@ export default function AddCardModal({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                     />
                 </div>
                 <div className={styles.modalBtns}>

@@ -1,4 +1,4 @@
-import styles from 'styles/components/modals/StuffModal.module.scss';
+import styles from 'styles/components/Modals/StuffModal.module.scss';
 import { Button, Modal } from 'components';
 
 interface StuffModalProps {

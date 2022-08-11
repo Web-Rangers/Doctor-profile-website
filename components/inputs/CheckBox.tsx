@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useState } from 'react';
-import styles from 'styles/components/inputs/CheckBox.module.scss';
+import styles from 'styles/components/Inputs/CheckBox.module.scss';
 
 interface CheckBoxProps {
     className?: string;

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import styles from 'styles/components/inputs/Input.module.scss';
+import styles from 'styles/components/Inputs/Input.module.scss';
 import { ReactSVG } from 'react-svg';
 
 interface daySchedule {

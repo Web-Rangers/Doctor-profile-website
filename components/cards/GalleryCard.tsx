@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import styles from 'styles/components/cards/GalleryCard.module.scss';
+import styles from 'styles/components/Cards/GalleryCard.module.scss';
 import { useState } from 'react';
 import { CheckBox } from 'components';
 

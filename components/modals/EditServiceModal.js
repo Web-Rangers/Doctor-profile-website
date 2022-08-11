@@ -1,4 +1,4 @@
-import styles from '/styles/components/modals/EditServiceModal.module.scss';
+import styles from '/styles/components/Modals/EditServiceModal.module.scss';
 import { Input, Button, Modal, Select, DatePicker } from 'components';
 import { useState } from 'react';
 import classNames from 'classnames';
@@ -18,12 +18,12 @@ export default function EditServiceModal({
                     <h2>Edit a service</h2>
                 </div>
                 <div className={styles.modalInputs}>
-                    <Input 
+                    <Input
                         className={styles.title}
                         label='Name'
                     />
                     <div>
-                        <Select 
+                        <Select
                             label="Type"
                             labelStyle="outside"
                             className={styles.halfInput}
@@ -33,13 +33,13 @@ export default function EditServiceModal({
                                     value: "1",
                                 },
                                 { label: "Status 2", value: "2" },
-                                ]}
+                            ]}
                             onChange={(value) => {
                                 setType(value);
                             }}
                             value={type}
                         />
-                        <Input 
+                        <Input
                             className={styles.halfInput}
                             label='Price'
                             placeholder='Enter price...'
@@ -47,18 +47,18 @@ export default function EditServiceModal({
                     </div>
                 </div>
                 <div className={styles.editBtns}>
-                    <Button 
-                        label="Cancel" 
-                        size="large" 
-                        variant="outline" 
-                        className={styles.modalInput} 
-                        onClick={()=>onCancel()}
+                    <Button
+                        label="Cancel"
+                        size="large"
+                        variant="outline"
+                        className={styles.modalInput}
+                        onClick={() => onCancel()}
                     />
-                    <Button 
-                        label="Save" 
-                        size="large" 
-                        variant="fill" 
-                        className={styles.modalInput} 
+                    <Button
+                        label="Save"
+                        size="large"
+                        variant="fill"
+                        className={styles.modalInput}
                     />
                 </div>
             </div>

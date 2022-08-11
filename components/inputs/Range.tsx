@@ -1,4 +1,4 @@
-import styles from 'styles/components/inputs/Range.module.scss';
+import styles from 'styles/components/Inputs/Range.module.scss';
 import classNames from 'classnames';
 import { CSSProperties, useEffect, useRef, useState } from 'react';
 import { LargeNumberLike } from 'crypto';
@@ -93,8 +93,8 @@ const Range = ({
                         temp < minValue
                             ? minValue
                             : temp > maxValue
-                            ? maxValue
-                            : temp;
+                                ? maxValue
+                                : temp;
                     return Math.round(temp);
                 });
             }
