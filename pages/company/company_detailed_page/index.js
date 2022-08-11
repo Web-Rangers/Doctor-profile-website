@@ -4,7 +4,7 @@ import SideBarLayout from 'layouts/SideBarLayout';
 import Breadcrumbs from 'nextjs-breadcrumbs';
 import { ReactSVG } from "react-svg";
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import tabStyles from 'styles/components/Tabs/Tabs.module.scss';
+import tabStyles from 'styles/components/Tabs/tabs.module.scss';
 import TableStyles from "styles/components/TableWithDropdown.module.scss";
 import styles from 'styles/pages/companyDetailed.module.scss';
 import classNames from "classnames";

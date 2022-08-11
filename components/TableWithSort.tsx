@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import styles from 'styles/components/TableWithSort.module.scss';
+import styles from 'styles/components/tableWithSort.module.scss';
 import Select from 'react-select';
 import { ReactSVG } from 'react-svg';
 import classNames from 'classnames';

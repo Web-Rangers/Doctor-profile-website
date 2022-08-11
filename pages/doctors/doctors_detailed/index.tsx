@@ -15,7 +15,7 @@ import Breadcrumbs from 'nextjs-breadcrumbs';
 import { ReactSVG } from 'react-svg';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import styles from 'styles/pages/doctors_detailed.module.scss';
-import tabStyles from 'styles/components/Tabs/Tabs.module.scss';
+import tabStyles from 'styles/components/Tabs/tabs.module.scss';
 import { useState } from 'react';
 
 interface ActionProps {

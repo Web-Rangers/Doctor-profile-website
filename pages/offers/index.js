@@ -1,14 +1,14 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import SideBarLayout from 'layouts/SideBarLayout';
 import Breadcrumbs from 'nextjs-breadcrumbs';
-import TableStyles from 'styles/components/TableWithSort.module.scss';
+import TableStyles from 'styles/components/tableWithSort.module.scss';
 import styles from 'styles/pages/offers.module.scss';
 import { ReactSVG } from "react-svg";
-import {  Card, TableWithSort, Input, Button, DatePicker, Select } from 'components';
-import classNames from 'classnames'; 
+import { Card, TableWithSort, Input, Button, DatePicker, Select } from 'components';
+import classNames from 'classnames';
 import Link from 'next/link'
 
-export default function Offers (){
+export default function Offers() {
     const [searchValue, setSearchValue] = useState('')
     const [isOpen, setIsOpen] = useState('');
     const [cardType, setCardType] = useState('');
@@ -22,9 +22,9 @@ export default function Offers (){
             dataIndex: "name",
             sort: true,
             render: (record, key) => {
-              return (
+                return (
                     <div className={styles.tableGroup}>
-                        <ReactSVG src={"/images/icons/table/arrow.svg"} className={classNames(styles.arrow, TableStyles.arrow)}/>
+                        <ReactSVG src={"/images/icons/table/arrow.svg"} className={classNames(styles.arrow, TableStyles.arrow)} />
                         <span>{record}</span>
                     </div>
                 );
@@ -41,15 +41,15 @@ export default function Offers (){
             dataIndex: 'status',
             render: (record, key) => {
                 return (
-                    
+
                     <div>
-                        <span 
+                        <span
                             className={classNames(styles.statusBtn, {
                                 [styles.calceled]: (record == 'Canceled'),
                                 [styles.upcoming]: (record == 'Upcoming'),
                                 [styles.finished]: (record == 'Finished'),
                                 [styles.ongoing]: (record == 'On going'),
-                              })}
+                            })}
                         >
                             {record}
                         </span>
@@ -63,11 +63,11 @@ export default function Offers (){
             dataIndex: 'short_description',
             render: (record, key) => {
                 return (
-                      <div className={styles.tableDescription}>
-                          <span>{record}</span>
-                      </div>
-                  );
-              },
+                    <div className={styles.tableDescription}>
+                        <span>{record}</span>
+                    </div>
+                );
+            },
         },
         {
             key: 'created_by',
@@ -80,17 +80,17 @@ export default function Offers (){
             title: "",
             dataIndex: "more",
             render: (record, key) => {
-              return (
+                return (
                     <>
                         <div class={styles.tableActions}>
                             <Link href="offers/edit">
-                                <ReactSVG 
-                                    src={"/images/icons/table/edit.svg"} 
+                                <ReactSVG
+                                    src={"/images/icons/table/edit.svg"}
                                     className={styles.iconContainer}
                                 />
                             </Link>
-                            <ReactSVG 
-                                src={"/images/icons/table/delete.svg"} 
+                            <ReactSVG
+                                src={"/images/icons/table/delete.svg"}
                                 className={styles.iconContainer}
                             />
                         </div>
@@ -149,7 +149,7 @@ export default function Offers (){
         {
             name: 'Zashback',
             category: 'Kathryn_Murphy',
-            status:'Upcoming',
+            status: 'Upcoming',
             short_description: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit  ullamco',
             created_by: 'Sarlene Robertson',
             doctor_serivce_id: 648568557,
@@ -165,7 +165,7 @@ export default function Offers (){
         {
             name: 'Cashback',
             category: 'Kathryn_Murphy',
-            status:'Finished',
+            status: 'Finished',
             short_description: '09.09.2009',
             created_by: 'Annette Black',
             doctor_serivce_id: 648568557,
@@ -181,7 +181,7 @@ export default function Offers (){
         {
             name: 'Cashback',
             category: 'Kathryn_Murphy',
-            status:'Canceled',
+            status: 'Canceled',
             short_description: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit  ullamco',
             created_by: 'Ronald Richards',
             doctor_serivce_id: 648568557,
@@ -197,7 +197,7 @@ export default function Offers (){
         {
             name: 'Cashback',
             category: 'Kathryn_Murphy',
-            status:'On going',
+            status: 'On going',
             short_description: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit  ullamco',
             created_by: 'Kathryn Murphy',
             doctor_serivce_id: 648568557,
@@ -213,7 +213,7 @@ export default function Offers (){
         {
             name: 'Cashback',
             category: 'Kathryn_Murphy',
-            status:'Canceled',
+            status: 'Canceled',
             short_description: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit  ullamco',
             created_by: 'Theresa Webb',
             doctor_serivce_id: 648568557,
@@ -229,7 +229,7 @@ export default function Offers (){
         {
             name: 'Cashback',
             category: 'Kathryn_Murphy',
-            status:'Upcoming',
+            status: 'Upcoming',
             short_description: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit  ullamco',
             created_by: 'Ralph Edwards',
             doctor_serivce_id: 648568557,
@@ -260,17 +260,17 @@ export default function Offers (){
                 </div>
             </div>
 
-            <Card 
+            <Card
                 className={styles.offersTab}
             >
                 <div className={styles.tableTopBlock}>
                     <div className={styles.searchTool}>
                         <div className={styles.searchForm}>
-                            <Input 
+                            <Input
                                 className={styles.searchBar}
-                                name="search" 
-                                id="search" 
-                                onChange={(e)=> setSearchValue(e)}
+                                name="search"
+                                id="search"
+                                onChange={(e) => setSearchValue(e)}
                                 value={searchValue}
                                 placeholder='Search'
                             />
@@ -307,7 +307,7 @@ export default function Offers (){
                                         label="Date range"
                                         className={styles.servInput}
                                     />
-                                    <Select 
+                                    <Select
                                         label="City"
                                         labelStyle="outside"
                                         className={styles.servInput}
@@ -317,12 +317,12 @@ export default function Offers (){
                                                 value: "1",
                                             },
                                             { label: "Another Branch", value: "2" },
-                                            ]}
+                                        ]}
                                         onChange={(value) => {
                                             setStatus(value);
                                         }}
                                     />
-                                    <Select 
+                                    <Select
                                         label="Category"
                                         labelStyle="outside"
                                         className={styles.servInput}
@@ -332,12 +332,12 @@ export default function Offers (){
                                                 value: "1",
                                             },
                                             { label: "Another Branch", value: "2" },
-                                            ]}
+                                        ]}
                                         onChange={(value) => {
                                             setStatus(value);
                                         }}
                                     />
-                                    <Select 
+                                    <Select
                                         label="Clinic"
                                         labelStyle="outside"
                                         className={styles.servInput}
@@ -347,14 +347,14 @@ export default function Offers (){
                                                 value: "1",
                                             },
                                             { label: "Another Branch", value: "2" },
-                                            ]}
+                                        ]}
                                         onChange={(value) => {
                                             setStatus(value);
                                         }}
                                     />
                                     <div className={styles.minMax}>
                                         <h2>Duration</h2>
-                                        <div>                                        
+                                        <div>
                                             <Input
                                                 className={styles.intervalInput}
                                                 value={min}
@@ -366,9 +366,9 @@ export default function Offers (){
                                                 value={max}
                                                 onChange={(value) => setMax(value)}
                                             />
-                                        </div> 
+                                        </div>
                                     </div>
-                                    <Select 
+                                    <Select
                                         label="Admin"
                                         labelStyle="outside"
                                         className={styles.servInput}
@@ -378,7 +378,7 @@ export default function Offers (){
                                                 value: "1",
                                             },
                                             { label: "Another Branch", value: "2" },
-                                            ]}
+                                        ]}
                                         onChange={(value) => {
                                             setStatus(value);
                                         }}
@@ -453,7 +453,7 @@ export default function Offers (){
                                             />
                                         </div>
                                     </div>
-                                    <Select 
+                                    <Select
                                         label="Status"
                                         labelStyle="outside"
                                         className={styles.servInput}
@@ -463,7 +463,7 @@ export default function Offers (){
                                                 value: "1",
                                             },
                                             { label: "Another Branch", value: "2" },
-                                            ]}
+                                        ]}
                                         onChange={(value) => {
                                             setStatus(value);
                                         }}
@@ -473,7 +473,7 @@ export default function Offers (){
                             <div className={styles.filterBtns}>
                                 <div className={styles.minMax}>
                                     <h2>Duration</h2>
-                                    <div>                                        
+                                    <div>
                                         <Input
                                             className={styles.intervalInput}
                                             value={min}
@@ -485,7 +485,7 @@ export default function Offers (){
                                             value={max}
                                             onChange={(value) => setMax(value)}
                                         />
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div className={styles.btns}>
                                     <Button
@@ -508,9 +508,9 @@ export default function Offers (){
                     <div>
                         <Link href="offers/add">
                             <a>
-                                <Button 
-                                    label="Add an offer" 
-                                    size="large" 
+                                <Button
+                                    label="Add an offer"
+                                    size="large"
                                     variant="fill"
                                 />
                             </a>
@@ -519,19 +519,19 @@ export default function Offers (){
                 </div>
 
                 <TableWithSort
-                        className={styles.table}
-                        columns={offerColumns}
-                        data={offersData.filter((e)=> e.name.toLocaleLowerCase().includes(
-                            searchValue.toLocaleLowerCase()
-                        ))}
-                        rowClassName={styles.tableRow}
-                        cellClassName={styles.tableCell}
-                        headerClassName={styles.tableHeader}
-                        bodyClassName={styles.tableBody}
-                        pagination={{ pageSize: 8, initialPage: 1 }}
-                        dropdownClassname={styles.dropDown}
-                        detailedUrl={'/offers/offers_detailed'}
-                    />
+                    className={styles.table}
+                    columns={offerColumns}
+                    data={offersData.filter((e) => e.name.toLocaleLowerCase().includes(
+                        searchValue.toLocaleLowerCase()
+                    ))}
+                    rowClassName={styles.tableRow}
+                    cellClassName={styles.tableCell}
+                    headerClassName={styles.tableHeader}
+                    bodyClassName={styles.tableBody}
+                    pagination={{ pageSize: 8, initialPage: 1 }}
+                    dropdownClassname={styles.dropDown}
+                    detailedUrl={'/offers/offers_detailed'}
+                />
 
             </Card>
         </div>

@@ -10,7 +10,7 @@ import {
 } from "components";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import SideBarLayout from "layouts/SideBarLayout";
-import tabStyles from "styles/components/Tabs/Tabs.module.scss";
+import tabStyles from "styles/components/Tabs/tabs.module.scss";
 import cDStyles from "styles/pages/clinic_detailed.module.scss";
 import styles from "styles/pages/branch.module.scss";
 import tableStyles from "styles/components/Table.module.scss";
