@@ -3,7 +3,7 @@ import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab } from 'components';
 import StarRatings from 'react-star-ratings';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
-import tabStyles from 'styles/components/tabs/Tabs.module.scss';
+import tabStyles from 'styles/components/Tabs/Tabs.module.scss';
 import styles from 'styles/pages/clinic_detailed.module.scss';
 import Breadcrumbs from 'nextjs-breadcrumbs';
 import classNames from 'classnames';

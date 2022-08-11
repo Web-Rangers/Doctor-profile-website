@@ -1,10 +1,10 @@
-import {useState} from 'react';
-import {  Card, Button, StuffCompanyTab, ContactAndBillTab, CardsTab } from 'components';
+import { useState } from 'react';
+import { Card, Button, StuffCompanyTab, ContactAndBillTab, CardsTab } from 'components';
 import SideBarLayout from 'layouts/SideBarLayout';
 import Breadcrumbs from 'nextjs-breadcrumbs';
 import { ReactSVG } from "react-svg";
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import tabStyles from 'styles/components/tabs/Tabs.module.scss';
+import tabStyles from 'styles/components/Tabs/Tabs.module.scss';
 import TableStyles from "styles/components/TableWithDropdown.module.scss";
 import styles from 'styles/pages/companyDetailed.module.scss';
 import classNames from "classnames";
@@ -17,7 +17,7 @@ export default function Company() {
             dataIndex: "name",
             render: (record, key) => {
                 return (
-                      <div className={styles.group}>
+                    <div className={styles.group}>
                         <ReactSVG
                             className={classNames(styles.arrow, TableStyles.arrow)}
                             src={"/images/icons/table/arrow.svg"}
@@ -25,8 +25,8 @@ export default function Company() {
                         <div>
                             <span>{record}</span>
                         </div>
-                      </div>
-                  );
+                    </div>
+                );
             },
         },
         {
@@ -58,7 +58,7 @@ export default function Company() {
             key: "status",
             title: "Status",
             dataIndex: "status",
-            render: (record)=> {
+            render: (record) => {
                 return (
                     <div className={classNames({
                         [styles.active]: record === 'Active',
@@ -72,11 +72,11 @@ export default function Company() {
             title: "",
             dataIndex: "actions",
             render: (record, key) => {
-              return (
+                return (
                     <div className={styles.tableActons}>
-                        <ReactSVG 
-                            onClick={()=>setModalOpen(!isModalOpen)}
-                            src={"/images/icons/table/edit.svg"} 
+                        <ReactSVG
+                            onClick={() => setModalOpen(!isModalOpen)}
+                            src={"/images/icons/table/edit.svg"}
                             className={styles.iconContainer}
                         />
                     </div>
@@ -174,7 +174,7 @@ export default function Company() {
             registration_date: '12.04.2000',
         },
     ];
-    
+
     return <>
         <div className={styles.companyContainer}>
             <div className={styles.pageHeader}>
@@ -268,9 +268,9 @@ export default function Company() {
                         <ContactAndBillTab />
                     </TabPanel>
                     <TabPanel className={tabStyles.tabPanel}>
-                        <StuffCompanyTab 
-                            data={data} 
-                            columns={columns} 
+                        <StuffCompanyTab
+                            data={data}
+                            columns={columns}
                             tableStyle="dropdown"
                         />
                     </TabPanel>
