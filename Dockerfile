@@ -6,10 +6,10 @@ COPY . .
 
 RUN ["npm","install","--legacy-peer-deps"]
 
-# RUN ["npm","run","build"]
+RUN ["npm","run","build"]
 
 ENV PORT 3000
 
 EXPOSE $PORT
 
-CMD ["npx","next","dev","-p", "$PORT"]
+CMD ["npx","next","start","-p", "$PORT"]
