@@ -79,11 +79,6 @@ export default function Table({
         );
     }, [currentPage, data]);
 
-    //update data if user use search
-    useEffect(() => {
-        setDisplayedData(data);
-    }, [data])
-
     const tableHeader = (
         <div
             className={styles.headerBack}
@@ -235,17 +230,17 @@ const TableRow = ({
                     }
                     return <>
                         {
-                            index !== columnsDefinition.length + 1 ?
-                                (
-                                    <Link href={detailedUrl}>
-                                        <div
-                                            className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
-                                            key={`data-${record.key}-${index}`}
-                                            style={cellStyle ? cellStyle : null}
-                                        >
-                                            {record[dataIndex]}
-                                        </div>
-                                    </Link>
+                            index !== columnsDefinition.length + 1 ? 
+                            (
+                                <Link href={{ pathname: detailedUrl, query: { id: record['id'] } }}>
+                                    <div
+                                        className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
+                                        key={`data-${record.key}-${index}`}
+                                        style={cellStyle ? cellStyle : null}
+                                    >
+                                        {record[dataIndex]}
+                                    </div>
+                                </Link>
                                 ) : <div
                                     className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
                                     key={`data-${record.key}-${index}`}
