@@ -17,6 +17,5 @@ const getClinic = async(id) => {
 }
 
 export const useClinicData = (id) => {
-    console.log(id)
     return useQuery(["key", 'clinic'], getClinic(id))
 }

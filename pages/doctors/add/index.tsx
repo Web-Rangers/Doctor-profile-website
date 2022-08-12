@@ -12,6 +12,7 @@ export default function addDoctor() {
   const [type, setType] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [branch, setBranch] = useState("");
+
   return (
     <div className={pageStyles.container}>
       <div className={pageStyles.pageHeader}>

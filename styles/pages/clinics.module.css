@@ -6,7 +6,7 @@
 }
 
 .tableRow {
-    grid-template-columns: 7% 13% 35% 21% 15% 10%;
+    grid-template-columns: 7% 25% 24% 21% 15% 10%;
 }
 
 .pageHeader {

@@ -85,8 +85,6 @@ export default function AddClinicModal({
         addClinics(clinicBody)
     }
 
-    const imageRef = useRef();
-
     return (
         <Modal onBackClick={onClose} className={styles.modal}>
             <span className={styles.modalTitle}>Add clinic</span>
@@ -95,21 +93,6 @@ export default function AddClinicModal({
                     <img className={styles.image} src="/images/icons/clinics/placeholder.png" alt="" />
                     <Button className={styles.imageChange} label="change" size="large" />
                 </div>
-                {/* <form method="post">
-                    <input type="file" name="userPicture" ref={imageRef}/>
-                </form> */}
-                {/* <button
-                    onClick={()=> {
-                        const formData = new FormData();
-                        formData.append('image', imageRef.current.value)
-                        console.log(formData)
-                        for(const pair of formData.entries()){
-                            console.log(pair)
-                        }
-                    }}
-                >
-
-                </button> */}
                 <div className={styles.modalContentRow}>
                     <Input
                         type="text"
@@ -118,14 +101,14 @@ export default function AddClinicModal({
                         onChange={(value: string) => setName(value)}
                     />
                 </div>
-                {/* <div className={styles.modalContentRow}>
+                <div className={styles.modalContentRow}>
                     <Input
                         type="text"
                         label="Phone number"
                         value={phone}
                         onChange={(value: string) => setPhone(value)}
                     />
-                </div> */}
+                </div>
                 <div className={styles.modalContentRow}>
                     <Input
                         type="time"
