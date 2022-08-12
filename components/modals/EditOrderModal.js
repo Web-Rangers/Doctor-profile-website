@@ -1,4 +1,4 @@
-import styles from '/styles/components/modals/EditOrderModal.module.scss';
+import styles from '/styles/components/Modals/EditOrderModal.module.scss';
 import { Input, Button, Modal, Select, DatePicker } from 'components';
 import { useState } from 'react';
 import classNames from 'classnames';
@@ -30,7 +30,7 @@ export default function EditOrderModal({
     const addNewTagFunc = () => {
         const newId = Date.now();
 
-        if(newLabel !== ''){
+        if (newLabel !== '') {
             setTags((prevState) => ([
                 ...prevState,
                 {
@@ -44,8 +44,8 @@ export default function EditOrderModal({
     }
 
     const removeTag = (id) => {
-        const removeItem = tags.filter((e)=> e.id !== id);
-        setTags(()=>(removeItem))
+        const removeItem = tags.filter((e) => e.id !== id);
+        setTags(() => (removeItem))
     }
 
     return (
@@ -55,7 +55,7 @@ export default function EditOrderModal({
                     <h2>Edit card</h2>
                 </div>
                 <div className={styles.modalInputs}>
-                    <Select 
+                    <Select
                         label="Status"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -65,13 +65,13 @@ export default function EditOrderModal({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                         onChange={(value) => {
                             setPromotion(value);
                         }}
                         value={promotion}
                     />
-                    <Select 
+                    <Select
                         label="Service"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -81,13 +81,13 @@ export default function EditOrderModal({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                         onChange={(value) => {
                             setPromotion(value);
                         }}
                         value={promotion}
                     />
-                    <Select 
+                    <Select
                         label="Clinic"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -97,13 +97,13 @@ export default function EditOrderModal({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                         onChange={(value) => {
                             setPromotion(value);
                         }}
                         value={promotion}
                     />
-                    <Select 
+                    <Select
                         label="Doctor"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -113,13 +113,13 @@ export default function EditOrderModal({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                         onChange={(value) => {
                             setCardType(value);
                         }}
                         value={cardType}
                     />
-                    <Select 
+                    <Select
                         label="Patient"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -129,13 +129,13 @@ export default function EditOrderModal({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                         onChange={(value) => {
                             setCardType(value);
                         }}
                         value={cardType}
                     />
-                    <Select 
+                    <Select
                         label="Patient phone number"
                         labelStyle="outside"
                         className={styles.modalInput}
@@ -145,7 +145,7 @@ export default function EditOrderModal({
                                 value: "1",
                             },
                             { label: "Status 2", value: "2" },
-                            ]}
+                        ]}
                         onChange={(value) => {
                             setCardType(value);
                         }}
@@ -163,7 +163,7 @@ export default function EditOrderModal({
                     />
                     <div className={styles.commissions}>
                         <div className={styles.modalSelects}>
-                            <Select 
+                            <Select
                                 label="Doctor's Commission"
                                 labelStyle="outside"
                                 className={styles.modalSelect}
@@ -173,13 +173,13 @@ export default function EditOrderModal({
                                         value: "1",
                                     },
                                     { label: "2", value: "2" },
-                                    ]}
+                                ]}
                                 onChange={(value) => {
                                     setDay(value);
                                 }}
                                 value={day}
                             />
-                            <Select 
+                            <Select
                                 label="Platform Commission"
                                 labelStyle="outside"
                                 className={styles.modalSelect}
@@ -189,13 +189,13 @@ export default function EditOrderModal({
                                         value: "1",
                                     },
                                     { label: "2", value: "2" },
-                                    ]}
+                                ]}
                                 onChange={(value) => {
                                     setHours(value);
                                 }}
                                 value={hours}
                             />
-                            <Select 
+                            <Select
                                 label="Card type"
                                 labelStyle="outside"
                                 className={styles.modalSelect}
@@ -205,7 +205,7 @@ export default function EditOrderModal({
                                         value: "1",
                                     },
                                     { label: "2", value: "2" },
-                                    ]}
+                                ]}
                                 onChange={(value) => {
                                     setMinutes(value);
                                 }}
@@ -217,7 +217,7 @@ export default function EditOrderModal({
                         <h2>Labels</h2>
                         <div className={styles.tags}>
                             {
-                                tags?.map((tag)=>{
+                                tags?.map((tag) => {
                                     return <>
                                         <span className={styles.tag}>
                                             <span>
@@ -226,15 +226,15 @@ export default function EditOrderModal({
                                             <ReactSVG
                                                 className={styles.x}
                                                 src="../images/icons/inputs/x.svg"
-                                                onClick={()=> removeTag(tag.id)}
+                                                onClick={() => removeTag(tag.id)}
                                             />
                                         </span>
                                     </>
                                 })
                             }
-                            <button 
+                            <button
                                 className={styles.addLabel}
-                                onClick={()=> setLabelForm(!labelForm)}
+                                onClick={() => setLabelForm(!labelForm)}
                             >
                                 <ReactSVG
                                     className={styles.addBtn}
@@ -244,38 +244,38 @@ export default function EditOrderModal({
                             </button>
                         </div>
                         {
-                            labelForm && 
+                            labelForm &&
                             <div className={styles.labelForm}>
-                                <Input 
+                                <Input
                                     label="Add label"
                                     className={classNames(styles.modalInput, styles.addLabelInput)}
                                     value={newLabel}
-                                    onChange={(e)=>setNewLabel(e)}
+                                    onChange={(e) => setNewLabel(e)}
                                 />
-                                <Button 
-                                    label="Add new label" 
-                                    size="large" 
-                                    variant="fill" 
-                                    className={styles.newLabelBtn} 
-                                    onClick={()=>{addNewTagFunc()}}
+                                <Button
+                                    label="Add new label"
+                                    size="large"
+                                    variant="fill"
+                                    className={styles.newLabelBtn}
+                                    onClick={() => { addNewTagFunc() }}
                                 />
                             </div>
                         }
                     </div>
                 </div>
                 <div className={styles.editBtns}>
-                    <Button 
-                        label="Cancel" 
-                        size="large" 
-                        variant="outline" 
-                        className={styles.modalInput} 
-                        onClick={()=>onCancel()}
+                    <Button
+                        label="Cancel"
+                        size="large"
+                        variant="outline"
+                        className={styles.modalInput}
+                        onClick={() => onCancel()}
                     />
-                    <Button 
-                        label="Save" 
-                        size="large" 
-                        variant="fill" 
-                        className={styles.modalInput} 
+                    <Button
+                        label="Save"
+                        size="large"
+                        variant="fill"
+                        className={styles.modalInput}
                     />
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import classNames, { Value } from 'classnames';
-import styles from 'styles/components/inputs/Input.module.scss';
+import styles from 'styles/components/Inputs/Input.module.scss';
 import { ReactSVG } from 'react-svg';
 import { useEffect, useState } from 'react';
 import next from 'next';
@@ -301,9 +301,8 @@ const Picker = ({ isOpen, onChange, onClose }: PickerProps) => {
                 >
                     {'<'}
                 </div>
-                <div className={styles.date}>{`${
-                    MonthName[date.getMonth()]
-                }, ${date.getFullYear()}`}</div>
+                <div className={styles.date}>{`${MonthName[date.getMonth()]
+                    }, ${date.getFullYear()}`}</div>
                 <div
                     className={styles.moveBtn}
                     onClick={() => setDate(getNextMonthDate(date))}
@@ -353,7 +352,7 @@ const RangePicker = ({
                         [styles.selected]:
                             (dateStart &&
                                 date.getFullYear() ===
-                                    dateStart.getFullYear() &&
+                                dateStart.getFullYear() &&
                                 date.getMonth() === dateStart.getMonth() &&
                                 dateStart.getDate() === i) ||
                             (dateEnd &&
@@ -364,14 +363,14 @@ const RangePicker = ({
                             target === 'end' &&
                             dateStart &&
                             new Date(date.getFullYear(), date.getMonth(), i) <
-                                dateStart,
+                            dateStart,
                         [styles.inRange]:
                             dateStart &&
                             dateEnd &&
                             new Date(date.getFullYear(), date.getMonth(), i) >
-                                dateStart &&
+                            dateStart &&
                             new Date(date.getFullYear(), date.getMonth(), i) <
-                                dateEnd,
+                            dateEnd,
                     })}
                     onClick={() => {
                         if (target === 'start') {
@@ -486,12 +485,12 @@ const RangePicker = ({
                         [styles.selected]:
                             (dateStart &&
                                 nextDate.getFullYear() ===
-                                    dateStart.getFullYear() &&
+                                dateStart.getFullYear() &&
                                 nextDate.getMonth() === dateStart.getMonth() &&
                                 dateStart.getDate() === i) ||
                             (dateEnd &&
                                 nextDate.getFullYear() ===
-                                    dateEnd.getFullYear() &&
+                                dateEnd.getFullYear() &&
                                 nextDate.getMonth() === dateEnd.getMonth() &&
                                 dateEnd.getDate() === i),
                         [styles.disabled]:
@@ -653,9 +652,8 @@ const RangePicker = ({
                             className={styles.iconContainer}
                         />
                     </div>
-                    <div className={styles.date}>{`${
-                        MonthName[date.getMonth()]
-                    }, ${date.getFullYear()}`}</div>
+                    <div className={styles.date}>{`${MonthName[date.getMonth()]
+                        }, ${date.getFullYear()}`}</div>
                     <div
                         className={classNames(styles.moveBtn, {
                             [styles.deactive]: !compareDateMonth(
@@ -689,9 +687,8 @@ const RangePicker = ({
                             className={styles.iconContainer}
                         />
                     </div>
-                    <div className={styles.date}>{`${
-                        MonthName[nextDate.getMonth()]
-                    }, ${nextDate.getFullYear()}`}</div>
+                    <div className={styles.date}>{`${MonthName[nextDate.getMonth()]
+                        }, ${nextDate.getFullYear()}`}</div>
                     <div
                         className={styles.moveBtn}
                         onClick={() => setNextDate(getNextMonthDate(nextDate))}

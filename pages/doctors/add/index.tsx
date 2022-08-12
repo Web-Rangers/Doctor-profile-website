@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Button, Card, Input, Select } from "components";
+import { Button, Card, DatePicker, Input, Select } from "components";
 import SideBarLayout from "layouts/SideBarLayout";
 import Breadcrumbs from "nextjs-breadcrumbs";
 import { useState } from "react";
@@ -32,10 +32,10 @@ export default function addDoctor() {
               <Input label="Name" />
               <Input label="Surname" />
               <div className={styles.row}>
-                <Input
-                  label="Date of birth"
-                  type="date"
-                  className={styles.halfw}
+                <DatePicker 
+                label="Date of burth"
+                mode="single"
+                className={styles.halfw}
                 />
                 <Select
                   label="Gender"

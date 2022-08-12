@@ -44,7 +44,7 @@ export default function Table({
     bodyClassName,
     className,
     dropdownClassname = '',
-    detailedUrl=''
+    detailedUrl = ''
 }: TableProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const [diplayedData, setDisplayedData] = useState([]);
@@ -62,7 +62,7 @@ export default function Table({
         return Math.min(currentPage * (pagination.pageSize || 10), data.length);
     };
 
-    const dataCallback = useCallback((data)=>{
+    const dataCallback = useCallback((data) => {
         setDisplayedData(data);
     }, [data])
 
@@ -89,20 +89,20 @@ export default function Table({
         );
     }, [currentPage, data]);
 
-    useEffect(()=>{
-        const getDataKeys = data?.map((item, i)=>({
+    useEffect(() => {
+        const getDataKeys = data?.map((item, i) => ({
             key: i,
             dropdown: false,
         }))
         setDropdown(getDataKeys)
-    },[])
+    }, [])
 
-    const sortData = useCallback((value)=>{
-        if(!isSort[value]){
-            const sort = diplayedData?.sort((a,b) => a[value] === b[value] ? 0 : a[value] < b[value] ? -1 : 1)
+    const sortData = useCallback((value) => {
+        if (!isSort[value]) {
+            const sort = diplayedData?.sort((a, b) => a[value] === b[value] ? 0 : a[value] < b[value] ? -1 : 1)
             setDisplayedData(sort)
-        }else {
-            const sort = diplayedData?.sort((a,b) => b[value] === a[value] ? 0 : b.name < a[value] ? -1 : 1)
+        } else {
+            const sort = diplayedData?.sort((a, b) => b[value] === a[value] ? 0 : b.name < a[value] ? -1 : 1)
             setDisplayedData(sort)
         }
     }, [isSort, diplayedData])
@@ -130,7 +130,7 @@ export default function Table({
                 {columns?.map(({ key, title, headerStyle, dataIndex, sort }) => {
                     const [sorted, setSorted] = useState(false);
 
-                    if(dataIndex !== 'hidden'){
+                    if (dataIndex !== 'hidden') {
                         return (
                             <div
                                 className={`${styles.tableHeaderCell} ${styles.tableCellTemplate} ${cellClassName}`}
@@ -140,13 +140,13 @@ export default function Table({
                                 {title}
                                 {
                                     sort && <>
-                                        <button 
+                                        <button
                                             className={styles.sortIcons}
-                                            onClick={()=>
-                                            {
-                                                setSorted(!sorted); 
-                                                setSort((prevState)=> ({...prevState, [dataIndex]: !sorted}));
-                                                sortData(dataIndex)}
+                                            onClick={() => {
+                                                setSorted(!sorted);
+                                                setSort((prevState) => ({ ...prevState, [dataIndex]: !sorted }));
+                                                sortData(dataIndex)
+                                            }
                                             }
                                         >
                                             <ReactSVG src="../images/icons/table/arrowUp.svg" alt="" />
@@ -163,12 +163,12 @@ export default function Table({
     );
 
     const dropdownFunc = (index) => {
-        setDropdown((prevState)=>{
-            const setNewData = prevState.map((item)=>{
-                if(item.key === index){
-                    return {...item, dropdown: !item.dropdown}
-                }else {
-                    return {...item, dropdown: false}
+        setDropdown((prevState) => {
+            const setNewData = prevState.map((item) => {
+                if (item.key === index) {
+                    return { ...item, dropdown: !item.dropdown }
+                } else {
+                    return { ...item, dropdown: false }
                 }
             })
             return setNewData
@@ -192,10 +192,10 @@ export default function Table({
                 {diplayedData.map((record, index) => {
                     return (
                         <>
-                            <div 
+                            <div
                                 className={classNames(styles.column, {
                                     [styles.columnOpen]: dropdown[index].dropdown,
-                                })} 
+                                })}
                             >
                                 <div>
                                     <TableRow
@@ -204,7 +204,7 @@ export default function Table({
                                         key={`table-row-${index}`}
                                         rowClassName={rowClassName}
                                         cellClassName={cellClassName}
-                                        dropDown={()=> dropdownFunc(index)}
+                                        dropDown={() => dropdownFunc(index)}
                                         detailedUrl={detailedUrl}
                                     />
                                 </div>
@@ -212,12 +212,12 @@ export default function Table({
                                     {
                                         [styles.statusOpen]: dropdown[index].dropdown,
                                         [styles.statusClosed]: !dropdown[index].dropdown,
-                                      }
-                                    )}
-                                    >
+                                    }
+                                )}
+                                >
                                     {
-                                        columns?.map((item, i)=>{
-                                            if(item.dataIndex === 'hidden'){
+                                        columns?.map((item, i) => {
+                                            if (item.dataIndex === 'hidden') {
                                                 return <>
                                                     <div className={styles.dropdownCol}>
                                                         <h2>{item.title}</h2>
@@ -232,15 +232,14 @@ export default function Table({
                         </>
                     )
                 })}
-                
+
             </div>
             {pagination ? (
                 <div className={styles.pagination}>
                     <div
                         className={styles.recordCounter}
-                    >{`${getStartPage()}-${getEndPage()} of ${
-                        data.length
-                    } records`}</div>
+                    >{`${getStartPage()}-${getEndPage()} of ${data.length
+                        } records`}</div>
                     <div className={styles.paginationControls}>
                         <span className={styles.paginatorTitle}>
                             The page you’er on
@@ -259,20 +258,18 @@ export default function Table({
                         <div className={styles.paginationButtons}>
                             <ReactSVG
                                 src="/images/icons/paginator/prev.svg"
-                                className={`${styles.paginationBtn} ${
-                                    currentPage === 1 ? styles.disable : ''
-                                }`}
+                                className={`${styles.paginationBtn} ${currentPage === 1 ? styles.disable : ''
+                                    }`}
                                 onClick={() => {
                                     setCurrentPage((origin) => origin - 1);
                                 }}
                             />
                             <ReactSVG
                                 src="/images/icons/paginator/next.svg"
-                                className={`${styles.paginationBtn} ${
-                                    currentPage === options.length
-                                        ? styles.disable
-                                        : ''
-                                }`}
+                                className={`${styles.paginationBtn} ${currentPage === options.length
+                                    ? styles.disable
+                                    : ''
+                                    }`}
                                 onClick={() => {
                                     setCurrentPage((origin) => origin + 1);
                                 }}
@@ -312,56 +309,56 @@ const TableRow = ({
         >
             {columnsDefinition.map(
                 ({ dataIndex, render, cellStyle }, index) => {
-                    let colLenght = columnsDefinition.filter(e=>e.dataIndex !=='hidden').length;
-                    if (render){
-                        return <>
-                        {
-                            index === 0 ? 
-                            <div onClick={()=> dropDown()}>
-                                {
-                                    render(
-                                        record[dataIndex],
-                                        `data-${record.key}-${index}`,
-                                    )
-                                }
-                            </div> 
-                            :
-                            (index !== colLenght - 1) ?  
-                            <Link href={detailedUrl}>
-                                {render(
-                                    record[dataIndex],
-                                    `data-${record.key}-${index}`,
-                                )}
-                            </Link> : 
-                                render(
-                                    record[dataIndex],
-                                    `data-${record.key}-${index}`,
-                                )
-                        }
-                        </>
-                    }
-                    if(dataIndex !== 'hidden') {
+                    let colLenght = columnsDefinition.filter(e => e.dataIndex !== 'hidden').length;
+                    if (render) {
                         return <>
                             {
-                                index === 0 ? 
-                                <div
-                                    className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
-                                    key={`data-${record.key}-${index}`}
-                                    style={cellStyle ? cellStyle : null}
-                                    onClick={()=> dropDown()}
-                                >
-                                    {record[dataIndex]}
-                                </div>
-                                :
-                                <Link href={detailedUrl}>
+                                index === 0 ?
+                                    <div onClick={() => dropDown()}>
+                                        {
+                                            render(
+                                                record[dataIndex],
+                                                `data-${record.key}-${index}`,
+                                            )
+                                        }
+                                    </div>
+                                    :
+                                    (index !== colLenght - 1) ?
+                                        <Link href={detailedUrl}>
+                                            {render(
+                                                record[dataIndex],
+                                                `data-${record.key}-${index}`,
+                                            )}
+                                        </Link> :
+                                        render(
+                                            record[dataIndex],
+                                            `data-${record.key}-${index}`,
+                                        )
+                            }
+                        </>
+                    }
+                    if (dataIndex !== 'hidden') {
+                        return <>
+                            {
+                                index === 0 ?
                                     <div
                                         className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
                                         key={`data-${record.key}-${index}`}
                                         style={cellStyle ? cellStyle : null}
+                                        onClick={() => dropDown()}
                                     >
                                         {record[dataIndex]}
                                     </div>
-                                </Link>
+                                    :
+                                    <Link href={detailedUrl}>
+                                        <div
+                                            className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
+                                            key={`data-${record.key}-${index}`}
+                                            style={cellStyle ? cellStyle : null}
+                                        >
+                                            {record[dataIndex]}
+                                        </div>
+                                    </Link>
                             }
                         </>
                     }

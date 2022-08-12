@@ -3,7 +3,6 @@ import 'styles/globals.css'
 import "styles/components/inputs/select.css";
 import { Hydrate ,QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-
 function MyApp({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page);
   const queryClient = React.useRef(new QueryClient())

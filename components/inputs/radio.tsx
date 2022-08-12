@@ -1,13 +1,13 @@
 import classNames from 'classnames';
 import { useState } from 'react';
-import styles from 'styles/components/inputs/Radio.module.scss';
+import styles from 'styles/components/Inputs/Radio.module.scss';
 
 interface RadioProps {
     className?: string;
     label?: string;
     checked?: boolean;
     defaultChecked?: boolean;
-    name?:string;
+    name?: string;
     onChange?: (checked: boolean) => void;
     id?: string;
 }

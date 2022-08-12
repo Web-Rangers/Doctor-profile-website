@@ -1,4 +1,4 @@
-import styles from 'styles/components/inputs/Button.module.scss';
+import styles from 'styles/components/Inputs/Button.module.scss';
 import classNames from 'classnames';
 
 export interface ButtonProps {
@@ -16,7 +16,7 @@ export interface ButtonProps {
 
 const Button = ({
     label,
-    onClick = () => {},
+    onClick = () => { },
     rounded = false,
     size = 'small',
     variant = 'fill',

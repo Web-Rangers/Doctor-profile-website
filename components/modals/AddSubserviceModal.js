@@ -1,4 +1,4 @@
-import styles from '/styles/components/modals/AddSubservice.module.scss';
+import styles from '/styles/components/Modals/AddSubservice.module.scss';
 import { Input, Button, Modal, Select, DatePicker } from 'components';
 import React, { useState } from 'react';
 import classNames from 'classnames';
@@ -23,7 +23,7 @@ export default function AddSubserviceModal({
                             className={styles.flag}
                             src="../images/icons/flags/GB.svg"
                         />
-                        <Input 
+                        <Input
                             className={styles.flagInput}
                             label='Subservices name in English'
                             placeholder='Enter name...'
@@ -34,7 +34,7 @@ export default function AddSubserviceModal({
                             className={styles.flag}
                             src="../images/icons/flags/RU.svg"
                         />
-                        <Input 
+                        <Input
                             className={styles.flagInput}
                             label='Subservices name in Russian'
                             placeholder="Введите название..."
@@ -45,14 +45,14 @@ export default function AddSubserviceModal({
                             className={styles.flag}
                             src="../images/icons/flags/GE.svg"
                         />
-                        <Input 
+                        <Input
                             className={styles.flagInput}
                             label='Subservices name in Georgian'
                             placeholder='შეიყვანეთ სათაური...'
                         />
-                    </div>                    
+                    </div>
                     <div>
-                        <Select 
+                        <Select
                             label="Type"
                             labelStyle="outside"
                             className={styles.halfInput}
@@ -62,24 +62,24 @@ export default function AddSubserviceModal({
                                     value: "1",
                                 },
                                 { label: "Status 2", value: "2" },
-                                ]}
+                            ]}
                             onChange={(value) => {
                                 setType(value);
                             }}
                             value={type}
                         />
-                        <Input 
+                        <Input
                             className={styles.halfInput}
                             label='Price'
                         />
                     </div>
                 </div>
                 <div className={styles.editBtns}>
-                    <Button 
-                        label="Add subservice" 
-                        size="large" 
-                        variant="fill" 
-                        className={styles.modalInput} 
+                    <Button
+                        label="Add subservice"
+                        size="large"
+                        variant="fill"
+                        className={styles.modalInput}
                     />
                 </div>
             </div>
