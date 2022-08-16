@@ -4,7 +4,7 @@ import SideBarLayout from 'layouts/SideBarLayout';
 import styles from 'styles/pages/clinics.module.css';
 import tableStyles from 'styles/components/Table.module.scss';
 import { useState, useEffect } from 'react';
-import {useClinicsData} from '../../components/useClinicsData';
+import {useClinicsData} from 'components/useClinicsData';
 
 export default function Clinics({list}) { 
     const [isModalOpen, setModalOpen] = useState(false);

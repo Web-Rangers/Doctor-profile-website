@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import BranchTab from 'components/tabs/BranchTab';
 import {useRouter} from 'next/router'
-import {useClinicData} from '../../../components/useClinicsData';
+import {useClinicData} from 'components/useClinicsData';
 
 interface ActionProps {
     icon?: string;
