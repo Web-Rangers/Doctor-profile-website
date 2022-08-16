@@ -3,8 +3,8 @@ import { Input, Button, Modal, CheckBox } from 'components';
 import { useState, useRef } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
-import {useQuery, useMutation} from '@tanstack/react-query';
-import {useClinicsData} from '../useClinicsData';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { useClinicsData } from '../useClinicsData';
 
 interface ClinicData {
     name?: string;
@@ -20,7 +20,7 @@ interface ClinicModalProps {
     onClose?: () => void;
     onSave?: (newData: ClinicData) => void;
     onCancel?: () => void;
-    setBool?:any;
+    setBool?: any;
 }
 
 export default function AddClinicModal({
@@ -47,30 +47,30 @@ export default function AddClinicModal({
         webkitRelativePath: ""
     };
 
-    const addClinic = async() => {
+    const addClinic = async () => {
         return axios.post("/asclepius/v1/api/clinics/", {
-                "displayName": name,
-                "days": 1,
-                "startHours": startHours,
-                "phone": phone,
-                "endHours": endHours,
-                "address": address,
-                "logoBody": `${img}`,
-                "description": about,
-                "eligibleForVAT": eligable
-            }, {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              }).then((response)=> {refetch(); console.log(response)})
+            "displayName": name,
+            "days": 1,
+            "startHours": startHours,
+            "phone": phone,
+            "endHours": endHours,
+            "address": address,
+            "logoBody": `${img}`,
+            "description": about,
+            "eligibleForVAT": eligable
+        }, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        }).then((response) => { refetch(); console.log(response) })
     }
 
     const addClinicMutation = () => {
         return useMutation(addClinic)
     }
 
-    const { mutate: addClinics } = addClinicMutation();
- 
+    const { mutate: addClinics } = useMutation((clinic) => addClinics(clinic));
+
     const handleClick = () => {
         const clinicBody = {
             "displayName": name,
@@ -141,12 +141,12 @@ export default function AddClinicModal({
                     />
                 </div>
                 <div className={styles.modalContentRow}>
-                    <CheckBox 
-                        id='eligable_for_vat' 
+                    <CheckBox
+                        id='eligable_for_vat'
                         label='Eligable for VAT'
                         className={styles.checkbox}
                         defaultChecked={eligable}
-                        onChange={()=>{setEligable(!eligable)}}
+                        onChange={() => { setEligable(!eligable) }}
                     />
                 </div>
             </div>
@@ -161,16 +161,18 @@ export default function AddClinicModal({
                 <Button
                     label="Add"
                     variant="fill"
-                    onClick={() =>{
-                            {name && address && startHours && endHours ? 
+                    onClick={() => {
+                        {
+                            name && address && startHours && endHours ?
                             handleClick()
-                            : alert('Fields are not filled')}
-                            onSave?.call(null, {
-                                phone,
-                                address,
-                                time,
-                                about,
-                            })
+                            : alert('Fields are not filled')
+                        }
+                        onSave?.call(null, {
+                            phone,
+                            address,
+                            time,
+                            about,
+                        })
                     }
                     }
                     size="large"
