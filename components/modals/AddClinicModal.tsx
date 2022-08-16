@@ -1,10 +1,10 @@
-import styles from '/styles/components/modals/ClinicModal.module.scss';
+import styles from 'styles/components/modals/ClinicModal.module.scss';
 import { Input, Button, Modal, CheckBox } from 'components';
 import { useState, useRef } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { useClinicsData } from '../useClinicsData';
+import { useClinicsData } from 'components';
 
 interface ClinicData {
     name?: string;
