@@ -1,11 +1,11 @@
 import classNames from 'classnames';
-import styles from 'styles/components/Inputs/Input.module.scss';
+import styles from 'styles/components/inputs/Input.module.scss';
 import { ReactSVG } from 'react-svg';
 
 interface InputProps {
     children?: React.ReactNode;
     className?: string;
-    type?: 'text' | 'time' | 'email' | 'password';
+    type?: 'text' | 'time' | 'email' | 'password' | 'select' | 'date';
     value?: string | number;
     onChange?: (value: string | number) => void;
     label?: string;
