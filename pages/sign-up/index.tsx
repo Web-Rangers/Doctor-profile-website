@@ -37,7 +37,7 @@ export default function Authorization() {
                             setStep((origin) => origin + 1);
                         }}
                     >
-                        <Image alt='' src="/images/signUp/self-employed.png" />
+                        <img alt='' src="/images/signUp/self-employed.png" />
                         <div className={styles.title}>Self-employed</div>
                     </div>
                     <div
@@ -46,7 +46,7 @@ export default function Authorization() {
                             setStep((origin) => origin + 1);
                         }}
                     >
-                        <Image alt='' src="/images/signUp/company member.png" />
+                        <img alt='' src="/images/signUp/company member.png" />
                         <div className={styles.title}>Company member</div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@ export default function Authorization() {
                 <Card cardTitle="General information" className={styles.card}>
                     <div className={styles.cardBody}>
                         <div className={styles.photoChange}>
-                            <Image
+                            <img
                                 src="/images/doctors/doctor.png"
                                 alt="doctor"
                                 className={styles.doctorImage}
@@ -197,7 +197,7 @@ export default function Authorization() {
                         </div>
                         <div className={styles.filesContainer}>
                             <div className={styles.file}>
-                                {/* <Image alt='' className={styles.preview} /> */}
+                                {/* <img alt='' className={styles.preview} /> */}
                                 <div className={styles.info}>
                                     <div className={styles.name}>
                                         397c884d46e1cf1730d6067442f5fbdd.png
@@ -211,7 +211,7 @@ export default function Authorization() {
                                 />
                             </div>
                             <div className={styles.file}>
-                                {/* <Image alt='' className={styles.preview} /> */}
+                                {/* <img alt='' className={styles.preview} /> */}
                                 <div className={styles.info}>
                                     <div className={styles.name}>
                                         397c884d46e1cf1730d6067442f5fbdd.png
@@ -289,7 +289,7 @@ export default function Authorization() {
                         </div>
                         <div className={styles.filesContainer}>
                             <div className={styles.file}>
-                                {/* <Image alt='' className={styles.preview} /> */}
+                                {/* <img alt='' className={styles.preview} /> */}
                                 <div className={styles.info}>
                                     <div className={styles.name}>
                                         397c884d46e1cf1730d6067442f5fbdd.png
@@ -303,7 +303,7 @@ export default function Authorization() {
                                 />
                             </div>
                             <div className={styles.file}>
-                                {/* <Image className={styles.preview} /> */}
+                                {/* <img className={styles.preview} /> */}
                                 <div className={styles.info}>
                                     <div className={styles.name}>
                                         397c884d46e1cf1730d6067442f5fbdd.png
@@ -336,7 +336,7 @@ export default function Authorization() {
                 <Card className={styles.card}>
                     <div className={styles.verificationRow}>
                         <div className={styles.photoContainer}>
-                            <Image
+                            <img
                                 alt=''
                                 className={styles.verificationImage}
                                 src="/images/signUp/passport.png"
@@ -365,7 +365,7 @@ export default function Authorization() {
                 <Card className={styles.card}>
                     <div className={styles.verificationRow}>
                         <div className={styles.photoContainer}>
-                            <Image
+                            <img
                                 alt=''
                                 className={styles.verificationImage}
                                 src="/images/signUp/diploma.png"
@@ -394,7 +394,7 @@ export default function Authorization() {
                 <Card className={styles.card}>
                     <div className={styles.verificationRow}>
                         <div className={styles.photoContainer}>
-                            <Image
+                            <img
                                 alt=''
                                 className={styles.verificationImage}
                                 src="/images/signUp/license.png"
@@ -423,7 +423,7 @@ export default function Authorization() {
                 <Card className={styles.card}>
                     <div className={styles.verificationRow}>
                         <div className={styles.photoContainer}>
-                            <Image
+                            <img
                                 alt=''
                                 className={styles.verificationImage}
                                 src="/images/signUp/expandedPhoto.png"
@@ -457,7 +457,7 @@ export default function Authorization() {
         return (
             <Card className={styles.card}>
                 <div className={styles.finishContainer}>
-                    <Image alt='' src="/images/signUp/finish.png" />
+                    <img alt='' src="/images/signUp/finish.png" />
                     <div className={styles.finishText}>
                         Thank you for the information provided, our operators
                         are currently processing it. After processing, our

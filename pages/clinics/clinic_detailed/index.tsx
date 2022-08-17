@@ -9,8 +9,8 @@ import Breadcrumbs from 'nextjs-breadcrumbs';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import BranchTab from 'components/tabs/BranchTab';
-import {useRouter} from 'next/router'
-import {useClinicData} from 'components/useClinicsData';
+import { useRouter } from 'next/router'
+import { useClinicData } from 'components/useClinicsData';
 import Image from 'next/image';
 
 interface ActionProps {
@@ -117,7 +117,7 @@ export default function ClinicDetailed() {
                     <div className={styles.row}>
                         <div className={styles.colSmall}>
                             <Card className={styles.smallCard}>
-                                <Image
+                                <img
                                     alt=''
                                     src={
                                         '/images/icons/clinics/medicalhouse.png'

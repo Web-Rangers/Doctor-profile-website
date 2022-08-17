@@ -45,7 +45,7 @@ export default function AddUser() {
                         </div>
                         <div className={styles.columnRight}>
                             <span className={styles.label}>Profile photo</span>
-                            <Image
+                            <img
                                 alt=''
                                 src="/images/users/user.png"
                                 className={styles.doctorImage}
@@ -69,7 +69,7 @@ export default function AddUser() {
                             <Select
                                 label="City"
                                 labelStyle="outside"
-                                onChange={() => {}}
+                                onChange={() => { }}
                                 options={[]}
                             />
                             <Input label="E-mail" />
@@ -96,7 +96,7 @@ export default function AddUser() {
                             <Select
                                 label="Card type"
                                 labelStyle="outside"
-                                onChange={() => {}}
+                                onChange={() => { }}
                                 options={[]}
                             />
                         </div>

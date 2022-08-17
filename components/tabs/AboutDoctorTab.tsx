@@ -192,7 +192,7 @@ export default function AboutDoctorTab({ doctor = {} }: AboutDoctorTabProps) {
                 <div className={styles.mediaContainer}>
                     {doctor.media?.map((media, index) => (
                         <div key={index} className={styles.mediaItem}>
-                            <Image src={media.src} alt={media.alt} />
+                            <img src={media.src} alt={media.alt} />
                         </div>
                     ))}
                 </div>

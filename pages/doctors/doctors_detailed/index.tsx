@@ -55,7 +55,7 @@ export default function DoctorsDetailed() {
                         </div>
                         <div className={styles.modalBody}>
                             <div className={styles.photoChange}>
-                                <Image
+                                <img
                                     src="/images/doctors/doctor.png"
                                     alt="doctor"
                                     className={styles.doctorImage}
@@ -122,7 +122,7 @@ export default function DoctorsDetailed() {
                 <div className={styles.pageBody}>
                     <Card className={styles.doctorRow}>
                         <div className={styles.imageContainer}>
-                            <Image
+                            <img
                                 src="/images/doctors/doctor.png"
                                 alt="doctor"
                                 className={styles.image}

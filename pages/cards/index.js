@@ -1,7 +1,7 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import SideBarLayout from 'layouts/SideBarLayout';
 import Breadcrumbs from 'nextjs-breadcrumbs';
-import {  Card, Input, Button, TableWithDropdowns, CheckBox, DatePicker, EditCard  } from 'components';
+import { Card, Input, Button, TableWithDropdowns, CheckBox, DatePicker, EditCard } from 'components';
 import classNames from "classnames";
 import TableStyles from 'styles/components/TableWithDropdown.module.scss';
 import styles from 'styles/pages/cards.module.scss';
@@ -17,7 +17,7 @@ export default function Cards() {
     const [searchValue, setSearchValue] = useState('');
 
     const cardList = [{
-        name:'Silver Card',
+        name: 'Silver Card',
         price: 120,
         cost_for_family_members: 20,
         expiration_date: '1 year',
@@ -28,7 +28,7 @@ export default function Cards() {
         image: 'images/cards/card.png'
     },
     {
-        name:'Gold card',
+        name: 'Gold card',
         price: 500,
         cost_for_family_members: 400,
         expiration_date: '5 month',
@@ -39,7 +39,7 @@ export default function Cards() {
         image: 'images/cards/card.png'
     },
     {
-        name:'Platinum card',
+        name: 'Platinum card',
         price: 120,
         cost_for_family_members: 20,
         expiration_date: '1 year',
@@ -56,9 +56,9 @@ export default function Cards() {
             title: "Order Id",
             dataIndex: "order_id",
             render: (record, key) => {
-              return (
+                return (
                     <div className={styles.tableGroup}>
-                        <ReactSVG src={"/images/icons/table/arrow.svg"} className={classNames(styles.arrowIcon)}/>
+                        <ReactSVG src={"/images/icons/table/arrow.svg"} className={classNames(styles.arrowIcon)} />
                         <div>
                             <h2>{record}</h2>
                         </div>
@@ -126,8 +126,8 @@ export default function Cards() {
     const analysisData = [
         {
             order_id: '214134556',
-            name:'Brooklyn Simmons',
-            phone_number:'+9952345562',
+            name: 'Brooklyn Simmons',
+            phone_number: '+9952345562',
             card_type: 'Individual',
             card: 'Platinum',
             card_price: 200,
@@ -140,8 +140,8 @@ export default function Cards() {
         },
         {
             order_id: '214134556',
-            name:'Brooklyn Simmons',
-            phone_number:'+9952345562',
+            name: 'Brooklyn Simmons',
+            phone_number: '+9952345562',
             card_type: 'Individual',
             card: 'Platinum',
             card_price: 200,
@@ -154,8 +154,8 @@ export default function Cards() {
         },
         {
             order_id: '214134556',
-            name:'Brooklyn Simmons',
-            phone_number:'+9952345562',
+            name: 'Brooklyn Simmons',
+            phone_number: '+9952345562',
             card_type: 'Individual',
             card: 'Platinum',
             card_price: 200,
@@ -168,8 +168,8 @@ export default function Cards() {
         },
         {
             order_id: '214134556',
-            name:'Brooklyn Simmons',
-            phone_number:'+9952345562',
+            name: 'Brooklyn Simmons',
+            phone_number: '+9952345562',
             card_type: 'Individual',
             card: 'Platinum',
             card_price: 200,
@@ -182,8 +182,8 @@ export default function Cards() {
         },
         {
             order_id: '214134556',
-            name:'Brooklyn Simmons',
-            phone_number:'+9952345562',
+            name: 'Brooklyn Simmons',
+            phone_number: '+9952345562',
             card_type: 'Individual',
             card: 'Platinum',
             card_price: 200,
@@ -211,10 +211,10 @@ export default function Cards() {
                     />
                 </div>
             </div>
-            
+
             <Card className={styles.cards}>
                 {
-                    cardList.map((card)=>{
+                    cardList.map((card) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         const [isOpen, setIsOpen] = useState(false)
                         // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -222,17 +222,17 @@ export default function Cards() {
 
                         return <>
                             {
-                                isModalOpen && 
-                                <EditCard 
-                                    onCancel={()=> setModalOpen(false)}
-                                    onClose={()=> setModalOpen(false)}
-                                    onSave={()=> setModalOpen(false)}
+                                isModalOpen &&
+                                <EditCard
+                                    onCancel={() => setModalOpen(false)}
+                                    onClose={() => setModalOpen(false)}
+                                    onSave={() => setModalOpen(false)}
                                 />
                             }
                             <div className={styles.cardContainer}>
                                 <div className={styles.cardBlock}>
                                     <div className={styles.cardImage}>
-                                        <Image src={card.image} alt="" />
+                                        <img src={card.image} alt="" />
                                     </div>
                                     <div className={styles.cardInfo}>
                                         <h2 className={styles.cardTitle}>{card.name}</h2>
@@ -252,12 +252,12 @@ export default function Cards() {
                                         </div>
                                         <div className={styles.cardBtns}>
                                             <Button label="History" size="large" variant="fill" />
-                                            <div 
-                                                className={styles.seeAllBtn} 
-                                                onClick={()=>setIsOpen(!isOpen)}
+                                            <div
+                                                className={styles.seeAllBtn}
+                                                onClick={() => setIsOpen(!isOpen)}
                                             >
-                                                <ReactSVG 
-                                                    src={"/images/icons/table/arrow.svg"} 
+                                                <ReactSVG
+                                                    src={"/images/icons/table/arrow.svg"}
                                                     className={classNames(styles.arrowIcon, {
                                                         [styles.rotateArrow]: isOpen
                                                     })}
@@ -267,10 +267,10 @@ export default function Cards() {
                                         </div>
                                     </div>
                                     <div className={styles.editBtn}>
-                                        <ReactSVG 
-                                            src={"/images/icons/offer/edit.svg"} 
+                                        <ReactSVG
+                                            src={"/images/icons/offer/edit.svg"}
                                             className={classNames(styles.editIcon)}
-                                            onClick={()=> setModalOpen(!isModalOpen)}
+                                            onClick={() => setModalOpen(!isModalOpen)}
                                         />
                                     </div>
                                     <div></div>
@@ -301,20 +301,20 @@ export default function Cards() {
                 }
             </Card>
 
-            <Card 
+            <Card
                 className={styles.tableCard}
                 cardTitle="Card orders"
                 cardActions={
                     <div className={styles.cardOrderActions}>
                         <div className={styles.cardBtns}>
-                            <Button 
-                                label="Card expired" 
-                                size="large" 
-                                variant="outline" 
+                            <Button
+                                label="Card expired"
+                                size="large"
+                                variant="outline"
                                 className={styles.expired} />
-                            <Button 
-                                label="Filter" 
-                                size="large" 
+                            <Button
+                                label="Filter"
+                                size="large"
                                 variant="outline"
                                 icon={
                                     <ReactSVG
@@ -325,18 +325,18 @@ export default function Cards() {
                                         )}
                                     />
                                 }
-                                onClick={()=>setIsOpen(!isOpen)}
+                                onClick={() => setIsOpen(!isOpen)}
                             />
                         </div>
                         <div className={classNames(styles.filterContainer, {
-                        [styles.filterOpen]: isOpen,
+                            [styles.filterOpen]: isOpen,
                         })}>
-                            <Input 
+                            <Input
                                 className={styles.searchBar}
-                                name="search" 
-                                id="search" 
+                                name="search"
+                                id="search"
                                 label="Client"
-                                onChange={(e)=> setSearchValue(e)}
+                                onChange={(e) => setSearchValue(e)}
                                 value={searchValue}
                                 placeholder='Search'
                             />
@@ -387,21 +387,21 @@ export default function Cards() {
                                     <div className={styles.filterBl_2}>
                                         <div className={styles.minMax}>
                                             <h2>Number of people</h2>
-                                            <div>                                        
-                                                    <Input
-                                                            className={styles.intervalInput}
-                                                            value={min}
-                                                            onChange={(value) => setMin(value)}
-                                                            defaultValue={min}
-                                                        />
-                                                    <div className={styles.divider} />
-                                                    <Input
-                                                        className={styles.intervalInput}
-                                                        value={max}
-                                                        onChange={(value) => setMax(value)}
-                                                        defaultValue={max}
-                                                    />
-                                            </div> 
+                                            <div>
+                                                <Input
+                                                    className={styles.intervalInput}
+                                                    value={min}
+                                                    onChange={(value) => setMin(value)}
+                                                    defaultValue={min}
+                                                />
+                                                <div className={styles.divider} />
+                                                <Input
+                                                    className={styles.intervalInput}
+                                                    value={max}
+                                                    onChange={(value) => setMax(value)}
+                                                    defaultValue={max}
+                                                />
+                                            </div>
                                         </div>
                                         <div className={styles.selects}>
                                             <h2>Card</h2>
@@ -433,8 +433,8 @@ export default function Cards() {
                             </div>
                             <div className={styles.filterBtns}>
                                 <div>
-                                    <CheckBox 
-                                        id={1} 
+                                    <CheckBox
+                                        id={1}
                                         className={styles.checkbox}
                                         label="Show cards expiring soon"
                                     />
@@ -476,6 +476,6 @@ export default function Cards() {
     </>
 }
 
-Cards.getLayout = (page) =>{
+Cards.getLayout = (page) => {
     return <SideBarLayout>{page}</SideBarLayout>
 }

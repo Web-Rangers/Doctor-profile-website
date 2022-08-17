@@ -23,7 +23,7 @@ export default function GalleryCard({
     const [isSelect, setIsSelect] = useState(false);
     return (
         <div className={classNames([styles.cardBody, className])}>
-            <Image src={src} alt="gallery" className={styles.image} />
+            <img src={src} alt="gallery" className={styles.image} />
             {isEdit && (
                 <div className={styles.cardActions}>
                     <CheckBox

@@ -64,7 +64,7 @@ export default function Users() {
                         key={key}
                     >
                         <div className={styles.photoContainer}>
-                            <Image
+                            <img
                                 alt=''
                                 className={styles.photo}
                                 src={record.photo}
@@ -372,7 +372,7 @@ export default function Users() {
                                                     value: 'minsk',
                                                 },
                                             ]}
-                                            onChange={() => {}}
+                                            onChange={() => { }}
                                         />
                                     </div>
                                 </div>
@@ -407,7 +407,7 @@ export default function Users() {
                                         <Input
                                             className={styles.intervalInput}
                                             value={min > max ? max : min}
-                                            onChange={(value) => {}}
+                                            onChange={(value) => { }}
                                         />
                                         <div className={styles.divider} />
                                         <Input

@@ -7,7 +7,7 @@ export default function ResetPassword() {
     return (
         <div className={aStyles.container}>
             <div className={aStyles.imageContainer}>
-                <Image src="/images/authorization/reset.png" alt="reset password" className={aStyles.image} />
+                <img src="/images/authorization/reset.png" alt="reset password" className={aStyles.image} />
             </div>
             <div className={aStyles.signInContainer}>
                 <div className={aStyles.signIn}>

@@ -1,8 +1,8 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import SideBarLayout from 'layouts/SideBarLayout';
-import Breadcrumbs from 'nextjs-breadcrumbs'; 
+import Breadcrumbs from 'nextjs-breadcrumbs';
 import styles from 'styles/pages/ordersDetailed.module.scss';
-import {Card, Input, Button} from 'components';
+import { Card, Input, Button } from 'components';
 import { ReactSVG } from 'react-svg';
 import Image from 'next/image';
 
@@ -12,13 +12,13 @@ export default function OrdersDetailed() {
     const [comments, setComments] = useState([
         {
             name: 'Katona Beatrix',
-            role: 'Patient', 
+            role: 'Patient',
             message: 'The specialist approached me very well, and the consultations helped. It seemed to me that his approach was very gentle, he behaved very professionally. Thank you!',
             image: '../images/users/user3.png'
         },
         {
             name: 'Brooklyn Simmons',
-            role: 'Neurologist', 
+            role: 'Neurologist',
             message: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.',
             image: '../images/users/user2.png'
         }
@@ -81,17 +81,17 @@ export default function OrdersDetailed() {
     const addComment = () => {
         const body = {
             name: 'Katona Beatrix',
-            role: 'Patient', 
+            role: 'Patient',
             message: commentValue,
             image: '../images/users/user2.png'
         }
 
-        if(commentValue !== ''){
-            setComments((prevComments)=>([
+        if (commentValue !== '') {
+            setComments((prevComments) => ([
                 ...prevComments,
                 body
             ]))
-    
+
             setCommentValue('')
         }
     }
@@ -151,7 +151,7 @@ export default function OrdersDetailed() {
             </Card>
 
             <div className={styles.cardColumns}>
-                <Card 
+                <Card
                     className={styles.colCard}
                     cardTitle="service"
                 >
@@ -181,7 +181,7 @@ export default function OrdersDetailed() {
                         </div>
                     </div>
                 </Card>
-                <Card 
+                <Card
                     className={styles.colCard}
                     cardTitle="Doctor info"
                 >
@@ -204,7 +204,7 @@ export default function OrdersDetailed() {
                         </div>
                     </div>
                 </Card>
-                <Card 
+                <Card
                     className={styles.colCard}
                     cardTitle="Order summery"
                 >
@@ -227,7 +227,7 @@ export default function OrdersDetailed() {
                         </div>
                     </div>
                 </Card>
-                <Card 
+                <Card
                     className={styles.colCard}
                     cardTitle="Order history"
                 >
@@ -260,12 +260,12 @@ export default function OrdersDetailed() {
                 </Card>
             </div>
 
-            <Card 
+            <Card
                 cardTitle="Transaction"
                 className={styles.tableCard}
             >
                 <div className={styles.tableCeil}>
-                    {transaction_keys?.map((ceil)=>{
+                    {transaction_keys?.map((ceil) => {
                         return <>
                             <span className={styles.ceilTitle}>
                                 {ceil.title}
@@ -274,7 +274,7 @@ export default function OrdersDetailed() {
                     })}
                 </div>
                 <div className={styles.tableCeils}>
-                    {transaction_date?.map((item)=>{
+                    {transaction_date?.map((item) => {
                         return <>
                             <div className={styles.tableCeil}>
                                 <span>{item.transaction_id}</span>
@@ -288,33 +288,33 @@ export default function OrdersDetailed() {
                 </div>
             </Card>
 
-            <Card 
+            <Card
                 cardTitle="Comments"
                 className={styles.comments}
             >
                 <div className={styles.addComentForm}>
-                    <Input 
+                    <Input
                         type="text"
-                        onChange={(e)=> setCommentValue(e)}
+                        onChange={(e) => setCommentValue(e)}
                         value={commentValue}
                         multiline
                     />
-                    <Button 
+                    <Button
                         className={styles.commentBtn}
                         variant="fill"
                         size="large"
                         label="Submit"
-                        onClick={()=>addComment()}
+                        onClick={() => addComment()}
                     />
                 </div>
 
                 <div className={styles.commentList}>
                     {
-                        comments?.map((comment)=>{
+                        comments?.map((comment) => {
                             return <>
                                 <div className={styles.commentForm}>
                                     <div className={styles.image}>
-                                        <Image src={comment.image} alt="" />
+                                        <img src={comment.image} alt="" />
                                     </div>
                                     <div className={styles.commentInfo}>
                                         <h2>{comment.name} • {comment.role}</h2>

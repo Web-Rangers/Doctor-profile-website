@@ -67,12 +67,12 @@ export default function AddClinicModal({
         }).then((response) => { refetch(); console.log(response) })
     }
 
-    const addClinicMutation = () => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        return useMutation(addClinic)
-    }
+    // const addClinicMutation = () => {
+    //     // eslint-disable-next-line react-hooks/rules-of-hooks
+    //     return useMutation(addClinic)
+    // }
 
-    const { mutate: addClinics } = useMutation((clinic) => addClinics(clinic));
+    const { mutate: addClinics } = useMutation(addClinic)
 
     const handleClick = () => {
         const clinicBody = {
@@ -85,7 +85,7 @@ export default function AddClinicModal({
             "description": about
         }
 
-        addClinics(clinicBody)
+        addClinics()
     }
 
     return (
@@ -93,7 +93,7 @@ export default function AddClinicModal({
             <span className={styles.modalTitle}>Add clinic</span>
             <div className={styles.modalContent}>
                 <div className={classNames(styles.modalContentRow, styles.center)}>
-                    <Image className={styles.image} src="/images/icons/clinics/placeholder.png" alt="" />
+                    <img className={styles.image} src="/images/icons/clinics/placeholder.png" alt="" />
                     <Button className={styles.imageChange} label="change" size="large" />
                 </div>
                 <div className={styles.modalContentRow}>
@@ -167,8 +167,8 @@ export default function AddClinicModal({
                     onClick={() => {
                         {
                             name && address && startHours && endHours ?
-                            handleClick()
-                            : alert('Fields are not filled')
+                                handleClick()
+                                : alert('Fields are not filled')
                         }
                         onSave?.call(null, {
                             phone,

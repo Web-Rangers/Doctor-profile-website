@@ -65,7 +65,7 @@ export default function StuffCard({
             </div>
 
             <div className={styles.presonalColumn}>
-                <Image alt='' src={data.icon} className={styles.icon} />
+                <img alt='' src={data.icon} className={styles.icon} />
                 <div className={styles.name}>{data.name}</div>
                 <div className={styles.description}>{data.description}</div>
                 <div className={styles.clinicRating}>

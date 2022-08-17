@@ -256,7 +256,7 @@ export default function UserDetailed() {
             <div className={styles.pageBody}>
                 <Card className={styles.doctorRow}>
                     <div className={styles.imageContainer}>
-                        <Image
+                        <img
                             src="/images/users/user.png"
                             alt="doctor"
                             className={styles.image}
@@ -275,7 +275,7 @@ export default function UserDetailed() {
                     </div>
                     <EditAction
                         icon="/images/icons/inputs/edit.svg"
-                        onClick={() => {}}
+                        onClick={() => { }}
                     />
                 </Card>
                 <Card
@@ -283,7 +283,7 @@ export default function UserDetailed() {
                     cardActions={
                         <EditAction
                             icon="/images/icons/inputs/edit.svg"
-                            onClick={() => {}}
+                            onClick={() => { }}
                         />
                     }
                 >

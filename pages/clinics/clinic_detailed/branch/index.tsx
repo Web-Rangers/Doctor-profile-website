@@ -70,7 +70,7 @@ export default function Branch() {
                     <div className={cDStyles.row}>
                         <div className={cDStyles.colSmall}>
                             <Card className={cDStyles.smallCard}>
-                                <Image
+                                <img
                                     alt=""
                                     src={"/images/icons/clinics/medicalhouse.png"}
                                     className={cDStyles.clinicIcon}
