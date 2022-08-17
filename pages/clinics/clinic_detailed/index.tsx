@@ -85,12 +85,12 @@ const clinicData = {
 export default function ClinicDetailed() {
     const [clinicEdtModalIsOpen, setClinicEdtModalIsOpen] = useState(false);
     const router = useRouter();
-    const id = typeof router.query?.id === "string" ? router.query.id : "";
+    const id = router.query.id ?? null;
 
-    console.log(id)
+    // console.log(id)
 
     const { data, refetch } = useClinicData(id)
-    console.log('this is data', data)
+    // console.log('this is data', data)
     return (
         <>
             {clinicEdtModalIsOpen && (
