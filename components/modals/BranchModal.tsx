@@ -1,4 +1,4 @@
-import styles from 'styles/components/modals/BranchModal.module.scss';
+import styles from '/styles/components/Modals/BranchModal.module.scss';
 import { useState } from 'react';
 import { Button, Input, Modal } from 'components';
 
