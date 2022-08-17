@@ -17,6 +17,7 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import styles from 'styles/pages/doctors_detailed.module.scss';
 import tabStyles from 'styles/components/Tabs/tabs.module.scss';
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface ActionProps {
     icon?: string;

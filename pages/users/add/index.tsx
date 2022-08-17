@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { Button, Card, DatePicker, Input, Select } from 'components';
 import Radio from 'components/inputs/radio';
 import SideBarLayout from 'layouts/SideBarLayout';
+import Image from 'next/image';
 import Breadcrumbs from 'nextjs-breadcrumbs';
 import { useState } from 'react';
 import styles from 'styles/pages/AddUser.module.scss';
@@ -45,6 +46,7 @@ export default function AddUser() {
                         <div className={styles.columnRight}>
                             <span className={styles.label}>Profile photo</span>
                             <img
+                                alt=''
                                 src="/images/users/user.png"
                                 className={styles.doctorImage}
                             />
@@ -67,7 +69,7 @@ export default function AddUser() {
                             <Select
                                 label="City"
                                 labelStyle="outside"
-                                onChange={() => {}}
+                                onChange={() => { }}
                                 options={[]}
                             />
                             <Input label="E-mail" />
@@ -94,7 +96,7 @@ export default function AddUser() {
                             <Select
                                 label="Card type"
                                 labelStyle="outside"
-                                onChange={() => {}}
+                                onChange={() => { }}
                                 options={[]}
                             />
                         </div>

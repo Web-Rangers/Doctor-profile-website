@@ -1,4 +1,4 @@
-import styles from '/styles/components/Modals/EditServiceModal.module.scss';
+import styles from 'styles/components/Modals/EditServiceModal.module.scss';
 import { Input, Button, Modal, Select, DatePicker } from 'components';
 import { useState } from 'react';
 import classNames from 'classnames';

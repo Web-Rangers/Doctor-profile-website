@@ -64,6 +64,7 @@ export default function Table({
 
     const dataCallback = useCallback((data) => {
         setDisplayedData(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data])
 
     const selectPage = (selectedOption) => {
@@ -87,6 +88,7 @@ export default function Table({
                 currentPage * (pagination.pageSize || 10)
             )
         );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage, data]);
 
     useEffect(() => {
@@ -95,6 +97,7 @@ export default function Table({
             dropdown: false,
         }))
         setDropdown(getDataKeys)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const sortData = useCallback((value) => {
@@ -128,6 +131,7 @@ export default function Table({
                 )}
             >
                 {columns?.map(({ key, title, headerStyle, dataIndex, sort }) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
                     const [sorted, setSorted] = useState(false);
 
                     if (dataIndex !== 'hidden') {

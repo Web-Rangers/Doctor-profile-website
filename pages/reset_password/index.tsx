@@ -1,6 +1,7 @@
 import { Button, Input } from "components/inputs";
 import Link from "next/link";
 import aStyles from "styles/pages/authorization.module.scss";
+import Image from 'next/image';
 
 export default function ResetPassword() {
     return (

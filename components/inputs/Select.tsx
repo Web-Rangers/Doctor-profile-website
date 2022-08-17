@@ -32,6 +32,7 @@ export default function Select({
 
   useEffect(() => {
     setSelected(options.find((option) => option.value === value));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return (
@@ -61,6 +62,7 @@ export default function Select({
         >
           {options.map((option) => (
             <div
+              key={option.value}
               className={classNames(styles.option, {
                 [styles.active]: option === selected,
               })}

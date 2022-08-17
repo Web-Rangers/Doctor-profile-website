@@ -9,3 +9,4 @@ export { default as TableWithSort} from './TableWithSort';
 export { default as TableServices } from './TableServices';
 export { default as Navigation } from './Navigation';
 export { default as Calendar } from './Calendar';
+export { useClinicsData } from './useClinicsData.js';

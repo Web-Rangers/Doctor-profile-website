@@ -17,6 +17,7 @@ import tableStyles from "styles/components/Table.module.scss";
 import Breadcrumbs from "nextjs-breadcrumbs";
 import classNames from "classnames";
 import { useState } from "react";
+import Image from "next/image";
 
 interface ActionProps {
     icon?: string;
@@ -70,6 +71,7 @@ export default function Branch() {
                         <div className={cDStyles.colSmall}>
                             <Card className={cDStyles.smallCard}>
                                 <img
+                                    alt=""
                                     src={"/images/icons/clinics/medicalhouse.png"}
                                     className={cDStyles.clinicIcon}
                                 />

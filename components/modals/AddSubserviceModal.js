@@ -1,4 +1,4 @@
-import styles from '/styles/components/Modals/AddSubservice.module.scss';
+import styles from 'styles/components/Modals/AddSubservice.module.scss';
 import { Input, Button, Modal, Select, DatePicker } from 'components';
 import React, { useState } from 'react';
 import classNames from 'classnames';

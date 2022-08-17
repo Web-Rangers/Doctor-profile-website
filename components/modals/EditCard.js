@@ -1,4 +1,4 @@
-import styles from '/styles/components/Modals/EditCard.module.scss';
+import styles from 'styles/components/Modals/EditCard.module.scss';
 import { Input, Button, Modal, Select } from 'components';
 import { useState } from 'react';
 import classNames from 'classnames';

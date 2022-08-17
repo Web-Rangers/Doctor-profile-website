@@ -1,11 +1,12 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import SideBarLayout from 'layouts/SideBarLayout';
-import Breadcrumbs from 'nextjs-breadcrumbs'; 
-import {Card, TableWithDropdowns, Input, Button} from 'components';
+import Breadcrumbs from 'nextjs-breadcrumbs';
+import { Card, TableWithDropdowns, Input, Button } from 'components';
 import { ReactSVG } from "react-svg";
 import TableStyles from 'styles/components/TableWithDropdown.module.scss';
 import styles from 'styles/pages/analysisDetailed.module.scss';
 import classNames from "classnames";
+import Image from 'next/image';
 
 export default function AnalysisDetailed() {
     const [isEditOpen, setEditOpen] = useState(false);
@@ -17,11 +18,11 @@ export default function AnalysisDetailed() {
             title: "Name",
             dataIndex: "name",
             render: (record, key) => {
-              return (
+                return (
                     <div className={classNames(styles.tableGroup, styles.nameAndImage)}>
-                        <ReactSVG src={"/images/icons/table/arrow.svg"} className={classNames(styles.arrowIcon, TableStyles.arrow)}/>
+                        <ReactSVG src={"/images/icons/table/arrow.svg"} className={classNames(styles.arrowIcon, TableStyles.arrow)} />
                         <div>
-                            <span 
+                            <span
                                 className={styles.colImage}
                             >
                                 <img src={record.image} alt="" />
@@ -46,10 +47,10 @@ export default function AnalysisDetailed() {
             key: 'reviews',
             title: 'Reviews',
             dataIndex: 'reviews',
-            render: (record, key) =>{
+            render: (record, key) => {
                 return (
                     <div className={styles.review}>
-                        <ReactSVG 
+                        <ReactSVG
                             src="../images/icons/table/star.svg"
                         />
                         <span>{record}</span>
@@ -63,12 +64,12 @@ export default function AnalysisDetailed() {
             dataIndex: 'tool',
             render: (record, key) => {
                 return (
-                        <div className={styles.tableActons}>
-                            <ReactSVG src={"/images/icons/table/edit.svg"} className={styles.iconContainer}/>
-                            <ReactSVG src={"/images/icons/table/eye.svg"} className={styles.iconContainer}/>
-                        </div>
-                  );
-              },
+                    <div className={styles.tableActons}>
+                        <ReactSVG src={"/images/icons/table/edit.svg"} className={styles.iconContainer} />
+                        <ReactSVG src={"/images/icons/table/eye.svg"} className={styles.iconContainer} />
+                    </div>
+                );
+            },
         },
         {
             key: 'city',
@@ -94,61 +95,61 @@ export default function AnalysisDetailed() {
 
     const analysisData = [
         {
-            name: {name:'Medical House', image:'../images/users/user1.png'},
-            branch:'4140 Parker Rd. Allentown',
-            service:'ServiceName1',
+            name: { name: 'Medical House', image: '../images/users/user1.png' },
+            branch: '4140 Parker Rd. Allentown',
+            service: 'ServiceName1',
             reviews: '4,5',
-            city: 'Tbilisi', 
+            city: 'Tbilisi',
             email: 'Natus_Medical@gmail.com',
             registration_date: '12.09.2000',
             amount_of_orders: 43
         },
         {
-            name: {name:'Medical House', image:'../images/users/user1.png'},
-            branch:'4140 Parker Rd. Allentown',
-            service:'ServiceName1',
+            name: { name: 'Medical House', image: '../images/users/user1.png' },
+            branch: '4140 Parker Rd. Allentown',
+            service: 'ServiceName1',
             reviews: '4,5',
-            city: 'Tbilisi', 
+            city: 'Tbilisi',
             email: 'Natus_Medical@gmail.com',
             registration_date: '12.09.2000',
             amount_of_orders: 43
         },
         {
-            name: {name:'Medical House', image:'../images/users/user1.png'},
-            branch:'4140 Parker Rd. Allentown',
-            service:'ServiceName1',
+            name: { name: 'Medical House', image: '../images/users/user1.png' },
+            branch: '4140 Parker Rd. Allentown',
+            service: 'ServiceName1',
             reviews: '4,5',
-            city: 'Tbilisi', 
+            city: 'Tbilisi',
             email: 'Natus_Medical@gmail.com',
             registration_date: '12.09.2000',
             amount_of_orders: 43
         },
         {
-            name: {name:'Medical House', image:'../images/users/user1.png'},
-            branch:'4140 Parker Rd. Allentown',
-            service:'ServiceName1',
+            name: { name: 'Medical House', image: '../images/users/user1.png' },
+            branch: '4140 Parker Rd. Allentown',
+            service: 'ServiceName1',
             reviews: '4,5',
-            city: 'Tbilisi', 
+            city: 'Tbilisi',
             email: 'Natus_Medical@gmail.com',
             registration_date: '12.09.2000',
             amount_of_orders: 43
         },
         {
-            name: {name:'Medical House', image:'../images/users/user1.png'},
-            branch:'4140 Parker Rd. Allentown',
-            service:'ServiceName1',
+            name: { name: 'Medical House', image: '../images/users/user1.png' },
+            branch: '4140 Parker Rd. Allentown',
+            service: 'ServiceName1',
             reviews: '4,5',
-            city: 'Tbilisi', 
+            city: 'Tbilisi',
             email: 'Natus_Medical@gmail.com',
             registration_date: '12.09.2000',
             amount_of_orders: 43
         },
         {
-            name: {name:'Medical House', image:'../images/users/user1.png'},
-            branch:'4140 Parker Rd. Allentown',
-            service:'ServiceName1',
+            name: { name: 'Medical House', image: '../images/users/user1.png' },
+            branch: '4140 Parker Rd. Allentown',
+            service: 'ServiceName1',
             reviews: '4,5',
-            city: 'Tbilisi', 
+            city: 'Tbilisi',
             email: 'Natus_Medical@gmail.com',
             registration_date: '12.09.2000',
             amount_of_orders: 43
@@ -174,40 +175,40 @@ export default function AnalysisDetailed() {
                 className={styles.analysInfo}
             >
                 {
-                    !isEditOpen ? 
+                    !isEditOpen ?
                         <>
                             <h2>Anti-smooth muscle antibodies (ASMA)</h2>
                             <h4>122453789</h4>
-                            <ReactSVG 
+                            <ReactSVG
                                 className={styles.editIcon}
                                 src="../images/icons/cards/edit.svg"
-                                onClick={()=>setEditOpen(!isEditOpen)}
-                            /> 
-                        </> : 
+                                onClick={() => setEditOpen(!isEditOpen)}
+                            />
+                        </> :
                         <>
                             <div className={styles.editForm}>
-                                <Input 
+                                <Input
                                     name="name"
                                     id="name"
-                                    label="Name" 
+                                    label="Name"
                                     className={styles.defaultInput}
                                     placeholder="Enter name..."
-                                    onChange={(e)=> setName(e)}
+                                    onChange={(e) => setName(e)}
                                     value={name}
                                 />
-                                <Button 
-                                    label="Save" 
-                                    size="large" 
+                                <Button
+                                    label="Save"
+                                    size="large"
                                     variant="fill"
-                                    onClick={()=>setEditOpen(!isEditOpen)}
+                                    onClick={() => setEditOpen(!isEditOpen)}
                                 />
                             </div>
                         </>
 
                 }
-                
+
             </Card>
-            
+
             <Card
                 className={styles.cardTable}
                 cardTitle="Clinics"

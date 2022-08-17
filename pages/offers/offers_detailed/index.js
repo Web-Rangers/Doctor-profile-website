@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import SideBarLayout from 'layouts/SideBarLayout';
 import Breadcrumbs from 'nextjs-breadcrumbs';
 import styles from 'styles/pages/offersDetailed.module.scss';
 import { ReactSVG } from 'react-svg';
 import tableStyles from "styles/components/Table.module.scss";
 import classNames from "classnames";
-import {  Table, Card } from 'components';
+import { Table, Card } from 'components';
 import Image from 'next/image';
 
 export default function Offers() {
@@ -103,9 +103,9 @@ export default function Offers() {
                 data: '14.08.1999',
                 time: '04:00'
             },
-            name:'Annette',
+            name: 'Annette',
             surname: 'Black',
-            username:'Annette',
+            username: 'Annette',
             admin_type: 'Offer admin',
             image: '/images/doctors/doctor.png'
         },
@@ -114,9 +114,9 @@ export default function Offers() {
                 data: '14.08.1999',
                 time: '04:00'
             },
-            name:'Marvin',
+            name: 'Marvin',
             surname: 'McKinney',
-            username:'Marvin',
+            username: 'Marvin',
             admin_type: 'Offer admin',
             image: '/images/doctors/doctor.png'
         },
@@ -125,9 +125,9 @@ export default function Offers() {
                 data: '14.08.1999',
                 time: '04:00'
             },
-            name:'Jenny',
+            name: 'Jenny',
             surname: 'Wilson',
-            username:'Jenny',
+            username: 'Jenny',
             admin_type: 'Offer admin',
             image: '/images/doctors/doctor.png'
         },
@@ -136,9 +136,9 @@ export default function Offers() {
                 data: '14.08.1999',
                 time: '04:00'
             },
-            name:'Guy',
+            name: 'Guy',
             surname: 'Hawkins',
-            username:'Guy',
+            username: 'Guy',
             admin_type: 'Offer admin',
             image: '/images/doctors/doctor.png'
         },
@@ -147,9 +147,9 @@ export default function Offers() {
                 data: '14.08.1999',
                 time: '04:00'
             },
-            name:'Cameron',
+            name: 'Cameron',
             surname: 'Williamson',
-            username:'Cameron',
+            username: 'Cameron',
             admin_type: 'Offer admin',
             image: '/images/doctors/doctor.png'
         },
@@ -158,9 +158,9 @@ export default function Offers() {
                 data: '14.08.1999',
                 time: '04:00'
             },
-            name:'Robert',
+            name: 'Robert',
             surname: 'Fox',
-            username:'Robert',
+            username: 'Robert',
             admin_type: 'Offer admin',
             image: '/images/doctors/doctor.png'
         }
@@ -186,9 +186,9 @@ export default function Offers() {
                     <div className={styles.offerHeader}>
                         <h2>Offer Name</h2>
                         <div className={styles.offersTool}>
-                            <button 
-                                className={styles.moreBtn} 
-                                onClick={()=> setOpenTool(!openTool)}
+                            <button
+                                className={styles.moreBtn}
+                                onClick={() => setOpenTool(!openTool)}
                             >
                                 <ReactSVG
                                     src="/images/icons/offer/more.svg"
@@ -244,11 +244,11 @@ export default function Offers() {
                     <h2>Doctors</h2>
                 </div>
                 <div className={styles.doctors}>
-                    {updateOffersData.map((doctor, i)=> {
+                    {updateOffersData.map((doctor, i) => {
                         return (
                             <div key={i} className={styles.doctor}>
                                 <div className={styles.doctor_image}>
-                                    <Image src={doctor.image} width='50' height='50' />
+                                    <img alt='' src={doctor.image} width='50' height='50' />
                                 </div>
                                 <div className={styles.doctor_info}>
                                     <h2>{doctor.name}</h2>
@@ -282,12 +282,12 @@ export default function Offers() {
 }
 
 
-function OfferTable({data}) {
+function OfferTable({ data }) {
     return <>
-        {data.map((item)=> {            
+        {data.map((item) => {
             return (
-                <div key={item.key} className={styles.columnItem}> 
-                    <h2>{item.key}</h2> 
+                <div key={item.key} className={styles.columnItem}>
+                    <h2>{item.key}</h2>
                     <div>{item.value}</div>
                 </div>
             )

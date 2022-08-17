@@ -1,12 +1,13 @@
-import {useState} from 'react';
-import {Card, Button} from 'components';
+import { useState } from 'react';
+import { Card, Button } from 'components';
 import styles from 'styles/components/Tabs/CardsTab.module.scss';
 import { ReactSVG } from "react-svg";
 import classNames from "classnames";
+import Image from 'next/image';
 
 export default function CardsTab() {
     const cardList = [{
-        name:'Silver Card',
+        name: 'Silver Card',
         price: 120,
         cost_for_family_members: 20,
         expiration_date: '1 year',
@@ -17,7 +18,7 @@ export default function CardsTab() {
         image: '../images/cards/card.png'
     },
     {
-        name:'Gold card',
+        name: 'Gold card',
         price: 500,
         cost_for_family_members: 400,
         expiration_date: '5 month',
@@ -28,7 +29,7 @@ export default function CardsTab() {
         image: '../images/cards/card.png'
     },
     {
-        name:'Platinum card',
+        name: 'Platinum card',
         price: 120,
         cost_for_family_members: 20,
         expiration_date: '1 year',
@@ -40,28 +41,31 @@ export default function CardsTab() {
     }]
 
     return <>
-        <Card 
+        <Card
             className={styles.cards}
             cardTitle="Cards"
         >
-            <Button 
+            <Button
                 size="large"
                 variant='fill'
                 label='Add new card'
                 className={styles.addNewCard}
             />
             {
-                cardList.map((card)=>{
+                cardList.map((card) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
                     const [isOpen, setIsOpen] = useState(false)
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
                     const [isModalOpen, setModalOpen] = useState(false)
 
                     return <>
                         {
-                            isModalOpen && 
-                            <EditCard 
-                                onCancel={()=> setModalOpen(false)}
-                                onClose={()=> setModalOpen(false)}
-                                onSave={()=> setModalOpen(false)}
+                            isModalOpen &&
+                            // eslint-disable-next-line react/jsx-no-undef
+                            <EditCard
+                                onCancel={() => setModalOpen(false)}
+                                onClose={() => setModalOpen(false)}
+                                onSave={() => setModalOpen(false)}
                             />
                         }
                         <div className={styles.cardContainer}>
@@ -87,12 +91,12 @@ export default function CardsTab() {
                                     </div>
                                     <div className={styles.cardBtns}>
                                         <Button label="History" size="large" variant="fill" />
-                                        <div 
-                                            className={styles.seeAllBtn} 
-                                            onClick={()=>setIsOpen(!isOpen)}
+                                        <div
+                                            className={styles.seeAllBtn}
+                                            onClick={() => setIsOpen(!isOpen)}
                                         >
-                                            <ReactSVG 
-                                                src={"/images/icons/table/arrow.svg"} 
+                                            <ReactSVG
+                                                src={"/images/icons/table/arrow.svg"}
                                                 className={classNames(styles.arrowIcon, {
                                                     [styles.rotateArrow]: isOpen
                                                 })}
@@ -102,10 +106,10 @@ export default function CardsTab() {
                                     </div>
                                 </div>
                                 <div className={styles.editBtn}>
-                                    <ReactSVG 
-                                        src={"/images/icons/offer/edit.svg"} 
+                                    <ReactSVG
+                                        src={"/images/icons/offer/edit.svg"}
                                         className={classNames(styles.editIcon)}
-                                        onClick={()=> setModalOpen(!isModalOpen)}
+                                        onClick={() => setModalOpen(!isModalOpen)}
                                     />
                                 </div>
                                 <div></div>

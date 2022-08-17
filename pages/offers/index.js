@@ -82,7 +82,7 @@ export default function Offers() {
             render: (record, key) => {
                 return (
                     <>
-                        <div class={styles.tableActions}>
+                        <div className={styles.tableActions}>
                             <Link href="offers/edit">
                                 <ReactSVG
                                     src={"/images/icons/table/edit.svg"}

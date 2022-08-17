@@ -77,6 +77,7 @@ export default function Table({
                 currentPage * (pagination.pageSize || 10)
             )
         );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage, data]);
 
     const tableHeader = (

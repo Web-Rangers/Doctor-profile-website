@@ -15,6 +15,7 @@ import classNames from 'classnames';
 import { useState } from 'react';
 import Breadcrumbs from 'nextjs-breadcrumbs';
 import Link from 'next/link'
+import Image from 'next/image';
 
 export default function Users() {
     const [min, setMin] = useState(0);
@@ -64,9 +65,10 @@ export default function Users() {
                     >
                         <div className={styles.photoContainer}>
                             <img
+                                alt=''
                                 className={styles.photo}
                                 src={record.photo}
-                            ></img>
+                            />
                         </div>
                         <div className={styles.nameCol}>
                             <div className={styles.name}>{record.name}</div>
@@ -370,7 +372,7 @@ export default function Users() {
                                                     value: 'minsk',
                                                 },
                                             ]}
-                                            onChange={() => {}}
+                                            onChange={() => { }}
                                         />
                                     </div>
                                 </div>
@@ -405,7 +407,7 @@ export default function Users() {
                                         <Input
                                             className={styles.intervalInput}
                                             value={min > max ? max : min}
-                                            onChange={(value) => {}}
+                                            onChange={(value) => { }}
                                         />
                                         <div className={styles.divider} />
                                         <Input

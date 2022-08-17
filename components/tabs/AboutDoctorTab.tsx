@@ -2,6 +2,7 @@ import styles from "styles/components/Tabs/AboutDoctorTab.module.scss";
 import { Card, Button, Modal, Input, Select, DatePicker } from "components";
 import { ReactSVG } from "react-svg";
 import { useState } from "react";
+import Image from 'next/image';
 
 interface Media {
     src: string;

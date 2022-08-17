@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import styles from 'styles/components/Cards/GalleryCard.module.scss';
 import { useState } from 'react';
 import { CheckBox } from 'components';
+import Image from 'next/image';
 
 interface GalleryCardProps {
     children?: React.ReactNode;

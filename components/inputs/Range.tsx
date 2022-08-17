@@ -65,18 +65,21 @@ const Range = ({
 
     useEffect(() => {
         configurePositions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [handle1, handle2, minValue, maxValue]);
 
     useEffect(() => {
         let min = handle1;
         let max = handle2;
         onChange?.call(null, min, max);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [handle1, handle2]);
 
     useEffect(() => {
         if (min === handle1 && max === handle2) return;
         if (min !== undefined) setHandle1(min);
         if (max !== undefined) setHandle2(max);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [min, max]);
 
     function getHandleMove(setter) {
@@ -124,6 +127,7 @@ const Range = ({
                 { once: true }
             );
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [handle1Active, handle2Active]);
 
     return (

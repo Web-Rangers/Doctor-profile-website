@@ -1,11 +1,12 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import SideBarLayout from 'layouts/SideBarLayout';
 import Breadcrumbs from 'nextjs-breadcrumbs';
-import {  Card, Tags, Input, Select, Button, TableWithDropdowns  } from 'components';
+import { Card, Tags, Input, Select, Button, TableWithDropdowns } from 'components';
 import styles from 'styles/pages/ServicesDetailed.module.scss';
 import { ReactSVG } from "react-svg";
 import classNames from 'classnames';
 import TableStyles from 'styles/components/TableWithDropdown.module.scss';
+import Image from 'next/image';
 
 export default function ServicesDetailed() {
     const [editTab, setEditTab] = useState(false);
@@ -28,14 +29,14 @@ export default function ServicesDetailed() {
             title: "Name",
             dataIndex: "name",
             render: (record, key) => {
-              return (
+                return (
                     <div className={styles.tableActions}>
-                        <ReactSVG src={"/images/icons/table/arrow.svg"} className={classNames(styles.arrowIcon, TableStyles.arrow)}/>
+                        <ReactSVG src={"/images/icons/table/arrow.svg"} className={classNames(styles.arrowIcon, TableStyles.arrow)} />
                         <img
                             src="/images/doctors/doctor.png"
                             alt="doctor"
                             className={styles.doctorImage}
-                            />
+                        />
                         <span>{record}</span>
                     </div>
                 );
@@ -56,9 +57,9 @@ export default function ServicesDetailed() {
             title: "Reviews",
             dataIndex: "reviews",
             render: (record, key) => {
-              return (
+                return (
                     <div className={styles.reviews}>
-                        <ReactSVG src={"/images/icons/table/star.svg"} className={styles.starIcon}/>
+                        <ReactSVG src={"/images/icons/table/star.svg"} className={styles.starIcon} />
                         <span>{record}</span>
                     </div>
                 );
@@ -69,10 +70,10 @@ export default function ServicesDetailed() {
             title: "",
             dataIndex: "actions",
             render: (record, key) => {
-              return (
+                return (
                     <div className={styles.tableActions}>
-                        <ReactSVG src={"/images/icons/table/edit.svg"} className={styles.iconContainer}/>
-                        <ReactSVG src={"/images/icons/table/eye.svg"} className={styles.iconContainer}/>
+                        <ReactSVG src={"/images/icons/table/edit.svg"} className={styles.iconContainer} />
+                        <ReactSVG src={"/images/icons/table/eye.svg"} className={styles.iconContainer} />
                     </div>
                 );
             },
@@ -102,9 +103,9 @@ export default function ServicesDetailed() {
     const analysisData = [
         {
             branch: '758597122',
-            name:'Anti-smooth muscle antibodies (ASMA)',
+            name: 'Anti-smooth muscle antibodies (ASMA)',
             service: 'In clinic',
-            reviews:'4.5',
+            reviews: '4.5',
             city: 'Tbilisi',
             email: 'Natus_Medical@gmail.com',
             registration_date: '12.09.2000',
@@ -112,19 +113,19 @@ export default function ServicesDetailed() {
         },
         {
             branch: '758597122',
-            name:'Anti-Factor X | Activity',
+            name: 'Anti-Factor X | Activity',
             service: 'In clinic',
-            reviews:'4.1',
+            reviews: '4.1',
             city: 'Tbilisi',
             email: 'Natus_Medical@gmail.com',
             registration_date: '12.09.2000',
             amount_of_orders: '33',
         },
         {
-            branch:'758597122',
-            name:'Group B streptococcal screening',
+            branch: '758597122',
+            name: 'Group B streptococcal screening',
             service: 'In clinic',
-            reviews:'5',
+            reviews: '5',
             city: 'Tbilisi',
             email: 'Natus_Medical@gmail.com',
             registration_date: '12.09.2000',
@@ -132,9 +133,9 @@ export default function ServicesDetailed() {
         },
         {
             branch: '758597122',
-            name:'Adenovirus | Antibodies',
+            name: 'Adenovirus | Antibodies',
             service: 'In clinic',
-            reviews:'3.8',
+            reviews: '3.8',
             city: 'Tbilisi',
             email: 'Natus_Medical@gmail.com',
             registration_date: '12.09.2000',
@@ -170,7 +171,7 @@ export default function ServicesDetailed() {
 
             <Card className={styles.servDetailCard}>
                 <div className={styles.servDetailedInfo}>
-                    {!editTab ? 
+                    {!editTab ?
                         (
                             <>
                                 <div className={styles.block}>
@@ -178,15 +179,15 @@ export default function ServicesDetailed() {
                                         <h2>{serviceInfo.service_name}</h2>
                                         <div className={styles.tagList}>
                                             {
-                                                tags?.map((tag)=>{
-                                                    return <div className={styles.tagBlock}>{tag.value}</div>
+                                                tags?.map((tag) => {
+                                                    return <div key={tag.value} className={styles.tagBlock}>{tag.value}</div>
                                                 })
                                             }
                                         </div>
                                     </div>
                                     <div className={styles.edit}>
-                                        <span onClick={()=> setEditTab(true)}>
-                                            <ReactSVG src={"/images/icons/table/edit.svg"} className={styles.iconContainer}/>
+                                        <span onClick={() => setEditTab(true)}>
+                                            <ReactSVG src={"/images/icons/table/edit.svg"} className={styles.iconContainer} />
                                         </span>
                                     </div>
                                 </div>
@@ -206,7 +207,7 @@ export default function ServicesDetailed() {
                                 </div>
                             </>
                         )
-                    :
+                        :
                         (
                             <>
                                 <div className={styles.block}>
@@ -216,13 +217,13 @@ export default function ServicesDetailed() {
                                 </div>
                                 <div className={styles.editServices}>
                                     <div className={styles.editBlock}>
-                                        <Input 
+                                        <Input
                                             className={styles.defaultInput}
                                             label="Name"
                                             labelStyle="outer"
                                             value={serviceInfo.service_name}
                                         />
-                                        <Tags 
+                                        <Tags
                                             tags={tags}
                                             setTags={setTags}
                                             className={styles.defaultInput}
@@ -231,7 +232,7 @@ export default function ServicesDetailed() {
                                         />
                                     </div>
                                     <div className={styles.editBlock_2}>
-                                        <Select 
+                                        <Select
                                             label="type"
                                             labelStyle="outside"
                                             className={styles.defaultInput}
@@ -241,21 +242,21 @@ export default function ServicesDetailed() {
                                                     value: "1",
                                                 },
                                                 { label: "Another Branch", value: "2" },
-                                                ]}
+                                            ]}
                                             onChange={(value) => {
                                                 setType(value);
                                             }}
                                             value={type}
                                         />
-                                        <Input 
+                                        <Input
                                             className={styles.defaultInput}
                                             label="Duration"
                                             labelStyle="outer"
                                             value={serviceInfo.duration}
                                         />
-                                        <Button 
+                                        <Button
                                             label="Save"
-                                            size="large" 
+                                            size="large"
                                             variant="fill"
                                             className={styles.saveBtn}
                                             onClick={() => editServiceInfo()}

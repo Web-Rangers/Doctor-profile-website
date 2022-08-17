@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from '/styles/components/Modals/AddCardModal.module.scss';
+import styles from 'styles/components/Modals/AddCardModal.module.scss';
 import { Input, Button, Modal, Select, SelectWithCheckbox } from 'components';
 
 export default function AddCardModal({

@@ -4,9 +4,10 @@ import SideBarLayout from 'layouts/SideBarLayout';
 import styles from 'styles/pages/clinics.module.css';
 import tableStyles from 'styles/components/Table.module.scss';
 import { useState, useEffect } from 'react';
-import {useClinicsData} from '../../components/useClinicsData';
+import { useClinicsData } from 'components/useClinicsData';
+import Image from 'next/image';
 
-export default function Clinics({list}) { 
+export default function Clinics({ list }) {
     const [isModalOpen, setModalOpen] = useState(false);
     const columns = [
         {
@@ -19,7 +20,13 @@ export default function Clinics({list}) {
                         className={tableStyles.tableIconCellTemplate}
                         key={key}
                     >
-                        <img src={icon} className={tableStyles.rowImg} />
+                        <img
+                            alt=''
+                            src={icon ?? '/images/placeholder.png'}
+                            className={tableStyles.rowImg}
+                            height={50}
+                            width={50}
+                        />
                     </div>
                 );
             },
@@ -33,7 +40,7 @@ export default function Clinics({list}) {
             key: 'address',
             title: 'Legal adress',
             dataIndex: 'address',
-            render : (record) =>{
+            render: (record) => {
                 return <><div className={styles.address}>{record?.address}</div></>
             }
         },
@@ -51,11 +58,10 @@ export default function Clinics({list}) {
                         key={key}
                     >
                         <div
-                            className={`${tableStyles.tableStatus} ${
-                                status
-                                    ? tableStyles.statusOpen
-                                    : tableStyles.statusClose
-                            }`}
+                            className={`${tableStyles.tableStatus} ${status
+                                ? tableStyles.statusOpen
+                                : tableStyles.statusClose
+                                }`}
                         >
                             {status ? 'Open' : 'Close'}
                         </div>
@@ -67,10 +73,10 @@ export default function Clinics({list}) {
             key: 'workingHours',
             title: 'Working hours',
             dataIndex: 'workingHours',
-            render: (record)=>{
+            render: (record) => {
                 return <>
                     <div className={styles.dataCheck}>
-                        <img src='/images/icons/table/i.svg' alt="" />
+                        <img src='/images/icons/table/i.svg' alt="" height={20} width={20} />
                         <span>{record[0]?.startHour}</span>
                         <span>-</span>
                         <span>{record[0]?.endHour}</span>
@@ -88,7 +94,7 @@ export default function Clinics({list}) {
                         className={`${tableStyles.tableIconCellTemplate} ${styles.smallIcon} ${styles.action}`}
                         key={key}
                     >
-                        <img src='/images/icons/table/block.png' className={tableStyles.rowImg} />
+                        <img alt='' src='/images/icons/table/block.png' className={tableStyles.rowImg} height={20} width={20} />
                     </div>
                 );
             },
@@ -241,7 +247,7 @@ export default function Clinics({list}) {
                 </div>
                 <Table
                     columns={columns}
-                    data={data?.sort((a,b)=> b.id - a.id)}
+                    data={data?.sort((a, b) => b.id - a.id)}
                     pagination={{ pageSize: 10, initialPage: 1 }}
                     detailedUrl={'./clinics/clinic_detailed'}
                     rowClassName={styles.tableRow}

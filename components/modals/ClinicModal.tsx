@@ -1,6 +1,6 @@
-import styles from '/styles/components/Modals/ClinicModal.module.scss';
 import { Input, Button, Modal } from 'components';
 import { useState } from 'react';
+import styles from 'styles/components/Modals/ClinicModal.module.scss';
 
 interface ClinicData {
     email?: string;

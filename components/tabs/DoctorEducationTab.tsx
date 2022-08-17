@@ -97,7 +97,7 @@ export default function DoctorEducationTab({
             >
                 <div className={styles.educationContainer}>
                     {education.map((educationItem) => (
-                        <Card className={styles.educationCard}>
+                        <Card key={educationItem.school} className={styles.educationCard}>
                             <div className={styles.column}>
                                 <div className={styles.title}>School</div>
                                 <div className={styles.title}>Degree</div>
@@ -120,7 +120,7 @@ export default function DoctorEducationTab({
                                 <div className={styles.value}>{educationItem.endDate}</div>
                                 <div className={styles.mediaValue}>
                                     {educationItem.media.map((mediaItem) => (
-                                        <div className={styles.media}>
+                                        <div key={mediaItem.alt} className={styles.media}>
                                             <ReactSVG
                                                 src={"/images/icons/cards/camera.svg"}
                                                 className={styles.icon}

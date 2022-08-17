@@ -1,10 +1,12 @@
-import styles from '/styles/components/modals/ClinicModal.module.scss';
+/* eslint-disable @next/next/no-img-element */
+import styles from 'styles/components/Modals/ClinicModal.module.scss';
 import { Input, Button, Modal, CheckBox } from 'components';
 import { useState, useRef } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { useClinicsData } from '../useClinicsData';
+import { useClinicsData } from 'components';
+import Image from 'next/image';
 
 interface ClinicData {
     name?: string;
@@ -65,11 +67,12 @@ export default function AddClinicModal({
         }).then((response) => { refetch(); console.log(response) })
     }
 
-    const addClinicMutation = () => {
-        return useMutation(addClinic)
-    }
+    // const addClinicMutation = () => {
+    //     // eslint-disable-next-line react-hooks/rules-of-hooks
+    //     return useMutation(addClinic)
+    // }
 
-    const { mutate: addClinics } = useMutation((clinic) => addClinics(clinic));
+    const { mutate: addClinics } = useMutation(addClinic)
 
     const handleClick = () => {
         const clinicBody = {
@@ -82,7 +85,7 @@ export default function AddClinicModal({
             "description": about
         }
 
-        addClinics(clinicBody)
+        addClinics()
     }
 
     return (
@@ -164,8 +167,8 @@ export default function AddClinicModal({
                     onClick={() => {
                         {
                             name && address && startHours && endHours ?
-                            handleClick()
-                            : alert('Fields are not filled')
+                                handleClick()
+                                : alert('Fields are not filled')
                         }
                         onSave?.call(null, {
                             phone,

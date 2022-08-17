@@ -9,8 +9,9 @@ import Breadcrumbs from 'nextjs-breadcrumbs';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import BranchTab from 'components/tabs/BranchTab';
-import {useRouter} from 'next/router'
-import {useClinicData} from '../../../components/useClinicsData';
+import { useRouter } from 'next/router'
+import { useClinicData } from 'components/useClinicsData';
+import Image from 'next/image';
 
 interface ActionProps {
     icon?: string;
@@ -84,12 +85,12 @@ const clinicData = {
 export default function ClinicDetailed() {
     const [clinicEdtModalIsOpen, setClinicEdtModalIsOpen] = useState(false);
     const router = useRouter();
-    const id = typeof router.query?.id === "string" ? router.query.id : "";
+    const id = router.query.id ?? null;
 
-    console.log(id)
+    // console.log(id)
 
     const { data, refetch } = useClinicData(id)
-    console.log('this is data', data)
+    // console.log('this is data', data)
     return (
         <>
             {clinicEdtModalIsOpen && (
@@ -117,6 +118,7 @@ export default function ClinicDetailed() {
                         <div className={styles.colSmall}>
                             <Card className={styles.smallCard}>
                                 <img
+                                    alt=''
                                     src={
                                         '/images/icons/clinics/medicalhouse.png'
                                     }

@@ -6,6 +6,7 @@ import styles from 'styles/pages/user_detailed.module.scss';
 import { useState } from 'react';
 import tableStyles from 'styles/components/Table.module.scss';
 import classNames from 'classnames';
+import Image from 'next/image';
 
 interface ActionProps {
     icon?: string;
@@ -274,7 +275,7 @@ export default function UserDetailed() {
                     </div>
                     <EditAction
                         icon="/images/icons/inputs/edit.svg"
-                        onClick={() => {}}
+                        onClick={() => { }}
                     />
                 </Card>
                 <Card
@@ -282,7 +283,7 @@ export default function UserDetailed() {
                     cardActions={
                         <EditAction
                             icon="/images/icons/inputs/edit.svg"
-                            onClick={() => {}}
+                            onClick={() => { }}
                         />
                     }
                 >
