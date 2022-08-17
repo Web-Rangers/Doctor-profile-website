@@ -1,12 +1,13 @@
 import { Button, Input } from "components/inputs";
 import Link from "next/link";
 import aStyles from "styles/pages/authorization.module.scss";
+import Image from 'next/image';
 
 export default function ResetPassword() {
     return (
         <div className={aStyles.container}>
             <div className={aStyles.imageContainer}>
-                <img src="/images/authorization/reset.png" alt="reset password" className={aStyles.image} />
+                <Image src="/images/authorization/reset.png" alt="reset password" className={aStyles.image} />
             </div>
             <div className={aStyles.signInContainer}>
                 <div className={aStyles.signIn}>

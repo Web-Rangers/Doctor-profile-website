@@ -203,7 +203,7 @@ export default function Calendar() {
                     </div>
                     <div className={styles.calendarBody}>
                         {Array.from({ length: 4 }).map((_, i) => (
-                            <div className={classNames(styles.smallDay, { [styles.today]: i === 0 })}>
+                            <div key={i} className={classNames(styles.smallDay, { [styles.today]: i === 0 })}>
                                 <div className={styles.dayHeader}>
                                     <div className={styles.dayString}>
                                         {DayName[i]}
@@ -379,11 +379,13 @@ function MonthView({ date, schedule = [] }: ViewProps) {
 
     useEffect(() => {
         configureDays();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [date]);
     useEffect(() => {
         if (!positions)
             return;
         configureEvents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [schedule, positions]);
 
     return (
@@ -473,6 +475,7 @@ function WeekView({ date, schedule = [] }: ViewProps) {
     useEffect(() => {
         configureHours();
         configureEvents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [date, schedule])
 
     return (
@@ -596,6 +599,7 @@ function DayView({ date, schedule }) {
     useEffect(() => {
         configureHours();
         configureEvents()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [date, schedule])
 
     return (

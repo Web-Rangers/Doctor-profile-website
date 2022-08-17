@@ -43,6 +43,7 @@ export default function SelectWithCheckbox({
             return { ...item, checked: false }
         })
         setOptionData(addCheckbox)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -58,7 +59,7 @@ export default function SelectWithCheckbox({
                     <div className={classNames(styles.label)}>
                         {
                             values?.map((item) => {
-                                return <span className={styles.checkedValue}>{item}, </span>
+                                return <span key={item} className={styles.checkedValue}>{item}, </span>
                             })
                         }
                         <ReactSVG

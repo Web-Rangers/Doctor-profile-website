@@ -3,6 +3,7 @@ import styles from 'styles/components/Cards/StuffCard.module.scss';
 import StarRatings from 'react-star-ratings';
 import { ReactSVG } from 'react-svg';
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface stuffData {
     icon?: string;
@@ -64,7 +65,7 @@ export default function StuffCard({
             </div>
 
             <div className={styles.presonalColumn}>
-                <img src={data.icon} className={styles.icon} />
+                <Image alt='' src={data.icon} className={styles.icon} />
                 <div className={styles.name}>{data.name}</div>
                 <div className={styles.description}>{data.description}</div>
                 <div className={styles.clinicRating}>

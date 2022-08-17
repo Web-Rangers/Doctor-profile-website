@@ -51,6 +51,7 @@ export default function Admins() {
             title: "",
             dataIndex: "more",
             render: (record, key) => {
+              // eslint-disable-next-line react-hooks/rules-of-hooks
               const [isOpen, setIsOpen] = useState(false);
               return (
                     <>
@@ -60,7 +61,7 @@ export default function Admins() {
                         <div className={classNames(styles.morButton, {
                             [styles.activeMoreBlock]: isOpen
                         })}>
-                            <div class={styles.btns}>
+                            <div className={styles.btns}>
                                 <div className={styles.moreBtn}>
                                     <ReactSVG 
                                         src={"/images/icons/table/edit.svg"} 

@@ -2,6 +2,7 @@ import styles from "styles/components/Tabs/AboutDoctorTab.module.scss";
 import { Card, Button, Modal, Input, Select, DatePicker } from "components";
 import { ReactSVG } from "react-svg";
 import { useState } from "react";
+import Image from 'next/image';
 
 interface Media {
     src: string;
@@ -191,7 +192,7 @@ export default function AboutDoctorTab({ doctor = {} }: AboutDoctorTabProps) {
                 <div className={styles.mediaContainer}>
                     {doctor.media?.map((media, index) => (
                         <div key={index} className={styles.mediaItem}>
-                            <img src={media.src} alt={media.alt} />
+                            <Image src={media.src} alt={media.alt} />
                         </div>
                     ))}
                 </div>

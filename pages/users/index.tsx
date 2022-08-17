@@ -15,6 +15,7 @@ import classNames from 'classnames';
 import { useState } from 'react';
 import Breadcrumbs from 'nextjs-breadcrumbs';
 import Link from 'next/link'
+import Image from 'next/image';
 
 export default function Users() {
     const [min, setMin] = useState(0);
@@ -63,10 +64,11 @@ export default function Users() {
                         key={key}
                     >
                         <div className={styles.photoContainer}>
-                            <img
+                            <Image
+                                alt=''
                                 className={styles.photo}
                                 src={record.photo}
-                            ></img>
+                            />
                         </div>
                         <div className={styles.nameCol}>
                             <div className={styles.name}>{record.name}</div>

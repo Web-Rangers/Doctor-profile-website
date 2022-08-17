@@ -248,7 +248,7 @@ export default function Offers() {
                         return (
                             <div key={i} className={styles.doctor}>
                                 <div className={styles.doctor_image}>
-                                    <Image src={doctor.image} width='50' height='50' />
+                                    <Image alt='' src={doctor.image} width='50' height='50' />
                                 </div>
                                 <div className={styles.doctor_info}>
                                     <h2>{doctor.name}</h2>

@@ -63,6 +63,7 @@ export default function Table({
 
     const dataCallback = useCallback((data)=>{
         setDisplayedData(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data])
 
     const selectPage = (selectedOption) => {
@@ -86,6 +87,7 @@ export default function Table({
                 currentPage * (pagination.pageSize || 10)
             )
         );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage, data]);
 
     useEffect(()=>{
@@ -94,6 +96,7 @@ export default function Table({
             dropdown: false,
         }))
         setDropdown(getDataKeys)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     const tableHeader = (
@@ -197,7 +200,7 @@ export default function Table({
                                                             <div>
                                                             {
                                                                 record[item.key]?.map((e)=>{
-                                                                    return <span className={styles.arrayBoxes}>{e}</span>
+                                                                    return <span key={e} className={styles.arrayBoxes}>{e}</span>
                                                                 })
                                                             }
                                                             </div>

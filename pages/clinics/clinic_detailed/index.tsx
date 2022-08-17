@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import BranchTab from 'components/tabs/BranchTab';
 import {useRouter} from 'next/router'
 import {useClinicData} from 'components/useClinicsData';
+import Image from 'next/image';
 
 interface ActionProps {
     icon?: string;
@@ -116,7 +117,8 @@ export default function ClinicDetailed() {
                     <div className={styles.row}>
                         <div className={styles.colSmall}>
                             <Card className={styles.smallCard}>
-                                <img
+                                <Image
+                                    alt=''
                                     src={
                                         '/images/icons/clinics/medicalhouse.png'
                                     }

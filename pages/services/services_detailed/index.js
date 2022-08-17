@@ -6,6 +6,7 @@ import styles from 'styles/pages/ServicesDetailed.module.scss';
 import { ReactSVG } from "react-svg";
 import classNames from 'classnames';
 import TableStyles from 'styles/components/TableWithDropdown.module.scss';
+import Image from 'next/image';
 
 export default function ServicesDetailed() {
     const [editTab, setEditTab] = useState(false);
@@ -31,7 +32,7 @@ export default function ServicesDetailed() {
               return (
                     <div className={styles.tableActions}>
                         <ReactSVG src={"/images/icons/table/arrow.svg"} className={classNames(styles.arrowIcon, TableStyles.arrow)}/>
-                        <img
+                        <Image
                             src="/images/doctors/doctor.png"
                             alt="doctor"
                             className={styles.doctorImage}
@@ -179,7 +180,7 @@ export default function ServicesDetailed() {
                                         <div className={styles.tagList}>
                                             {
                                                 tags?.map((tag)=>{
-                                                    return <div className={styles.tagBlock}>{tag.value}</div>
+                                                    return <div key={tag.value} className={styles.tagBlock}>{tag.value}</div>
                                                 })
                                             }
                                         </div>

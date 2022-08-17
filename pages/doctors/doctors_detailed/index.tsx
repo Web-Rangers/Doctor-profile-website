@@ -17,6 +17,7 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import styles from 'styles/pages/doctors_detailed.module.scss';
 import tabStyles from 'styles/components/Tabs/tabs.module.scss';
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface ActionProps {
     icon?: string;
@@ -54,7 +55,7 @@ export default function DoctorsDetailed() {
                         </div>
                         <div className={styles.modalBody}>
                             <div className={styles.photoChange}>
-                                <img
+                                <Image
                                     src="/images/doctors/doctor.png"
                                     alt="doctor"
                                     className={styles.doctorImage}
@@ -121,7 +122,7 @@ export default function DoctorsDetailed() {
                 <div className={styles.pageBody}>
                     <Card className={styles.doctorRow}>
                         <div className={styles.imageContainer}>
-                            <img
+                            <Image
                                 src="/images/doctors/doctor.png"
                                 alt="doctor"
                                 className={styles.image}

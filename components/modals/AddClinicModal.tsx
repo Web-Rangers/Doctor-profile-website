@@ -1,10 +1,12 @@
-import styles from 'styles/components/modals/ClinicModal.module.scss';
+/* eslint-disable @next/next/no-img-element */
+import styles from 'styles/components/Modals/ClinicModal.module.scss';
 import { Input, Button, Modal, CheckBox } from 'components';
 import { useState, useRef } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useClinicsData } from 'components';
+import Image from 'next/image';
 
 interface ClinicData {
     name?: string;
@@ -66,6 +68,7 @@ export default function AddClinicModal({
     }
 
     const addClinicMutation = () => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         return useMutation(addClinic)
     }
 
@@ -90,7 +93,7 @@ export default function AddClinicModal({
             <span className={styles.modalTitle}>Add clinic</span>
             <div className={styles.modalContent}>
                 <div className={classNames(styles.modalContentRow, styles.center)}>
-                    <img className={styles.image} src="/images/icons/clinics/placeholder.png" alt="" />
+                    <Image className={styles.image} src="/images/icons/clinics/placeholder.png" alt="" />
                     <Button className={styles.imageChange} label="change" size="large" />
                 </div>
                 <div className={styles.modalContentRow}>

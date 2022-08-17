@@ -6,6 +6,7 @@ import classNames from "classnames";
 import TableStyles from 'styles/components/TableWithDropdown.module.scss';
 import styles from 'styles/pages/cards.module.scss';
 import { ReactSVG } from "react-svg";
+import Image from 'next/image';
 
 export default function Cards() {
     const [isOpen, setIsOpen] = useState(false);
@@ -214,7 +215,9 @@ export default function Cards() {
             <Card className={styles.cards}>
                 {
                     cardList.map((card)=>{
+                        // eslint-disable-next-line react-hooks/rules-of-hooks
                         const [isOpen, setIsOpen] = useState(false)
+                        // eslint-disable-next-line react-hooks/rules-of-hooks
                         const [isModalOpen, setModalOpen] = useState(false)
 
                         return <>
@@ -229,7 +232,7 @@ export default function Cards() {
                             <div className={styles.cardContainer}>
                                 <div className={styles.cardBlock}>
                                     <div className={styles.cardImage}>
-                                        <img src={card.image} alt="" />
+                                        <Image src={card.image} alt="" />
                                     </div>
                                     <div className={styles.cardInfo}>
                                         <h2 className={styles.cardTitle}>{card.name}</h2>

@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import styles from 'styles/components/Cards/GalleryCard.module.scss';
 import { useState } from 'react';
 import { CheckBox } from 'components';
+import Image from 'next/image';
 
 interface GalleryCardProps {
     children?: React.ReactNode;
@@ -22,7 +23,7 @@ export default function GalleryCard({
     const [isSelect, setIsSelect] = useState(false);
     return (
         <div className={classNames([styles.cardBody, className])}>
-            <img src={src} alt="gallery" className={styles.image} />
+            <Image src={src} alt="gallery" className={styles.image} />
             {isEdit && (
                 <div className={styles.cardActions}>
                     <CheckBox

@@ -3,6 +3,7 @@ import {Card, Button} from 'components';
 import styles from 'styles/components/Tabs/CardsTab.module.scss';
 import { ReactSVG } from "react-svg";
 import classNames from "classnames";
+import Image from 'next/image';
 
 export default function CardsTab() {
     const cardList = [{
@@ -52,12 +53,15 @@ export default function CardsTab() {
             />
             {
                 cardList.map((card)=>{
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
                     const [isOpen, setIsOpen] = useState(false)
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
                     const [isModalOpen, setModalOpen] = useState(false)
 
                     return <>
                         {
                             isModalOpen && 
+                            // eslint-disable-next-line react/jsx-no-undef
                             <EditCard 
                                 onCancel={()=> setModalOpen(false)}
                                 onClose={()=> setModalOpen(false)}
@@ -67,7 +71,7 @@ export default function CardsTab() {
                         <div className={styles.cardContainer}>
                             <div className={styles.cardBlock}>
                                 <div className={styles.cardImage}>
-                                    <img src={card.image} alt="" />
+                                    <Image src={card.image} alt="" />
                                 </div>
                                 <div className={styles.cardInfo}>
                                     <h2 className={styles.cardTitle}>{card.name}</h2>

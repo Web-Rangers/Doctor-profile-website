@@ -5,6 +5,7 @@ import styles from 'styles/pages/clinics.module.css';
 import tableStyles from 'styles/components/Table.module.scss';
 import { useState, useEffect } from 'react';
 import {useClinicsData} from 'components/useClinicsData';
+import Image from 'next/image';
 
 export default function Clinics({list}) { 
     const [isModalOpen, setModalOpen] = useState(false);
@@ -19,7 +20,7 @@ export default function Clinics({list}) {
                         className={tableStyles.tableIconCellTemplate}
                         key={key}
                     >
-                        <img src={icon} className={tableStyles.rowImg} />
+                        <Image alt='' src={icon} className={tableStyles.rowImg} />
                     </div>
                 );
             },
@@ -70,7 +71,7 @@ export default function Clinics({list}) {
             render: (record)=>{
                 return <>
                     <div className={styles.dataCheck}>
-                        <img src='/images/icons/table/i.svg' alt="" />
+                        <Image src='/images/icons/table/i.svg' alt="" />
                         <span>{record[0]?.startHour}</span>
                         <span>-</span>
                         <span>{record[0]?.endHour}</span>
@@ -88,7 +89,7 @@ export default function Clinics({list}) {
                         className={`${tableStyles.tableIconCellTemplate} ${styles.smallIcon} ${styles.action}`}
                         key={key}
                     >
-                        <img src='/images/icons/table/block.png' className={tableStyles.rowImg} />
+                        <Image alt='' src='/images/icons/table/block.png' className={tableStyles.rowImg} />
                     </div>
                 );
             },

@@ -6,6 +6,7 @@ import { ReactSVG } from "react-svg";
 import TableStyles from 'styles/components/TableWithDropdown.module.scss';
 import styles from 'styles/pages/analysisDetailed.module.scss';
 import classNames from "classnames";
+import Image from 'next/image';
 
 export default function AnalysisDetailed() {
     const [isEditOpen, setEditOpen] = useState(false);
@@ -24,7 +25,7 @@ export default function AnalysisDetailed() {
                             <span 
                                 className={styles.colImage}
                             >
-                                <img src={record.image} alt="" />
+                                <Image src={record.image} alt="" />
                             </span>
                             <h2>{record.name}</h2>
                         </div>

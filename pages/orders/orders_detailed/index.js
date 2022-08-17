@@ -4,6 +4,7 @@ import Breadcrumbs from 'nextjs-breadcrumbs';
 import styles from 'styles/pages/ordersDetailed.module.scss';
 import {Card, Input, Button} from 'components';
 import { ReactSVG } from 'react-svg';
+import Image from 'next/image';
 
 export default function OrdersDetailed() {
     const [commentValue, setCommentValue] = useState('');
@@ -313,7 +314,7 @@ export default function OrdersDetailed() {
                             return <>
                                 <div className={styles.commentForm}>
                                     <div className={styles.image}>
-                                        <img src={comment.image} alt="" />
+                                        <Image src={comment.image} alt="" />
                                     </div>
                                     <div className={styles.commentInfo}>
                                         <h2>{comment.name} • {comment.role}</h2>

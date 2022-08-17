@@ -409,7 +409,7 @@ export default function CorporateCards() {
                             <div className={styles.familyItems}>
                                 {familyMembers?.map((member)=>{
                                     return (
-                                        <div className={styles.memberBlock}>
+                                        <div key={member.name} className={styles.memberBlock}>
                                             <h2>{member.name}</h2>
                                             <h4>{member.card}</h4>
                                         </div>

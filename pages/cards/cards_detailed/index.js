@@ -5,6 +5,7 @@ import Breadcrumbs from 'nextjs-breadcrumbs';
 import {  Card, Button, Input, DatePicker, CheckBox, TableWithDropdowns, EditCard  } from 'components';
 import styles from 'styles/pages/cardsDetailed.module.scss';
 import { ReactSVG } from "react-svg";
+import Image from 'next/image';
 
 export default function CardsDetailed() {
     const [isOpen, setIsOpen] = useState(false);
@@ -217,7 +218,7 @@ export default function CardsDetailed() {
                 <div className={styles.cardContainer}>
                     <div className={styles.cardBlock}>
                         <div className={styles.cardImage}>
-                            <img src={cardDetails.image} alt="" />
+                            <Image src={cardDetails.image} alt="" />
                         </div>
                         <div className={styles.cardInfo}>
                             <h2 className={styles.cardTitle}>{cardDetails.name}</h2>

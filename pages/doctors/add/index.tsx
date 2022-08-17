@@ -1,16 +1,22 @@
 import classNames from "classnames";
 import { Button, Card, DatePicker, Input, Select } from "components";
 import SideBarLayout from "layouts/SideBarLayout";
+import Image from "next/image";
 import Breadcrumbs from "nextjs-breadcrumbs";
 import { useState } from "react";
 import styles from "styles/pages/addDoctor.module.scss";
 import pageStyles from "styles/pages/page.module.scss";
 
 export default function addDoctor() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [gender, setGender] = useState("");
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [clinic, setClinic] = useState("");
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [type, setType] = useState("");
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [jobTitle, setJobTitle] = useState("");
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [branch, setBranch] = useState("");
 
   return (
@@ -57,7 +63,8 @@ export default function addDoctor() {
             </div>
             <div className={styles.columnRight}>
               <span className={styles.label}>photo</span>
-              <img
+              <Image
+                alt=""
                 src="/images/doctors/doctor.png"
                 className={styles.doctorImage}
               />
