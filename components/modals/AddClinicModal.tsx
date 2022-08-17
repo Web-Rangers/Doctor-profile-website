@@ -16,6 +16,7 @@ interface ClinicData {
     time?: string;
     registrationDate?: string;
     about?: string;
+    image?: any;
 }
 
 interface ClinicModalProps {
@@ -39,30 +40,23 @@ export default function AddClinicModal({
     const [endHours, setEndHours] = useState('');
     const [eligable, setEligable] = useState(false);
     const { refetch } = useClinicsData()
-
-    let img = {
-        lastModified: 1656921762941,
-        lastModifiedDate: `Mon Jul 04 2022 12:02:42 GMT+0400 (Georgia Standard Time)`,
-        name: "user.png",
-        size: 30662,
-        type: "image/png",
-        webkitRelativePath: ""
-    };
+    const [image, setImage] = useState<File>()
 
     const addClinic = async () => {
-        return axios.post("/asclepius/v1/api/clinics/", {
-            "displayName": name,
-            "days": 1,
-            "startHours": startHours,
-            "phone": phone,
-            "endHours": endHours,
-            "address": address,
-            "logoBody": `${img}`,
-            "description": about,
-            "eligibleForVAT": eligable
-        }, {
+        let formData = new FormData()
+        formData.append('logoBody', image)
+        formData.append('displayName', name)
+        formData.append('startHours',startHours)
+        formData.append('endHours', endHours)
+        formData.append('phone', phone)
+        formData.append('days', '1')
+        formData.append('address', address)
+        formData.append('description', about)
+        formData.append('eligibleForVAT', JSON.stringify(eligable))
+     
+        return axios.post("/asclepius/v1/api/clinics/", formData, {
             headers: {
-                "Content-Type": "multipart/form-data",
+                'Content-Type': `multipart/form-data`,
             },
         }).then((response) => { refetch(); console.log(response) })
     }
@@ -81,7 +75,7 @@ export default function AddClinicModal({
             "startHours": startHours,
             "endHours": endHours,
             "address": address,
-            "logoBody": `${img}`,
+            "logoBody": `${image}`,
             "description": about
         }
 
@@ -95,6 +89,7 @@ export default function AddClinicModal({
                 <div className={classNames(styles.modalContentRow, styles.center)}>
                     <img className={styles.image} src="/images/icons/clinics/placeholder.png" alt="" />
                     <Button className={styles.imageChange} label="change" size="large" />
+                    <input type="file" onChange={(e)=> setImage(e.target.files[0])} />
                 </div>
                 <div className={styles.modalContentRow}>
                     <Input

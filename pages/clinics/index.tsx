@@ -11,10 +11,11 @@ export default function Clinics({ list }) {
     const [isModalOpen, setModalOpen] = useState(false);
     const columns = [
         {
-            key: 'icon',
+            key: 'logoUrl',
             title: 'Icon',
-            dataIndex: 'icon',
+            dataIndex: 'logoUrl',
             render: (icon, key) => {
+                console.log(icon)
                 return (
                     <div
                         className={tableStyles.tableIconCellTemplate}
