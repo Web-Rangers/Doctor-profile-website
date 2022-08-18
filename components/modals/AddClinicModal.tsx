@@ -52,6 +52,7 @@ export default function AddClinicModal({
         formData.append('days', '1')
         formData.append('address', address)
         formData.append('description', about)
+        formData.append('cityId', '80')
         formData.append('eligibleForVAT', JSON.stringify(eligable))
      
         return axios.post("/asclepius/v1/api/clinics/", formData, {
