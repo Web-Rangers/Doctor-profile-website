@@ -22,7 +22,7 @@ module.exports = {
       {
         source: '/asclepius/v1/api/clinics/:path*',
         destination: 'https://asclepius.pirveli.ge/asclepius/v1/api/clinics/:path*'
-      },
+      }
     ]
   },
 }
