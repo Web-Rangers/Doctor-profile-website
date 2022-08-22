@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import BranchTab from 'components/tabs/BranchTab';
 import { useRouter } from 'next/router'
-import { useClinicData } from 'components/useClinicsData';
+import { useClinicData } from 'components';
 import Image from 'next/image';
 
 interface ActionProps {
@@ -86,16 +86,38 @@ export default function ClinicDetailed() {
     const [clinicEdtModalIsOpen, setClinicEdtModalIsOpen] = useState(false);
     const router = useRouter();
     const id = router.query.id ?? null;
+    const[phoneNumber, setPhoneNumber] = useState('');
+    const[email, setEmail] = useState('');
 
-    // console.log(id)
+    var { data, refetch, isLoading, isError, error } = useClinicData(id);
+    
+    if(router.isReady){
+        refetch()
+        console.log(data)
+    }
 
-    const { data, refetch } = useClinicData(id)
-    // console.log('this is data', data)
+    useEffect(()=>{
+        let numbers = data?.contactInfos.map((contact)=>{
+            if(contact?.type.value == 'mobile') {
+                return [contact.value]
+            }
+        })
+
+        let emails = data?.contactInfos.map((contact)=>{
+            if(contact?.type.value == 'mail') {
+                return [contact.value]
+            }
+        })
+
+        setPhoneNumber(numbers)
+        setEmail(emails)
+    },[data])
+    
     return (
         <>
             {clinicEdtModalIsOpen && (
                 <ClinicModal
-                    data={clinicData}
+                    data={data}
                     onClose={() => setClinicEdtModalIsOpen(false)}
                     onSave={(newData) => {
                         console.log(newData);
@@ -119,13 +141,11 @@ export default function ClinicDetailed() {
                             <Card className={styles.smallCard}>
                                 <img
                                     alt=''
-                                    src={
-                                        '/images/icons/clinics/medicalhouse.png'
-                                    }
+                                    src={data?.logoUrl}
                                     className={styles.clinicIcon}
                                 />
                                 <div className={styles.clinicName}>
-                                    Medical House
+                                    {data?.displayName}
                                 </div>
                                 <div className={styles.clinicRating}>
                                     <StarRatings
@@ -154,7 +174,9 @@ export default function ClinicDetailed() {
                                         className={styles.iconContainer}
                                     />
                                     <span className={styles.clinicInfText}>
-                                        10:00-20:00
+                                        {data?.workingHours[0].startHour}
+                                        -
+                                        {data?.workingHours[0].endHour}
                                     </span>
                                 </div>
                                 <div className={styles.clinicInf}>
@@ -163,7 +185,7 @@ export default function ClinicDetailed() {
                                         className={styles.iconContainer}
                                     />
                                     <span className={styles.clinicInfText}>
-                                        480-555-0103
+                                        {phoneNumber}
                                     </span>
                                 </div>
                                 <div className={styles.clinicInf}>
@@ -172,8 +194,7 @@ export default function ClinicDetailed() {
                                         className={styles.iconContainer}
                                     />
                                     <span className={styles.clinicInfText}>
-                                        4140 Parker Rd. Allentown, New Mexico
-                                        31134
+                                        {data?.address.address}
                                     </span>
                                 </div>
                             </Card>
@@ -195,7 +216,7 @@ export default function ClinicDetailed() {
                                         E-mail
                                     </div>
                                     <div className={styles.dataValue}>
-                                        MedHouse@gmail.com
+                                        {email}
                                     </div>
                                 </div>
                                 <div className={styles.dataRow}>
@@ -225,13 +246,7 @@ export default function ClinicDetailed() {
                                         About clinic
                                     </div>
                                     <div className={styles.dataValue}>
-                                        Amet minim mollit non deserunt ullamco
-                                        est sit aliqua dolor do amet sint. Velit
-                                        officia consequat duis enim velit
-                                        mollit. Velit officia consequat duis
-                                        enim velit mollit. Amet minim mollit non
-                                        deserunt ullamco est sit aliqua dolor do
-                                        amet sint. Amet minim
+                                        {data?.description}
                                     </div>
                                 </div>
                                 <div

@@ -5,17 +5,25 @@ import styles from 'styles/pages/clinics.module.css';
 import tableStyles from 'styles/components/Table.module.scss';
 import { useState, useEffect } from 'react';
 import { useClinicsData } from 'components/useClinicsData';
-import Image from 'next/image';
+import axios from 'axios';
+import { useQuery, useMutation } from '@tanstack/react-query';
 
 export default function Clinics({ list }) {
     const [isModalOpen, setModalOpen] = useState(false);
+
+    const removeClinic = async (id) => {
+        return axios.delete(`/asclepius/v1/api/clinics/${id}`)
+            .then((response) => { refetch() })
+    }
+
+    const { mutate: removeClinicMutation } = useMutation((id)=> removeClinic(id))
+
     const columns = [
         {
             key: 'logoUrl',
             title: 'Icon',
             dataIndex: 'logoUrl',
             render: (icon, key) => {
-                console.log(icon)
                 return (
                     <div
                         className={tableStyles.tableIconCellTemplate}
@@ -88,12 +96,13 @@ export default function Clinics({ list }) {
         {
             key: 'action',
             title: '',
-            dataIndex: 'action',
+            dataIndex: 'id',
             render: (action, key) => {
                 return (
                     <div
                         className={`${tableStyles.tableIconCellTemplate} ${styles.smallIcon} ${styles.action}`}
                         key={key}
+                        onClick={()=>removeClinicMutation(action)}
                     >
                         <img alt='' src='/images/icons/table/block.png' className={tableStyles.rowImg} height={20} width={20} />
                     </div>
@@ -205,8 +214,9 @@ export default function Clinics({ list }) {
     //     },
     // ];
 
-    const { isLoading, data, isError, error, refetch } = useClinicsData();
-
+    const { isLoading, data, isError, error, refetch, status } = useClinicsData();
+    console.log(data)
+    
     return (
         <>
             {isModalOpen && (

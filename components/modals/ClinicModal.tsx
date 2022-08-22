@@ -1,14 +1,20 @@
 import { Input, Button, Modal } from 'components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from 'styles/components/Modals/ClinicModal.module.scss';
+import axios from 'axios';
+import { useQuery, useMutation } from '@tanstack/react-query';
 
 interface ClinicData {
     email?: string;
     phone?: string;
-    address?: string;
+    address?: any;
     time?: string;
     registrationDate?: string;
     about?: string;
+    workingHours?: any;
+    id?: Number;
+    contactInfos?: any;
+    description?: string;
 }
 
 interface ClinicModalProps {
@@ -24,14 +30,46 @@ export default function ClinicModal({
     onCancel,
     data,
 }: ClinicModalProps) {
-    const [email, setEmail] = useState(data.email);
-    const [phone, setPhone] = useState(data.phone);
-    const [address, setAddress] = useState(data.address);
-    const [time, setTime] = useState(data.time);
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState(data?.address.address);
+    const [startHours, setStartHours] = useState(data?.workingHours[0].startHour);
+    const [endHours, setEndHour] = useState(data?.workingHours[0].endHour);
+    const [about, setAbout] = useState(data?.description);
+
     const [registrationDate, setRegistrationDate] = useState(
-        data.registrationDate
+        data?.registrationDate
     );
-    const [about, setAbout] = useState(data.about);
+    console.log(data)
+
+    const modifyClinic = async () => {
+        let formData = new FormData()
+        formData.append('startHours',startHours)
+        formData.append('endHours', endHours)
+        formData.append('phone', phone)
+        formData.append('days', '1')
+        formData.append('address', address)
+        formData.append('description', about)
+        formData.append('cityId', '80')
+        formData.append('mail', email)
+     
+        return axios.put(`/asclepius/v1/api/clinics/${data?.id}`, formData, {
+            headers: {
+                'Content-Type': `multipart/form-data`,
+            },
+        }).then((response) => { console.log('this is response', response) })
+    }
+
+    const { mutate: clinicUpdate } = useMutation(modifyClinic)
+
+    useEffect(()=>{
+        let numbers = data?.contactInfos.filter((e)=> e?.type.value === 'mobile');
+
+        let emails = data?.contactInfos.filter((e)=> e?.type.value === 'mail');
+
+        setPhone(numbers[0]?.value)
+        setEmail(emails[0]?.value)
+    },[data])
 
     return (
         <Modal onBackClick={onClose} className={styles.modal}>
@@ -54,15 +92,15 @@ export default function ClinicModal({
                 <div className={styles.modalContentRow}>
                     <Input
                         type="time"
-                        label="Working hours"
-                        value={time}
-                        onChange={(value: string) => setTime(value)}
+                        label="Start hours"
+                        value={startHours}
+                        onChange={(value: string) => setStartHours(value)}
                     />
                     <Input
-                        type="text"
-                        label="Registration date"
-                        value={registrationDate}
-                        onChange={(value: string) => setRegistrationDate(value)}
+                        type="time"
+                        label="End hours"
+                        value={endHours}
+                        onChange={(value: string) => setEndHour(value)}
                     />
                 </div>
                 <div className={styles.modalContentRow}>
@@ -71,6 +109,14 @@ export default function ClinicModal({
                         label="Address"
                         value={address}
                         onChange={(value: string) => setAddress(value)}
+                    />
+                </div>
+                <div className={styles.modalContentRow}>
+                    <Input
+                        type="text"
+                        label="Registration date"
+                        value={registrationDate}
+                        onChange={(value: string) => setRegistrationDate(value)}
                     />
                 </div>
                 <div className={styles.modalContentRow}>
@@ -95,14 +141,17 @@ export default function ClinicModal({
                     label="Save"
                     variant="fill"
                     onClick={() =>
-                        onSave?.call(null, {
+                        {
+                            clinicUpdate();
+                            onSave?.call(null, {
                             email,
                             phone,
                             address,
-                            time,
+                            startHours,
                             registrationDate,
                             about,
                         })
+                    }
                     }
                     size="large"
                 />
