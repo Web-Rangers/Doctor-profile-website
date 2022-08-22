@@ -235,14 +235,6 @@ export default function ClinicDetailed() {
                                 </div>
                                 <div className={styles.dataRow}>
                                     <div className={styles.dataIndex}>
-                                        E-mail
-                                    </div>
-                                    <div className={styles.dataValue}>
-                                        MedHouse@gmail.com
-                                    </div>
-                                </div>
-                                <div className={styles.dataRow}>
-                                    <div className={styles.dataIndex}>
                                         About clinic
                                     </div>
                                     <div className={styles.dataValue}>
