@@ -10,3 +10,4 @@ export { default as TableServices } from './TableServices';
 export { default as Navigation } from './Navigation';
 export { default as Calendar } from './Calendar';
 export { useClinicsData, useClinicData } from './useClinicsData.js';
+export { encodeImageFileAsURL } from './uploadImageBase64'

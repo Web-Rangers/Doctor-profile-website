@@ -7,13 +7,13 @@ import { start } from 'repl';
 import { DoctorServicesTab } from '..';
 
 enum DayName {
-    Monday = 0,
-    Tuesday = 1,
-    Wednesday = 2,
-    Thursday = 3,
-    Friday = 4,
-    Saturday = 5,
-    Sunday = 6,
+    Monday = 1,
+    Tuesday = 2,
+    Wednesday = 3,
+    Thursday = 4,
+    Friday = 5,
+    Saturday = 6,
+    Sunday = 0,
 }
 
 enum MonthName {
@@ -197,7 +197,7 @@ const Picker = ({ isOpen, onChange, onClose }: PickerProps) => {
                 <DayHeader
                     title={DayName[i]}
                     className={
-                        i === 0 ? styles.left : i === 6 ? styles.right : null
+                        i === 1 ? styles.left : i === 7 ? styles.right : null
                     }
                 />
             );
@@ -219,6 +219,13 @@ const Picker = ({ isOpen, onChange, onClose }: PickerProps) => {
                         setSelected(
                             new Date(date.getFullYear(), date.getMonth(), i)
                         );
+                        function toJSONLocal(date) {
+                            var local = new Date(date);
+                            local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+                            return local.toJSON().slice(0, 10);
+                        }
+                        const dt = new Date(date.getFullYear(), date.getMonth(), i);
+                        onChange(toJSONLocal(dt))
                     }}
                     number={i}
                     style={{
