@@ -1,0 +1,27 @@
+.breadcrumbs {
+    display: flex;
+    gap:50px;
+}
+
+.breadcrumbs a{
+    position: relative;
+    color: #2751f2;
+}
+
+.breadcrumbs a:last-child {
+    color:#8f8f8f;
+    pointer-events: none;
+}
+
+.breadcrumbs a:first-child:before {
+    content:'';
+}
+
+.breadcrumbs a:before {
+    content: ">";
+    position: absolute;
+    top: 50%;
+    transform:translateY(-50%);
+    margin-left: -25px;
+    color:#8f8f8f;
+}

@@ -11,7 +11,7 @@ import pageStyles from "styles/pages/page.module.scss";
 import { useClinicsData } from 'components/useClinicsData';
 import axios from 'axios';
 
-export default function addDoctor() {
+export default function AddDoctor() {
     const[error, setError] = useState({
         isError: false,
         errorMessage: ''
@@ -240,6 +240,6 @@ export default function addDoctor() {
     );
 }
 
-addDoctor.getLayout = (page) => {
+AddDoctor.getLayout = (page) => {
     return <SideBarLayout>{page}</SideBarLayout>;
 };

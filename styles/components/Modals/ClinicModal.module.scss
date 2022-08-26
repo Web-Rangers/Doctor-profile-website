@@ -113,3 +113,26 @@ div.modal {
         background: #0f32b7;
     }
 }
+
+.upInput {
+    position: absolute;
+    display: none;
+    z-index: -9999;
+}
+
+.upBtn {
+    width: 180px;
+    height: 180px;
+    position: absolute;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+.upBtnH:hover {
+    content:'';
+    width: 180px;
+    height: 180px;
+    position: absolute;
+    background-color: #000!important;
+    opacity: 0.3;
+}

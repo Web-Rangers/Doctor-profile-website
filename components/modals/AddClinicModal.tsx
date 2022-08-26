@@ -5,7 +5,7 @@ import { useState, useRef } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { useClinicsData } from 'components';
+import { useClinicsData, encodeImageFileAsURL } from 'components';
 import Image from 'next/image';
 
 interface ClinicData {
@@ -41,6 +41,7 @@ export default function AddClinicModal({
     const [eligable, setEligable] = useState(false);
     const { refetch } = useClinicsData()
     const [image, setImage] = useState<File>()
+    const [uploadPhoto, setUploadPhoto] = useState('');
 
     const addClinic = async () => {
         let formData = new FormData()
@@ -62,35 +63,29 @@ export default function AddClinicModal({
         }).then((response) => { refetch(); console.log(response) })
     }
 
-    // const addClinicMutation = () => {
-    //     // eslint-disable-next-line react-hooks/rules-of-hooks
-    //     return useMutation(addClinic)
-    // }
-
     const { mutate: addClinics } = useMutation(addClinic)
-
-    const handleClick = () => {
-        const clinicBody = {
-            "displayName": name,
-            "days": 1,
-            "startHours": startHours,
-            "endHours": endHours,
-            "address": address,
-            "logoBody": `${image}`,
-            "description": about
-        }
-
-        addClinics()
-    }
 
     return (
         <Modal onBackClick={onClose} className={styles.modal}>
             <span className={styles.modalTitle}>Add clinic</span>
             <div className={styles.modalContent}>
                 <div className={classNames(styles.modalContentRow, styles.center)}>
-                    <img className={styles.image} src="/images/icons/clinics/placeholder.png" alt="" />
-                    <Button className={styles.imageChange} label="change" size="large" />
-                    <input type="file" onChange={(e)=> setImage(e.target.files[0])} />
+                    <img 
+                        className={classNames(styles.image)} 
+                        src={uploadPhoto !== '' ? uploadPhoto : "/images/icons/clinics/placeholder.png"} 
+                        alt="" />
+                    <input 
+                        className={styles.upInput} 
+                        id="uploadPhoto" 
+                        type="file" 
+                        onChange={(e)=> {
+                            setImage(e.target.files[0]);
+                            encodeImageFileAsURL(e.target, setUploadPhoto)
+                        }} 
+                    />
+                    <label htmlFor='uploadPhoto' className={classNames(styles.upBtn, {
+                        [styles.upBtnH]: uploadPhoto !== ''
+                    })}></label>
                 </div>
                 <div className={styles.modalContentRow}>
                     <Input
@@ -102,7 +97,7 @@ export default function AddClinicModal({
                 </div>
                 <div className={styles.modalContentRow}>
                     <Input
-                        type="text"
+                        type="number"
                         label="Phone number"
                         value={phone}
                         onChange={(value: string) => setPhone(value)}
@@ -163,7 +158,7 @@ export default function AddClinicModal({
                     onClick={() => {
                         {
                             name && address && startHours && endHours ?
-                                handleClick()
+                                addClinics()
                                 : alert('Fields are not filled')
                         }
                         onSave?.call(null, {

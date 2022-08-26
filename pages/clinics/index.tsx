@@ -110,8 +110,6 @@ export default function Clinics({ list }) {
             },
         },
     ];
-
-    // const dataz = [
     //     {
     //         key: '1',
     //         icon: '/images/icons/clinics/clinic1.png',
@@ -215,7 +213,6 @@ export default function Clinics({ list }) {
     // ];
 
     const { isLoading, data, isError, error, refetch, status } = useClinicsData();
-    console.log(data)
     
     return (
         <>

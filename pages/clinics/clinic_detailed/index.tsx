@@ -1,5 +1,5 @@
 import { ReactSVG } from 'react-svg';
-import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab } from 'components';
+import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs } from 'components';
 import StarRatings from 'react-star-ratings';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import BranchTab from 'components/tabs/BranchTab';
 import { useRouter } from 'next/router'
 import { useClinicData } from 'components';
-import Image from 'next/image';
+import Link from 'next/link';
 
 interface ActionProps {
     icon?: string;
@@ -82,12 +82,31 @@ const clinicData = {
     about: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.  Velit officia consequat duis enim velit mollit. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
 };
 
+const pageTitles = {
+    '/': 'მთავარი',
+    '/news': 'სიახლეები',
+    '/blog': 'ბლოგი',
+    '/interviews': 'ინტერვიუ',
+    '/authors': 'ავტორები',
+    '/news/football': 'ფეხბურთი',
+    '/shows': 'გდაცემები',
+    '/quizes': 'ქვიზები',
+    '/about': 'ჩვენ შესახებ',
+    '/signup': 'რეგისტრაცია',
+    '/profile': 'პირადი პროფილი',
+    '/matches': 'მატჩის შედეგები',
+    '/articles': 'სტატიები',
+    '/contact': 'კონტაქტი',
+}
+
 export default function ClinicDetailed() {
     const [clinicEdtModalIsOpen, setClinicEdtModalIsOpen] = useState(false);
     const router = useRouter();
     const id = router.query.id ?? null;
     const[phoneNumber, setPhoneNumber] = useState('');
     const[email, setEmail] = useState('');
+
+    const [showMore, setShowMore] = useState(false);
 
     var { data, refetch, isLoading, isError, error } = useClinicData(id);
     
@@ -102,17 +121,18 @@ export default function ClinicDetailed() {
                 return [contact.value]
             }
         })
-
+        
         let emails = data?.contactInfos.map((contact)=>{
             if(contact?.type.value == 'mail') {
                 return [contact.value]
             }
         })
-
+        
         setPhoneNumber(numbers)
         setEmail(emails)
     },[data])
-    
+
+
     return (
         <>
             {clinicEdtModalIsOpen && (
@@ -129,11 +149,15 @@ export default function ClinicDetailed() {
             <div className={styles.container}>
                 <div className={styles.pageHeader}>
                     <h3>Clinics</h3>
-                    <Breadcrumbs
+                    {/* <Breadcrumbs
                         omitRootLabel={true}
                         listClassName={styles.breadcrumbs}
                         replaceCharacterList={[{ from: '_', to: ' ' }]}
-                    />
+                        omitIndexList={[2]}
+                        activeItemStyle={styles.activeBreadcrumb}
+                    /> */}
+
+                    <GenerateBreadcrumbs />
                 </div>
                 <div className={styles.pageBody}>
                     <div className={styles.row}>
@@ -216,7 +240,7 @@ export default function ClinicDetailed() {
                                         E-mail
                                     </div>
                                     <div className={styles.dataValue}>
-                                        {email}
+                                        {email !== 'undefined' && email}
                                     </div>
                                 </div>
                                 <div className={styles.dataRow}>
@@ -230,14 +254,16 @@ export default function ClinicDetailed() {
                                         Registration date
                                     </div>
                                     <div className={styles.dataValue}>
-                                        05.11.2018
+                                        {data?.registrationDate}
                                     </div>
                                 </div>
                                 <div className={styles.dataRow}>
                                     <div className={styles.dataIndex}>
                                         About clinic
                                     </div>
-                                    <div className={styles.dataValue}>
+                                    <div className={classNames(styles.dataValue, {
+                                        [styles.activeAbout]: showMore
+                                    })}>
                                         {data?.description}
                                     </div>
                                 </div>
@@ -249,8 +275,11 @@ export default function ClinicDetailed() {
                                 >
                                     <div className={styles.dataIndex}></div>
                                     <div className={styles.dataValue}>
-                                        <button className={styles.textButton}>
-                                            See all
+                                        <button 
+                                            className={styles.textButton}
+                                            onClick={()=>setShowMore(!showMore)}
+                                        >
+                                            {!showMore ? 'See all' : 'Show less'}
                                         </button>
                                     </div>
                                 </div>

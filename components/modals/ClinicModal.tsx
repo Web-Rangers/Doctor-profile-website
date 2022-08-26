@@ -43,6 +43,8 @@ export default function ClinicModal({
     console.log(data)
 
     const modifyClinic = async () => {
+        console.log(email, about)
+
         let formData = new FormData()
         formData.append('startHours',startHours)
         formData.append('endHours', endHours)
@@ -79,11 +81,11 @@ export default function ClinicModal({
                     <Input
                         type="email"
                         label="E-mail"
-                        value={email}
+                        value={email && email}
                         onChange={(value: string) => setEmail(value)}
                     />
                     <Input
-                        type="text"
+                        type="number"
                         label="Phone number"
                         value={phone}
                         onChange={(value: string) => setPhone(value)}
@@ -114,14 +116,6 @@ export default function ClinicModal({
                 <div className={styles.modalContentRow}>
                     <Input
                         type="text"
-                        label="Registration date"
-                        value={registrationDate}
-                        onChange={(value: string) => setRegistrationDate(value)}
-                    />
-                </div>
-                <div className={styles.modalContentRow}>
-                    <Input
-                        type="text"
                         label="About clinic"
                         multiline
                         value={about}
@@ -142,15 +136,19 @@ export default function ClinicModal({
                     variant="fill"
                     onClick={() =>
                         {
-                            clinicUpdate();
-                            onSave?.call(null, {
-                            email,
-                            phone,
-                            address,
-                            startHours,
-                            registrationDate,
-                            about,
-                        })
+                            if(email.includes('@')){
+                                clinicUpdate();
+                                onSave?.call(null, {
+                                email,
+                                phone,
+                                address,
+                                startHours,
+                                registrationDate,
+                                about,
+                            })
+                            }else {
+                                alert('write correct email')
+                            }
                     }
                     }
                     size="large"
