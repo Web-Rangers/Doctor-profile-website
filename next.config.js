@@ -24,6 +24,11 @@ module.exports = {
         destination:
           "https://asclepius.pirveli.ge/asclepius/v1/api/clinics/:path*",
       },
+      {
+        source: "/asclepius/v1/api/clinics/:path*/doctors",
+        destination:
+          "https://asclepius.pirveli.ge/asclepius/v1/api/clinics/:path*/doctors",
+      },
     ];
   },
 };
