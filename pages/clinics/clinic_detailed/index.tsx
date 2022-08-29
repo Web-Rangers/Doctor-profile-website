@@ -1,5 +1,5 @@
 import { ReactSVG } from 'react-svg';
-import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs } from 'components';
+import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, useGetData } from 'components';
 import StarRatings from 'react-star-ratings';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
@@ -109,10 +109,13 @@ export default function ClinicDetailed() {
     const [showMore, setShowMore] = useState(false);
 
     var { data, refetch, isLoading, isError, error } = useClinicData(id);
+
+    var doctors = useGetData(`clinics/667/doctors/`);
     
     if(router.isReady){
         refetch()
-        console.log(data)
+        doctors.refetch()
+        console.log('thisis data', doctors?.data)
     }
 
     useEffect(()=>{

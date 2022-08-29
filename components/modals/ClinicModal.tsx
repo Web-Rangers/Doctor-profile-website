@@ -53,7 +53,7 @@ export default function ClinicModal({
         formData.append('address', address)
         formData.append('description', about)
         formData.append('cityId', '80')
-        formData.append('mail', email)
+        formData.append('email', email)
      
         return axios.put(`/asclepius/v1/api/clinics/${data?.id}`, formData, {
             headers: {

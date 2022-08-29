@@ -11,6 +11,7 @@ import Fuse from "fuse.js";
 
 export default function Clinics({ list }) {
   const { isLoading, data, isError, error, refetch, status } = useClinicsData();
+
   const [isModalOpen, setModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
@@ -190,7 +191,7 @@ export default function Clinics({ list }) {
 
         <Table
           columns={columns}
-          data={searchResult}
+          data={searchResult?.sort((a,b)=> b.id - a.id)}
           pagination={{ pageSize: 10, initialPage: 1 }}
           detailedUrl={"./clinics/clinic_detailed"}
           rowClassName={styles.tableRow}
