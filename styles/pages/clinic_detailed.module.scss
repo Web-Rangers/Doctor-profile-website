@@ -157,6 +157,8 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    word-wrap: break-word;
+    width: 200px;
 }
 
 .breadcrumbs {
@@ -192,4 +194,19 @@
     letter-spacing: 0em;
     text-align: left;
     cursor: pointer;
+}
+
+.activeAbout{
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    width: 200px;
+    -webkit-line-clamp: unset
+}
+
+.activeBreadcrumb {
+    color: red;
+}
+
+.breadcrumbs li:last-child{
+    pointer-events: none;
 }

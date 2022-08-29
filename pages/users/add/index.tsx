@@ -32,7 +32,8 @@ export default function AddUser() {
                         <div className={styles.columnLeft}>
                             <Input label="Name" />
                             <Input label="Surname" />
-                            <DatePicker label="Date of birth" mode="single" />
+                            <Input label="Date of birth" type="date" />
+                            {/* // <DatePicker label="Date of birth" mode="single" /> */}
                             <div className={styles.genderRadio}>
                                 <div className={styles.genderLabel}>Gender</div>
                                 <Radio name="gender" label="Male" id="male" />

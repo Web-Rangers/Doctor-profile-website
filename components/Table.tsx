@@ -217,7 +217,7 @@ const TableRow = ({
                         return <>
                             {
                                 index !== columnsDefinition.length - 1 ?
-                                    <Link href={detailedUrl}>
+                                    <Link href={{ pathname: detailedUrl, query: { id: record['id'] } }}>
                                         {render(
                                             record[dataIndex],
                                             `data-${record.key}-${index}`

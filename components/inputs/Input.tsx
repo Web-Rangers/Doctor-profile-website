@@ -5,7 +5,7 @@ import { ReactSVG } from 'react-svg';
 interface InputProps {
     children?: React.ReactNode;
     className?: string;
-    type?: 'text' | 'time' | 'email' | 'password' | 'select' | 'date';
+    type?: 'text' | 'time' | 'email' | 'password' | 'select' | 'date' | 'number';
     value?: string | number;
     onChange?: (value: string | number) => void;
     label?: string;
