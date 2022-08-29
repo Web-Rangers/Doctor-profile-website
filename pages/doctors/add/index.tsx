@@ -70,7 +70,9 @@ export default function AddDoctor() {
 
     return axios
       .post(
-        `/asclepius/v1/api/clinics/${requestBody.clinicBranchIds}/doctors`,
+        requestBody.type === "FREELANCER"
+          ? "http://localhost:8085/v1/api/doctors/freelancers"
+          : `/asclepius/v1/api/clinics/${requestBody.clinicBranchIds}/doctors`,
         formData,
         {
           headers: {
