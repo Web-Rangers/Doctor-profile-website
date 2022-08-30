@@ -129,7 +129,7 @@ export default function Table({
                         header.scrollTo(target.scrollLeft, 0);
                 }}
             >
-                {diplayedData.map((record, index) => (
+                {diplayedData?.map((record, index) => (
                     <TableRow
                         columnsDefinition={columns}
                         record={record}

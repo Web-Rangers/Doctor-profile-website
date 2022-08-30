@@ -1,5 +1,5 @@
 import { ReactSVG } from 'react-svg';
-import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, useGetData } from 'components';
+import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, Input, TableServices, getList, AddBranchModal } from 'components';
 import StarRatings from 'react-star-ratings';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
@@ -12,6 +12,7 @@ import BranchTab from 'components/tabs/BranchTab';
 import { useRouter } from 'next/router'
 import { useClinicData } from 'components';
 import Link from 'next/link';
+import { useQuery } from "@tanstack/react-query";
 
 interface ActionProps {
     icon?: string;
@@ -73,50 +74,198 @@ const branches = [
     },
 ];
 
-const clinicData = {
-    email: 'MedHouse@gmail.com',
-    phone: '480-555-0103',
-    address: '4140 Parker Rd. Allentown, New Mexico 31134',
-    time: '11:00-19:00',
-    registrationDate: '01.01.2001',
-    about: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.  Velit officia consequat duis enim velit mollit. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
-};
-
-const pageTitles = {
-    '/': 'მთავარი',
-    '/news': 'სიახლეები',
-    '/blog': 'ბლოგი',
-    '/interviews': 'ინტერვიუ',
-    '/authors': 'ავტორები',
-    '/news/football': 'ფეხბურთი',
-    '/shows': 'გდაცემები',
-    '/quizes': 'ქვიზები',
-    '/about': 'ჩვენ შესახებ',
-    '/signup': 'რეგისტრაცია',
-    '/profile': 'პირადი პროფილი',
-    '/matches': 'მატჩის შედეგები',
-    '/articles': 'სტატიები',
-    '/contact': 'კონტაქტი',
-}
-
 export default function ClinicDetailed() {
     const [clinicEdtModalIsOpen, setClinicEdtModalIsOpen] = useState(false);
     const router = useRouter();
     const id = router.query.id ?? null;
     const[phoneNumber, setPhoneNumber] = useState('');
     const[email, setEmail] = useState('');
+    const [isEditModalOpen, setEditModalOpen] = useState(false);
+    const [tableSearch, setTableSearch] = useState('');
+    const [workingHoursOpen, setWorkingHoursOpen] = useState(false);
+    const [addBranchModal, setBranchModal] = useState(false);
+
+    const offerColumns = [
+        {
+            key: 'check_box',
+            title: '',
+            dataIndex: 'check_box',
+        },
+        {
+            key: 'service_id',
+            title: 'Service Id',
+            dataIndex: 'service_id',
+        },
+        {
+            key: 'name',
+            title: 'Service name',
+            dataIndex: 'name',
+        },
+        {
+            key: 'service_type',
+            title: 'Type of service',
+            dataIndex: 'service_type',
+        },
+        {
+            key: 'price',
+            title: 'Price',
+            dataIndex: 'price',
+        },
+        {
+            key: 'duration',
+            title: 'Duration',
+            dataIndex: 'duration',
+        },
+        {
+            key: "actions",
+            title: "",
+            dataIndex: "actions",
+            render: (record, key) => {
+              return (
+                    <div className={styles.tableActions}>
+                        <ReactSVG 
+                            src={"/images/icons/table/edit.svg"} 
+                            className={styles.iconContainer}
+                            onClick={()=> setEditModalOpen(true)}
+                        />
+                    </div>
+                );
+            },
+        },
+        {
+            key: 'subServices',
+            title:'',
+            dataIndex: 'hidden',
+        }
+    ];
+
+    const analysisData = [
+        {
+            check_box: '758597122',
+            service_id: '758597122',
+            name:'ServiceName1',
+            service_type: 'In clinic',
+            duration:'1000',
+            price: '800',
+            subServices: [
+            {
+                id: 758597125,
+                checkbox: false,
+                title: 'SubserviceName3',
+                status: 'Online',
+                duration: 5781,
+            },{
+                id: 758597123,
+                checkbox: false,
+                title: 'SubserviceName2',
+                status: 'Online',
+                duration: 1281,
+            },
+        ]
+        },
+        {
+            check_box: '758597232',
+            service_id: '758597122',
+            name:'ServiceName2',
+            service_type: 'In clinic',
+            duration:'1000',
+            price: '800',
+            subServices: [
+                {
+                    id: 758591122,
+                    checkbox: false,
+                    title: 'SubserviceName3',
+                    status: 'Online',
+                    duration: 5781,
+                }
+            ]
+        },
+        {
+            check_box: '758594122',
+            service_id:'758597122',
+            name:'ServiceName3',
+            service_type: 'In clinic',
+            duration:'1000',
+            price: '800',
+        },
+        {
+            check_box: '758517122',
+            service_id: '758597122',
+            name:'ServiceName4',
+            service_type: 'In clinic',
+            duration:'1000',
+            price: '800',
+        },
+        {
+            check_box: '758591122',
+            service_id: '758597122',
+            name:'ServiceName5',
+            service_type: 'In clinic',
+            duration:'1000',
+            price: '800',
+            subServices: [
+                {
+                    id: 758597121,
+                    checkbox: false,
+                    title: 'SubserviceName3',
+                    status: 'Online',
+                    duration: 5781,
+                },{
+                    id: 758597192,
+                    checkbox: false,
+                    title: 'SubserviceName2',
+                    status: 'Online',
+                    duration: 1281,
+                },
+            ]
+        },
+        {
+            check_box: '708597122',
+            service_id: '758597122',
+            name:'ServiceName6',
+            service_type: 'In clinic',
+            duration:'1000',
+            price: '800',
+        },
+        {
+            check_box: '758547122',
+            service_id: '758597122',
+            name:'ServiceName7',
+            service_type: 'In clinic',
+            duration:'1000',
+            price: '800',
+        },
+        {
+            check_box: '723597122',
+            service_id: '758597122',
+            name:'ServiceName8',
+            service_type: 'In clinic',
+            duration:'1000',
+            price: '800',
+        },
+        {
+            check_box: '258597122',
+            service_id: '758597122',
+            name:'ServiceName8',
+            service_type: 'In clinic',
+            duration:'1000',
+            price: '800',
+        }
+    ];
 
     const [showMore, setShowMore] = useState(false);
 
-    var { data, refetch, isLoading, isError, error } = useClinicData(id);
+    var { data, refetch } = useQuery(["key", 'clinics'], ()=> { return getList(`clinics/${id}`, id) });
 
-    var doctors = useGetData(`clinics/667/doctors/`);
+    var doctors = useQuery(["key", 'doctors'], ()=> { return getList(`clinics/${id}/doctors/`, id) });
+    var branch = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${id}/branches/`, id) });
     
-    if(router.isReady){
+    useEffect(()=> {
         refetch()
         doctors.refetch()
-        console.log('thisis data', doctors?.data)
-    }
+        branch.refetch()   
+    }, [id])
+
 
     useEffect(()=>{
         let numbers = data?.contactInfos.map((contact)=>{
@@ -143,23 +292,25 @@ export default function ClinicDetailed() {
                     data={data}
                     onClose={() => setClinicEdtModalIsOpen(false)}
                     onSave={(newData) => {
-                        console.log(newData);
                         setClinicEdtModalIsOpen(false);
                     }}
                     onCancel={() => setClinicEdtModalIsOpen(false)}
                 />
             )}
+            {addBranchModal && (
+                <AddBranchModal
+                    onCancel={() => setBranchModal(false)}
+                    onClose={() => setBranchModal(false)}
+                    onSave={() => {
+                        setBranchModal(false);
+                    }}
+                    id={id}
+                    refetch={()=> branch.refetch()}
+                />
+            )}
             <div className={styles.container}>
                 <div className={styles.pageHeader}>
                     <h3>Clinics</h3>
-                    {/* <Breadcrumbs
-                        omitRootLabel={true}
-                        listClassName={styles.breadcrumbs}
-                        replaceCharacterList={[{ from: '_', to: ' ' }]}
-                        omitIndexList={[2]}
-                        activeItemStyle={styles.activeBreadcrumb}
-                    /> */}
-
                     <GenerateBreadcrumbs />
                 </div>
                 <div className={styles.pageBody}>
@@ -195,16 +346,56 @@ export default function ClinicDetailed() {
                                         5
                                     </span>
                                 </div>
-                                <div className={styles.clinicInf}>
+                                <div 
+                                    className={classNames(styles.clinicInf)}
+                                    onClick={()=> setWorkingHoursOpen(!workingHoursOpen)}
+                                >
                                     <ReactSVG
                                         src="/images/icons/clinics/clock.svg"
                                         className={styles.iconContainer}
                                     />
-                                    <span className={styles.clinicInfText}>
+                                    <span className={classNames(styles.clinicInfText, {
+                                        [styles.activeClinicInf]: workingHoursOpen
+                                    })}>
                                         {data?.workingHours[0].startHour}
                                         -
                                         {data?.workingHours[0].endHour}
                                     </span>
+                                    <div className={classNames(styles.workingHoursBlock, {
+                                        [styles.openWorkingHours]: workingHoursOpen
+                                    })}>
+                                        <h2>Work schedule</h2>
+                                        <div className={styles.workHoursList}>
+                                            <div>
+                                                <h4>Mon</h4>
+                                                <span>11:00 - 19:00</span>
+                                            </div>
+                                            <div>
+                                                <h4>Thu</h4>
+                                                <span>11:00 - 19:00</span>
+                                            </div>
+                                            <div>
+                                                <h4>Wed</h4>
+                                                <span>11:00 - 19:00</span>
+                                            </div>
+                                            <div>
+                                                <h4>Thu</h4>
+                                                <span>11:00 - 19:00</span>
+                                            </div>
+                                            <div>
+                                                <h4>Fri</h4>
+                                                <span>11:00 - 19:00</span>
+                                            </div>
+                                            <div>
+                                                <h4>Sat</h4>
+                                                <span className={styles.dayOff}>Day off</span>
+                                            </div>
+                                            <div>
+                                                <h4>Sun</h4>
+                                                <span className={styles.dayOff}>Day off</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className={styles.clinicInf}>
                                     <ReactSVG
@@ -309,6 +500,17 @@ export default function ClinicDetailed() {
                                     selectedClassName={tabStyles.selectedTab}
                                 >
                                     <ReactSVG
+                                        src="/images/icons/tabs/service.svg"
+                                        className={styles.iconContainer}
+                                    />
+                                    <span>Services</span>
+                                </Tab>
+                                <Tab
+                                    className={tabStyles.tab}
+                                    tabIndex="2"
+                                    selectedClassName={tabStyles.selectedTab}
+                                >
+                                    <ReactSVG
                                         src="/images/icons/tabs/offer.svg"
                                         className={styles.iconContainer}
                                     />
@@ -338,7 +540,37 @@ export default function ClinicDetailed() {
                                 </Tab>
                             </TabList>
                             <TabPanel className={tabStyles.tabPanel}>
-                                <BranchTab branchs={branches} />
+                                <BranchTab branchs={branch?.data} onClick={()=> setBranchModal(true)} />
+                            </TabPanel>
+                            <TabPanel className={tabStyles.tabPanel}>
+                                <div className={styles.servicesTable}>
+                                    <div className={styles.servicesHeader}>
+                                        <h2>Services</h2>
+                                        <div className={styles.servicesSearch}>
+                                            <Input 
+                                                type="text"
+                                                className={styles.servInput}
+                                            />
+                                            <ReactSVG 
+                                                className={styles.searchIcon}
+                                                src="/images/icons/inputs/search.svg" 
+                                            />
+                                        </div>
+                                    </div>
+                                    <TableServices
+                                        className={styles.table}
+                                        columns={offerColumns}
+                                        data={analysisData.filter((e)=> e.name.toLocaleLowerCase().includes(
+                                            tableSearch.toLocaleLowerCase()
+                                        ))}
+                                        rowClassName={styles.tableRow}
+                                        cellClassName={styles.tableCell}
+                                        headerClassName={styles.tableHeader}
+                                        bodyClassName={styles.tableBody}
+                                        pagination={{ pageSize: 8, initialPage: 1 }}
+                                        detailedUrl={'#'}
+                                    />
+                                </div>
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
                                 <OffersTab
@@ -363,17 +595,17 @@ export default function ClinicDetailed() {
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
                                 <StuffTab
-                                    stuff={Array.from(new Array(5).keys()).map(
+                                    stuff={doctors?.data?.map(
                                         (i) => ({
-                                            icon: '/images/icons/stuff/stuff1.png',
+                                            icon: i.pictureUrl,
                                             address: '11 Simon Chikovani St',
                                             amountOfOrders: 143,
                                             city: 'Akhaltsikhe',
-                                            clinic: 'Medical House',
+                                            clinic: i.clinics[0].displayName,
                                             description:
-                                                'Dentist•Clinic doctor',
-                                            gender: 'Male',
-                                            name: 'Brooklyn Simmons',
+                                                `${i.professions[0].name} • ${i.doctorType ==='CLINIC_DOCTOR' ? 'Clinic Doctor' : 'Freelancer'}`,
+                                            gender: i.gender === 'm' ? 'Male' : 'Female',
+                                            name: i.firstName + ' ' + i.lastName,
                                             rating: 4.7,
                                             registrationDate: '04.11.2017',
                                         })

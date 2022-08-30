@@ -24,13 +24,16 @@ interface ClinicModalProps {
     onClose?: () => void;
     onSave?: (newData: ClinicData) => void;
     onCancel?: () => void;
-    setBool?: any;
+    id?: any;
+    refetch?: () => void;
 }
 
-export default function AddClinicModal({
+export default function AddBranchModal({
     onClose,
     onSave,
     onCancel,
+    id,
+    refetch
 }: ClinicModalProps) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -40,7 +43,6 @@ export default function AddClinicModal({
     const [startHours, setStartHours] = useState('');
     const [endHours, setEndHours] = useState('');
     const [eligable, setEligable] = useState(false);
-    const { refetch } = useClinicsData()
     const [image, setImage] = useState<File>()
     const [uploadPhoto, setUploadPhoto] = useState('');
     const [openWorkHours, setOpenWorkHours] = useState(false);
@@ -99,14 +101,15 @@ export default function AddClinicModal({
         formData.append('days', '1')
         formData.append('address', address)
         formData.append('description', about)
+        formData.append('parentId', id)
         formData.append('cityId', '80')
         formData.append('eligibleForVAT', JSON.stringify(eligable))
      
-        return axios.post("/asclepius/v1/api/clinics/", formData, {
+        return axios.post(`/asclepius/v1/api/clinics`, formData, {
             headers: {
                 'Content-Type': `multipart/form-data`,
             },
-        }).then((response) => { refetch(); console.log(response) })
+        }).then((response) => { console.log(response); refetch()}).catch(err=>console.log)
     }
     
     const { mutate: addClinics } = useMutation(addClinic)
@@ -216,7 +219,7 @@ export default function AddClinicModal({
                 </>
             }
             <Modal onBackClick={onClose} className={styles.modal}>
-                <span className={styles.modalTitle}>Add clinic</span>
+                <span className={styles.modalTitle}>Add branch</span>
                 <div className={styles.modalContent}>
                     <div className={classNames(styles.modalContentRow, styles.center)}>
                         <img 

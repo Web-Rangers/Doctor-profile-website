@@ -141,12 +141,13 @@ div.modal {
     position: relative;
 }
 
-.workingIcoon{
+.workingIcon{
     position: absolute;
     right:0;
     top:50%;
     margin-top:10px;
     margin-right:15px;
+    cursor:pointer;
 }
 
 .workingHoursModal {
@@ -229,6 +230,7 @@ div.modal {
     border-radius: 4px;
     height: 55px;
     width: 185px;
+    cursor:pointer;
 }
 
 .closeWorkinBtn {
@@ -236,4 +238,5 @@ div.modal {
     right:0;
     top:0;
     margin:30px;
+    cursor:pointer;
 }

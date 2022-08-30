@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const getList = async (endpoint) => {
+export const getList = async (endpoint, id) => {
+    if (!id) return null;
     const res = (
       await axios.get(
         `https://asclepius.pirveli.ge/asclepius/v1/api/${endpoint}`
@@ -9,8 +9,4 @@ const getList = async (endpoint) => {
     ).data;
 
     return res;
-  };
-  
-export const useGetData = (endpoint) => {
-    return useQuery(["key", "lists"], getList(endpoint));
 };

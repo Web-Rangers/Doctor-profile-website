@@ -51,5 +51,12 @@
 }
 
 .tableRow {
-    grid-template-columns: 14% 23% 15% 18% 17% 13%;
+    grid-template-columns: 22% 25% 19% 17% 17%;
+    .tableHeaderCell {
+        padding: 0!important;
+    }
+}
+
+.tableItem {
+    margin: auto 0;
 }
