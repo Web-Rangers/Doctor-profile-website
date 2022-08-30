@@ -39,6 +39,10 @@
 }
 
 .label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 30px;
   font-size: 16px;
   font-weight: 600;
   line-height: 21px;
@@ -74,7 +78,7 @@
 }
 
 .upBtn {
-  font-family: 'RedHatDisplay';
+  font-family: "RedHatDisplay";
   height: 40px;
   padding: 10px 20px;
   margin-bottom: 0;
@@ -97,7 +101,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: #2751F2;
+  background-color: #2751f2;
   color: #ffffff;
   height: 60px;
   padding: 18px 45px;

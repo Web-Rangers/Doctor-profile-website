@@ -7,16 +7,16 @@ import {
   Select,
   encodeImageFileAsURL,
 } from "components";
-import { request } from "https";
 import SideBarLayout from "layouts/SideBarLayout";
 import { prepareServerlessUrl } from "next/dist/server/base-server";
-import Image from "next/image";
 import Breadcrumbs from "nextjs-breadcrumbs";
 import { useState, useEffect } from "react";
 import styles from "styles/pages/addDoctor.module.scss";
 import pageStyles from "styles/pages/page.module.scss";
 import { useClinicsData } from "components/useClinicsData";
 import axios from "axios";
+import { ReactSVG } from "react-svg";
+import StuffModal from "../../../components/modals/StuffModal";
 
 export default function AddDoctor() {
   const [error, setError] = useState({
@@ -25,6 +25,7 @@ export default function AddDoctor() {
   });
 
   const [uploadStaticPhoto, setUploadPhoto] = useState(``);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [requestBody, setRequestBody] = useState({
     firstName: null,
@@ -50,6 +51,7 @@ export default function AddDoctor() {
     branch: [],
   });
 
+  console.log("requestBody", requestBody);
   const clinics = useClinicsData();
 
   const makeListItems = (data) => {
@@ -139,9 +141,9 @@ export default function AddDoctor() {
                 }
               />
               <div className={styles.row}>
-                <DatePicker
-                  label="Date of burth"
-                  mode="single"
+                <Input
+                  label="Date of birth"
+                  type="date"
                   className={styles.halfw}
                   onChange={(value) =>
                     setRequestBody((prev) => ({ ...prev, dateOfBirth: value }))
@@ -167,7 +169,23 @@ export default function AddDoctor() {
               </div>
             </div>
             <div className={styles.columnRight}>
-              <span className={styles.label}>photo</span>
+              <span className={styles.label}>
+                photo
+                {isModalOpen && (
+                  <StuffModal
+                    onClose={() => setIsModalOpen(false)}
+                    onAccept={() => setIsModalOpen(false)}
+                    onCancel={() => setIsModalOpen(false)}
+                  />
+                )}
+                {uploadStaticPhoto ? (
+                  <ReactSVG
+                    src="/images/icons/table/delete.svg"
+                    className={styles.iconContainer}
+                    onClick={() => setIsModalOpen(true)}
+                  />
+                ) : null}
+              </span>
               <img
                 alt=""
                 src={
@@ -177,6 +195,7 @@ export default function AddDoctor() {
                 }
                 className={styles.doctorImage}
               />
+
               <input
                 type="file"
                 className={styles.upload}
@@ -223,11 +242,16 @@ export default function AddDoctor() {
                 labelStyle="outside"
                 options={optionLists.type}
                 onChange={(value) => {
-                  setRequestBody((prev) => ({ ...prev, type: value }));
+                  setRequestBody((prev) => ({
+                    ...prev,
+                    type: value,
+                    iban: "",
+                  }));
                 }}
                 value={requestBody.type}
               />
               <Select
+                disabled={requestBody.type === "FREELANCER" ? true : false}
                 label="Clinic"
                 labelStyle="outside"
                 options={optionLists.clinic}
@@ -267,7 +291,9 @@ export default function AddDoctor() {
                 value={requestBody.branch}
               />
               <Input
+                disabled={requestBody.type === "FREELANCER" ? false : true}
                 label="IBAN"
+                value={requestBody.iban}
                 onChange={(value) => {
                   setRequestBody((prev) => ({ ...prev, iban: value }));
                 }}
