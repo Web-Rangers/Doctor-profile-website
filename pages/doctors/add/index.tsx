@@ -40,6 +40,7 @@ export default function AddDoctor() {
     clinicBranchIds: null,
     type: null,
     branch: null,
+    pictureFile: null,
   });
 
   const [optionLists, setOptionLists] = useState({
@@ -65,13 +66,12 @@ export default function AddDoctor() {
 
     for (const [key, value] of Object.entries(requestBody)) {
       formData.append(key, value);
-      console.log(key, value);
     }
 
     return axios
       .post(
         requestBody.type === "FREELANCER"
-          ? "http://localhost:8085/v1/api/doctors/freelancers"
+          ? "/asclepius/v1/api/doctors/freelancers"
           : `/asclepius/v1/api/clinics/${requestBody.clinicBranchIds}/doctors`,
         formData,
         {
