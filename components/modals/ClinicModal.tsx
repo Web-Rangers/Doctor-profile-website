@@ -1,8 +1,10 @@
-import { Input, Button, Modal } from 'components';
+import { Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange } from 'components';
 import { useState, useEffect } from 'react';
 import styles from 'styles/components/Modals/ClinicModal.module.scss';
 import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
+import {ReactSVG} from 'react-svg';
+import classNames from 'classnames';
 
 interface ClinicData {
     email?: string;
@@ -36,11 +38,78 @@ export default function ClinicModal({
     const [startHours, setStartHours] = useState(data?.workingHours[0].startHour);
     const [endHours, setEndHour] = useState(data?.workingHours[0].endHour);
     const [about, setAbout] = useState(data?.description);
+    const [openWorkHours, setOpenWorkHours] = useState(false);
+    const [workingHours, setWorkingHours] = useState([
+        {
+            days: 1,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 2,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 3,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 4,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 5,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 6,
+            endHour: '',
+            startHour: '',
+            active: false
+        },
+        {
+            days: 7,
+            endHour: '',
+            startHour: '',
+            active: false
+        }
+    ]);
+
+    const dayz = [
+        'Monday', 
+        'Tuesday', 
+        'Wednesday', 
+        'Thursday', 
+        'Friday', 
+        'Saturday', 
+        'Sunday'
+    ]
+
+    const fakeWorkingHours = [
+        {
+            days: 2,
+            startHours: `11:00`,
+            endHours: `18:00`
+        },
+        {
+            days: 5,
+            startHours: `12:00`,
+            endHours: `19:00`
+        }
+    ]
 
     const [registrationDate, setRegistrationDate] = useState(
         data?.registrationDate
     );
-    console.log(data)
 
     const modifyClinic = async () => {
         console.log(email, about)
@@ -73,7 +142,79 @@ export default function ClinicModal({
         setEmail(emails[0]?.value)
     },[data])
 
-    return (
+    useEffect(()=>{
+        const newWorkingHours = workingHours?.map((item)=>{
+            const getCurrentDay = fakeWorkingHours?.filter((e)=> e.days === item.days);
+            console.log(getCurrentDay)
+            if(getCurrentDay.length > 0){
+                return {...item, startHour: getCurrentDay[0]?.startHours, endHour: getCurrentDay[0]?.endHours, active: true}
+            } else {
+                return {...item, active: false}
+            }
+        })
+
+        setWorkingHours(newWorkingHours)
+
+    },[setWorkingHours])
+
+    return <>
+        {
+            openWorkHours && <>
+                <div className={styles.workingHoursModal}>
+                    <h2>Work schedule</h2>
+                    <ReactSVG 
+                        className={styles.closeWorkinBtn}
+                        onClick={()=>setOpenWorkHours(false)}
+                        src="/images/icons/clinics/closeWorkingHours.svg" 
+                    />
+                    {
+                        workingHours?.map((item, i)=>{
+                            return <>
+                                <div className={styles.workingHoursInputs}>
+                                    <div className={styles.dayz}>
+                                        <CheckBox
+                                            id={dayz[i]}
+                                            label={dayz[i]}
+                                            className={styles.checkbox}
+                                            defaultChecked={item.active}
+                                            onChange={()=>{activeWorkingHours(i, workingHours, setWorkingHours)}}
+                                        />
+                                    </div>
+                                    <div className={styles.workingActive}>
+                                        {
+                                            workingHours[i].active ? <span>Open</span> : <span>Close</span>
+                                        }
+                                    </div>
+                                    <div className={styles.workingH}>
+                                        {
+                                            workingHours[i].active ? 
+                                            <>
+                                                <Input 
+                                                    value={workingHours[i].startHour}
+                                                    onChange={(e)=>handleChange(i, e, 'startHour', workingHours, setWorkingHours)}
+                                                />
+                                                <div className={styles.lineImg}>
+                                                    <img src="/images/icons/clinics/line.svg" alt="" />
+                                                </div>
+                                                <Input 
+                                                    value={workingHours[i].endHour}
+                                                    onChange={(e)=>handleChange(i, e, 'endHour', workingHours, setWorkingHours)}
+                                                />
+                                            </> : 'Day off'
+                                        }
+                                    </div>
+                                </div>
+                            </>
+                        })
+                    }
+                    
+                    <Button 
+                        label="Save"
+                        className={styles.workingSaveBtn}
+                    />
+                </div>
+            </>
+        }
         <Modal onBackClick={onClose} className={styles.modal}>
             <span className={styles.modalTitle}>Edit this clinic</span>
             <div className={styles.modalContent}>
@@ -103,6 +244,18 @@ export default function ClinicModal({
                         label="End hours"
                         value={endHours}
                         onChange={(value: string) => setEndHour(value)}
+                    />
+                </div>
+                <div className={classNames(styles.modalContentRow, styles.workingHours)}>
+                    <Input 
+                        type="text"
+                        label="Working hours"
+                        value={getFirstStartEndHours(workingHours)?.startHour && getFirstStartEndHours(workingHours)?.startHour + ' - ' + getFirstStartEndHours(workingHours)?.endHour}
+                    />
+                    <ReactSVG 
+                        className={styles.workingIcon} 
+                        onClick={()=> setOpenWorkHours(true)}
+                        src="/images/icons/inputs/clock.svg" 
                     />
                 </div>
                 <div className={styles.modalContentRow}>
@@ -155,5 +308,5 @@ export default function ClinicModal({
                 />
             </div>
         </Modal>
-    );
+    </>
 }

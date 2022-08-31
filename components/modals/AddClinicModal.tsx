@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from 'styles/components/Modals/ClinicModal.module.scss';
-import { Input, Button, Modal, CheckBox } from 'components';
+import { Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange} from 'components';
 import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
@@ -46,43 +46,43 @@ export default function AddClinicModal({
     const [openWorkHours, setOpenWorkHours] = useState(false);
     const [workingHours, setWorkingHours] = useState([
         {
-            dayId: 1,
+            days: 1,
             endHour: '',
             startHour: '',
             active: true
         },
         {
-            dayId: 2,
+            days: 2,
             endHour: '',
             startHour: '',
             active: true
         },
         {
-            dayId: 3,
+            days: 3,
             endHour: '',
             startHour: '',
             active: true
         },
         {
-            dayId: 4,
+            days: 4,
             endHour: '',
             startHour: '',
             active: true
         },
         {
-            dayId: 5,
+            days: 5,
             endHour: '',
             startHour: '',
             active: true
         },
         {
-            dayId: 6,
+            days: 6,
             endHour: '',
             startHour: '',
             active: false
         },
         {
-            dayId: 7,
+            days: 7,
             endHour: '',
             startHour: '',
             active: false
@@ -101,6 +101,8 @@ export default function AddClinicModal({
         formData.append('description', about)
         formData.append('cityId', '80')
         formData.append('eligibleForVAT', JSON.stringify(eligable))
+
+        console.log(workingHours)
      
         return axios.post("/asclepius/v1/api/clinics/", formData, {
             headers: {
@@ -120,41 +122,6 @@ export default function AddClinicModal({
         'Saturday', 
         'Sunday'
     ]
-    
-    function handleChange(i, e, param) {
-        const start = workingHours.map((x,dex)=>{
-            if(dex === i){
-                return {
-                    ...x,
-                    [param]: e.toString()
-                }
-            }else {
-                return {
-                    ...x
-                }
-            }
-        })
-        
-        return setWorkingHours(start)
-    }
-
-    function activeWorkingHours(i) {
-        const workingHs = workingHours.map((x, dex)=>{
-            if(dex === i){
-                return {
-                    ...x,
-                    active: !x.active,
-                    startHour: '',
-                    endHour: ''
-                }
-            }else {
-                return {
-                    ...x
-                }
-            }
-        })
-        return setWorkingHours(workingHs)
-    }
     
     return (
         <>
@@ -177,7 +144,7 @@ export default function AddClinicModal({
                                                 label={dayz[i]}
                                                 className={styles.checkbox}
                                                 defaultChecked={item.active}
-                                                onChange={()=>{activeWorkingHours(i)}}
+                                                onChange={()=>{activeWorkingHours(i, workingHours, setWorkingHours)}}
                                             />
                                         </div>
                                         <div className={styles.workingActive}>
@@ -191,14 +158,14 @@ export default function AddClinicModal({
                                                 <>
                                                     <Input 
                                                         value={workingHours[i].startHour}
-                                                        onChange={(e)=>handleChange(i, e, 'startHour')}
+                                                        onChange={(e)=>handleChange(i, e, 'startHour', workingHours, setWorkingHours)}
                                                     />
                                                     <div className={styles.lineImg}>
                                                         <img src="/images/icons/clinics/line.svg" alt="" />
                                                     </div>
                                                     <Input 
                                                         value={workingHours[i].endHour}
-                                                        onChange={(e)=>handleChange(i, e, 'endHour')}
+                                                        onChange={(e)=>handleChange(i, e, 'endHour', workingHours, setWorkingHours)}
                                                     />
                                                 </> : 'Day off'
                                             }
@@ -271,7 +238,11 @@ export default function AddClinicModal({
                         <Input 
                             type="text"
                             label="Working hours"
-                            value={workingHours[0].startHour && workingHours[0].startHour + ' - ' + workingHours[0].endHour}
+                            value={getFirstStartEndHours(workingHours)?.startHour && 
+                                getFirstStartEndHours(workingHours)?.startHour + 
+                                ' - ' + 
+                                getFirstStartEndHours(workingHours)?.endHour
+                            }
                         />
                         <ReactSVG 
                             className={styles.workingIcon} 

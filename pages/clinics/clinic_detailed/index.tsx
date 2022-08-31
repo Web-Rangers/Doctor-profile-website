@@ -1,5 +1,5 @@
 import { ReactSVG } from 'react-svg';
-import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, Input, TableServices, getList, AddBranchModal } from 'components';
+import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, Input, TableServices, getList, AddBranchModal, dayz, getFirstStartEndHours } from 'components';
 import StarRatings from 'react-star-ratings';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
@@ -84,42 +84,93 @@ export default function ClinicDetailed() {
     const [tableSearch, setTableSearch] = useState('');
     const [workingHoursOpen, setWorkingHoursOpen] = useState(false);
     const [addBranchModal, setBranchModal] = useState(false);
+    const [workingHours, setWorkingHours] = useState([
+        {
+            days: 1,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 2,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 3,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 4,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 5,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 6,
+            endHour: '',
+            startHour: '',
+            active: false
+        },
+        {
+            days: 7,
+            endHour: '',
+            startHour: '',
+            active: false
+        }
+    ]);
 
     const offerColumns = [
         {
             key: 'check_box',
             title: '',
             dataIndex: 'check_box',
+            form: null
         },
         {
             key: 'service_id',
             title: 'Service Id',
             dataIndex: 'service_id',
+            form: null
         },
         {
             key: 'name',
             title: 'Service name',
             dataIndex: 'name',
+            form: null
         },
         {
             key: 'service_type',
             title: 'Type of service',
             dataIndex: 'service_type',
+            form: null
         },
         {
             key: 'price',
             title: 'Price',
             dataIndex: 'price',
+            form: null
         },
         {
             key: 'duration',
             title: 'Duration',
             dataIndex: 'duration',
+            form: null
         },
         {
             key: "actions",
             title: "",
             dataIndex: "actions",
+            form: null,
             render: (record, key) => {
               return (
                     <div className={styles.tableActions}>
@@ -136,6 +187,7 @@ export default function ClinicDetailed() {
             key: 'subServices',
             title:'',
             dataIndex: 'hidden',
+            form: null
         }
     ];
 
@@ -253,6 +305,19 @@ export default function ClinicDetailed() {
         }
     ];
 
+    const fakeWorkingHours = [
+        {
+            days: 2,
+            startHours: `11:00`,
+            endHours: `18:00`
+        },
+        {
+            days: 5,
+            startHours: `12:00`,
+            endHours: `19:00`
+        }
+    ]
+
     const [showMore, setShowMore] = useState(false);
 
     var { data, refetch } = useQuery(["key", 'clinics'], ()=> { return getList(`clinics/${id}`, id) });
@@ -283,6 +348,21 @@ export default function ClinicDetailed() {
         setPhoneNumber(numbers)
         setEmail(emails)
     },[data])
+
+    useEffect(()=>{
+        const newWorkingHours = workingHours?.map((item)=>{
+            const getCurrentDay = fakeWorkingHours?.filter((e)=> e.days === item.days);
+            console.log(getCurrentDay)
+            if(getCurrentDay.length > 0){
+                return {...item, startHour: getCurrentDay[0]?.startHours, endHour: getCurrentDay[0]?.endHours, active: true}
+            } else {
+                return {...item, active: false}
+            }
+        })
+
+        setWorkingHours(newWorkingHours)
+
+    },[setWorkingHours])
 
 
     return (
@@ -366,34 +446,25 @@ export default function ClinicDetailed() {
                                     })}>
                                         <h2>Work schedule</h2>
                                         <div className={styles.workHoursList}>
-                                            <div>
-                                                <h4>Mon</h4>
-                                                <span>11:00 - 19:00</span>
-                                            </div>
-                                            <div>
-                                                <h4>Thu</h4>
-                                                <span>11:00 - 19:00</span>
-                                            </div>
-                                            <div>
-                                                <h4>Wed</h4>
-                                                <span>11:00 - 19:00</span>
-                                            </div>
-                                            <div>
-                                                <h4>Thu</h4>
-                                                <span>11:00 - 19:00</span>
-                                            </div>
-                                            <div>
-                                                <h4>Fri</h4>
-                                                <span>11:00 - 19:00</span>
-                                            </div>
-                                            <div>
-                                                <h4>Sat</h4>
-                                                <span className={styles.dayOff}>Day off</span>
-                                            </div>
-                                            <div>
-                                                <h4>Sun</h4>
-                                                <span className={styles.dayOff}>Day off</span>
-                                            </div>
+                                            {
+                                                workingHours?.map((item)=>{
+                                                    return <>
+                                                    {
+                                                        item.active ? (
+                                                            <div>
+                                                                <h4>{dayz[item.days - 1]}</h4>
+                                                                <span>{item?.startHour} - {item?.endHour}</span>
+                                                            </div>
+                                                        ) : (
+                                                            <div>
+                                                                <h4>{dayz[item.days - 1]}</h4>
+                                                                <span className={styles.dayOff}>Day off</span>
+                                                            </div>
+                                                        )
+                                                    }
+                                                    </>
+                                                })
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -560,7 +631,7 @@ export default function ClinicDetailed() {
                                     <TableServices
                                         className={styles.table}
                                         columns={offerColumns}
-                                        data={analysisData.filter((e)=> e.name.toLocaleLowerCase().includes(
+                                        data={analysisData.filter((e) => e.name.toLocaleLowerCase().includes(
                                             tableSearch.toLocaleLowerCase()
                                         ))}
                                         rowClassName={styles.tableRow}
@@ -568,8 +639,7 @@ export default function ClinicDetailed() {
                                         headerClassName={styles.tableHeader}
                                         bodyClassName={styles.tableBody}
                                         pagination={{ pageSize: 8, initialPage: 1 }}
-                                        detailedUrl={'#'}
-                                    />
+                                        detailedUrl={'#'} dropdownClassname={''} dropDown={undefined}                                    />
                                 </div>
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
