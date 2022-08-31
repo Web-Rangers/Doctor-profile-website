@@ -50,7 +50,7 @@ interface DoctorsTabProps {
 export default function DoctorsTab({ doctors }: DoctorsTabProps) {
   console.log("datasss", doctors);
   return (
-    <Card cardTitle="Branches">
+    <Card cardTitle="Doctors">
       <Table
         columns={doctorsColumns}
         data={doctors}
