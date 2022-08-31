@@ -187,7 +187,6 @@ export default function Clinics({ list }) {
             />
           </div>
         </div>
-
         <Table
           columns={columns}
           data={searchResult}

@@ -17,6 +17,8 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import styles from "styles/pages/doctors_detailed.module.scss";
 import tabStyles from "styles/components/Tabs/tabs.module.scss";
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { useDoctorData } from "components/useDoctorsData";
 
 interface ActionProps {
   icon?: string;
@@ -30,6 +32,29 @@ const EditAction = ({ onClick, icon }: ActionProps) => (
 export default function DoctorsDetailed() {
   const [isOpen, setIsOpen] = useState(false);
   const [jobTitle, setJobTitle] = useState("");
+  const router = useRouter();
+  const id = router.query.id ?? null;
+
+  var { data, refetch, isLoading, isError, error } = useDoctorData(id);
+
+  if (router.isReady) {
+    refetch();
+    console.log("router", data);
+  }
+
+  // const mobile = data?.contactInfos?.filter(
+  //   (contact) => contact.type.value === "mobile"
+  // );
+  // const email = data?.contactInfos?.filter(
+  //   (contact) => contact.type.value === "mail"
+  // );
+
+  // console.log(
+  //   "iddd",
+  //   data?.contactInfos?.filter((contact) =>
+  //     contact.type.value === "mobile" ? contact.type.value : contact.type.value
+  //   )
+  // );
 
   return (
     <>
@@ -125,15 +150,18 @@ export default function DoctorsDetailed() {
               />
             </div>
             <div className={styles.infoContainer}>
-              <div className={styles.name}>Brooklyn Simmons</div>
-              <div className={styles.speciality}>Neurologist • Freelancer</div>
+              <div className={styles.name}>{data?.firstName || "test"}</div>
+              <div className={styles.speciality}>
+                {" "}
+                {data?.professions || "Neurologist • Freelancer"}
+              </div>
               <div className={styles.mail}>
                 <ReactSVG src={"/images/icons/inputs/mail.svg"} />
-                <span>simon_doctor@gmail.com</span>
+                <span>{"34875"}</span>
               </div>
               <div className={styles.phone}>
                 <ReactSVG src={"/images/icons/inputs/phone.svg"} />
-                <span>(603) 555-0123</span>
+                <span>{" test@dhb.ge"}</span>
               </div>
             </div>
             <EditAction
