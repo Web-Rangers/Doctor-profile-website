@@ -1,4 +1,4 @@
-import { Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange } from 'components';
+import { Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz } from 'components';
 import { useState, useEffect } from 'react';
 import styles from 'styles/components/Modals/ClinicModal.module.scss';
 import axios from 'axios';
@@ -83,16 +83,6 @@ export default function ClinicModal({
             active: false
         }
     ]);
-
-    const dayz = [
-        'Monday', 
-        'Tuesday', 
-        'Wednesday', 
-        'Thursday', 
-        'Friday', 
-        'Saturday', 
-        'Sunday'
-    ]
 
     const fakeWorkingHours = [
         {

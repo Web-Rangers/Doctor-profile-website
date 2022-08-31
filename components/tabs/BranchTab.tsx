@@ -117,7 +117,7 @@ export default function BranchTab({ branchs, onClick }: BranchTabProps) {
                 pagination={null}
                 rowClassName={styles.tableRow}
                 // temp fix
-                detailedUrl="/clinics/clinics_detailed/branch"
+                detailedUrl="/clinics/clinic_detailed/branch"
             ></Table>
         </Card>
     );

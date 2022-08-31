@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from 'styles/components/Modals/ClinicModal.module.scss';
-import { Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange} from 'components';
+import { Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz} from 'components';
 import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
@@ -93,16 +93,20 @@ export default function AddClinicModal({
         let formData = new FormData()
         formData.append('pictureFile', image)
         formData.append('displayName', name)
+        formData.append('days', '1')
         formData.append('startHours',startHours)
         formData.append('endHours', endHours)
         formData.append('phone', phone)
-        formData.append('days', '1')
         formData.append('address', address)
         formData.append('description', about)
         formData.append('cityId', '80')
         formData.append('eligibleForVAT', JSON.stringify(eligable))
 
-        console.log(workingHours)
+        // for(let i = 0; i < workingHours.length; i++){
+        //     formData.append('days', workingHours[i].days.toString())
+        //     formData.append('startHours',workingHours[i].startHour)
+        //     formData.append('endHours', workingHours[i].endHour)
+        // }
      
         return axios.post("/asclepius/v1/api/clinics/", formData, {
             headers: {
@@ -113,16 +117,6 @@ export default function AddClinicModal({
     
     const { mutate: addClinics } = useMutation(addClinic)
 
-    const dayz = [
-        'Monday', 
-        'Tuesday', 
-        'Wednesday', 
-        'Thursday', 
-        'Friday', 
-        'Saturday', 
-        'Sunday'
-    ]
-    
     return (
         <>
             {
@@ -131,7 +125,7 @@ export default function AddClinicModal({
                         <h2>Work schedule</h2>
                         <ReactSVG 
                             className={styles.closeWorkinBtn}
-                            onClick={()=>setOpenWorkHours(false)}
+                            onClick={()=>{setOpenWorkHours(false); setWorkingHours(workingHours)}}
                             src="/images/icons/clinics/closeWorkingHours.svg" 
                         />
                         {
@@ -178,6 +172,7 @@ export default function AddClinicModal({
                         <Button 
                             label="Save"
                             className={styles.workingSaveBtn}
+                            onClick={()=> setOpenWorkHours(false)}
                         />
                     </div>
                 </>
