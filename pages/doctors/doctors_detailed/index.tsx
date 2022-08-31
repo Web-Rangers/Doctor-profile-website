@@ -16,7 +16,7 @@ import { ReactSVG } from "react-svg";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import styles from "styles/pages/doctors_detailed.module.scss";
 import tabStyles from "styles/components/Tabs/tabs.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDoctorData } from "components/useDoctorsData";
 
@@ -32,15 +32,34 @@ const EditAction = ({ onClick, icon }: ActionProps) => (
 export default function DoctorsDetailed() {
   const [isOpen, setIsOpen] = useState(false);
   const [jobTitle, setJobTitle] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const router = useRouter();
   const id = router.query.id ?? null;
 
   var { data, refetch, isLoading, isError, error } = useDoctorData(id);
 
+  console.log("data", data);
+
   if (router.isReady) {
-    refetch();
+    refetch(data);
     console.log("router", data);
   }
+
+  useEffect(() => {
+    if (router.isReady) {
+      refetch(data);
+      console.log("router", data);
+    }
+    let numbers = data?.contactInfos.filter((e) => e?.type.value === "mobile");
+
+    let emails = data?.contactInfos.filter((e) => e?.type.value === "mail");
+
+    console.log("numbers", numbers);
+
+    setPhone(numbers[0]?.value);
+    setEmail(emails[0]?.value);
+  }, [data]);
 
   // const mobile = data?.contactInfos?.filter(
   //   (contact) => contact.type.value === "mobile"
@@ -55,6 +74,8 @@ export default function DoctorsDetailed() {
   //     contact.type.value === "mobile" ? contact.type.value : contact.type.value
   //   )
   // );
+
+  console.log("phone", phone);
 
   return (
     <>

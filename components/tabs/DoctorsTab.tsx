@@ -20,7 +20,7 @@ const doctorsColumns = [
       const mobile = info?.filter((contact) => contact.type.value === "mobile");
       console.log(mobile);
 
-      return <>{mobile !== [] && mobile[0]?.value}</>;
+      return <>{mobile !== [] ? mobile[0]?.value : ""}</>;
     },
   },
   {
