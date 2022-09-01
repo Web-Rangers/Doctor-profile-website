@@ -1,16 +1,20 @@
 import { TabPanel, Tabs } from "react-tabs";
 import DoctorsTab from "../../components/tabs/DoctorsTab";
 import tabStyles from "styles/components/Tabs/tabs.module.scss";
-import { useFreeLancerDoctorData } from "components/useDoctorsData";
+import { getFreelancer } from "components/useDoctorsData";
 import SideBarLayout from "layouts/SideBarLayout";
+import { useQuery } from "@tanstack/react-query";
 
 export default function DoctorsList() {
-  const doctors = useFreeLancerDoctorData();
+  var { data } = useQuery(["key", "freelancerDoctors"], () => {
+    return getFreelancer();
+  });
 
+  console.log("data h", data);
   return (
     <Tabs>
       <TabPanel className={tabStyles.tabPanel}>
-        <DoctorsTab doctors={doctors.data} />
+        <DoctorsTab doctors={data} />
       </TabPanel>
     </Tabs>
   );

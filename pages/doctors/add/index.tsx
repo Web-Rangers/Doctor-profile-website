@@ -18,6 +18,8 @@ import axios from "axios";
 import { ReactSVG } from "react-svg";
 import StuffModal from "../../../components/modals/StuffModal";
 
+import { useRouter } from "next/router";
+
 export default function AddDoctor() {
   const [error, setError] = useState({
     isError: false,
@@ -26,6 +28,7 @@ export default function AddDoctor() {
 
   const [uploadStaticPhoto, setUploadPhoto] = useState(``);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
   const [requestBody, setRequestBody] = useState({
     firstName: null,
@@ -84,6 +87,7 @@ export default function AddDoctor() {
       )
       .then((response) => {
         console.log(response);
+        router.push("/doctors");
       })
       .catch((error) =>
         setError((prev) => ({ ...prev, isError: true, errorMessage: error }))
@@ -182,7 +186,7 @@ export default function AddDoctor() {
                   <ReactSVG
                     src="/images/icons/table/delete.svg"
                     className={styles.iconContainer}
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={() => setUploadPhoto("")}
                   />
                 ) : null}
               </span>
@@ -312,12 +316,14 @@ export default function AddDoctor() {
         </Card>
         <div className={styles.buttons}>
           <Button label="Cancel" size="large" variant="outline" />
+          {/* <Link href={"./"}> */}
           <Button
             label="Add"
             size="large"
             variant="fill"
             onClick={() => requestFormData()}
           />
+          {/* </Link> */}
         </div>
       </div>
     </div>

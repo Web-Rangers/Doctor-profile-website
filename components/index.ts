@@ -10,10 +10,6 @@ export { default as TableServices } from "./TableServices";
 export { default as Navigation } from "./Navigation";
 export { default as Calendar } from "./Calendar";
 export { useClinicsData, useClinicData } from "./useClinicsData.js";
-export {
-  useDoctorsData,
-  useFreeLancerDoctorData,
-  useDoctorData,
-} from "./useDoctorsData.js";
+export { useDoctorsData, getDoctor, getFreelancer } from "./useDoctorsData.js";
 export { encodeImageFileAsURL } from "./uploadImageBase64";
 export { default as GenerateBreadcrumbs } from "./generateBreadcrumbs.js";

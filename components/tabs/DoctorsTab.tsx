@@ -18,7 +18,7 @@ const doctorsColumns = [
     dataIndex: "contactInfos",
     render: (info) => {
       const mobile = info?.filter((contact) => contact.type.value === "mobile");
-      console.log(mobile);
+      console.log(info);
 
       return <>{mobile.length > 0 ? mobile[0]?.value : ""}</>;
     },
@@ -36,7 +36,7 @@ const doctorsColumns = [
 ];
 
 interface Doctors {
-  id: string;
+  id: string | any;
   firstName: string;
   value: string;
   doctorType: string;
@@ -48,12 +48,15 @@ interface DoctorsTabProps {
 }
 
 export default function DoctorsTab({ doctors }: DoctorsTabProps) {
-  console.log("datasss", doctors);
+  console.log("null", doctors);
+
+  const sortDoctors = doctors?.sort((a, b) => b.id - a.id);
+
   return (
     <Card cardTitle="Doctors">
       <Table
         columns={doctorsColumns}
-        data={doctors}
+        data={sortDoctors}
         pagination={{ pageSize: 8, initialPage: 1 }}
         rowClassName={styles.tableRow}
         // temp fix

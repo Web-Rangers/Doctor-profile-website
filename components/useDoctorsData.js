@@ -13,16 +13,12 @@ export const useDoctorsData = (id) => {
   });
 };
 
-const getFreelancer = async () => {
+export const getFreelancer = async () => {
   const res = (await axios.get(`/asclepius/v1/api/doctors/freelancers`)).data;
   return res;
 };
 
-export const useFreeLancerDoctorData = () => {
-  return useQuery(["key", "freelancerDoctors"], getFreelancer);
-};
-
-const getDoctor = async (id) => {
+export const getDoctor = async (id) => {
   if (!id) return null;
   const res = (
     await axios.get(
@@ -30,10 +26,4 @@ const getDoctor = async (id) => {
     )
   ).data;
   return res;
-};
-
-export const useDoctorData = (id) => {
-  return useQuery(["key", "doctor"], () => {
-    return getDoctor(id);
-  });
 };
