@@ -28,19 +28,21 @@ interface DoctorModalProps {
   onSave?: (newData: DoctorData) => void;
   data: DoctorData;
   onClose?: () => void;
+  refetch?: () => void;
 }
 
 export default function EditDoctorModal({
   onSave,
   onClose,
   data,
+  refetch,
 }: DoctorModalProps) {
   const [name, setName] = useState(data?.firstName);
   const [surname, setSurname] = useState(data?.lastName);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [professionId, setProfessionId] = useState("1");
-  const [pictureFile, setPictureFile] = useState(data?.pictureUrl);
+  const [pictureFile, setPictureFile] = useState(null);
 
   const modifyDoctor = async () => {
     let formData = new FormData();
@@ -48,15 +50,13 @@ export default function EditDoctorModal({
     formData.append("lastName", surname);
     formData.append("phone", phone);
     formData.append("email", email);
-    formData.append("professionId", professionId);
+    formData.append("professionId", "1");
     formData.append("personalId", data?.id);
     formData.append("dateOfBirth", "2022-09-01");
     formData.append("gender", "m");
     formData.append("iban", "23232");
     formData.append("aboutMe", "23232");
     formData.append("pictureFile", pictureFile);
-
-    console.log("req");
 
     return axios
       .put(
@@ -70,6 +70,7 @@ export default function EditDoctorModal({
       )
       .then((response) => {
         console.log("this is response", response);
+        refetch();
       })
       .catch((error) => {
         if (error.response) console.log(error.response);
@@ -113,11 +114,13 @@ export default function EditDoctorModal({
               className={style.upload}
               id="upload"
               onChange={(e) => {
-                setPictureFile((prev) => ({
-                  ...prev,
-                  pictureFile: e.target.files[0],
-                }));
-                encodeImageFileAsURL(e.target, setPictureFile);
+                // setPictureFile((prev) => ({
+                //   ...prev,
+                //   pictureFile: e.target.files[0],
+                // }));
+                // encodeImageFileAsURL(e.target, setPictureFile);
+                console.log("sent img", e.target.files[0]);
+                setPictureFile(e.target.files[0]);
               }}
             />{" "}
             <label className={style.upBtn} htmlFor="upload">

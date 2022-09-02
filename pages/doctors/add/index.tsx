@@ -1,14 +1,6 @@
 import classNames from "classnames";
-import {
-  Button,
-  Card,
-  DatePicker,
-  Input,
-  Select,
-  encodeImageFileAsURL,
-} from "components";
+import { Button, Card, Input, Select, encodeImageFileAsURL } from "components";
 import SideBarLayout from "layouts/SideBarLayout";
-import { prepareServerlessUrl } from "next/dist/server/base-server";
 import Breadcrumbs from "nextjs-breadcrumbs";
 import { useState, useEffect } from "react";
 import styles from "styles/pages/addDoctor.module.scss";
@@ -286,6 +278,7 @@ export default function AddDoctor() {
                 value={requestBody.professionId}
               />
               <Select
+                disabled={requestBody.type === "FREELANCER" ? true : false}
                 label="Branch"
                 labelStyle="outside"
                 options={optionLists.branch}
@@ -316,14 +309,12 @@ export default function AddDoctor() {
         </Card>
         <div className={styles.buttons}>
           <Button label="Cancel" size="large" variant="outline" />
-          {/* <Link href={"./"}> */}
           <Button
             label="Add"
             size="large"
             variant="fill"
             onClick={() => requestFormData()}
           />
-          {/* </Link> */}
         </div>
       </div>
     </div>

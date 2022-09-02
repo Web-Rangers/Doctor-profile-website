@@ -19,6 +19,8 @@ import { getDoctor } from "components/useDoctorsData";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import EditDoctorModal from "components/modals/EditDoctorModal";
 
+import { encodeImageFileAsURL } from "components";
+
 interface ActionProps {
   icon?: string;
   onClick?: () => void;
@@ -62,6 +64,8 @@ export default function DoctorsDetailed() {
     setEmail(emails);
   }, [data]);
 
+  console.log(data?.pictureUrl);
+
   return (
     <>
       {false && <AddOrder />}
@@ -72,6 +76,7 @@ export default function DoctorsDetailed() {
           onSave={(newData) => {
             setIsOpen(false);
           }}
+          refetch={() => refetch()}
         />
       )}
       <div className={styles.container}>
@@ -176,16 +181,27 @@ export default function DoctorsDetailed() {
               </TabList>
               <TabPanel className={tabStyles.tabPanel}>
                 <AboutDoctorTab
+                  onClose={() => setIsOpen(false)}
+                  onSave={(newData) => {
+                    setIsOpen(false);
+                  }}
                   doctor={{
-                    aboutMe:
-                      "Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.",
-                    clinic: "Medical House",
+                    firstName: data != null ? data?.firstName : "",
+                    lastName: data != null ? data?.lastName : "",
+                    pictureFile: data != null ? data?.pictureUrl : "",
+                    phone: data != null ? phone : "",
+                    email: data != null ? email : "",
+
+                    aboutMe: data != null ? data?.aboutMe : "",
+                    clinic: data != null ? data?.clinic : "",
                     clinicAddress:
                       "4140 Parker Rd. Allentown, New Mexico 31134",
-                    dateOfBirth: "23.0.1980",
-                    gender: "Male",
-                    iban: "DE51680501010002282022",
-                    id: "17807709",
+                    dateOfBirth: data != null ? data?.dateOfBirth : "",
+                    gender: data != null ? data?.gender : "",
+                    iban: data != null ? data?.iban : "",
+                    id: data != null ? data?.id : "",
+                    doctorType: data != null ? data?.doctorType : "",
+
                     media: [
                       {
                         src: "/images/doctors/detailed/media1.png",

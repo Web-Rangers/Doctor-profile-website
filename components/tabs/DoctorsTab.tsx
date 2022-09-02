@@ -1,5 +1,9 @@
 import { Card, Table } from "components";
 import styles from "styles/components/Tabs/BranchTab.module.scss";
+import style from "styles/pages/addDoctor.module.scss";
+import { Button } from "components/inputs";
+import Link from "next/link";
+import Breadcrumbs from "nextjs-breadcrumbs";
 
 const doctorsColumns = [
   {
@@ -20,7 +24,7 @@ const doctorsColumns = [
       const mobile = info?.filter((contact) => contact.type.value === "mobile");
       console.log(info);
 
-      return <>{mobile.length > 0 ? mobile[0]?.value : ""}</>;
+      return <>{mobile.length > 0 ? mobile[0]?.value : " 2  "}</>;
     },
   },
   {
@@ -53,15 +57,36 @@ export default function DoctorsTab({ doctors }: DoctorsTabProps) {
   const sortDoctors = doctors?.sort((a, b) => b.id - a.id);
 
   return (
-    <Card cardTitle="Doctors">
-      <Table
-        columns={doctorsColumns}
-        data={sortDoctors}
-        pagination={{ pageSize: 8, initialPage: 1 }}
-        rowClassName={styles.tableRow}
-        // temp fix
-        detailedUrl="/doctors/doctors_detailed/"
-      ></Table>
-    </Card>
+    <>
+      <div className={style.doctorsHeader}>
+        <div className={style.doctorsHeader}>
+          <span className={style.doctorTitle}>Doctors</span>
+
+          <Link href={"./doctors/add"}>
+            <Button
+              variant="fill"
+              label="Add doctor"
+              size="large"
+              className={style.addDoctorBtn}
+            />
+          </Link>
+        </div>
+        <Breadcrumbs
+          omitRootLabel={false}
+          listClassName={style.breadcrumbs}
+          replaceCharacterList={[{ from: "_", to: " " }]}
+          rootLabel="admin"
+        />
+      </div>
+      <Card>
+        <Table
+          columns={doctorsColumns}
+          data={sortDoctors}
+          pagination={{ pageSize: 8, initialPage: 1 }}
+          rowClassName={styles.tableRow}
+          detailedUrl="/doctors/doctors_detailed/"
+        ></Table>
+      </Card>
+    </>
   );
 }
