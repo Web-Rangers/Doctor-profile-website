@@ -19,8 +19,6 @@ import { getDoctor } from "components/useDoctorsData";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import EditDoctorModal from "components/modals/EditDoctorModal";
 
-import { encodeImageFileAsURL } from "components";
-
 interface ActionProps {
   icon?: string;
   onClick?: () => void;
@@ -63,8 +61,6 @@ export default function DoctorsDetailed() {
     setPhone(numbers);
     setEmail(emails);
   }, [data]);
-
-  console.log(data?.pictureUrl);
 
   return (
     <>
@@ -200,6 +196,7 @@ export default function DoctorsDetailed() {
                     gender: data != null ? data?.gender : "",
                     iban: data != null ? data?.iban : "",
                     id: data != null ? data?.id : "",
+                    idNumber: data != null ? data?.idNumber : "",
                     doctorType: data != null ? data?.doctorType : "",
 
                     media: [

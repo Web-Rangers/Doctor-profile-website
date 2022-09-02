@@ -74,8 +74,6 @@ export default function EditDoctorModal({
       })
       .catch((error) => {
         if (error.response) console.log(error.response);
-        if (error.request) console.log(error.request);
-        if (error.message) console.log(error.message);
       });
   };
   const { mutate: doctorUpdate } = useMutation(modifyDoctor);

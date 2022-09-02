@@ -26,6 +26,7 @@ interface Doctor {
   pictureFile?: any;
   phone?: string;
   email?: string;
+  idNumber?: string;
 }
 
 interface AboutDoctorTabProps {
@@ -52,7 +53,7 @@ export default function AboutDoctorTab({
 
   const [clinic, setClinic] = useState<string>("");
   //   const [birthDate, setBirthDate] = useState("");
-  const [personalId, setPersonalId] = useState<string>(doctor?.id);
+  const [personalId, setPersonalId] = useState<string>(doctor?.idNumber);
 
   console.log("ID", doctor?.id);
 
@@ -239,7 +240,7 @@ export default function AboutDoctorTab({
             </div>
             <div className={styles.subInfo}>
               <div className={styles.infoTitle}>ID</div>
-              <div className={styles.infoText}>{doctor.id}</div>
+              <div className={styles.infoText}>{doctor.idNumber}</div>
             </div>
           </div>
           <div className={styles.info}>
