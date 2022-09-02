@@ -30,6 +30,7 @@ interface TableProps {
     headerClassName?: string;
     bodyClassName?: string;
     detailedUrl?: string;
+    querys?: string;
 }
 
 export default function Table({
@@ -41,7 +42,8 @@ export default function Table({
     headerClassName,
     bodyClassName,
     className,
-    detailedUrl = ''
+    detailedUrl = '',
+    querys
 }: TableProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const [diplayedData, setDisplayedData] = useState([]);
@@ -137,6 +139,7 @@ export default function Table({
                         rowClassName={rowClassName}
                         cellClassName={cellClassName}
                         detailedUrl={detailedUrl}
+                        querys={querys}
                     />
                 ))}
             </div>
@@ -194,6 +197,7 @@ interface TableRowProps {
     rowClassName?: string;
     cellClassName?: string;
     detailedUrl: string;
+    querys?: string;
 }
 
 const TableRow = ({
@@ -201,7 +205,8 @@ const TableRow = ({
     columnsDefinition,
     rowClassName,
     cellClassName,
-    detailedUrl
+    detailedUrl,
+    querys
 }: TableRowProps) => {
     return (
         <div
@@ -217,7 +222,7 @@ const TableRow = ({
                         return <>
                             {
                                 index !== columnsDefinition.length - 1 ?
-                                    <Link href={{ pathname: detailedUrl, query: { id: record['id'] } }}>
+                                    <Link href={{ pathname: detailedUrl, query: { id: record['id'], parentId: [`${querys}`] } }}>
                                         {render(
                                             record[dataIndex],
                                             `data-${record.key}-${index}`

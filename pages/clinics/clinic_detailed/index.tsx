@@ -352,7 +352,6 @@ export default function ClinicDetailed() {
     useEffect(()=>{
         const newWorkingHours = workingHours?.map((item)=>{
             const getCurrentDay = fakeWorkingHours?.filter((e)=> e.days === item.days);
-            console.log(getCurrentDay)
             if(getCurrentDay.length > 0){
                 return {...item, startHour: getCurrentDay[0]?.startHours, endHour: getCurrentDay[0]?.endHours, active: true}
             } else {
@@ -363,7 +362,6 @@ export default function ClinicDetailed() {
         setWorkingHours(newWorkingHours)
 
     },[setWorkingHours])
-
 
     return (
         <>
@@ -391,7 +389,7 @@ export default function ClinicDetailed() {
             <div className={styles.container}>
                 <div className={styles.pageHeader}>
                     <h3>Clinics</h3>
-                    <GenerateBreadcrumbs />
+                    <GenerateBreadcrumbs customParams={null}/>
                 </div>
                 <div className={styles.pageBody}>
                     <div className={styles.row}>
@@ -437,9 +435,7 @@ export default function ClinicDetailed() {
                                     <span className={classNames(styles.clinicInfText, {
                                         [styles.activeClinicInf]: workingHoursOpen
                                     })}>
-                                        {data?.workingHours[0].startHour}
-                                        -
-                                        {data?.workingHours[0].endHour}
+                                        {data != null ? getFirstStartEndHours(workingHours)?.startHour + ' - ' + getFirstStartEndHours(workingHours)?.endHour : ''}
                                     </span>
                                     <div className={classNames(styles.workingHoursBlock, {
                                         [styles.openWorkingHours]: workingHoursOpen
@@ -611,7 +607,11 @@ export default function ClinicDetailed() {
                                 </Tab>
                             </TabList>
                             <TabPanel className={tabStyles.tabPanel}>
-                                <BranchTab branchs={branch?.data} onClick={()=> setBranchModal(true)} />
+                                <BranchTab 
+                                    branchs={branch?.data} 
+                                    clinicId={id}
+                                    onClick={()=> setBranchModal(true)} 
+                                />
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
                                 <div className={styles.servicesTable}>

@@ -104,11 +104,12 @@ interface Branch {
 
 interface BranchTabProps {
     branchs?: Branch[];
+    clinicId?: any;
     onClick?: () => void;
 }
 
-export default function BranchTab({ branchs, onClick }: BranchTabProps) {
-    console.log(branchs)
+export default function BranchTab({ branchs, clinicId, onClick }: BranchTabProps) {
+    console.log(clinicId)
     return (
         <Card cardTitle="Branches" cardActions={<BranchActions onClick={()=> onClick} />}>
             <Table
@@ -117,7 +118,8 @@ export default function BranchTab({ branchs, onClick }: BranchTabProps) {
                 pagination={null}
                 rowClassName={styles.tableRow}
                 // temp fix
-                detailedUrl="/clinics/clinic_detailed/branch"
+                querys={`${clinicId}`}
+                detailedUrl={`/clinics/clinic_detailed/branch`}
             ></Table>
         </Card>
     );

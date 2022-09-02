@@ -16,8 +16,11 @@ import styles from "styles/pages/branch.module.scss";
 import tableStyles from "styles/components/Table.module.scss";
 import Breadcrumbs from "nextjs-breadcrumbs";
 import classNames from "classnames";
-import { useState } from "react";
-import Image from "next/image";
+import { useState, useEffect } from "react";
+import { useRouter } from 'next/router';
+import { useQuery } from "@tanstack/react-query";
+import {getList} from 'components';
+import {GenerateBreadcrumbs, getFirstStartEndHours} from 'components';
 
 interface ActionProps {
     icon?: string;
@@ -44,6 +47,111 @@ const Status = ({ active }: { active: boolean }) => {
 export default function Branch() {
     const [branchModalIsOpen, setBranchModalIsOpen] = useState(false);
     const [modalMode, setModalMode] = useState("add");
+    const router = useRouter();
+    const id = router.query.id ?? null;
+    const parentId = router.query.parentId ?? null;
+    const[phoneNumber, setPhoneNumber] = useState('');
+    const[email, setEmail] = useState('');
+    const [workingHours, setWorkingHours] = useState([
+        {
+            days: 1,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 2,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 3,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 4,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 5,
+            endHour: '',
+            startHour: '',
+            active: true
+        },
+        {
+            days: 6,
+            endHour: '',
+            startHour: '',
+            active: false
+        },
+        {
+            days: 7,
+            endHour: '',
+            startHour: '',
+            active: false
+        }
+    ]);
+    const fakeWorkingHours = [
+        {
+            days: 2,
+            startHours: `11:00`,
+            endHours: `18:00`
+        },
+        {
+            days: 5,
+            startHours: `12:00`,
+            endHours: `19:00`
+        }
+    ]
+
+    var branchDetail = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${parentId}/branches?${id}`, id) });
+    var branchDoctors = useQuery(["key", 'branchDoctors'], ()=> { return getList(`clinics/${id}/doctors`, id) });
+
+    if(router.isReady) {
+        branchDetail.refetch();
+        branchDoctors.refetch();
+    }
+
+    useEffect(()=>{
+        let numbers = branchDetail?.data != null && branchDetail?.data[0]?.contactInfos?.map((contact)=>{
+            if(contact?.type.value == 'mobile') {
+                return [contact.value]
+            }
+        })
+        
+        let emails =branchDetail?.data != null && branchDetail?.data[0]?.contactInfos?.map((contact)=>{
+            if(contact?.type.value == 'mail') {
+                return [contact.value]
+            }
+        })
+        
+        setPhoneNumber(numbers)
+        setEmail(emails)
+        console.log(branchDetail.data)
+    },[branchDetail?.data])
+
+    useEffect(()=>{
+        const newWorkingHours = workingHours?.map((item)=>{
+            const getCurrentDay = branchDetail?.data != null && branchDetail?.data[0].workingHours.filter((e)=> e.dayId === item.days);
+            if(getCurrentDay.length > 0){
+                return {...item, startHour: getCurrentDay[0]?.startHour, endHour: getCurrentDay[0]?.endHour, active: true}
+            } else {
+                return {...item, active: false}
+            }
+        })
+        console.log(newWorkingHours)
+
+        setWorkingHours(newWorkingHours)
+
+        console.log(branchDetail?.data)
+
+    },[branchDetail?.data, setWorkingHours])
+
     return (
         <>
             {branchModalIsOpen && (
@@ -52,6 +160,8 @@ export default function Branch() {
                     mode={modalMode === "add" ? "add" : "edit"}
                     onCancel={() => setBranchModalIsOpen(false)}
                     onSave={() => setBranchModalIsOpen(false)}
+                    data={branchDetail?.data}
+                    refetch={()=> branchDetail.refetch()}
                 />
             )}
             <div className={cDStyles.container}>
@@ -60,10 +170,8 @@ export default function Branch() {
                         <h3>Branch</h3>
                         <Button label="Deactivate branch" size="large" variant="fill" />
                     </div>
-                    <Breadcrumbs
-                        omitRootLabel={true}
-                        listClassName={cDStyles.breadcrumbs}
-                        replaceCharacterList={[{ from: "_", to: " " }]}
+                    <GenerateBreadcrumbs 
+                        customParams={[parentId, id]}
                     />
                 </div>
                 <div className={cDStyles.pageBody}>
@@ -72,23 +180,25 @@ export default function Branch() {
                             <Card className={cDStyles.smallCard}>
                                 <img
                                     alt=""
-                                    src={"/images/icons/clinics/medicalhouse.png"}
+                                    src={branchDetail?.data != null ? branchDetail?.data[0]?.logoUrl : "/images/icons/clinics/medicalhouse.png"}
                                     className={cDStyles.clinicIcon}
                                 />
-                                <div className={cDStyles.clinicName}>Medical House</div>
+                                <div className={cDStyles.clinicName}>{branchDetail?.data != null ? branchDetail?.data[0]?.displayName : ''}</div>
                                 <div className={cDStyles.clinicInf}>
                                     <ReactSVG
                                         src="/images/icons/clinics/clock.svg"
                                         className={cDStyles.iconContainer}
                                     />
-                                    <span className={cDStyles.clinicInfText}>10:00-20:00</span>
+                                    <span className={cDStyles.clinicInfText}>
+                                        {branchDetail?.data != null ? getFirstStartEndHours(workingHours)?.startHour + ' - ' + getFirstStartEndHours(workingHours)?.endHour : ''}
+                                    </span>
                                 </div>
                                 <div className={cDStyles.clinicInf}>
                                     <ReactSVG
                                         src="/images/icons/clinics/phone.svg"
                                         className={cDStyles.iconContainer}
                                     />
-                                    <span className={cDStyles.clinicInfText}>480-555-0103</span>
+                                    <span className={cDStyles.clinicInfText}>{phoneNumber}</span>
                                 </div>
                                 <div className={cDStyles.clinicInf}>
                                     <ReactSVG
@@ -96,7 +206,7 @@ export default function Branch() {
                                         className={cDStyles.iconContainer}
                                     />
                                     <span className={cDStyles.clinicInfText}>
-                                        4140 Parker Rd. Allentown, New Mexico 31134
+                                        {branchDetail?.data != null ? branchDetail?.data[0]?.address.address : ''}
                                     </span>
                                 </div>
                             </Card>
@@ -116,7 +226,9 @@ export default function Branch() {
                             >
                                 <div className={cDStyles.dataRow}>
                                     <div className={cDStyles.dataIndex}>Branch ID</div>
-                                    <div className={cDStyles.dataValue}>94768466</div>
+                                    <div className={cDStyles.dataValue}>
+                                        {branchDetail?.data != null ? branchDetail?.data[0]?.id : ''}
+                                    </div>
                                 </div>
                                 <div className={cDStyles.dataRow}>
                                     <div
@@ -125,17 +237,15 @@ export default function Branch() {
                                         Status
                                     </div>
                                     <div className={cDStyles.dataValue}>
-                                        <Status active></Status>
+                                        {branchDetail?.data != null ? branchDetail?.data[0]?.isActive ? 
+                                        <Status active></Status> : 
+                                        <Status active={false}></Status> : ''}
                                     </div>
                                 </div>
                                 <div className={cDStyles.dataRow}>
                                     <div className={cDStyles.dataIndex}>About clinic</div>
                                     <div className={cDStyles.dataValue}>
-                                        Amet minim mollit non deserunt ullamco est sit aliqua dolor
-                                        do amet sint. Velit officia consequat duis enim velit
-                                        mollit. Velit officia consequat duis enim velit mollit. Amet
-                                        minim mollit non deserunt ullamco est sit aliqua dolor do
-                                        amet sint. Amet minim
+                                        {branchDetail?.data != null ? branchDetail?.data[0]?.description : ''}
                                     </div>
                                 </div>
                                 <div className={styles.whiteSpace}></div>
@@ -226,18 +336,21 @@ export default function Branch() {
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
                                 <StuffTab
-                                    stuff={Array.from(new Array(5).keys()).map((i) => ({
-                                        icon: "/images/icons/stuff/stuff1.png",
-                                        address: "11 Simon Chikovani St",
-                                        amountOfOrders: 143,
-                                        city: "Akhaltsikhe",
-                                        clinic: "Medical House",
-                                        description: "Dentist•Clinic doctor",
-                                        gender: "Male",
-                                        name: "Brooklyn Simmons",
-                                        rating: 4.7,
-                                        registrationDate: "04.11.2017",
-                                    }))}
+                                    stuff={branchDoctors?.data?.map(
+                                        (i) => ({
+                                            icon: i.pictureUrl,
+                                            address: '11 Simon Chikovani St',
+                                            amountOfOrders: 143,
+                                            city: 'Akhaltsikhe',
+                                            clinic: i.clinics[0].displayName,
+                                            description:
+                                                `${i.professions[0].name} • ${i.doctorType ==='CLINIC_DOCTOR' ? 'Clinic Doctor' : 'Freelancer'}`,
+                                            gender: i.gender === 'm' ? 'Male' : 'Female',
+                                            name: i.firstName + ' ' + i.lastName,
+                                            rating: 4.7,
+                                            registrationDate: '04.11.2017',
+                                        })
+                                    )}
                                 />
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>

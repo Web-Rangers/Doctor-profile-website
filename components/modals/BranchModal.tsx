@@ -1,6 +1,8 @@
 import styles from '/styles/components/Modals/BranchModal.module.scss';
 import { useState } from 'react';
 import { Button, Input, Modal } from 'components';
+import axios from 'axios';
+import { useMutation } from "@tanstack/react-query";
 
 interface BranchData {
     phone?: string | number;
@@ -15,6 +17,7 @@ interface BranchModalProps {
     onCancel?: () => void;
     data?: BranchData;
     mode: 'add' | 'edit';
+    refetch?: ()=> void;
 }
 
 const BranchModal = ({
@@ -23,11 +26,37 @@ const BranchModal = ({
     onCancel,
     data = {},
     mode,
+    refetch
 }: BranchModalProps) => {
-    const [phone, setPhone] = useState(mode === 'edit' ? data.phone : '');
-    const [address, setAddress] = useState(mode === 'edit' ? data.address : '');
-    const [time, setTime] = useState(mode === 'edit' ? data.time : '');
-    const [about, setAbout] = useState(mode === 'edit' ? data.about : '');
+    let phoneNum = data[0]?.contactInfos?.map((contact)=>{
+        if(contact?.type.value == 'mobile') {
+            return [contact.value]
+        }
+    }).filter((e)=> e != undefined)
+    const [phone, setPhone] = useState(mode === 'edit' ? phoneNum[0] : '');
+    const [address, setAddress] = useState(mode === 'edit' ? data[0].address.address : '');
+    const [time, setTime] = useState(mode === 'edit' ? data[0].time : '');
+    const [about, setAbout] = useState(mode === 'edit' ? data[0].description : '');
+
+    const editBranch = async () => {
+        let formData = new FormData()
+        formData.append('startHours',"10:00")
+        formData.append('endHours', '11:00')
+        formData.append('phone', phone)
+        formData.append('days', '1')
+        formData.append('address', address)
+        formData.append('description', about)
+        formData.append('cityId', '80')
+        formData.append('email', 'mail@mail.com')
+     
+        return axios.put(`/asclepius/v1/api/clinics/${data[0].id}`, formData, {
+            headers: {
+                'Content-Type': `multipart/form-data`,
+            },
+        }).then((response) => { refetch(); console.log(response) })
+    }
+    
+    const { mutate: edit } = useMutation(editBranch)
 
     return (
         <Modal onBackClick={onClose} className={styles.modal}>
@@ -77,8 +106,10 @@ const BranchModal = ({
                 <Button
                     label="Save"
                     variant="fill"
-                    onClick={() =>
+                    onClick={() =>{
                         onSave?.call(null, { phone, address, time, about })
+                        edit()
+                    }
                     }
                     size="large"
                 />

@@ -93,20 +93,20 @@ export default function AddClinicModal({
         let formData = new FormData()
         formData.append('pictureFile', image)
         formData.append('displayName', name)
-        formData.append('days', '1')
-        formData.append('startHours',startHours)
-        formData.append('endHours', endHours)
+        // formData.append('days', '1')
+        // formData.append('startHours',startHours)
+        // formData.append('endHours', endHours)
         formData.append('phone', phone)
         formData.append('address', address)
         formData.append('description', about)
         formData.append('cityId', '80')
         formData.append('eligibleForVAT', JSON.stringify(eligable))
 
-        // for(let i = 0; i < workingHours.length; i++){
-        //     formData.append('days', workingHours[i].days.toString())
-        //     formData.append('startHours',workingHours[i].startHour)
-        //     formData.append('endHours', workingHours[i].endHour)
-        // }
+        for(let i = 0; i < workingHours.length; i++){
+            formData.append('days', workingHours[i].days.toString())
+            formData.append('startHours',workingHours[i].startHour)
+            formData.append('endHours', workingHours[i].endHour)
+        }
      
         return axios.post("/asclepius/v1/api/clinics/", formData, {
             headers: {
