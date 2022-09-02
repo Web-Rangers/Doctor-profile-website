@@ -141,8 +141,6 @@ export default function Clinics({ list }) {
   const result = fuse.search(searchValue);
   const searchResult = searchValue ? result.map((result) => result.item) : data;
 
-  console.log("searchResult", searchResult);
-
   const handleSearch = (e) => {
     setSearchValue(e.target.value);
   };

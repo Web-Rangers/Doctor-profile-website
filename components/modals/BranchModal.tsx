@@ -53,7 +53,7 @@ const BranchModal = ({
             headers: {
                 'Content-Type': `multipart/form-data`,
             },
-        }).then((response) => { refetch(); console.log(response) })
+        }).then((response) => { refetch() })
     }
     
     const { mutate: edit } = useMutation(editBranch)

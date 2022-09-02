@@ -102,8 +102,6 @@ export default function ClinicModal({
     );
 
     const modifyClinic = async () => {
-        console.log(email, about)
-
         let formData = new FormData()
         formData.append('startHours',startHours)
         formData.append('endHours', endHours)
@@ -135,7 +133,6 @@ export default function ClinicModal({
     useEffect(()=>{
         const newWorkingHours = workingHours?.map((item)=>{
             const getCurrentDay = fakeWorkingHours?.filter((e)=> e.days === item.days);
-            console.log(getCurrentDay)
             if(getCurrentDay.length > 0){
                 return {...item, startHour: getCurrentDay[0]?.startHours, endHour: getCurrentDay[0]?.endHours, active: true}
             } else {
