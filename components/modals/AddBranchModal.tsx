@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from 'styles/components/Modals/ClinicModal.module.scss';
-import { Input, Button, Modal, CheckBox } from 'components';
+import { Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz } from 'components';
 import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
@@ -40,51 +40,49 @@ export default function AddBranchModal({
     const [address, setAddress] = useState('');
     const [time, setTime] = useState('');
     const [about, setAbout] = useState('');
-    const [startHours, setStartHours] = useState('');
-    const [endHours, setEndHours] = useState('');
     const [eligable, setEligable] = useState(false);
     const [image, setImage] = useState<File>()
     const [uploadPhoto, setUploadPhoto] = useState('');
     const [openWorkHours, setOpenWorkHours] = useState(false);
     const [workingHours, setWorkingHours] = useState([
         {
-            dayId: 1,
-            endHour: '',
-            startHour: '',
-            active: true
-        },
-        {
-            dayId: 2,
-            endHour: '',
-            startHour: '',
-            active: true
-        },
-        {
-            dayId: 3,
-            endHour: '',
-            startHour: '',
-            active: true
-        },
-        {
-            dayId: 4,
-            endHour: '',
-            startHour: '',
-            active: true
-        },
-        {
-            dayId: 5,
-            endHour: '',
-            startHour: '',
-            active: true
-        },
-        {
-            dayId: 6,
+            days: 1,
             endHour: '',
             startHour: '',
             active: false
         },
         {
-            dayId: 7,
+            days: 2,
+            endHour: '',
+            startHour: '',
+            active: false
+        },
+        {
+            days: 3,
+            endHour: '',
+            startHour: '',
+            active: false
+        },
+        {
+            days: 4,
+            endHour: '',
+            startHour: '',
+            active: false
+        },
+        {
+            days: 5,
+            endHour: '',
+            startHour: '',
+            active: false
+        },
+        {
+            days: 6,
+            endHour: '',
+            startHour: '',
+            active: false
+        },
+        {
+            days: 7,
             endHour: '',
             startHour: '',
             active: false
@@ -95,69 +93,29 @@ export default function AddBranchModal({
         let formData = new FormData()
         formData.append('pictureFile', image)
         formData.append('displayName', name)
-        formData.append('startHours',startHours)
-        formData.append('endHours', endHours)
         formData.append('phone', phone)
-        formData.append('days', '1')
         formData.append('address', address)
         formData.append('description', about)
         formData.append('parentId', id)
         formData.append('cityId', '80')
         formData.append('eligibleForVAT', JSON.stringify(eligable))
+
+        for(let i = 0; i < workingHours.length; i++){
+            if(workingHours[i].startHour !== '' && workingHours[i].endHour !== '') {
+                formData.append('days', workingHours[i].days.toString())
+                formData.append('startHours',workingHours[i].startHour)
+                formData.append('endHours', workingHours[i].endHour)
+            }
+        }
      
         return axios.post(`/asclepius/v1/api/clinics`, formData, {
             headers: {
                 'Content-Type': `multipart/form-data`,
             },
-        }).then((response) => { console.log(response); refetch()}).catch(err=>console.log)
+        }).then((response) => { console.log(response); refetch()})
     }
     
     const { mutate: addClinics } = useMutation(addClinic)
-
-    const dayz = [
-        'Monday', 
-        'Tuesday', 
-        'Wednesday', 
-        'Thursday', 
-        'Friday', 
-        'Saturday', 
-        'Sunday'
-    ]
-    
-    function handleChange(i, e, param) {
-        const start = workingHours.map((x,dex)=>{
-            if(dex === i){
-                return {
-                    ...x,
-                    [param]: e.toString()
-                }
-            }else {
-                return {
-                    ...x
-                }
-            }
-        })
-        
-        return setWorkingHours(start)
-    }
-
-    function activeWorkingHours(i) {
-        const workingHs = workingHours.map((x, dex)=>{
-            if(dex === i){
-                return {
-                    ...x,
-                    active: !x.active,
-                    startHour: '',
-                    endHour: ''
-                }
-            }else {
-                return {
-                    ...x
-                }
-            }
-        })
-        return setWorkingHours(workingHs)
-    }
     
     return (
         <>
@@ -167,7 +125,7 @@ export default function AddBranchModal({
                         <h2>Work schedule</h2>
                         <ReactSVG 
                             className={styles.closeWorkinBtn}
-                            onClick={()=>setOpenWorkHours(false)}
+                            onClick={()=>{setOpenWorkHours(false); setWorkingHours(workingHours)}}
                             src="/images/icons/clinics/closeWorkingHours.svg" 
                         />
                         {
@@ -180,7 +138,7 @@ export default function AddBranchModal({
                                                 label={dayz[i]}
                                                 className={styles.checkbox}
                                                 defaultChecked={item.active}
-                                                onChange={()=>{activeWorkingHours(i)}}
+                                                onChange={()=>{activeWorkingHours(i, workingHours, setWorkingHours)}}
                                             />
                                         </div>
                                         <div className={styles.workingActive}>
@@ -193,15 +151,19 @@ export default function AddBranchModal({
                                                 workingHours[i].active ? 
                                                 <>
                                                     <Input 
+                                                        type="time"
+                                                        className={styles.workingInput}
                                                         value={workingHours[i].startHour}
-                                                        onChange={(e)=>handleChange(i, e, 'startHour')}
+                                                        onChange={(e)=>handleChange(i, e, 'startHour', workingHours, setWorkingHours)}
                                                     />
                                                     <div className={styles.lineImg}>
                                                         <img src="/images/icons/clinics/line.svg" alt="" />
                                                     </div>
                                                     <Input 
+                                                        type="time"
+                                                        className={styles.workingInput}
                                                         value={workingHours[i].endHour}
-                                                        onChange={(e)=>handleChange(i, e, 'endHour')}
+                                                        onChange={(e)=>handleChange(i, e, 'endHour', workingHours, setWorkingHours)}
                                                     />
                                                 </> : 'Day off'
                                             }
@@ -214,6 +176,7 @@ export default function AddBranchModal({
                         <Button 
                             label="Save"
                             className={styles.workingSaveBtn}
+                            onClick={()=> setOpenWorkHours(false)}
                         />
                     </div>
                 </>
@@ -256,7 +219,7 @@ export default function AddBranchModal({
                             onChange={(value: string) => setPhone(value)}
                         />
                     </div>
-                    <div className={styles.modalContentRow}>
+                    {/* <div className={styles.modalContentRow}>
                         <Input
                             type="time"
                             label="Start hours"
@@ -269,12 +232,16 @@ export default function AddBranchModal({
                             value={endHours}
                             onChange={(value: string) => setEndHours(value)}
                         />
-                    </div>
+                    </div> */}
                     <div className={classNames(styles.modalContentRow, styles.workingHours)}>
                         <Input 
                             type="text"
                             label="Working hours"
-                            value={workingHours[0].startHour && workingHours[0].startHour + ' - ' + workingHours[0].endHour}
+                            value={getFirstStartEndHours(workingHours)?.startHour && 
+                                getFirstStartEndHours(workingHours)?.startHour + 
+                                ' - ' + 
+                                getFirstStartEndHours(workingHours)?.endHour
+                            }
                         />
                         <ReactSVG 
                             className={styles.workingIcon} 
@@ -322,7 +289,7 @@ export default function AddBranchModal({
                         variant="fill"
                         onClick={() => {
                             {
-                                name && address && startHours && endHours ?
+                                name && address ?
                                     addClinics()
                                     : alert('Fields are not filled')
                             }

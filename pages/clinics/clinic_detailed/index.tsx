@@ -304,27 +304,14 @@ export default function ClinicDetailed() {
             price: '800',
         }
     ];
-
-    const fakeWorkingHours = [
-        {
-            days: 2,
-            startHours: `11:00`,
-            endHours: `18:00`
-        },
-        {
-            days: 5,
-            startHours: `12:00`,
-            endHours: `19:00`
-        }
-    ]
-
+    
     const [showMore, setShowMore] = useState(false);
 
     var { data, refetch } = useQuery(["key", 'clinics'], ()=> { return getList(`clinics/${id}`, id) });
 
     var doctors = useQuery(["key", 'doctors'], ()=> { return getList(`clinics/${id}/doctors/`, id) });
     var branch = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${id}/branches/`, id) });
-    
+
     useEffect(()=> {
         refetch()
         doctors.refetch()
@@ -351,9 +338,9 @@ export default function ClinicDetailed() {
 
     useEffect(()=>{
         const newWorkingHours = workingHours?.map((item)=>{
-            const getCurrentDay = fakeWorkingHours?.filter((e)=> e.days === item.days);
+            const getCurrentDay = data != null && data?.workingHours.filter((e)=> e.dayId === item.days);
             if(getCurrentDay.length > 0){
-                return {...item, startHour: getCurrentDay[0]?.startHours, endHour: getCurrentDay[0]?.endHours, active: true}
+                return {...item, startHour: getCurrentDay[0]?.startHour, endHour: getCurrentDay[0]?.endHour, active: true}
             } else {
                 return {...item, active: false}
             }
@@ -361,7 +348,7 @@ export default function ClinicDetailed() {
 
         setWorkingHours(newWorkingHours)
 
-    },[setWorkingHours])
+    },[data, setWorkingHours])
 
     return (
         <>
@@ -373,6 +360,7 @@ export default function ClinicDetailed() {
                         setClinicEdtModalIsOpen(false);
                     }}
                     onCancel={() => setClinicEdtModalIsOpen(false)}
+                    refetch={()=> refetch()}
                 />
             )}
             {addBranchModal && (

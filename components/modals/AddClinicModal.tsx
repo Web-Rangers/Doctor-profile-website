@@ -37,8 +37,6 @@ export default function AddClinicModal({
     const [address, setAddress] = useState('');
     const [time, setTime] = useState('');
     const [about, setAbout] = useState('');
-    const [startHours, setStartHours] = useState('');
-    const [endHours, setEndHours] = useState('');
     const [eligable, setEligable] = useState(false);
     const { refetch } = useClinicsData()
     const [image, setImage] = useState<File>()
@@ -49,31 +47,31 @@ export default function AddClinicModal({
             days: 1,
             endHour: '',
             startHour: '',
-            active: true
+            active: false
         },
         {
             days: 2,
             endHour: '',
             startHour: '',
-            active: true
+            active: false
         },
         {
             days: 3,
             endHour: '',
             startHour: '',
-            active: true
+            active: false
         },
         {
             days: 4,
             endHour: '',
             startHour: '',
-            active: true
+            active: false
         },
         {
             days: 5,
             endHour: '',
             startHour: '',
-            active: true
+            active: false
         },
         {
             days: 6,
@@ -93,9 +91,6 @@ export default function AddClinicModal({
         let formData = new FormData()
         formData.append('pictureFile', image)
         formData.append('displayName', name)
-        // formData.append('days', '1')
-        // formData.append('startHours',startHours)
-        // formData.append('endHours', endHours)
         formData.append('phone', phone)
         formData.append('address', address)
         formData.append('description', about)
@@ -103,9 +98,11 @@ export default function AddClinicModal({
         formData.append('eligibleForVAT', JSON.stringify(eligable))
 
         for(let i = 0; i < workingHours.length; i++){
-            formData.append('days', workingHours[i].days.toString())
-            formData.append('startHours',workingHours[i].startHour)
-            formData.append('endHours', workingHours[i].endHour)
+            if(workingHours[i].startHour !== '' && workingHours[i].endHour !== '') {
+                formData.append('days', workingHours[i].days.toString())
+                formData.append('startHours',workingHours[i].startHour)
+                formData.append('endHours', workingHours[i].endHour)
+            }
         }
      
         return axios.post("/asclepius/v1/api/clinics/", formData, {
@@ -152,12 +149,16 @@ export default function AddClinicModal({
                                                 <>
                                                     <Input 
                                                         value={workingHours[i].startHour}
+                                                        type="time"
+                                                        className={styles.workingInput}
                                                         onChange={(e)=>handleChange(i, e, 'startHour', workingHours, setWorkingHours)}
                                                     />
                                                     <div className={styles.lineImg}>
                                                         <img src="/images/icons/clinics/line.svg" alt="" />
                                                     </div>
                                                     <Input 
+                                                        type="time"
+                                                        className={styles.workingInput}
                                                         value={workingHours[i].endHour}
                                                         onChange={(e)=>handleChange(i, e, 'endHour', workingHours, setWorkingHours)}
                                                     />
@@ -215,7 +216,7 @@ export default function AddClinicModal({
                             onChange={(value: string) => setPhone(value)}
                         />
                     </div>
-                    <div className={styles.modalContentRow}>
+                    {/* <div className={styles.modalContentRow}>
                         <Input
                             type="time"
                             label="Start hours"
@@ -228,7 +229,7 @@ export default function AddClinicModal({
                             value={endHours}
                             onChange={(value: string) => setEndHours(value)}
                         />
-                    </div>
+                    </div> */}
                     <div className={classNames(styles.modalContentRow, styles.workingHours)}>
                         <Input 
                             type="text"
@@ -285,7 +286,7 @@ export default function AddClinicModal({
                         variant="fill"
                         onClick={() => {
                             {
-                                name && address && startHours && endHours ?
+                                name && address ?
                                     addClinics()
                                     : alert('Fields are not filled')
                             }

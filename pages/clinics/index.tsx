@@ -143,6 +143,7 @@ export default function Clinics({ list }) {
 
   const handleSearch = (e) => {
     setSearchValue(e.target.value);
+    console.log(data)
   };
 
   return (

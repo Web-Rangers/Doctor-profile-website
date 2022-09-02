@@ -20,7 +20,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/router';
 import { useQuery } from "@tanstack/react-query";
 import {getList} from 'components';
-import {GenerateBreadcrumbs, getFirstStartEndHours} from 'components';
+import {GenerateBreadcrumbs, getFirstStartEndHours, dayz} from 'components';
 
 interface ActionProps {
     icon?: string;
@@ -52,6 +52,7 @@ export default function Branch() {
     const parentId = router.query.parentId ?? null;
     const[phoneNumber, setPhoneNumber] = useState('');
     const[email, setEmail] = useState('');
+    const [workingHoursOpen, setWorkingHoursOpen] = useState(false);
     const [workingHours, setWorkingHours] = useState([
         {
             days: 1,
@@ -96,20 +97,8 @@ export default function Branch() {
             active: false
         }
     ]);
-    const fakeWorkingHours = [
-        {
-            days: 2,
-            startHours: `11:00`,
-            endHours: `18:00`
-        },
-        {
-            days: 5,
-            startHours: `12:00`,
-            endHours: `19:00`
-        }
-    ]
 
-    var branchDetail = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${parentId}/branches?${id}`, id) });
+    var branchDetail = useQuery(["key", 'branch'], ()=> { return getList(`clinics/${id}`, id) });
     var branchDoctors = useQuery(["key", 'branchDoctors'], ()=> { return getList(`clinics/${id}/doctors`, id) });
 
     if(router.isReady) {
@@ -118,13 +107,13 @@ export default function Branch() {
     }
 
     useEffect(()=>{
-        let numbers = branchDetail?.data != null && branchDetail?.data[0]?.contactInfos?.map((contact)=>{
+        let numbers = branchDetail?.data != null && branchDetail?.data?.contactInfos?.map((contact)=>{
             if(contact?.type.value == 'mobile') {
                 return [contact.value]
             }
         })
         
-        let emails =branchDetail?.data != null && branchDetail?.data[0]?.contactInfos?.map((contact)=>{
+        let emails =branchDetail?.data != null && branchDetail?.data?.contactInfos?.map((contact)=>{
             if(contact?.type.value == 'mail') {
                 return [contact.value]
             }
@@ -137,7 +126,7 @@ export default function Branch() {
 
     useEffect(()=>{
         const newWorkingHours = workingHours?.map((item)=>{
-            const getCurrentDay = branchDetail?.data != null && branchDetail?.data[0].workingHours.filter((e)=> e.dayId === item.days);
+            const getCurrentDay = branchDetail?.data != null && branchDetail?.data.workingHours.filter((e)=> e.dayId === item.days);
             if(getCurrentDay.length > 0){
                 return {...item, startHour: getCurrentDay[0]?.startHour, endHour: getCurrentDay[0]?.endHour, active: true}
             } else {
@@ -180,18 +169,49 @@ export default function Branch() {
                             <Card className={cDStyles.smallCard}>
                                 <img
                                     alt=""
-                                    src={branchDetail?.data != null ? branchDetail?.data[0]?.logoUrl : "/images/icons/clinics/medicalhouse.png"}
+                                    src={branchDetail?.data != null ? branchDetail?.data?.logoUrl : "/images/icons/clinics/medicalhouse.png"}
                                     className={cDStyles.clinicIcon}
                                 />
-                                <div className={cDStyles.clinicName}>{branchDetail?.data != null ? branchDetail?.data[0]?.displayName : ''}</div>
-                                <div className={cDStyles.clinicInf}>
+                                <div className={cDStyles.clinicName}>{branchDetail?.data != null ? branchDetail?.data?.displayName : ''}</div>
+                                <div 
+                                    className={classNames(styles.clinicInf)}
+                                    onClick={()=> setWorkingHoursOpen(!workingHoursOpen)}
+                                >
                                     <ReactSVG
                                         src="/images/icons/clinics/clock.svg"
-                                        className={cDStyles.iconContainer}
+                                        className={styles.iconContainer}
                                     />
-                                    <span className={cDStyles.clinicInfText}>
+                                    <span className={classNames(styles.clinicInfText, {
+                                        [styles.activeClinicInf]: workingHoursOpen
+                                    })}>
                                         {branchDetail?.data != null ? getFirstStartEndHours(workingHours)?.startHour + ' - ' + getFirstStartEndHours(workingHours)?.endHour : ''}
                                     </span>
+                                    <div className={classNames(styles.workingHoursBlock, {
+                                        [styles.openWorkingHours]: workingHoursOpen
+                                    })}>
+                                        <h2>Work schedule</h2>
+                                        <div className={styles.workHoursList}>
+                                            {
+                                                workingHours?.map((item)=>{
+                                                    return <>
+                                                    {
+                                                        item.active ? (
+                                                            <div>
+                                                                <h4>{dayz[item.days - 1]}</h4>
+                                                                <span>{item?.startHour} - {item?.endHour}</span>
+                                                            </div>
+                                                        ) : (
+                                                            <div>
+                                                                <h4>{dayz[item.days - 1]}</h4>
+                                                                <span className={styles.dayOff}>Day off</span>
+                                                            </div>
+                                                        )
+                                                    }
+                                                    </>
+                                                })
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className={cDStyles.clinicInf}>
                                     <ReactSVG
@@ -206,7 +226,7 @@ export default function Branch() {
                                         className={cDStyles.iconContainer}
                                     />
                                     <span className={cDStyles.clinicInfText}>
-                                        {branchDetail?.data != null ? branchDetail?.data[0]?.address.address : ''}
+                                        {branchDetail?.data != null ? branchDetail?.data?.address.address : ''}
                                     </span>
                                 </div>
                             </Card>
@@ -227,7 +247,7 @@ export default function Branch() {
                                 <div className={cDStyles.dataRow}>
                                     <div className={cDStyles.dataIndex}>Branch ID</div>
                                     <div className={cDStyles.dataValue}>
-                                        {branchDetail?.data != null ? branchDetail?.data[0]?.id : ''}
+                                        {branchDetail?.data != null ? branchDetail?.data?.id : ''}
                                     </div>
                                 </div>
                                 <div className={cDStyles.dataRow}>
@@ -237,7 +257,7 @@ export default function Branch() {
                                         Status
                                     </div>
                                     <div className={cDStyles.dataValue}>
-                                        {branchDetail?.data != null ? branchDetail?.data[0]?.isActive ? 
+                                        {branchDetail?.data != null ? branchDetail?.data?.isActive ? 
                                         <Status active></Status> : 
                                         <Status active={false}></Status> : ''}
                                     </div>
@@ -245,7 +265,7 @@ export default function Branch() {
                                 <div className={cDStyles.dataRow}>
                                     <div className={cDStyles.dataIndex}>About clinic</div>
                                     <div className={cDStyles.dataValue}>
-                                        {branchDetail?.data != null ? branchDetail?.data[0]?.description : ''}
+                                        {branchDetail?.data != null ? branchDetail?.data?.description : ''}
                                     </div>
                                 </div>
                                 <div className={styles.whiteSpace}></div>

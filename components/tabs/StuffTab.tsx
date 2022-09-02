@@ -3,6 +3,7 @@ import { Card, Button, CheckBox, StuffModal, StuffCard } from 'components';
 import { useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import classNames from 'classnames';
+import Fuse from "fuse.js";
 
 interface Stuff {
     icon: string;
@@ -22,7 +23,7 @@ interface StuffTabProps {
     stuff?: Stuff[];
 }
 
-const StuffActions = () => {
+const StuffActions = ({searchValue, setSearchValue}) => {
     return (
         <div className={styles.actions}>
             <div
@@ -43,6 +44,8 @@ const StuffActions = () => {
                     className={styles.searchInput}
                     type="text"
                     placeholder="Search"
+                    value={searchValue}
+                    onChange={(e)=>setSearchValue(e.target.value)}
                 />
             </div>
             <Button variant="fill" label="Add doctor" size="large" />
@@ -56,8 +59,19 @@ export default function StuffTab({
     ...props
 }: StuffTabProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    return (
-        <Card cardTitle="Stuff" cardActions={<StuffActions />}>
+    const [searchValue, setSearchValue] = useState('');
+
+    const fuse = new Fuse(stuff, {
+        includeScore: true,
+        threshold: 0.4,
+        keys: ["name"],
+      });
+
+    const result = fuse.search(searchValue);
+    const searchResult = searchValue ? result.map((result) => result.item) : stuff;
+
+    return <>
+        <Card cardTitle="Stuff" cardActions={<StuffActions searchValue={searchValue} setSearchValue={setSearchValue} />}>
             <div className={styles.stuffCardContainer}>
                 {isModalOpen && (
                     <StuffModal
@@ -66,7 +80,7 @@ export default function StuffTab({
                         onCancel={() => setIsModalOpen(false)}
                     />
                 )}
-                {stuff.map((stuffData, i) => (
+                {searchResult.map((stuffData, i) => (
                     <StuffCard
                         key={'stuff' + i}
                         data={stuffData}
@@ -77,5 +91,5 @@ export default function StuffTab({
                 ))}
             </div>
         </Card>
-    );
+    </>
 }

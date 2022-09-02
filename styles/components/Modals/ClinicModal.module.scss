@@ -152,7 +152,7 @@ div.modal {
 
 .workingHoursModal {
     position: fixed;
-    width: 616px;
+    width: 778px;
     background: #FFFFFF;
     box-shadow: 2px 6px 12px rgba(112, 108, 128, 0.45);
     border-radius: 4px;
@@ -239,4 +239,12 @@ div.modal {
     top:0;
     margin:30px;
     cursor:pointer;
+}
+
+.workingInput {
+    div {
+        div{ 
+            display: none!important;
+        }
+    }
 }
