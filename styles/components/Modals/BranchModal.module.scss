@@ -3,6 +3,20 @@ div.modal {
     justify-content: flex-start;
     min-width: 800px;
     min-height: 650px;
+    max-height: 90%;
+    overflow-y:auto;
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #BFCCFF;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #2751F2; 
+    }  
+    &::-webkit-scrollbar-thumb:hover {
+        background: #1641ed; 
+    }
     .modalActions {
         width: 100%;
         display: flex;
@@ -11,7 +25,6 @@ div.modal {
         justify-content: flex-end;
     }
 }
-
 .modalTitle {
     font-size: 24px;
     font-weight: 700;
@@ -25,6 +38,10 @@ div.modal {
     display: flex;
     flex-direction: column;
     gap: 25px;
+    .center{
+        align-items: center;
+        justify-content: center;
+    }
     .modalContentRow {
         display: flex;
         flex-direction: row;
@@ -34,6 +51,17 @@ div.modal {
         }
         > *:not(:last-child) {
             flex: 1 0 calc(70% - 35px);
+        }
+        > .image {
+            flex: unset;
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            object-position: center;
+        }
+        > .imageChange {
+            flex: unset;
+            width: min-content;
         }
     }
 }
@@ -87,6 +115,28 @@ div.modal {
     }
 }
 
+.upInput {
+    position: absolute;
+    display: none;
+    z-index: -9999;
+}
+
+.upBtn {
+    width: 180px;
+    height: 180px;
+    position: absolute;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+.upBtnH:hover {
+    content:'';
+    width: 180px;
+    height: 180px;
+    position: absolute;
+    background-color: #000!important;
+    opacity: 0.3;
+}
 
 .workingHours {
     position: relative;
@@ -196,36 +246,6 @@ div.modal {
     div {
         div{ 
             display: none!important;
-        }
-    }
-}
-
-.modalContent {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    .center{
-        align-items: center;
-        justify-content: center;
-    }
-    .modalContentRow {
-        display: flex;
-        flex-direction: row;
-        gap: 35px;
-        > * {
-            flex: 1 0 40%;
-        }
-        > .image {
-            flex: unset;
-            width: 180px;
-            height: 180px;
-            object-fit: cover;
-            object-position: center;
-        }
-        > .imageChange {
-            flex: unset;
-            width: min-content;
         }
     }
 }
