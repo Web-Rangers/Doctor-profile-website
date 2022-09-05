@@ -27,3 +27,13 @@ export const getDoctor = async (id) => {
   ).data;
   return res;
 };
+
+export const getFreeLancerEdu = async (id) => {
+  if (!id) return null;
+  const res = (
+    await axios.get(
+      `https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers/${id}/educations`
+    )
+  ).data;
+  return res;
+};
