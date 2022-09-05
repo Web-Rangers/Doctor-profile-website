@@ -57,6 +57,18 @@
     }
 }
 
-.tableItem {
+.tableRow > div {
     margin: auto 0;
+    padding: 0 15px;
+    height: 100%;
+    max-height: 60px;
+    line-height: 20px;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+}
+
+.tableStatus {
+    height: 80%!important;
 }

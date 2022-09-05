@@ -8,6 +8,11 @@ module.exports = nextConfig;
 module.exports = {
   trailingSlash: true,
 
+  images: {
+    domains: ['s3.pirveli.ge'],
+    disableStaticImages: true
+  },
+
   async rewrites() {
     return [
       {

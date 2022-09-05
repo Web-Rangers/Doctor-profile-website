@@ -86,7 +86,7 @@ const BranchModal = ({
         }
     ]);
     const [uploadPhoto, setUploadPhoto] = useState('');
-    const [image, setImage] = useState<any>(data?.logoUrl);
+    const [image, setImage] = useState<any>(data?.logoUrl + `&?${new Date().getTime()}`);
 
     const editBranch = async () => {
         let formData = new FormData()

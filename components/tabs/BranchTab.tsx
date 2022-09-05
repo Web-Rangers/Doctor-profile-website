@@ -36,9 +36,9 @@ const branchColumns = [
         }
     },
     {
-        key: "status",
+        key: "isActive",
         title: "Status",
-        dataIndex: "status",
+        dataIndex: "isActive",
         headerStyle: {
             justifyContent: "center",
         },
@@ -46,7 +46,7 @@ const branchColumns = [
             return (
                 <div className={tableStyles.tableStatusCellTemplate} key={key}>
                     <div
-                        className={`${tableStyles.tableStatus} ${status ? tableStyles.statusOpen : tableStyles.statusClose
+                        className={`${tableStyles.tableStatus} ${styles.tableStatus} ${status ? tableStyles.statusOpen : tableStyles.statusClose
                             }`}
                     >
                         {status ? "Open" : "Close"}

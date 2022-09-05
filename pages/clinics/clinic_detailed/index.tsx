@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import { useClinicData } from 'components';
 import Link from 'next/link';
 import { useQuery } from "@tanstack/react-query";
+import Image from 'next/image';
 
 interface ActionProps {
     icon?: string;
@@ -384,9 +385,8 @@ export default function ClinicDetailed() {
                         <div className={styles.colSmall}>
                             <Card className={styles.smallCard}>
                                 <img
-                                    alt=''
-                                    src={data?.logoUrl}
-                                    className={styles.clinicIcon}
+                                    src={data?.logoUrl ? `${data?.logoUrl}&?${new Date().getTime()}` : '/'}
+                                    alt="Picture of the author"
                                 />
                                 <div className={styles.clinicName}>
                                     {data?.displayName}

@@ -159,7 +159,7 @@ export default function Branch() {
                         <h3>Branch</h3>
                         <Button label="Deactivate branch" size="large" variant="fill" />
                     </div>
-                    <GenerateBreadcrumbs 
+                    <GenerateBreadcrumbs
                         customParams={[parentId, id]}
                     />
                 </div>
@@ -169,7 +169,7 @@ export default function Branch() {
                             <Card className={cDStyles.smallCard}>
                                 <img
                                     alt=""
-                                    src={branchDetail?.data != null ? branchDetail?.data?.logoUrl : "/images/icons/clinics/medicalhouse.png"}
+                                    src={branchDetail?.data != null ? branchDetail?.data?.logoUrl + `&?${new Date().getTime()}` : "/images/icons/clinics/medicalhouse.png"}
                                     className={cDStyles.clinicIcon}
                                 />
                                 <div className={cDStyles.clinicName}>{branchDetail?.data != null ? branchDetail?.data?.displayName : ''}</div>

@@ -86,7 +86,7 @@ export default function ClinicModal({
         }
     ]);
     const [uploadPhoto, setUploadPhoto] = useState('');
-    const [image, setImage] = useState<any>(data?.logoUrl);
+    const [image, setImage] = useState<any>(`${data?.logoUrl + `&?${new Date().getTime()}`}`);
 
     const [registrationDate, setRegistrationDate] = useState(
         data?.registrationDate
@@ -108,12 +108,15 @@ export default function ClinicModal({
                 formData.append('endHours', workingHours[i].endHour)
             }
         }
-     
+
+        caches.keys().then(list => list.map(key => caches.delete(key)))
+
         return axios.put(`/asclepius/v1/api/clinics/${data?.id}`, formData, {
             headers: {
                 'Content-Type': `multipart/form-data`,
             },
-        }).then((response) => { refetch(); onSave?.call(null, {
+        }).then((response) => { refetch(); 
+            onSave?.call(null, {
             email,
             phone,
             address,
