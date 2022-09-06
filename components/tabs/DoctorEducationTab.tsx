@@ -2,10 +2,8 @@ import styles from "styles/components/Tabs/DoctorEducationTab.module.scss";
 import { Card, Button, Table } from "components";
 import { ReactSVG } from "react-svg";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import tableStyles from "styles/components/Table.module.scss";
 import AddDoctorEducation from "components/modals/AddDoctorEducation";
-import { getFreeLancerEdu } from "components/useDoctorsData";
-import { useRouter } from "next/router";
 import AddDoctorCertificate from "components/modals/AddDoctorCertificate";
 
 interface Media {
@@ -61,6 +59,22 @@ const certificatesColumns = [
     key: "creditialUri",
     title: "Creditial URL",
     dataIndex: "creditialUri",
+  },
+  {
+    key: "action",
+    title: "",
+    dataIndex: "id",
+    render: (action, key) => {
+      return (
+        <div
+          className={`${tableStyles.tableIconCellTemplate} ${styles.smallIcon} ${styles.action}`}
+          key={key}
+          onClick={() => {}}
+        >
+          <img alt="" src="/images/icons/cards/more.svg" />
+        </div>
+      );
+    },
   },
 ];
 
@@ -169,6 +183,15 @@ export default function DoctorEducationTab({
                       <div className={styles.mediaText}>{mediaItem.alt}</div>
                     </div>
                   ))}
+                </div>
+              </div>
+              <div className={styles.column}>
+                <div onClick={() => {}}>
+                  <ReactSVG
+                    alt=""
+                    src="/images/icons/cards/more.svg"
+                    className={styles.editIcon}
+                  />
                 </div>
               </div>
             </Card>
