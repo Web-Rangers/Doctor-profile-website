@@ -11,7 +11,6 @@ div.tableCell {
   padding: 20px 15px;
 }
 
-
 .educationContainer {
   display: flex;
   flex-direction: column;
@@ -80,4 +79,8 @@ div.tableCell {
     align-items: center;
     justify-content: center;
   }
+}
+.editIcon {
+  margin-top: -13px;
+  margin-left: -20px;
 }

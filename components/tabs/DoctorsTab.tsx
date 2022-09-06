@@ -4,6 +4,8 @@ import style from "styles/pages/addDoctor.module.scss";
 import { Button } from "components/inputs";
 import Link from "next/link";
 import Breadcrumbs from "nextjs-breadcrumbs";
+import tableStyles from "styles/components/Table.module.scss";
+import router, { useRouter } from "next/router";
 
 const doctorsColumns = [
   {
@@ -37,6 +39,27 @@ const doctorsColumns = [
     title: "Number of orders",
     dataIndex: "Number of orders",
   },
+  {
+    key: "action",
+    title: "",
+    dataIndex: "id",
+    render: (record) => {
+      return (
+        <div
+          className={`${tableStyles.tableIconCellTemplate} ${styles.smallIcon} ${styles.action}`}
+          key={record.id}
+          onClick={() => {
+            router.push({
+              pathname: "/doctors/edit",
+              query: { id: record },
+            });
+          }}
+        >
+          <img alt="" src="/images/icons/cards/more.svg" />
+        </div>
+      );
+    },
+  },
 ];
 
 interface Doctors {
@@ -52,10 +75,7 @@ interface DoctorsTabProps {
 }
 
 export default function DoctorsTab({ doctors }: DoctorsTabProps) {
-  console.log("null", doctors);
-
   const sortDoctors = doctors?.sort((a, b) => b.id - a.id);
-
   return (
     <>
       <div className={style.doctorsHeader}>

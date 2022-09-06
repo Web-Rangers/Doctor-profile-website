@@ -72,12 +72,12 @@ export default function AddDoctorEducation({
 
   const uploadFile = async () => {
     return axios
-      .post(
+      .get(
         `https://asclepius.pirveli.ge/asclepius/v1/api/gallery/doctor/${id}`,
+
         {
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       )
@@ -86,11 +86,9 @@ export default function AddDoctorEducation({
         refetch();
       })
       .catch((error) => {
-        if (error.response) console.log(error.response);
+        if (error.response) console.log("erro", error.response);
       });
   };
-
-  console.log("uploadFile", uploadFile());
 
   const requestFormData = async () => {
     return axios
