@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from 'styles/components/Modals/ClinicModal.module.scss';
-import { Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz} from 'components';
+import { Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz } from 'components';
 import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
@@ -24,13 +24,16 @@ interface ClinicModalProps {
     onClose?: () => void;
     onSave?: (newData: ClinicData) => void;
     onCancel?: () => void;
-    setBool?: any;
+    id?: any;
+    refetch?: () => void;
 }
 
-export default function AddClinicModal({
+export default function AddBranchModal({
     onClose,
     onSave,
     onCancel,
+    id,
+    refetch
 }: ClinicModalProps) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -38,7 +41,6 @@ export default function AddClinicModal({
     const [time, setTime] = useState('');
     const [about, setAbout] = useState('');
     const [eligable, setEligable] = useState(false);
-    const { refetch } = useClinicsData()
     const [image, setImage] = useState<File>()
     const [uploadPhoto, setUploadPhoto] = useState('');
     const [openWorkHours, setOpenWorkHours] = useState(false);
@@ -94,6 +96,7 @@ export default function AddClinicModal({
         formData.append('phone', phone)
         formData.append('address', address)
         formData.append('description', about)
+        formData.append('parentId', id)
         formData.append('cityId', '80')
         formData.append('eligibleForVAT', JSON.stringify(eligable))
 
@@ -105,15 +108,15 @@ export default function AddClinicModal({
             }
         }
      
-        return axios.post("/asclepius/v1/api/clinics/", formData, {
+        return axios.post(`/asclepius/v1/api/clinics`, formData, {
             headers: {
                 'Content-Type': `multipart/form-data`,
             },
-        }).then((response) => { refetch(); console.log(response) })
+        }).then((response) => { console.log(response); refetch()})
     }
     
     const { mutate: addClinics } = useMutation(addClinic)
-
+    
     return (
         <>
             {
@@ -148,9 +151,9 @@ export default function AddClinicModal({
                                                 workingHours[i].active ? 
                                                 <>
                                                     <Input 
-                                                        value={workingHours[i].startHour}
                                                         type="time"
                                                         className={styles.workingInput}
+                                                        value={workingHours[i].startHour}
                                                         onChange={(e)=>handleChange(i, e, 'startHour', workingHours, setWorkingHours)}
                                                     />
                                                     <div className={styles.lineImg}>
@@ -179,7 +182,7 @@ export default function AddClinicModal({
                 </>
             }
             <Modal onBackClick={onClose} className={styles.modal}>
-                <span className={styles.modalTitle}>Add clinic</span>
+                <span className={styles.modalTitle}>Add branch</span>
                 <div className={styles.modalContent}>
                     <div className={classNames(styles.modalContentRow, styles.center)}>
                         <img 

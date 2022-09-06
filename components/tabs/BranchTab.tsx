@@ -7,34 +7,38 @@ import { useState } from "react";
 
 const branchColumns = [
     {
-        key: "city",
-        title: "City",
-        dataIndex: "city",
-    },
-    {
         key: "address",
         title: "Address",
         dataIndex: "address",
+        render: (city)=> {
+            return <div className={styles.tableItem}>{city?.address}</div>
+        }
     },
     {
-        key: "contact",
+        key: "contactInfos",
         title: "Contact",
-        dataIndex: "contact",
+        dataIndex: "contactInfos",
+        render: (contact)=> {
+            return <div className={styles.tableItem}>{contact[0].value}</div>
+        }
     },
     {
-        key: "branchId",
-        title: "Branch Id",
-        dataIndex: "branchId",
+        key: "regId",
+        title: "Branch ID",
+        dataIndex: "regId",
     },
     {
         key: "workingHours",
         title: "Working hours",
         dataIndex: "workingHours",
+        render: (work)=>{
+            return <div className={styles.tableItem}>{work[0].startHour} - {work[0].endHour}</div>
+        }
     },
     {
-        key: "status",
+        key: "isActive",
         title: "Status",
-        dataIndex: "status",
+        dataIndex: "isActive",
         headerStyle: {
             justifyContent: "center",
         },
@@ -42,7 +46,7 @@ const branchColumns = [
             return (
                 <div className={tableStyles.tableStatusCellTemplate} key={key}>
                     <div
-                        className={`${tableStyles.tableStatus} ${status ? tableStyles.statusOpen : tableStyles.statusClose
+                        className={`${tableStyles.tableStatus} ${styles.tableStatus} ${status ? tableStyles.statusOpen : tableStyles.statusClose
                             }`}
                     >
                         {status ? "Open" : "Close"}
@@ -53,7 +57,7 @@ const branchColumns = [
     },
 ];
 
-const BranchActions = () => {
+const BranchActions = ({onClick}) => {
     const [selectedService, setSelectedService] = useState(null);
     const options = [
         {
@@ -83,7 +87,7 @@ const BranchActions = () => {
                 ]}
                 value={selectedService}
             />
-            <Button label="Add branch" size="large" variant="fill" />
+            <Button label="Add branch" size="large" variant="fill" onClick={onClick()}/>
         </div>
     );
 };
@@ -95,22 +99,27 @@ interface Branch {
     branchId: string;
     workingHours: string;
     status: boolean;
+    click?: () => void;
 }
 
 interface BranchTabProps {
     branchs?: Branch[];
+    clinicId?: any;
+    onClick?: () => void;
 }
 
-export default function BranchTab({ branchs }: BranchTabProps) {
+export default function BranchTab({ branchs, clinicId, onClick }: BranchTabProps) {
+    console.log(clinicId)
     return (
-        <Card cardTitle="Branches" cardActions={<BranchActions />}>
+        <Card cardTitle="Branches" cardActions={<BranchActions onClick={()=> onClick} />}>
             <Table
                 columns={branchColumns}
                 data={branchs}
                 pagination={null}
                 rowClassName={styles.tableRow}
                 // temp fix
-                detailedUrl="/clinics/clinics_detailed/branch"
+                querys={`${clinicId}`}
+                detailedUrl={`/clinics/clinic_detailed/branch`}
             ></Table>
         </Card>
     );

@@ -51,5 +51,24 @@
 }
 
 .tableRow {
-    grid-template-columns: 14% 23% 15% 18% 17% 13%;
+    grid-template-columns: 22% 25% 19% 17% 17%;
+    .tableHeaderCell {
+        padding: 0!important;
+    }
+}
+
+.tableRow > div {
+    margin: auto 0;
+    padding: 0 15px;
+    height: 100%;
+    max-height: 60px;
+    line-height: 20px;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+}
+
+.tableStatus {
+    height: 80%!important;
 }
