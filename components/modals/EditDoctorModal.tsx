@@ -1,4 +1,4 @@
-import { Input, Button, Modal } from "components";
+import { Input, Button, Modal, Select } from "components";
 import { encodeImageFileAsURL } from "components";
 import { useState, useEffect } from "react";
 import styles from "styles/pages/doctors_detailed.module.scss";
@@ -6,7 +6,6 @@ import style from "styles/pages/addDoctor.module.scss";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { ReactSVG } from "react-svg";
-import Select from "react-select";
 
 interface DoctorData {
   firstName?: string;

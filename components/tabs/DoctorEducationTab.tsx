@@ -100,7 +100,7 @@ export default function DoctorEducationTab({
       >
         {isOpenCertificate && (
           <AddDoctorCertificate
-            data={[]}
+            data={null}
             onClose={() => setIsOpenCertificate(false)}
             onSave={(newData) => {
               setIsOpenCertificate(false);
@@ -129,7 +129,7 @@ export default function DoctorEducationTab({
       >
         {isOpen && (
           <AddDoctorEducation
-            data={[]}
+            data={null}
             onClose={() => setIsOpen(false)}
             onSave={(newData) => {
               setIsOpen(false);
