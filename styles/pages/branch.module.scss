@@ -15,3 +15,77 @@
 .whiteSpace {
     flex: 1 1 0%;
 }
+
+
+.workingHoursBlock {
+    display: none;
+}
+
+.openWorkingHours {
+    display: block;
+    position: absolute;
+    top:0;
+    margin-top:70px;
+    background-color: #FFFFFF;
+    width: 348px;
+    left:0;
+    margin-left:-35px;
+    height: 410px;
+    border-radius: 4px;
+    box-shadow: 5px 1px 27px #d1d1d1;
+    z-index:3;
+    h2 {
+        margin:0;
+        padding:30px;
+    }
+    &:after {
+        content:'';
+        position: absolute;
+        top:0;
+        margin-top:-10px;
+        width: 20px;
+        height: 20px;
+        margin-left:70px;
+        background-color: #fff;
+        transform: rotate(45deg);
+        z-index:4;
+    }
+}
+
+.workHoursList {
+    div {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0 30px;
+        margin: 0 0 24px 0;
+        h4 {
+            margin:0 34px 0 0;
+        }
+    }
+}
+
+.activeClinicInf {
+    color:#2751F2
+}
+
+.dayOff {
+    color: #8F8F8F
+}
+
+.clinicInf {
+    padding-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    cursor: pointer;
+    > .clinicInfText {
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.04em;
+        text-align: center;
+    }
+}

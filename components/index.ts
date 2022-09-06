@@ -12,3 +12,5 @@ export { default as Calendar } from './Calendar';
 export { useClinicsData, useClinicData } from './useClinicsData.js';
 export { encodeImageFileAsURL } from './uploadImageBase64'
 export { default as GenerateBreadcrumbs } from './generateBreadcrumbs.js';
+export { getList } from './getData.js';
+export { getFirstStartEndHours, handleChange, activeWorkingHours, dayz } from './workingHoursUtils.js';

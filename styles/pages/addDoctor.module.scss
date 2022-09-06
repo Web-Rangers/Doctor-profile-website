@@ -39,6 +39,10 @@
 }
 
 .label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 30px;
   font-size: 16px;
   font-weight: 600;
   line-height: 21px;
@@ -74,7 +78,7 @@
 }
 
 .upBtn {
-  font-family: 'RedHatDisplay';
+  font-family: "RedHatDisplay";
   height: 40px;
   padding: 10px 20px;
   margin-bottom: 0;
@@ -97,9 +101,59 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: #2751F2;
+  background-color: #2751f2;
   color: #ffffff;
   height: 60px;
   padding: 18px 45px;
   font-size: 17px;
+}
+.addDoctorBtn {
+  width: 225px;
+  height: 60px;
+  border-radius: 4px;
+  background-color: #2751f2;
+  color: #ffffff;
+}
+.doctorsHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  background-color: #f0f0f0;
+  gap: 22px;
+}
+.doctorTitle {
+  font-family: "Red Hat Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 0.04em;
+  color: #1c1a27;
+}
+.breadcrumbs {
+  display: flex;
+  flex-direction: row;
+
+  color: #8f8f8f;
+  gap: 15px;
+  li::marker {
+    content: "";
+  }
+  li:not(:last-child) {
+    a {
+      color: #2751f2;
+    }
+
+    &::after {
+      content: ">";
+      margin-left: 15px;
+    }
+  }
+}
+.activeBreadcrumb {
+  color: red;
+}
+.tabRow {
+  padding-left: 50px;
 }

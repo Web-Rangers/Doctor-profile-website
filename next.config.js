@@ -8,6 +8,11 @@ module.exports = nextConfig;
 module.exports = {
   trailingSlash: true,
 
+  images: {
+    domains: ['s3.pirveli.ge'],
+    disableStaticImages: true
+  },
+
   async rewrites() {
     return [
       {
@@ -23,6 +28,16 @@ module.exports = {
         source: "/asclepius/v1/api/clinics/:path*",
         destination:
           "https://asclepius.pirveli.ge/asclepius/v1/api/clinics/:path*",
+      },
+      {
+        source: "/asclepius/v1/api/clinics/:path*/doctors",
+        destination:
+          "https://asclepius.pirveli.ge/asclepius/v1/api/clinics/:path*/doctors",
+      },
+      {
+        source: "/asclepius/v1/api/doctors/freelancers:path*",
+        destination:
+          "https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers:path*",
       },
     ];
   },

@@ -38,103 +38,126 @@
   &:focus {
     outline: none;
   }
-  .body {
-    position: relative;
+}
+.body {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  padding: 18px 20px;
+  padding-right: 40px;
+  margin: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  .label {
+    user-select: none;
     display: flex;
     flex-direction: row;
-    width: 100%;
-    height: 100%;
-    padding: 18px 20px;
-    padding-right: 40px;
-    margin: 0;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    .label {
-      user-select: none;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    &:focus {
-      outline: none;
-    }
-    .arrow {
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-      height: 20px;
-      width: 20px;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  &:focus {
+    outline: none;
+  }
+  .arrow {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    height: 20px;
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-out;
+    div {
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s ease-out;
-      div {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      &.up {
-        transform: rotate(180deg) translateY(+50%);
-      }
+    }
+    &.up {
+      transform: rotate(180deg) translateY(+50%);
     }
   }
-  .wrapper {
-    position: absolute;
-    top: $input-height-large;
-    left: 0;
-    width: 100%;
-    height: 0;
-    overflow: hidden;
-    transition: height 5s ease-out;
-    z-index: 1;
-    background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    .option {
-      user-select: none;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 20px;
-      transition: all 0.2s ease-out;
-      cursor: pointer;
-      &:hover {
-        color: #fff;
-        background-color: $primary-light;
-      }
-      &.active {
-        background-color: $primary-dark;
-        color: #fff;
-      }
+}
+.wrapper {
+  position: absolute;
+  top: $input-height-large;
+  left: 0;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  transition: height 5s ease-out;
+  z-index: 1;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  .option {
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    transition: all 0.2s ease-out;
+    cursor: pointer;
+    &:hover {
+      color: #fff;
+      background-color: $primary-light;
     }
     &.active {
-      height: min-content;
-      max-height: 300px;
+      background-color: $primary-dark;
+      color: #fff;
     }
-    &::-webkit-scrollbar {
-      width: 5px;
-      border-radius: 124px;
-     }
-    &::-webkit-scrollbar-track {
-      background: #BFCCFF; 
-      border-radius: 124px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background: #2751F2; 
-      border-radius: 124px;
-    }
-    &::-webkit-scrollbar-thumb:hover {
-      background: #133fed;
-      border-radius: 124px; 
-    }
+  }
+  &.active {
+    height: min-content;
+    max-height: 300px;
+  }
+  &::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 124px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #bfccff;
+    border-radius: 124px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #2751f2;
+    border-radius: 124px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #133fed;
+    border-radius: 124px;
+  }
+}
+
+.selectDisabled {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: $input-height-large;
+  border: 1px solid #b3b1bb;
+  border-radius: 4px;
+  background-color: #ededed;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1c1a27;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  &:focus {
+    outline: none;
   }
 }
