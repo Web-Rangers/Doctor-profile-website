@@ -21,27 +21,29 @@ interface Pagination {
 }
 
 interface TableProps {
-  columns: ColumnDefinition[];
-  data: any[];
-  pagination?: Pagination;
-  className?: string;
-  rowClassName?: string;
-  cellClassName?: string;
-  headerClassName?: string;
-  bodyClassName?: string;
-  detailedUrl?: string;
+    columns: ColumnDefinition[];
+    data: any[];
+    pagination?: Pagination;
+    className?: string;
+    rowClassName?: string;
+    cellClassName?: string;
+    headerClassName?: string;
+    bodyClassName?: string;
+    detailedUrl?: string;
+    querys?: string;
 }
 
 export default function Table({
-  columns = [],
-  data = [],
-  pagination,
-  rowClassName,
-  cellClassName,
-  headerClassName,
-  bodyClassName,
-  className,
-  detailedUrl = "",
+    columns = [],
+    data = [],
+    pagination,
+    rowClassName,
+    cellClassName,
+    headerClassName,
+    bodyClassName,
+    className,
+    detailedUrl = '',
+    querys
 }: TableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [diplayedData, setDisplayedData] = useState([]);
@@ -111,141 +113,147 @@ export default function Table({
     </div>
   );
 
-  return (
-    <div className={classNames(styles.table, className)}>
-      {tableHeader}
-      <div
-        className={classNames(styles.tableBody, bodyClassName)}
-        onScroll={(event) => {
-          const target = event.target as HTMLElement;
-          const header = target.parentNode.querySelector(
-            `.${styles.headerBack}`
-          );
-          if (target.scrollLeft !== header.scrollLeft)
-            header.scrollTo(target.scrollLeft, 0);
-        }}
-      >
-        {diplayedData.map((record, index) => (
-          <TableRow
-            columnsDefinition={columns}
-            record={record}
-            key={`table-row-${index}`}
-            rowClassName={rowClassName}
-            cellClassName={cellClassName}
-            detailedUrl={detailedUrl}
-          />
-        ))}
-      </div>
-      {pagination ? (
-        <div className={styles.pagination}>
-          <div
-            className={styles.recordCounter}
-          >{`${getStartPage()}-${getEndPage()} of ${data.length} records`}</div>
-          <div className={styles.paginationControls}>
-            <span className={styles.paginatorTitle}>The page you’er on</span>
-            {options.length > 0 && (
-              <Select
-                className={styles.pageSelect}
-                options={options}
-                placeholder=""
-                defaultValue={options[0]}
-                menuPlacement="top"
-                value={selectedOption}
-                onChange={selectPage}
-              />
-            )}
-            <div className={styles.paginationButtons}>
-              <ReactSVG
-                src="/images/icons/paginator/prev.svg"
-                className={`${styles.paginationBtn} ${
-                  currentPage === 1 ? styles.disable : ""
-                }`}
-                onClick={() => {
-                  setCurrentPage((origin) => origin - 1);
+    return (
+        <div className={classNames(styles.table, className)}>
+            {tableHeader}
+            <div
+                className={classNames(styles.tableBody, bodyClassName)}
+                onScroll={(event) => {
+                    const target = event.target as HTMLElement;
+                    const header = target.parentNode.querySelector(
+                        `.${styles.headerBack}`
+                    );
+                    if (target.scrollLeft !== header.scrollLeft)
+                        header.scrollTo(target.scrollLeft, 0);
                 }}
-              />
-              <ReactSVG
-                src="/images/icons/paginator/next.svg"
-                className={`${styles.paginationBtn} ${
-                  currentPage === options.length ? styles.disable : ""
-                }`}
-                onClick={() => {
-                  setCurrentPage((origin) => origin + 1);
-                }}
-              />
+            >
+                {diplayedData?.map((record, index) => (
+                    <TableRow
+                        columnsDefinition={columns}
+                        record={record}
+                        key={`table-row-${index}`}
+                        rowClassName={rowClassName}
+                        cellClassName={cellClassName}
+                        detailedUrl={detailedUrl}
+                        querys={querys}
+                    />
+                ))}
             </div>
-          </div>
+            {pagination ? (
+                <div className={styles.pagination}>
+                    <div
+                        className={styles.recordCounter}
+                    >{`${getStartPage()}-${getEndPage()} of ${data.length
+                        } records`}</div>
+                    <div className={styles.paginationControls}>
+                        <span className={styles.paginatorTitle}>
+                            The page you’er on
+                        </span>
+                        {options.length > 0 && (
+                            <Select
+                                className={styles.pageSelect}
+                                options={options}
+                                placeholder=""
+                                defaultValue={options[0]}
+                                menuPlacement="top"
+                                value={selectedOption}
+                                onChange={selectPage}
+                            />
+                        )}
+                        <div className={styles.paginationButtons}>
+                            <ReactSVG
+                                src="/images/icons/paginator/prev.svg"
+                                className={`${styles.paginationBtn} ${currentPage === 1 ? styles.disable : ''
+                                    }`}
+                                onClick={() => {
+                                    setCurrentPage((origin) => origin - 1);
+                                }}
+                            />
+                            <ReactSVG
+                                src="/images/icons/paginator/next.svg"
+                                className={`${styles.paginationBtn} ${currentPage === options.length
+                                        ? styles.disable
+                                        : ''
+                                    }`}
+                                onClick={() => {
+                                    setCurrentPage((origin) => origin + 1);
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            ) : null}
         </div>
-      ) : null}
-    </div>
-  );
+    );
 }
 
 interface TableRowProps {
-  columnsDefinition: ColumnDefinition[];
-  record: any;
-  rowClassName?: string;
-  cellClassName?: string;
-  detailedUrl: string;
+    columnsDefinition: ColumnDefinition[];
+    record: any;
+    rowClassName?: string;
+    cellClassName?: string;
+    detailedUrl: string;
+    querys?: string;
 }
 
 const TableRow = ({
-  record,
-  columnsDefinition,
-  rowClassName,
-  cellClassName,
-  detailedUrl,
+    record,
+    columnsDefinition,
+    rowClassName,
+    cellClassName,
+    detailedUrl,
+    querys
 }: TableRowProps) => {
-  return (
-    <div
-      className={classNames(
-        styles.tableRow,
-        styles.tableRowTemplate,
-        rowClassName
-      )}
-    >
-      {columnsDefinition.map(({ dataIndex, render, cellStyle }, index) => {
-        if (render) {
-          return (
-            <>
-              {index !== columnsDefinition.length - 1 ? (
-                <Link
-                  href={{ pathname: detailedUrl, query: { id: record["id"] } }}
-                >
-                  {render(record[dataIndex], `data-${record.key}-${index}`)}
-                </Link>
-              ) : (
-                render(record[dataIndex], `data-${record.key}-${index}`)
-              )}
-            </>
-          );
-        }
-        return (
-          <>
-            {index !== columnsDefinition.length + 1 ? (
-              <Link
-                href={{ pathname: detailedUrl, query: { id: record["id"] } }}
-              >
-                <div
-                  className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
-                  key={`data-${record.key}-${index}`}
-                  style={cellStyle ? cellStyle : null}
-                >
-                  {record[dataIndex]}
-                </div>
-              </Link>
-            ) : (
-              <div
-                className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
-                key={`data-${record.key}-${index}`}
-                style={cellStyle ? cellStyle : null}
-              >
-                {record[dataIndex]}
-              </div>
+    return (
+        <div
+            className={classNames(
+                styles.tableRow,
+                styles.tableRowTemplate,
+                rowClassName
             )}
-          </>
-        );
-      })}
-    </div>
-  );
+        >
+            {columnsDefinition.map(
+                ({ dataIndex, render, cellStyle }, index) => {
+                    if (render) {
+                        return <>
+                            {
+                                index !== columnsDefinition.length - 1 ?
+                                    <Link href={{ pathname: detailedUrl, query: { id: record['id'], parentId: [`${querys}`] } }}>
+                                        {render(
+                                            record[dataIndex],
+                                            `data-${record.key}-${index}`
+                                        )}
+                                    </Link> : render(
+                                        record[dataIndex],
+                                        `data-${record.key}-${index}`
+                                    )
+                            }
+                        </>
+                    }
+                    return <>
+                        {
+                            index !== columnsDefinition.length + 1 ? 
+                            (
+                                <Link href={{ pathname: detailedUrl, query: { id: record['id'] } }}>
+                                    <div
+                                        className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
+                                        key={`data-${record.key}-${index}`}
+                                        style={cellStyle ? cellStyle : null}
+                                    >
+                                        {record[dataIndex]}
+                                    </div>
+                                </Link>
+                                ) : <div
+                                    className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
+                                    key={`data-${record.key}-${index}`}
+                                    style={cellStyle ? cellStyle : null}
+                                >
+                                    {record[dataIndex]}
+                                </div>
+                        }
+                    </>
+                }
+            )}
+        </div>
+    );
 };

@@ -11,6 +11,7 @@ import Fuse from "fuse.js";
 
 export default function Clinics({ list }) {
   const { isLoading, data, isError, error, refetch, status } = useClinicsData();
+
   const [isModalOpen, setModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
@@ -140,10 +141,9 @@ export default function Clinics({ list }) {
   const result = fuse.search(searchValue);
   const searchResult = searchValue ? result.map((result) => result.item) : data;
 
-  console.log("searchResult", searchResult);
-
   const handleSearch = (e) => {
     setSearchValue(e.target.value);
+    console.log(data)
   };
 
   return (
@@ -189,7 +189,7 @@ export default function Clinics({ list }) {
         </div>
         <Table
           columns={columns}
-          data={searchResult}
+          data={searchResult?.sort((a,b)=> b.id - a.id)}
           pagination={{ pageSize: 10, initialPage: 1 }}
           detailedUrl={"./clinics/clinic_detailed"}
           rowClassName={styles.tableRow}
