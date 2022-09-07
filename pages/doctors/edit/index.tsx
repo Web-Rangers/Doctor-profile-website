@@ -9,7 +9,7 @@ import { useClinicsData } from "components/useClinicsData";
 import axios from "axios";
 import { ReactSVG } from "react-svg";
 import StuffModal from "../../../components/modals/StuffModal";
-import { getDoctor } from "components/useDoctorsData";
+import { getFreelancerDoctor } from "components/useDoctorsData";
 import { useQuery } from "@tanstack/react-query";
 
 import { useRouter } from "next/router";
@@ -25,7 +25,7 @@ export default function EditDoctor() {
   const id = router.query.id ?? null;
 
   var { data, refetch } = useQuery(["key", "doctorDetailed"], () => {
-    return getDoctor(id);
+    return getFreelancerDoctor(id);
   });
 
   if (router.isReady) {
@@ -37,7 +37,7 @@ export default function EditDoctor() {
     lastName: data?.lastName,
     phone: null,
     email: null,
-    professionId: data?.professions,
+    professionId: "1",
     personalId: data?.idNumber,
     gender: data?.gender,
     dateOfBirth: data?.dateOfBirth,
@@ -45,9 +45,17 @@ export default function EditDoctor() {
     aboutMe: data?.aboutMe,
     clinicBranchIds: data?.clinicBranchIds,
     doctorType: data?.doctorType,
-    branch: data?.branch,
+    branch: null,
     pictureFile: data?.pictureUrl,
   });
+
+  useEffect(() => {
+    data?.contactInfos.filter((e) =>
+      e?.type.value === "mobile"
+        ? setUpdateBody((prev) => ({ ...prev, phone: e.value }))
+        : setUpdateBody((prev) => ({ ...prev, email: e.value }))
+    );
+  }, [data]);
 
   const [optionLists, setOptionLists] = useState({
     doctorType: [],
@@ -58,23 +66,7 @@ export default function EditDoctor() {
 
   const clinics = useClinicsData();
 
-  // console.log("ekimis", updateBody.pictureFile);
-
-  useEffect(() => {
-    let numbers = data?.contactInfos.map((contact) => {
-      if (contact?.type.value == "mobile") {
-        return [contact.value];
-      }
-    });
-
-    let emails = data?.contactInfos.map((contact) => {
-      if (contact?.type.value == "mail") {
-        return [contact.value];
-      }
-    });
-    setUpdateBody((prev) => ({ ...prev, phone: numbers }));
-    setUpdateBody((prev) => ({ ...prev, email: emails }));
-  }, [data]);
+  console.log("update phone", updateBody?.phone);
 
   const makeListItems = (data) => {
     const list = data?.data?.map((item) => ({
@@ -241,14 +233,6 @@ export default function EditDoctor() {
         <Card cardTitle="Job information">
           <div className={styles.row}>
             <div className={styles.smallColumnLeft}>
-              {/* <Select
-                label="Type"
-                labelStyle="outside"
-            
-                onChange={}}
-                value={updateBody.doctorType}
-              /> */}
-
               <Input
                 label="Type"
                 disabled={true}

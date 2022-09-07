@@ -21,6 +21,7 @@ interface DoctorData {
   pictureUrl?: any;
   contactInfos?: any;
   id?: string;
+  idNumber?: string;
 }
 
 interface DoctorModalProps {
@@ -41,7 +42,11 @@ export default function EditDoctorModal({
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [professionId, setProfessionId] = useState("1");
-  const [pictureFile, setPictureFile] = useState(null);
+
+  const [uploadPhoto, setUploadPhoto] = useState("");
+  const [pictureFile, setPictureFile] = useState<any>(
+    `${data?.pictureUrl + `&?${new Date().getTime()}`}`
+  );
 
   const modifyDoctor = async () => {
     let formData = new FormData();
@@ -49,12 +54,12 @@ export default function EditDoctorModal({
     formData.append("lastName", surname);
     formData.append("phone", phone);
     formData.append("email", email);
-    formData.append("professionId", "1");
-    formData.append("personalId", data?.id);
-    formData.append("dateOfBirth", "2022-09-01");
-    formData.append("gender", "m");
-    formData.append("iban", "23232");
-    formData.append("aboutMe", "23232");
+    formData.append("professionId", "3");
+    formData.append("personalId", data?.idNumber);
+    formData.append("dateOfBirth", data?.dateOfBirth);
+    formData.append("gender", data?.gender);
+    formData.append("iban", data?.iban);
+    formData.append("aboutMe", data?.aboutMe);
     formData.append("pictureFile", pictureFile);
 
     return axios
@@ -78,12 +83,9 @@ export default function EditDoctorModal({
   const { mutate: doctorUpdate } = useMutation(modifyDoctor);
 
   useEffect(() => {
-    let numbers = data?.contactInfos.filter((e) => e?.type.value === "mobile");
-
-    let emails = data?.contactInfos.filter((e) => e?.type.value === "mail");
-
-    setPhone(numbers[0]?.value);
-    setEmail(emails[0]?.value);
+    data?.contactInfos.filter((e) =>
+      e?.type.value === "mobile" ? setPhone(e.value) : setEmail(e.value)
+    );
   }, [data]);
 
   return (
@@ -102,28 +104,24 @@ export default function EditDoctorModal({
         <div className={styles.modalBody}>
           <div className={styles.photoChange}>
             <img
-              src={pictureFile}
-              alt="doctor"
               className={styles.doctorImage}
+              src={uploadPhoto !== "" ? uploadPhoto : pictureFile}
+              alt=""
             />
             <input
-              type="file"
               className={style.upload}
               id="upload"
+              type="file"
               onChange={(e) => {
-                // setPictureFile((prev) => ({
-                //   ...prev,
-                //   pictureFile: e.target.files[0],
-                // }));
-                // encodeImageFileAsURL(e.target, setPictureFile);
-                console.log("sent img", e.target.files[0]);
                 setPictureFile(e.target.files[0]);
+                encodeImageFileAsURL(e.target, setUploadPhoto);
               }}
-            />{" "}
+            />
             <label className={style.upBtn} htmlFor="upload">
               Change
             </label>
           </div>
+
           <div className={styles.editRow}>
             <div className={styles.editColumn}>
               <Input

@@ -47,35 +47,30 @@ const EditAction = ({ onClick, icon }: ActionProps) => (
 export default function AboutDoctorTab({
   doctor = {},
   onSave,
-  onClose,
 }: AboutDoctorTabProps) {
   const [isEditing, setIsEditing] = useState(false);
-
   const [clinic, setClinic] = useState<string>("");
-  //   const [birthDate, setBirthDate] = useState("");
-  const [personalId, setPersonalId] = useState<string>(doctor?.idNumber);
-
-  console.log("ID", doctor?.id);
-
+  const [personalId, setPersonalId] = useState(doctor?.idNumber);
   const [dateOfBirth, setDateOfBirth] = useState(doctor?.dateOfBirth);
   const [iban, setIban] = useState(doctor?.iban);
   const [gender, setGender] = useState<string>(doctor?.gender);
   const [aboutMe, setAboutMe] = useState(doctor?.aboutMe);
 
-  console.log("edit doctor", doctor.gender);
+  console.log("email", doctor);
 
   const modifyDoctor = async () => {
     let formData = new FormData();
+    formData.append("firstName", doctor?.firstName);
+    formData.append("lastName", doctor?.lastName);
+    formData.append("phone", doctor?.phone[0]);
+    formData.append("email", doctor?.email[1]);
+    formData.append("professionId", "1");
     formData.append("personalId", personalId);
     formData.append("dateOfBirth", dateOfBirth);
     formData.append("iban", iban);
     formData.append("gender", gender);
     formData.append("aboutMe", aboutMe);
-    formData.append("professionId", "1");
-    formData.append("firstName", doctor?.firstName);
-    formData.append("lastName", doctor?.lastName);
-    formData.append("phone", doctor?.phone);
-    formData.append("email", doctor?.email);
+    formData.append("isActive", "true");
     formData.append("pictureFile", null);
 
     return axios
@@ -84,22 +79,20 @@ export default function AboutDoctorTab({
         formData,
         {
           headers: {
-            responseType: "blob",
             "Content-Type": `multipart/form-data`,
           },
         }
       )
       .then((response) => {
         console.log("this is response", response);
+        setIsEditing(false);
       })
       .catch((error) => {
         if (error.response) console.log(error.response);
-        if (error.request) console.log(error.request);
-        if (error.message) console.log(error.message);
       });
   };
   const { mutate: doctorUpdate } = useMutation(modifyDoctor);
-
+  console.log("doctor email", doctor?.email);
   return (
     <>
       {isEditing && (
@@ -126,6 +119,8 @@ export default function AboutDoctorTab({
                 <div className={styles.editColumn}>
                   <Input
                     label="ID"
+                    maxLength={11}
+                    type="number"
                     value={personalId}
                     onChange={(value: string) => setPersonalId(value)}
                   />
@@ -207,7 +202,9 @@ export default function AboutDoctorTab({
                 size="large"
                 variant="fill"
                 onClick={() => {
-                  doctorUpdate();
+                  personalId.length !== 11
+                    ? alert("personal Id should be 11 charachters")
+                    : doctorUpdate();
                   onSave?.call(null, {
                     personalId,
                     dateOfBirth,
