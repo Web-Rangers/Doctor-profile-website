@@ -263,6 +263,7 @@ export default function AddDoctor() {
               <Input
                 label="ID"
                 type="number"
+                maxLength={11}
                 onChange={(value) =>
                   setRequestBody((prev) => ({ ...prev, personalId: value }))
                 }
@@ -314,7 +315,11 @@ export default function AddDoctor() {
             label="Add"
             size="large"
             variant="fill"
-            onClick={() => requestFormData()}
+            onClick={() =>
+              requestBody?.personalId.length !== 11
+                ? alert("personal Id should be 11 charachters")
+                : requestFormData()
+            }
           />
         </div>
       </div>
