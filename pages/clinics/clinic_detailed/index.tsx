@@ -1,5 +1,5 @@
 import { ReactSVG } from 'react-svg';
-import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, Input, TableServices, getList, AddBranchModal, dayz, getFirstStartEndHours } from 'components';
+import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, Input, TableServices, getList, AddBranchModal, dayz, getFirstStartEndHours, RichObjectTreeView } from 'components';
 import StarRatings from 'react-star-ratings';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
@@ -129,6 +129,7 @@ export default function ClinicDetailed() {
             active: false
         }
     ]);
+    const [serviceData, setServices] = useState([]);
 
     const offerColumns = [
         {
@@ -138,15 +139,15 @@ export default function ClinicDetailed() {
             form: null
         },
         {
-            key: 'service_id',
+            key: 'id',
             title: 'Service Id',
-            dataIndex: 'service_id',
+            dataIndex: 'id',
             form: null
         },
         {
-            key: 'name',
+            key: 'title',
             title: 'Service name',
-            dataIndex: 'name',
+            dataIndex: 'title',
             form: null
         },
         {
@@ -185,7 +186,7 @@ export default function ClinicDetailed() {
             },
         },
         {
-            key: 'subServices',
+            key: 'children',
             title:'',
             dataIndex: 'hidden',
             form: null
@@ -312,11 +313,34 @@ export default function ClinicDetailed() {
 
     var doctors = useQuery(["key", 'doctors'], ()=> { return getList(`clinics/${id}/doctors/`, id) });
     var branch = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${id}/branches/`, id) });
+    var services = useQuery(["key", 'services'], ()=> { return getList(`clinics/contract-type-to-services`, id) });
+
+    function createTree(data) {
+        let newData = data?.map((item)=>(item.services[0]));
+        const idMapping = newData?.reduce((acc, el, i) => {
+            acc[el.id] = i;
+            return acc;
+          }, {});
+
+        let root: any;
+
+        newData?.forEach((el) => {
+            if (el.parentServiceId === null) {
+                root = el;
+                return;
+            }
+            const parentEl = newData[idMapping[el.parentServiceId]];
+            parentEl.children = [...(parentEl.children || []), el];
+        });
+
+        return root
+    }
 
     useEffect(()=> {
         refetch()
         doctors.refetch()
-        branch.refetch()   
+        branch.refetch()
+        services.refetch();
     }, [id])
 
 
@@ -350,6 +374,15 @@ export default function ClinicDetailed() {
         setWorkingHours(newWorkingHours)
 
     },[data, setWorkingHours])
+
+    useEffect(()=>{
+        const tree = createTree(services?.data)
+        
+        let newData = services?.data?.map((item)=>(item.services[0])).filter((item)=> item.parentServiceId == null);
+        
+        setServices(newData)
+        console.log('this is services data', newData)
+    },[services?.data])
 
     return (
         <>
@@ -616,18 +649,23 @@ export default function ClinicDetailed() {
                                             />
                                         </div>
                                     </div>
-                                    <TableServices
+                                    {/* <TableServices
                                         className={styles.table}
                                         columns={offerColumns}
-                                        data={analysisData.filter((e) => e.name.toLocaleLowerCase().includes(
-                                            tableSearch.toLocaleLowerCase()
-                                        ))}
+                                        data={serviceData}
                                         rowClassName={styles.tableRow}
                                         cellClassName={styles.tableCell}
                                         headerClassName={styles.tableHeader}
                                         bodyClassName={styles.tableBody}
                                         pagination={{ pageSize: 8, initialPage: 1 }}
-                                        detailedUrl={'#'} dropdownClassname={''} dropDown={undefined}                                    />
+                                        detailedUrl={'#'} dropdownClassname={''} dropDown={undefined} 
+                                    /> */}
+                                    {
+                                        <RichObjectTreeView 
+                                            data={serviceData} 
+                                            pagination={{ pageSize: 8, initialPage: 1 }} 
+                                        />
+                                    }
                                 </div>
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>

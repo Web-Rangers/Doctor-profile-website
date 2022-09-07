@@ -246,9 +246,11 @@ const BranchModal = ({
                     />
                 </div>
                 <div className={classNames(styles.modalContentRow, styles.workingHours)}>
-                    <Input 
+                    <h2>Working hours</h2>
+                    <input
+                        className={styles.workingInp}
+                        readOnly 
                         type="text"
-                        label="Working hours"
                         value={getFirstStartEndHours(workingHours)?.startHour && getFirstStartEndHours(workingHours)?.startHour + ' - ' + getFirstStartEndHours(workingHours)?.endHour}
                     />
                     <ReactSVG 

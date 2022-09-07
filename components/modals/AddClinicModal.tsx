@@ -231,9 +231,11 @@ export default function AddClinicModal({
                         />
                     </div> */}
                     <div className={classNames(styles.modalContentRow, styles.workingHours)}>
-                        <Input 
+                        <h2>Working hours</h2>
+                        <input 
                             type="text"
-                            label="Working hours"
+                            readOnly
+                            className={styles.workingInp}
                             value={getFirstStartEndHours(workingHours)?.startHour && 
                                 getFirstStartEndHours(workingHours)?.startHour + 
                                 ' - ' + 

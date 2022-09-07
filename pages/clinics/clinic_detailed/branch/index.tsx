@@ -121,7 +121,6 @@ export default function Branch() {
         
         setPhoneNumber(numbers)
         setEmail(emails)
-        console.log(branchDetail.data)
     },[branchDetail?.data])
 
     useEffect(()=>{
@@ -133,12 +132,8 @@ export default function Branch() {
                 return {...item, active: false}
             }
         })
-        console.log(newWorkingHours)
 
         setWorkingHours(newWorkingHours)
-
-        console.log(branchDetail?.data)
-
     },[branchDetail?.data, setWorkingHours])
 
     return (
