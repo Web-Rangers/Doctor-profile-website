@@ -204,56 +204,72 @@ const TableRow = ({
     detailedUrl,
     querys
 }: TableRowProps) => {
-    return (
-        <div
-            className={classNames(
-                styles.tableRow,
-                styles.tableRowTemplate,
-                rowClassName
-            )}
-        >
-            {columnsDefinition.map(
-                ({ dataIndex, render, cellStyle }, index) => {
-                    if (render) {
-                        return <>
-                            {
-                                index !== columnsDefinition.length - 1 ?
-                                    <Link href={{ pathname: detailedUrl, query: { id: record['id'], parentId: [`${querys}`] } }}>
-                                        {render(
+    return <>
+        {
+            record?.isActive ? 
+            (
+                <Link href={ !querys ? { pathname: detailedUrl, query:  { id: record['id'] } } : { pathname: detailedUrl, query:  { id: record['id'], parentId: [`${querys}`] } }}>
+                <div
+                className={classNames(
+                    styles.tableRow,
+                    styles.tableRowTemplate,
+                    rowClassName
+                )}
+            >
+                {columnsDefinition.map(
+                    ({ dataIndex, render, cellStyle }, index) => {
+                        if (render) {
+                            return (
+                                render(
                                             record[dataIndex],
                                             `data-${record.key}-${index}`
-                                        )}
-                                    </Link> : render(
+                                        )
+                            )
+                        }
+                        return <>
+                            <div
+                                className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
+                                key={`data-${record.key}-${index}`}
+                                style={cellStyle ? cellStyle : null}
+                            >
+                                {record[dataIndex]}
+                            </div>
+                        </>
+                    }
+                )}
+                </div>
+            </Link>
+            ) : (
+                <div
+                className={classNames(
+                    styles.tableRow,
+                    styles.tableRowTemplate,
+                    rowClassName
+                )}
+            >
+                {columnsDefinition.map(
+                    ({ dataIndex, render, cellStyle }, index) => {
+                        if (render) {
+                            return (
+                                render(
                                         record[dataIndex],
                                         `data-${record.key}-${index}`
                                     )
-                            }
+                            )
+                        }
+                        return <>
+                            <div
+                                className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
+                                key={`data-${record.key}-${index}`}
+                                style={cellStyle ? cellStyle : null}
+                            >
+                                {record[dataIndex]}
+                            </div>
                         </>
                     }
-                    return <>
-                        {
-                            index !== columnsDefinition.length + 1 ? 
-                            (
-                                <Link href={{ pathname: detailedUrl, query: { id: record['id'] } }}>
-                                    <div
-                                        className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
-                                        key={`data-${record.key}-${index}`}
-                                        style={cellStyle ? cellStyle : null}
-                                    >
-                                        {record[dataIndex]}
-                                    </div>
-                                </Link>
-                                ) : <div
-                                    className={`${styles.tableCell} ${styles.tableCellTemplate} ${cellClassName}`}
-                                    key={`data-${record.key}-${index}`}
-                                    style={cellStyle ? cellStyle : null}
-                                >
-                                    {record[dataIndex]}
-                                </div>
-                        }
-                    </>
-                }
-            )}
-        </div>
-    );
+                )}
+            </div>
+            )
+        }
+    </>
 };

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import classNames from 'classnames';
 import Fuse from "fuse.js";
+import Link from 'next/link';
 
 interface Stuff {
     icon: string;
@@ -21,9 +22,11 @@ interface Stuff {
 interface StuffTabProps {
     className?: string;
     stuff?: Stuff[];
+    id?: any;
+    branchId?: any;
 }
 
-const StuffActions = ({searchValue, setSearchValue}) => {
+const StuffActions = ({searchValue, setSearchValue, id, branchId}) => {
     return (
         <div className={styles.actions}>
             <div
@@ -48,12 +51,24 @@ const StuffActions = ({searchValue, setSearchValue}) => {
                     onChange={(e)=>setSearchValue(e.target.value)}
                 />
             </div>
-            <Button variant="fill" label="Add doctor" size="large" />
+            {
+                branchId ? <>
+                    <Link href={`/doctors/add?id=${id}&branchId=${branchId}`}>
+                        <Button variant="fill" onClick={()=> console.log(id)} label="Add doctor" size="large" />
+                    </Link>
+                </> : <>
+                    <Link href={`/doctors/add?id=${id}`}>
+                        <Button variant="fill" onClick={()=> console.log(id)} label="Add doctor" size="large" />
+                    </Link>
+                </>
+            }
         </div>
     );
 };
 
 export default function StuffTab({
+    id,
+    branchId,
     className,
     stuff = [],
     ...props
@@ -71,7 +86,7 @@ export default function StuffTab({
     const searchResult = searchValue ? result.map((result) => result.item) : stuff;
 
     return <>
-        <Card cardTitle="Stuff" cardActions={<StuffActions searchValue={searchValue} setSearchValue={setSearchValue} />}>
+        <Card cardTitle="Stuff" cardActions={<StuffActions id={id} branchId={branchId} searchValue={searchValue} setSearchValue={setSearchValue} />}>
             <div className={styles.stuffCardContainer}>
                 {isModalOpen && (
                     <StuffModal

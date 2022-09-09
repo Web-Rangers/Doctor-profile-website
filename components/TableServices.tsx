@@ -187,12 +187,13 @@ export default function Table({
                                     )}>
                                     {
                                         columns?.map((item, i)=>{
-                                            if(item.dataIndex === 'hidden' && item.key === 'subServices'){
+                                            if(item.dataIndex === 'hidden' && item.key == 'children'){
                                                 console.log(record[item.key])
                                                 return <>
                                                     <div className={styles.dropdownCol}>
                                                         {
                                                             record[item.key]?.map((obj, index)=>{
+                                                                console.log('this is ob', obj)
                                                                 return <>
                                                                     <div className={styles.subService}>
                                                                         <span className={styles.subCheckbox}>
@@ -313,9 +314,9 @@ const TableRow = ({
                             key={`data-${record.key}-${index}`}
                             style={cellStyle ? cellStyle : null}
                         >
-                            {index === 0 && record.subServices ?
+                            {index === 0 && record.children ?
                                 <>
-                                <div className={styles.checkB} onClick={()=> record.subServices && dropDown()}>
+                                <div className={styles.checkB} onClick={()=> record.children && dropDown()}>
 
                                     <ReactSVG
                                         className={styles.arrow}

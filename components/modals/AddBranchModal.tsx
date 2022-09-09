@@ -219,24 +219,12 @@ export default function AddBranchModal({
                             onChange={(value: string) => setPhone(value)}
                         />
                     </div>
-                    {/* <div className={styles.modalContentRow}>
-                        <Input
-                            type="time"
-                            label="Start hours"
-                            value={startHours}
-                            onChange={(value: string) => setStartHours(value)}
-                        />
-                        <Input
-                            type="time"
-                            label="End hours"
-                            value={endHours}
-                            onChange={(value: string) => setEndHours(value)}
-                        />
-                    </div> */}
                     <div className={classNames(styles.modalContentRow, styles.workingHours)}>
-                        <Input 
+                        <h2>Working hours</h2>
+                        <input 
                             type="text"
-                            label="Working hours"
+                            readOnly
+                            className={styles.workingInp}
                             value={getFirstStartEndHours(workingHours)?.startHour && 
                                 getFirstStartEndHours(workingHours)?.startHour + 
                                 ' - ' + 

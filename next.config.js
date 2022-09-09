@@ -39,6 +39,11 @@ module.exports = {
         destination:
           "https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers:path*",
       },
+      {
+        source: "/asclepius/v1/api/payment/bog/checkout/orders",
+        destination:
+          "https://asclepius.pirveli.ge/asclepius/v1/api/payment/bog/checkout/orders",
+      },
     ];
   },
 };

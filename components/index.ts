@@ -14,3 +14,4 @@ export { encodeImageFileAsURL } from './uploadImageBase64'
 export { default as GenerateBreadcrumbs } from './generateBreadcrumbs.js';
 export { getList } from './getData.js';
 export { getFirstStartEndHours, handleChange, activeWorkingHours, dayz } from './workingHoursUtils.js';
+export { default as RichObjectTreeView} from './multiSelectTreeView';

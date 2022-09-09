@@ -10,20 +10,47 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import Fuse from "fuse.js";
 
 export default function Clinics({ list }) {
-  const { isLoading, data, isError, error, refetch, status } = useClinicsData();
+  const { data, refetch, status } = useClinicsData();
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
+  const [popup, setPopup] = useState({
+    active:false,
+    id: null
+  });
+
   const removeClinic = async (id) => {
-    return axios.delete(`/asclepius/v1/api/clinics/${id}`).then((response) => {
+    return axios.get(`/asclepius/v1/api/clinics/${id}/deactivate`).then((response) => {
       refetch();
     });
   };
 
-  const { mutate: removeClinicMutation } = useMutation((id) =>
+  const { mutate: removeClinicMutation } = useMutation((id: Number) =>
     removeClinic(id)
   );
+
+  const updateClinic = async (id) => {
+    return axios.get(`/asclepius/v1/api/clinics/${id}/activate`).then((response) => {
+      refetch();
+    });
+  };
+
+  const updateStatus = useMutation((id: Number) =>
+    updateClinic(id)
+  );
+
+  function removeAfterValidation(removeId) {
+    const searchCurrentClinic = data?.filter((clinic)=> clinic.id == removeId)[0];
+    console.log(searchCurrentClinic)
+    if(searchCurrentClinic?.isActive){
+      console.log('sent delete request')
+      removeClinicMutation(removeId)
+    }else {
+      console.log('sent put request')
+      updateStatus.mutate(removeId)
+    }
+  }
 
   const columns = [
     {
@@ -109,19 +136,29 @@ export default function Clinics({ list }) {
       title: "",
       dataIndex: "id",
       render: (action, key) => {
+        const activeOrNot = data?.filter((e)=>e.id == action)[0];
         return (
           <div
             className={`${tableStyles.tableIconCellTemplate} ${styles.smallIcon} ${styles.action}`}
             key={key}
-            onClick={() => removeClinicMutation(action)}
+            onClick={(event) => {event.defaultPrevented = true; setPopup({active:true, id: action})}}
           >
-            <img
-              alt=""
-              src="/images/icons/table/block.png"
-              className={tableStyles.rowImg}
-              height={20}
-              width={20}
-            />
+            {
+              !activeOrNot.isActive ? <img
+                alt="Active"
+                src="/images/icons/clinics/active.png"
+                className={tableStyles.rowImg}
+                height={20}
+                width={20}
+              />  : <img
+                alt="Deactive"
+                src="/images/icons/table/block.png"
+                className={tableStyles.rowImg}
+                height={20}
+                width={20}
+              /> 
+            }
+            
           </div>
         );
       },
@@ -143,11 +180,31 @@ export default function Clinics({ list }) {
 
   const handleSearch = (e) => {
     setSearchValue(e.target.value);
-    console.log(data)
   };
 
   return (
     <>
+      {
+        popup.active && <>
+          <div className={styles.popup}>
+            <h2>{`Are you sure?`}</h2>
+            <div className={styles.btns}>
+              <Button 
+                onClick={()=>{setPopup({active: false, id: null}); removeAfterValidation(parseInt(popup.id))}}
+                label="Yes"
+                size="large"
+                variant="fill"
+              />
+              <Button 
+                onClick={()=>setPopup({active: false, id: null})}
+                label="No"
+                size="large"
+                variant="outline"
+              />
+            </div>
+          </div>
+        </>
+      }
       {isModalOpen && (
         <AddClinicModal
           onCancel={() => setModalOpen(false)}

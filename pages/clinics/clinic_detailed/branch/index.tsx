@@ -99,12 +99,12 @@ export default function Branch() {
     ]);
 
     var branchDetail = useQuery(["key", 'branch'], ()=> { return getList(`clinics/${id}`, id) });
-    var branchDoctors = useQuery(["key", 'branchDoctors'], ()=> { return getList(`clinics/${id}/doctors`, id) });
+    var branchDoctors = useQuery(["key", 'branchDoctors'], ()=> { return getList(`clinics/${id}/doctors?page=0&size=5`, id) });
 
-    if(router.isReady) {
+    useEffect(()=> {
         branchDetail.refetch();
         branchDoctors.refetch();
-    }
+    }, [id])
 
     useEffect(()=>{
         let numbers = branchDetail?.data != null && branchDetail?.data?.contactInfos?.map((contact)=>{
@@ -121,7 +121,6 @@ export default function Branch() {
         
         setPhoneNumber(numbers)
         setEmail(emails)
-        console.log(branchDetail.data)
     },[branchDetail?.data])
 
     useEffect(()=>{
@@ -133,12 +132,8 @@ export default function Branch() {
                 return {...item, active: false}
             }
         })
-        console.log(newWorkingHours)
 
         setWorkingHours(newWorkingHours)
-
-        console.log(branchDetail?.data)
-
     },[branchDetail?.data, setWorkingHours])
 
     return (
@@ -356,7 +351,9 @@ export default function Branch() {
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
                                 <StuffTab
-                                    stuff={branchDoctors?.data?.map(
+                                    branchId={id}
+                                    id={parentId}
+                                    stuff={branchDoctors?.data?.content?.map(
                                         (i) => ({
                                             icon: i.pictureUrl,
                                             address: '11 Simon Chikovani St',
