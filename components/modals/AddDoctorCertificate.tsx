@@ -4,15 +4,16 @@ import axios from 'axios';
 import { ReactSVG } from 'react-svg';
 import { useRouter } from 'next/router';
 import styles from 'styles/components/Modals/AddDoctorEducation.module.scss';
-import { request } from 'https';
 
 interface CertificateData {
-	school?: string;
-	degree?: string;
-	fieldOfStudy?: string;
-	startDate?: string;
-	endDate?: string;
-	pictureFile?: any;
+	credentialId?: string;
+	credentialInfo?: string;
+	doctorId?: string;
+	expirationDate?: string;
+	id?: string;
+	issueDate?: string;
+	issuer?: any;
+	title?: string;
 }
 
 interface CertificateModalProps {
@@ -40,7 +41,7 @@ export default function AddDoctorCertificate({
 		issueDate: null,
 		credentialInfo: null,
 		expirationDate: null,
-		doctorId: 478,
+		doctorId: id,
 	});
 
 	const handleUploadFiles = (files) => {
@@ -96,14 +97,12 @@ export default function AddDoctorCertificate({
 			});
 	};
 
-	uploadFile();
-
 	console.log('uploadFile', uploadedFiles);
 
 	const requestFormData = async () => {
 		return axios
 			.post(
-				`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/{doctorId}/certificates?doctorId=${id}`,
+				`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers/${id}/certificates`,
 				requestBody,
 				{
 					headers: {
@@ -113,15 +112,14 @@ export default function AddDoctorCertificate({
 			)
 			.then((response) => {
 				console.log('this is response res', response);
-				// add fileid here
+				uploadFile();
+				onClose();
 				refetch();
 			})
 			.catch((error) => {
 				if (error.response) console.log(error.response);
 			});
 	};
-
-	// console.log("file", uploadedFiles);
 
 	return (
 		<Modal onBackClick={onClose}>
@@ -199,12 +197,11 @@ export default function AddDoctorCertificate({
 							accept='application/pdf, image/png'
 							onChange={handleFileEvent}
 							disabled={fileLimit}
+							className={styles.upload}
 						/>
 
 						<label htmlFor='fileUpload'>
-							<a className={`btn btn-primary ${!fileLimit ? '' : 'disabled'} `}>
-								Upload Files
-							</a>
+							<a className={styles.upBtn}>Upload Files</a>
 						</label>
 					</div>
 					<div className={styles.filesContainer}>
