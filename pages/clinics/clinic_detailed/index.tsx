@@ -1,5 +1,5 @@
 import { ReactSVG } from 'react-svg';
-import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, Input, TableServices, getList, AddBranchModal, dayz, getFirstStartEndHours, RichObjectTreeView } from 'components';
+import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, Input, TableServices, getList, AddBranchModal, dayz, getFirstStartEndHours, RichObjectTreeView, AlreadyExistClinic } from 'components';
 import StarRatings from 'react-star-ratings';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
@@ -23,57 +23,6 @@ interface ActionProps {
 const EditAction = ({ onClick, icon }: ActionProps) => (
     <ReactSVG src={icon} onClick={onClick}></ReactSVG>
 );
-
-const branches = [
-    {
-        city: 'Tbilisi',
-        address: '7 Simon Chikovani St',
-        contact: '947 536 759',
-        branchId: '896568984605',
-        workingHours: '10:30-17:00',
-        status: true,
-    },
-    {
-        city: 'Tbilisi',
-        address: '14 Merab Aleksidze St',
-        contact: '386 904 204',
-        branchId: '476097356897',
-        workingHours: '11:30-18:00',
-        status: false,
-    },
-    {
-        city: 'Batumi',
-        address: '7 Simon Chikovani St',
-        contact: '702 942 424',
-        branchId: '0757462129067',
-        workingHours: '09:30-16:00',
-        status: true,
-    },
-    {
-        city: 'Tbilisi',
-        address: '30b Mikheil Chiaureli St',
-        contact: '104 794 209',
-        branchId: '7082453675100',
-        workingHours: '08:00-17:00',
-        status: true,
-    },
-    {
-        city: 'Kutaisi',
-        address: '8 Simon Chikovani St',
-        contact: '573 673 367',
-        branchId: '707005790797',
-        workingHours: '07:30-18:00',
-        status: false,
-    },
-    {
-        city: 'Akhaltsikhe',
-        address: '11 Simon Chikovani St',
-        contact: '865 234 056',
-        branchId: '896568984605',
-        workingHours: '12:00-16:00',
-        status: true,
-    },
-];
 
 export default function ClinicDetailed() {
     const [clinicEdtModalIsOpen, setClinicEdtModalIsOpen] = useState(false);
@@ -130,184 +79,14 @@ export default function ClinicDetailed() {
         }
     ]);
     const [serviceData, setServices] = useState([]);
-
-    const offerColumns = [
-        {
-            key: 'check_box',
-            title: '',
-            dataIndex: 'check_box',
-            form: null
-        },
-        {
-            key: 'id',
-            title: 'Service Id',
-            dataIndex: 'id',
-            form: null
-        },
-        {
-            key: 'title',
-            title: 'Service name',
-            dataIndex: 'title',
-            form: null
-        },
-        {
-            key: 'service_type',
-            title: 'Type of service',
-            dataIndex: 'service_type',
-            form: null
-        },
-        {
-            key: 'price',
-            title: 'Price',
-            dataIndex: 'price',
-            form: null
-        },
-        {
-            key: 'duration',
-            title: 'Duration',
-            dataIndex: 'duration',
-            form: null
-        },
-        {
-            key: "actions",
-            title: "",
-            dataIndex: "actions",
-            form: null,
-            render: (record, key) => {
-              return (
-                    <div className={styles.tableActions}>
-                        <ReactSVG 
-                            src={"/images/icons/table/edit.svg"} 
-                            className={styles.iconContainer}
-                            onClick={()=> setEditModalOpen(true)}
-                        />
-                    </div>
-                );
-            },
-        },
-        {
-            key: 'children',
-            title:'',
-            dataIndex: 'hidden',
-            form: null
-        }
-    ];
-
-    const analysisData = [
-        {
-            check_box: '758597122',
-            service_id: '758597122',
-            name:'ServiceName1',
-            service_type: 'In clinic',
-            duration:'1000',
-            price: '800',
-            subServices: [
-            {
-                id: 758597125,
-                checkbox: false,
-                title: 'SubserviceName3',
-                status: 'Online',
-                duration: 5781,
-            },{
-                id: 758597123,
-                checkbox: false,
-                title: 'SubserviceName2',
-                status: 'Online',
-                duration: 1281,
-            },
-        ]
-        },
-        {
-            check_box: '758597232',
-            service_id: '758597122',
-            name:'ServiceName2',
-            service_type: 'In clinic',
-            duration:'1000',
-            price: '800',
-            subServices: [
-                {
-                    id: 758591122,
-                    checkbox: false,
-                    title: 'SubserviceName3',
-                    status: 'Online',
-                    duration: 5781,
-                }
-            ]
-        },
-        {
-            check_box: '758594122',
-            service_id:'758597122',
-            name:'ServiceName3',
-            service_type: 'In clinic',
-            duration:'1000',
-            price: '800',
-        },
-        {
-            check_box: '758517122',
-            service_id: '758597122',
-            name:'ServiceName4',
-            service_type: 'In clinic',
-            duration:'1000',
-            price: '800',
-        },
-        {
-            check_box: '758591122',
-            service_id: '758597122',
-            name:'ServiceName5',
-            service_type: 'In clinic',
-            duration:'1000',
-            price: '800',
-            subServices: [
-                {
-                    id: 758597121,
-                    checkbox: false,
-                    title: 'SubserviceName3',
-                    status: 'Online',
-                    duration: 5781,
-                },{
-                    id: 758597192,
-                    checkbox: false,
-                    title: 'SubserviceName2',
-                    status: 'Online',
-                    duration: 1281,
-                },
-            ]
-        },
-        {
-            check_box: '708597122',
-            service_id: '758597122',
-            name:'ServiceName6',
-            service_type: 'In clinic',
-            duration:'1000',
-            price: '800',
-        },
-        {
-            check_box: '758547122',
-            service_id: '758597122',
-            name:'ServiceName7',
-            service_type: 'In clinic',
-            duration:'1000',
-            price: '800',
-        },
-        {
-            check_box: '723597122',
-            service_id: '758597122',
-            name:'ServiceName8',
-            service_type: 'In clinic',
-            duration:'1000',
-            price: '800',
-        },
-        {
-            check_box: '258597122',
-            service_id: '758597122',
-            name:'ServiceName8',
-            service_type: 'In clinic',
-            duration:'1000',
-            price: '800',
-        }
-    ];
+    const [custumizeBranches, setBranches] = useState([])
     
     const [showMore, setShowMore] = useState(false);
+
+    const [existClinic, setExistClinic] = useState({
+        isOpen: false,
+        data: null
+    })
 
     var { data, refetch } = useQuery(["key", 'clinics'], ()=> { return getList(`clinics/${id}`, id) });
 
@@ -341,10 +120,8 @@ export default function ClinicDetailed() {
         doctors.refetch()
         branch.refetch()
         services.refetch();
-
         console.log(doctors)
     }, [id])
-
 
     useEffect(()=>{
         let numbers = data?.contactInfos.map((contact)=>{
@@ -408,8 +185,13 @@ export default function ClinicDetailed() {
                     }}
                     id={id}
                     refetch={()=> branch.refetch()}
+                    isOpen={existClinic.isOpen}
+                    setExistClinic={(bol)=> setExistClinic({isOpen: bol.isOpen, data: bol.data})}
                 />
             )}
+            {
+                existClinic.isOpen && <AlreadyExistClinic data={existClinic} onClose={()=> setExistClinic({isOpen: false, data: null})} />
+            }
             <div className={styles.container}>
                 <div className={styles.pageHeader}>
                     <h3>Clinics</h3>

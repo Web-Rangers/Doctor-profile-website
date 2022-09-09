@@ -1,0 +1,81 @@
+.modalHeader {
+    width: 100%;
+    display: flex;
+    h2 {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 32px;
+        letter-spacing: 0.04em;
+        text-align: left;
+        margin:0;
+        text-align: left;
+    }
+}
+.clinic {
+    display: flex;
+    width: 600px;
+    margin:5px 0;
+    align-items: flex-start;
+    gap:30px;
+    border:1px solid rgb(234, 234, 234);
+    padding:15px;
+    cursor: pointer;
+    border-radius:4px;
+    transition: 0.3s;
+    .clinicImg {
+        overflow: hidden;
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        position: relative;
+        img {
+            width: 100%;
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+    .clinicInfo {
+        h2 {
+            margin:0;
+            font-weight: 600;
+            font-size:20px;
+        }
+    }
+    &:hover {
+        border:1px solid rgb(203, 202, 202);
+    }
+}
+
+.isActive {
+    margin:20px 0;
+    display: flex;
+    align-items: center; 
+    gap:20px;
+    h3 {
+        margin:0;
+        font-size:14px;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        gap:10px;
+        .iconContainer {
+            margin-top:7px;
+        }
+    }
+}
+
+.active {
+    padding:10px 15px;
+    background-color: #c4e7dc;
+    color: #00a875;
+    font-weight: 600;
+    border-radius:3px;
+}
+
+.phone {
+    display: flex;
+    align-items: center;
+    gap:15px;
+}

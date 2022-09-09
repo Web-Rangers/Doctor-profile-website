@@ -26,6 +26,8 @@ interface ClinicModalProps {
     onCancel?: () => void;
     id?: any;
     refetch?: () => void;
+    isOpen?:boolean;
+    setExistClinic?: any;
 }
 
 export default function AddBranchModal({
@@ -33,7 +35,9 @@ export default function AddBranchModal({
     onSave,
     onCancel,
     id,
-    refetch
+    refetch,
+    isOpen,
+    setExistClinic
 }: ClinicModalProps) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -112,7 +116,17 @@ export default function AddBranchModal({
             headers: {
                 'Content-Type': `multipart/form-data`,
             },
-        }).then((response) => { console.log(response); refetch()})
+        }).then((response) => { 
+            if(response.status == 201){
+                refetch(); 
+            }else {
+                // alert('Clinic with this name already exists')
+                setExistClinic({
+                    data: response.data,
+                    isOpen: true
+                })
+            }
+        })
     }
     
     const { mutate: addClinics } = useMutation(addClinic)
