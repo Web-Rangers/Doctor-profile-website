@@ -26,7 +26,7 @@ export default function DoctorsList() {
 	return (
 		<Tabs>
 			<TabPanel className={tabStyles.tabPanel}>
-				<DoctorsTab doctors={allData} />
+				<DoctorsTab doctors={allData?.length != 0 ? allData : []} />
 			</TabPanel>
 		</Tabs>
 	);
