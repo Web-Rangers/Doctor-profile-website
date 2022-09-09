@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from 'styles/components/Modals/ClinicModal.module.scss';
-import { Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz} from 'components';
+import { Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz, AlreadyExistClinic} from 'components';
 import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
@@ -25,12 +25,16 @@ interface ClinicModalProps {
     onSave?: (newData: ClinicData) => void;
     onCancel?: () => void;
     setBool?: any;
+    isOpen?: boolean;
+    setExistClinic?: any;
 }
 
 export default function AddClinicModal({
     onClose,
     onSave,
     onCancel,
+    isOpen,
+    setExistClinic
 }: ClinicModalProps) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -109,7 +113,18 @@ export default function AddClinicModal({
             headers: {
                 'Content-Type': `multipart/form-data`,
             },
-        }).then((response) => { refetch(); console.log(response) })
+        }).then((response) => { 
+            if(response.status == 201){
+                refetch(); 
+            }else {
+                // alert('Clinic with this name already exists')
+                setExistClinic({
+                    data: response.data,
+                    isOpen: true
+                })
+            }
+            onSave?.call(null, { phone })
+        })
     }
     
     const { mutate: addClinics } = useMutation(addClinic)
@@ -216,20 +231,6 @@ export default function AddClinicModal({
                             onChange={(value: string) => setPhone(value)}
                         />
                     </div>
-                    {/* <div className={styles.modalContentRow}>
-                        <Input
-                            type="time"
-                            label="Start hours"
-                            value={startHours}
-                            onChange={(value: string) => setStartHours(value)}
-                        />
-                        <Input
-                            type="time"
-                            label="End hours"
-                            value={endHours}
-                            onChange={(value: string) => setEndHours(value)}
-                        />
-                    </div> */}
                     <div className={classNames(styles.modalContentRow, styles.workingHours)}>
                         <h2>Working hours</h2>
                         <input 
@@ -292,12 +293,6 @@ export default function AddClinicModal({
                                     addClinics()
                                     : alert('Fields are not filled')
                             }
-                            onSave?.call(null, {
-                                phone,
-                                address,
-                                time,
-                                about,
-                            })
                         }
                         }
                         size="large"

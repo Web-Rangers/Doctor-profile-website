@@ -1,5 +1,5 @@
 import { ReactSVG } from "react-svg";
-import { Table, AddClinicModal, Button } from "components";
+import { Table, AddClinicModal, Button, AlreadyExistClinic } from "components";
 import SideBarLayout from "layouts/SideBarLayout";
 import styles from "styles/pages/clinics.module.css";
 import tableStyles from "styles/components/Table.module.scss";
@@ -14,6 +14,11 @@ export default function Clinics({ list }) {
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+
+  const [existClinic, setExistClinic] = useState({
+    isOpen: false,
+    data: null,
+  })
 
   const [popup, setPopup] = useState({
     active:false,
@@ -182,8 +187,12 @@ export default function Clinics({ list }) {
     setSearchValue(e.target.value);
   };
 
+  console.log(existClinic.isOpen)
   return (
     <>
+      {
+          existClinic.isOpen && <AlreadyExistClinic data={existClinic} onClose={()=> setExistClinic({isOpen: false, data: null})} />
+      }
       {
         popup.active && <>
           <div className={styles.popup}>
@@ -212,6 +221,8 @@ export default function Clinics({ list }) {
           onSave={() => {
             setModalOpen(false);
           }}
+          isOpen={existClinic.isOpen}
+          setExistClinic={(bol)=> setExistClinic({isOpen: bol.isOpen, data: bol.data})}
         />
       )}
       <div className={styles.container}>
