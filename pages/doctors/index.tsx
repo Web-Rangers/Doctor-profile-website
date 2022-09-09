@@ -4,8 +4,10 @@ import tabStyles from 'styles/components/Tabs/tabs.module.scss';
 import { getFreelancer, getDoctors } from 'components';
 import SideBarLayout from 'layouts/SideBarLayout';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
 export default function DoctorsList() {
+	const [allData, setAllData] = useState([]);
 	var freelance = useQuery(['key', 'freelancerDoctors'], () => {
 		return getFreelancer();
 	});
@@ -14,12 +16,13 @@ export default function DoctorsList() {
 		return getDoctors();
 	});
 
+	useEffect(() => {
 	const allData = freelance?.data?.content?.concat(
 		clinicdoctors?.data?.content
 	);
-
-	console.log(' allData', allData);
-
+	  setAllData(allData)
+	}, [freelance?.data, clinicdoctors?.data])
+	
 	return (
 		<Tabs>
 			<TabPanel className={tabStyles.tabPanel}>
