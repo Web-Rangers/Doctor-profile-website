@@ -13,6 +13,7 @@ import StuffModal from '../../../components/modals/StuffModal';
 import { useQuery } from '@tanstack/react-query';
 import { getList } from 'components';
 import { useRouter } from 'next/router';
+import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
 export default function AddDoctor() {
 	const [error, setError] = useState({
@@ -53,17 +54,23 @@ export default function AddDoctor() {
 	});
 
 	var branchDetail = useQuery(['key', 'branch'], () => {
-		return getList(`clinics/${clinicId}/branches/`, clinicId);
+		return getList(
+			`clinics/${requestBody?.clinicBranchIds || clinicId}/branches/`,
+			requestBody?.clinicBranchIds || clinicId
+		);
 	});
 
-	const barnchData = branchDetail?.data?.filter(
-		(item) => console.log('id', item.id) !== clinicId
-	);
-	console.log('branch data', barnchData);
+	function onlyUnique(value, index, self) {
+		return self.indexOf(value.id) === console.log('index', index);
+	}
+
+	var branchData = branchDetail?.data?.filter(onlyUnique);
+
+	console.log('branch data', branchData);
 
 	useEffect(() => {
 		branchDetail.refetch();
-	}, [branchDetail, clinicId]);
+	}, [branchDetail, clinicId, requestBody?.clinicBranchIds]);
 
 	const clinics = useClinicsData();
 
@@ -87,7 +94,9 @@ export default function AddDoctor() {
 			.post(
 				requestBody.type === 'FREELANCER'
 					? '/asclepius/v1/api/doctors/freelancers'
-					: `/asclepius/v1/api/clinics/${requestBody.clinicBranchIds}/doctors`,
+					: `/asclepius/v1/api/clinics/${
+							requestBody.clinicBranchIds || clinicId
+					  }/doctors`,
 				formData,
 				{
 					headers: {
@@ -124,7 +133,7 @@ export default function AddDoctor() {
 				{ label: 'Another job title', value: '2' },
 			],
 		}));
-	}, [clinics?.isLoading]);
+	}, [branchDetail?.data, requestBody.clinicBranchIds]);
 
 	return (
 		<div className={pageStyles.container}>
@@ -267,20 +276,21 @@ export default function AddDoctor() {
 								}}
 								value={requestBody.type}
 							/>
-							{clinicId ? 'D' : 'D'}
-							<Select
-								disabled={requestBody.type === 'FREELANCER' ? true : false}
-								label='Clinic'
-								labelStyle='outside'
-								options={optionLists.clinic}
-								value={requestBody.clinicBranchIds}
-								onChange={(value) => {
-									setRequestBody((prev) => ({
-										...prev,
-										clinicBranchIds: value,
-									}));
-								}}
-							/>
+							{clinicId ? null : (
+								<Select
+									disabled={requestBody.type === 'FREELANCER' ? true : false}
+									label='Clinic'
+									labelStyle='outside'
+									options={optionLists.clinic}
+									value={requestBody.clinicBranchIds}
+									onChange={(value) => {
+										setRequestBody((prev) => ({
+											...prev,
+											clinicBranchIds: value,
+										}));
+									}}
+								/>
+							)}
 							<Input
 								label='ID'
 								type='number'
@@ -300,16 +310,20 @@ export default function AddDoctor() {
 								}}
 								value={requestBody.professionId}
 							/>
-							<Select
-								disabled={requestBody.type === 'FREELANCER' ? true : false}
-								label='Branch'
-								labelStyle='outside'
-								options={optionLists.branch}
-								onChange={(value) => {
-									setRequestBody((prev) => ({ ...prev, branch: value }));
-								}}
-								value={requestBody.branch}
-							/>
+							{branchId ? null : (
+								<Select
+									disabled={requestBody.type === 'FREELANCER' ? true : false}
+									label='Branch'
+									labelStyle='outside'
+									options={optionLists.branch}
+									onChange={(value) => {
+										requestBody.branch
+											? null
+											: setRequestBody((prev) => ({ ...prev, branch: value }));
+									}}
+									value={requestBody.branch}
+								/>
+							)}
 							<Input
 								disabled={requestBody.type === 'FREELANCER' ? false : true}
 								label='IBAN'

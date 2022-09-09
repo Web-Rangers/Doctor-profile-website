@@ -78,7 +78,7 @@ export default function AddDoctorEducation({
 		console.log('data', formData);
 		return axios
 			.post(
-				`https://asclepius.pirveli.ge/asclepius/v1/api/gallery/doctor/${id}`,
+				`https://asclepius.pirveli.ge/asclepius/v1/api/gallery/doctor/${id}/educations`,
 				formData,
 				{
 					headers: {
