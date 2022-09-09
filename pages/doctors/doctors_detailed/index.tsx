@@ -15,7 +15,11 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import styles from 'styles/pages/doctors_detailed.module.scss';
 import tabStyles from 'styles/components/Tabs/tabs.module.scss';
 import { useRouter } from 'next/router';
-import { getFreelancerDoctor } from 'components/useDoctorsData';
+import {
+	getFreelancerDoctor,
+	getFreeLancerCertificate,
+	getDoctorCertificate,
+} from 'components/useDoctorsData';
 import { useQuery } from '@tanstack/react-query';
 import EditDoctorModal from 'components/modals/EditDoctorModal';
 
@@ -50,6 +54,12 @@ export default function DoctorsDetailed() {
 		refetch();
 	}
 
+	var certificateEducation = useQuery(['key', 'freeLancerCertificate'], () => {
+		return getFreeLancerCertificate(id);
+	});
+
+	console.log('education', certificateEducation?.data?.educations);
+
 	useEffect(() => {
 		let numbers = data?.contactInfos.map((contact) => {
 			if (contact?.type.value == 'mobile') {
@@ -66,7 +76,6 @@ export default function DoctorsDetailed() {
 		setEmail(emails);
 	}, [data]);
 
-	console.log('photo', data?.pictureUrl);
 	return (
 		<>
 			{false && <AddOrder />}
@@ -289,53 +298,8 @@ export default function DoctorsDetailed() {
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>
 								<DoctorEducationTab
-									certificates={[
-										{
-											creditialId: '123456789',
-											creditialUri: 'www.google.com',
-											issuedAt: '01.01.2020',
-											issuedBy: 'Medical univercity',
-											name: 'Certificate in neurology',
-										},
-										{
-											creditialId: '123456789',
-											creditialUri: 'www.medical.com',
-											issuedAt: "Don't expire",
-											issuedBy: 'Harvard BioScience',
-											name: 'Rare diseases of the nervous system',
-										},
-									]}
-									education={[
-										{
-											degree: 'Doctor of Medicine',
-											endDate: '01.01.2020',
-											school: 'Medical univercity',
-											startDate: '01.01.2010',
-											fieldsOfStudey: 'Neurology',
-											media: [
-												{
-													src: '/images/doctors/detailed/media1.png',
-													alt: 'media1',
-												},
-												{
-													src: '/images/doctors/detailed/media2.png',
-													alt: 'media2',
-												},
-												{
-													src: '/images/doctors/detailed/media3.png',
-													alt: 'media3',
-												},
-											],
-										},
-										{
-											degree: 'Doctor of Medicine',
-											endDate: '01.01.2020',
-											school: 'Medical univercity',
-											startDate: '01.01.2010',
-											fieldsOfStudey: 'Neurology',
-											media: [],
-										},
-									]}
+									certificates={certificateEducation?.data?.certificates}
+									education={certificateEducation?.data?.educations}
 								/>
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>

@@ -14,6 +14,8 @@ export {
 	getDoctors,
 	getFreelancer,
 	getFreelancerDoctor,
+	getFreeLancerCertificate,
+	getDoctorCertificate,
 } from './useDoctorsData';
 export { encodeImageFileAsURL } from './uploadImageBase64';
 export { default as GenerateBreadcrumbs } from './generateBreadcrumbs.js';
