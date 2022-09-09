@@ -12,6 +12,8 @@ import {useEffect, useState, useCallback} from 'react';
 import {ReactSVG} from 'react-svg';
 
 interface RenderTree {
+    code: string;
+    descriptionId: string;
     id: string;
     title: string;
     children?: readonly RenderTree[];
@@ -31,8 +33,10 @@ export default function RichObjectTreeView({
             <>
                 <div className={styles.table}>
                     <div className={styles.checkbox}><CheckBox id={nodes?.id} /></div>
-                    <div>{nodes?.title}</div>
                     <div>{nodes?.id}</div>
+                    <div>{nodes?.title}</div>
+                    <div>{nodes?.descriptionId ? nodes?.descriptionId : ''}</div>
+                    <div>{nodes?.code}</div>
                 </div>
             </>
         }>

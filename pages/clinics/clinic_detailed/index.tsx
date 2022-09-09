@@ -311,7 +311,7 @@ export default function ClinicDetailed() {
 
     var { data, refetch } = useQuery(["key", 'clinics'], ()=> { return getList(`clinics/${id}`, id) });
 
-    var doctors = useQuery(["key", 'doctors'], ()=> { return getList(`clinics/${id}/doctors/`, id) });
+    var doctors = useQuery(["key", 'doctors'], ()=> { return getList(`clinics/${id}/doctors?page=0&size=5`, id) });
     var branch = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${id}/branches/`, id) });
     var services = useQuery(["key", 'services'], ()=> { return getList(`clinics/contract-type-to-services`, id) });
 
@@ -341,6 +341,8 @@ export default function ClinicDetailed() {
         doctors.refetch()
         branch.refetch()
         services.refetch();
+
+        console.log(doctors)
     }, [id])
 
 
@@ -649,17 +651,6 @@ export default function ClinicDetailed() {
                                             />
                                         </div>
                                     </div>
-                                    {/* <TableServices
-                                        className={styles.table}
-                                        columns={offerColumns}
-                                        data={serviceData}
-                                        rowClassName={styles.tableRow}
-                                        cellClassName={styles.tableCell}
-                                        headerClassName={styles.tableHeader}
-                                        bodyClassName={styles.tableBody}
-                                        pagination={{ pageSize: 8, initialPage: 1 }}
-                                        detailedUrl={'#'} dropdownClassname={''} dropDown={undefined} 
-                                    /> */}
                                     {
                                         <RichObjectTreeView 
                                             data={serviceData} 
@@ -691,7 +682,8 @@ export default function ClinicDetailed() {
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
                                 <StuffTab
-                                    stuff={doctors?.data?.map(
+                                    id={id}
+                                    stuff={doctors?.data?.content?.map(
                                         (i) => ({
                                             icon: i.pictureUrl,
                                             address: '11 Simon Chikovani St',

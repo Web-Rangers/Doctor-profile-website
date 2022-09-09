@@ -97,3 +97,26 @@
 .address {
     margin: auto 20px;
 }
+
+.popup {
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    background-color:#fff;
+    width: 600px;
+    box-shadow: 0 3px 9px rgb(228 228 228);
+    border-radius: 6px;
+}
+
+.popup h2 {
+    margin: 30px 20px;
+    text-align: center;
+}
+
+.btns {
+    margin: 60px 0 30px;
+    display: flex;
+    justify-content: center;
+    gap:20px;
+}

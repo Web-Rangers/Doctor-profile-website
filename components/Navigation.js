@@ -3,6 +3,10 @@ import Link from "next/link"
 import { ReactSVG } from 'react-svg'
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import {Button} from 'components';
+
+import axios from 'axios';
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 const links = [
     {
@@ -40,6 +44,39 @@ const links = [
 export default function Navigation() {
     let router = useRouter()
 
+    const sendRequest = async () => {
+        return axios.post(`https://asclepius.pirveli.ge/asclepius/v1/api/payment/bog/checkout/orders`, {
+                "intent": "AUTHORIZE",
+                "items": [
+                  {
+                    "amount": "0.01",
+                    "description": "test",
+                    "quantity": "1",
+                    "product_id": "123456"
+                  }
+                ],
+                "locale": "ka",
+                "shop_order_id": "123456",
+                "redirect_url": "https://bog-banking.pirveli.ge/callback/statusChange",
+                "show_shop_order_id_on_extract": true,
+                "capture_method": "AUTOMATIC",
+                "purchase_units": [
+                  {
+                    "amount": {
+                      "currency_code": "GEL",
+                      "value": "0.01"
+                    }
+                  }
+                ]
+        }).then((response) => {
+            console.log(response)
+        });
+      };
+    
+      const { mutate: request } = useMutation(() =>
+        sendRequest()
+      );
+
     return (
         <div className={styles.container}>
             {links.map((link, index) => {
@@ -51,6 +88,13 @@ export default function Navigation() {
                     />
                 )
             })}
+            <Button
+                onClick={()=>request()}
+                className={styles.cardBtn}
+                label="Buy card"
+                size="large"
+                variant="outline"
+            />
         </div>
     )
 }
