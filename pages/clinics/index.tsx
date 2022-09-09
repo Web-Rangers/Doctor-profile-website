@@ -136,19 +136,29 @@ export default function Clinics({ list }) {
       title: "",
       dataIndex: "id",
       render: (action, key) => {
+        const activeOrNot = data?.filter((e)=>e.id == action)[0];
         return (
           <div
             className={`${tableStyles.tableIconCellTemplate} ${styles.smallIcon} ${styles.action}`}
             key={key}
             onClick={(event) => {event.defaultPrevented = true; setPopup({active:true, id: action})}}
           >
-            <img
-              alt=""
-              src="/images/icons/table/block.png"
-              className={tableStyles.rowImg}
-              height={20}
-              width={20}
-            />
+            {
+              !activeOrNot.isActive ? <img
+                alt="Active"
+                src="/images/icons/clinics/active.png"
+                className={tableStyles.rowImg}
+                height={20}
+                width={20}
+              />  : <img
+                alt="Deactive"
+                src="/images/icons/table/block.png"
+                className={tableStyles.rowImg}
+                height={20}
+                width={20}
+              /> 
+            }
+            
           </div>
         );
       },
