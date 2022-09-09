@@ -4,6 +4,7 @@ import { ReactSVG } from 'react-svg'
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import {Button} from 'components';
+import Router from 'next/router';
 
 import axios from 'axios';
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -69,7 +70,8 @@ export default function Navigation() {
                   }
                 ]
         }).then((response) => {
-            console.log(response)
+            const redirect = response?.data.links.filter((item)=> item.method == 'REDIRECT')[0];
+            Router.push(redirect.href)
         });
       };
     
