@@ -13,6 +13,7 @@ interface InputProps {
   placeholder?: string;
   style?: React.CSSProperties;
   disabled?: boolean;
+  maxLength?: number;
 }
 
 export default function Input({
@@ -26,6 +27,7 @@ export default function Input({
   onChange,
   style,
   disabled,
+  maxLength,
   ...props
 }: InputProps) {
   if (type === "text" && multiline) {
@@ -53,6 +55,7 @@ export default function Input({
           placeholder={placeholder}
           type={type}
           onChange={(event) => onChange?.call(null, event.target.value)}
+          maxLength={maxLength}
         />
         {type === "time" && (
           <ReactSVG
