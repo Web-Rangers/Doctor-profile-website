@@ -10,7 +10,8 @@ import { useClinicsData } from 'components/useClinicsData';
 import axios from 'axios';
 import { ReactSVG } from 'react-svg';
 import StuffModal from '../../../components/modals/StuffModal';
-
+import { useQuery } from '@tanstack/react-query';
+import { getList } from 'components';
 import { useRouter } from 'next/router';
 
 export default function AddDoctor() {
@@ -22,6 +23,10 @@ export default function AddDoctor() {
 	const [uploadStaticPhoto, setUploadPhoto] = useState(``);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const router = useRouter();
+	const clinicId = router.query.id ?? null;
+	const branchId = router.query.branchId ?? null;
+
+	console.log('branchId', branchId);
 
 	const [requestBody, setRequestBody] = useState({
 		firstName: null,
@@ -47,7 +52,19 @@ export default function AddDoctor() {
 		branch: [],
 	});
 
-	console.log('requestBody', requestBody);
+	var branchDetail = useQuery(['key', 'branch'], () => {
+		return getList(`clinics/${clinicId}/branches/`, clinicId);
+	});
+
+	const barnchData = branchDetail?.data?.filter(
+		(item) => console.log('id', item.id) !== clinicId
+	);
+	console.log('branch data', barnchData);
+
+	useEffect(() => {
+		branchDetail.refetch();
+	}, [branchDetail, clinicId]);
+
 	const clinics = useClinicsData();
 
 	const makeListItems = (data) => {
@@ -95,13 +112,13 @@ export default function AddDoctor() {
 				{ label: 'Clinic doctor', value: 'CLINIC_DOCTOR' },
 			],
 			clinic: clinics?.data ? makeListItems(clinics) : [],
-			branch: [
-				{
-					label: '4140 Parker Rd. Allentown, New Mexico 31134',
-					value: '1',
-				},
-				{ label: 'Another Branch', value: '2' },
-			],
+			branch: branchDetail?.data?.map((item) => {
+				return {
+					label: item.displayName,
+					value: item.id,
+				};
+			}),
+
 			job: [
 				{ label: 'Job title', value: '1' },
 				{ label: 'Another job title', value: '2' },
@@ -250,6 +267,7 @@ export default function AddDoctor() {
 								}}
 								value={requestBody.type}
 							/>
+							{clinicId ? 'D' : 'D'}
 							<Select
 								disabled={requestBody.type === 'FREELANCER' ? true : false}
 								label='Clinic'
