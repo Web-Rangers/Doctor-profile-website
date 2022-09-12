@@ -53,17 +53,27 @@ export default function AddDoctor() {
 	});
 
 	var branchDetail = useQuery(['key', 'branch'], () => {
-		return getList(`clinics/${clinicId}/branches/`, clinicId);
+		return getList(
+			`clinics/${requestBody?.clinicBranchIds || clinicId}/branches/`,
+			requestBody?.clinicBranchIds || clinicId
+		);
 	});
 
-	const barnchData = branchDetail?.data?.filter(
-		(item) => console.log('id', item.id) !== clinicId
-	);
-	console.log('branch data', barnchData);
+	const branchData = branchId
+		? null
+		: branchDetail?.data?.filter(
+				(
+					(ids) =>
+					({ id }) =>
+						!ids.has(id) && ids.add(id)
+				)(new Set())
+		  );
+
+	console.log('branch data', requestBody?.clinicBranchIds || clinicId);
 
 	useEffect(() => {
 		branchDetail.refetch();
-	}, [branchDetail, clinicId]);
+	}, [clinicId, requestBody?.clinicBranchIds]);
 
 	const clinics = useClinicsData();
 
@@ -87,7 +97,9 @@ export default function AddDoctor() {
 			.post(
 				requestBody.type === 'FREELANCER'
 					? '/asclepius/v1/api/doctors/freelancers'
-					: `/asclepius/v1/api/clinics/${requestBody.clinicBranchIds}/doctors`,
+					: `/asclepius/v1/api/clinics/${
+							requestBody.clinicBranchIds || clinicId
+					  }/doctors`,
 				formData,
 				{
 					headers: {
@@ -103,7 +115,10 @@ export default function AddDoctor() {
 				setError((prev) => ({ ...prev, isError: true, errorMessage: error }))
 			);
 	};
-
+	console.log(
+		'requestBody.clinicBranchIds || clinicId',
+		requestBody.clinicBranchIds || clinicId
+	);
 	useEffect(() => {
 		setOptionLists((prev) => ({
 			...prev,
@@ -112,7 +127,7 @@ export default function AddDoctor() {
 				{ label: 'Clinic doctor', value: 'CLINIC_DOCTOR' },
 			],
 			clinic: clinics?.data ? makeListItems(clinics) : [],
-			branch: branchDetail?.data?.map((item) => {
+			branch: branchData?.map((item) => {
 				return {
 					label: item.displayName,
 					value: item.id,
@@ -124,7 +139,7 @@ export default function AddDoctor() {
 				{ label: 'Another job title', value: '2' },
 			],
 		}));
-	}, [clinics?.isLoading]);
+	}, [branchData, requestBody.clinicBranchIds]);
 
 	return (
 		<div className={pageStyles.container}>
@@ -254,33 +269,36 @@ export default function AddDoctor() {
 				<Card cardTitle='Job information'>
 					<div className={styles.row}>
 						<div className={styles.smallColumnLeft}>
-							<Select
-								label='Type'
-								labelStyle='outside'
-								options={optionLists.type}
-								onChange={(value) => {
-									setRequestBody((prev) => ({
-										...prev,
-										type: value,
-										iban: '',
-									}));
-								}}
-								value={requestBody.type}
-							/>
-							{clinicId ? 'D' : 'D'}
-							<Select
-								disabled={requestBody.type === 'FREELANCER' ? true : false}
-								label='Clinic'
-								labelStyle='outside'
-								options={optionLists.clinic}
-								value={requestBody.clinicBranchIds}
-								onChange={(value) => {
-									setRequestBody((prev) => ({
-										...prev,
-										clinicBranchIds: value,
-									}));
-								}}
-							/>
+							{branchId ? null : (
+								<Select
+									label='Type'
+									labelStyle='outside'
+									options={optionLists.type}
+									onChange={(value) => {
+										setRequestBody((prev) => ({
+											...prev,
+											type: value,
+											iban: '',
+										}));
+									}}
+									value={requestBody.type}
+								/>
+							)}
+							{clinicId ? null : (
+								<Select
+									disabled={requestBody.type === 'FREELANCER' ? true : false}
+									label='Clinic'
+									labelStyle='outside'
+									options={optionLists.clinic}
+									value={requestBody.clinicBranchIds}
+									onChange={(value) => {
+										setRequestBody((prev) => ({
+											...prev,
+											clinicBranchIds: value,
+										}));
+									}}
+								/>
+							)}
 							<Input
 								label='ID'
 								type='number'
@@ -300,16 +318,20 @@ export default function AddDoctor() {
 								}}
 								value={requestBody.professionId}
 							/>
-							<Select
-								disabled={requestBody.type === 'FREELANCER' ? true : false}
-								label='Branch'
-								labelStyle='outside'
-								options={optionLists.branch}
-								onChange={(value) => {
-									setRequestBody((prev) => ({ ...prev, branch: value }));
-								}}
-								value={requestBody.branch}
-							/>
+							{branchId ? null : (
+								<Select
+									disabled={requestBody.type === 'FREELANCER' ? true : false}
+									label='Branch'
+									labelStyle='outside'
+									options={optionLists.branch}
+									onChange={(value) => {
+										requestBody.branch
+											? null
+											: setRequestBody((prev) => ({ ...prev, branch: value }));
+									}}
+									value={requestBody.branch}
+								/>
+							)}
 							<Input
 								disabled={requestBody.type === 'FREELANCER' ? false : true}
 								label='IBAN'

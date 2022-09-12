@@ -138,7 +138,7 @@ export default function Branch() {
 		const newWorkingHours = workingHours?.map((item) => {
 			const getCurrentDay =
 				branchDetail?.data != null &&
-				branchDetail?.data.workingHours.filter((e) => e.dayId === item.days);
+				branchDetail?.data?.workingHours?.filter((e) => e.dayId === item.days);
 			if (getCurrentDay.length > 0) {
 				return {
 					...item,
@@ -259,7 +259,7 @@ export default function Branch() {
 									/>
 									<span className={cDStyles.clinicInfText}>
 										{branchDetail?.data != null
-											? branchDetail?.data?.address.address
+											? branchDetail?.data?.address?.address
 											: ''}
 									</span>
 								</div>

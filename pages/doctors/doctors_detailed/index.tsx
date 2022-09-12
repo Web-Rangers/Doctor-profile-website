@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 import {
 	getFreelancerDoctor,
 	getFreeLancerCertificate,
-	getDoctorCertificate,
+	getDoctor,
 } from 'components/useDoctorsData';
 import { useQuery } from '@tanstack/react-query';
 import EditDoctorModal from 'components/modals/EditDoctorModal';
