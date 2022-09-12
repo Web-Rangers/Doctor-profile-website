@@ -13,7 +13,6 @@ import StuffModal from '../../../components/modals/StuffModal';
 import { useQuery } from '@tanstack/react-query';
 import { getList } from 'components';
 import { useRouter } from 'next/router';
-import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
 export default function AddDoctor() {
 	const [error, setError] = useState({
@@ -60,17 +59,21 @@ export default function AddDoctor() {
 		);
 	});
 
-	function onlyUnique(value, index, self) {
-		return self.indexOf(value.id) === console.log('index', index);
-	}
+	const branchData = branchId
+		? null
+		: branchDetail?.data?.filter(
+				(
+					(ids) =>
+					({ id }) =>
+						!ids.has(id) && ids.add(id)
+				)(new Set())
+		  );
 
-	var branchData = branchDetail?.data?.filter(onlyUnique);
-
-	console.log('branch data', branchData);
+	console.log('branch data', requestBody?.clinicBranchIds || clinicId);
 
 	useEffect(() => {
 		branchDetail.refetch();
-	}, [branchDetail, clinicId, requestBody?.clinicBranchIds]);
+	}, [clinicId, requestBody?.clinicBranchIds]);
 
 	const clinics = useClinicsData();
 
@@ -112,7 +115,10 @@ export default function AddDoctor() {
 				setError((prev) => ({ ...prev, isError: true, errorMessage: error }))
 			);
 	};
-
+	console.log(
+		'requestBody.clinicBranchIds || clinicId',
+		requestBody.clinicBranchIds || clinicId
+	);
 	useEffect(() => {
 		setOptionLists((prev) => ({
 			...prev,
@@ -121,7 +127,7 @@ export default function AddDoctor() {
 				{ label: 'Clinic doctor', value: 'CLINIC_DOCTOR' },
 			],
 			clinic: clinics?.data ? makeListItems(clinics) : [],
-			branch: branchDetail?.data?.map((item) => {
+			branch: branchData?.map((item) => {
 				return {
 					label: item.displayName,
 					value: item.id,
@@ -133,7 +139,7 @@ export default function AddDoctor() {
 				{ label: 'Another job title', value: '2' },
 			],
 		}));
-	}, [branchDetail?.data, requestBody.clinicBranchIds]);
+	}, [branchData, requestBody.clinicBranchIds]);
 
 	return (
 		<div className={pageStyles.container}>
@@ -263,19 +269,21 @@ export default function AddDoctor() {
 				<Card cardTitle='Job information'>
 					<div className={styles.row}>
 						<div className={styles.smallColumnLeft}>
-							<Select
-								label='Type'
-								labelStyle='outside'
-								options={optionLists.type}
-								onChange={(value) => {
-									setRequestBody((prev) => ({
-										...prev,
-										type: value,
-										iban: '',
-									}));
-								}}
-								value={requestBody.type}
-							/>
+							{branchId ? null : (
+								<Select
+									label='Type'
+									labelStyle='outside'
+									options={optionLists.type}
+									onChange={(value) => {
+										setRequestBody((prev) => ({
+											...prev,
+											type: value,
+											iban: '',
+										}));
+									}}
+									value={requestBody.type}
+								/>
+							)}
 							{clinicId ? null : (
 								<Select
 									disabled={requestBody.type === 'FREELANCER' ? true : false}
