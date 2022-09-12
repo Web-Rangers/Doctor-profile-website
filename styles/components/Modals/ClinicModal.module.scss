@@ -274,3 +274,33 @@ div.modal {
     background-color: #fff;
     padding:20px;
 }
+
+.validation {
+    div {
+        border: 1px solid red!important;
+    }
+}
+
+.removeValidate {
+    div {
+        border: 1px solid #b3b1bb!important;
+    }
+}
+
+.validationForHours {
+    border: 1px solid red!important;
+}
+
+.validationForSelect {
+    border: 1px solid red!important;
+}
+
+.removeWorkingValidations, .removeSelectValidation{
+    border: 1px solid #b3b1bb!important;
+}
+
+.removeSelectValidation {
+    h2 {
+        color: red
+    }
+}

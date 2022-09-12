@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { useClinicsData, encodeImageFileAsURL } from 'components';
+import { useClinicsData, encodeImageFileAsURL, Select } from 'components';
 import Image from 'next/image';
 import { ReactSVG } from 'react-svg';
 
@@ -27,6 +27,7 @@ interface ClinicModalProps {
     setBool?: any;
     isOpen?: boolean;
     setExistClinic?: any;
+    municipalities?: any;
 }
 
 export default function AddClinicModal({
@@ -34,7 +35,8 @@ export default function AddClinicModal({
     onSave,
     onCancel,
     isOpen,
-    setExistClinic
+    setExistClinic,
+    municipalities
 }: ClinicModalProps) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -90,6 +92,9 @@ export default function AddClinicModal({
             active: false
         }
     ]);
+    const [municipal, setMunicipal]= useState('');
+    const [validOpen, setValidOpen] = useState(false);
+    const [validation, setValidation] = useState<any>();
 
     const addClinic = async () => {
         let formData = new FormData()
@@ -98,7 +103,7 @@ export default function AddClinicModal({
         formData.append('phone', phone)
         formData.append('address', address)
         formData.append('description', about)
-        formData.append('cityId', '80')
+        formData.append('cityId', municipal)
         formData.append('eligibleForVAT', JSON.stringify(eligable))
 
         for(let i = 0; i < workingHours.length; i++){
@@ -127,7 +132,7 @@ export default function AddClinicModal({
         })
     }
     
-    const { mutate: addClinics } = useMutation(addClinic)
+    const { mutate: addClinics } = useMutation(addClinic);
 
     return (
         <>
@@ -220,6 +225,10 @@ export default function AddClinicModal({
                             type="text"
                             label="Name"
                             value={name}
+                            className={classNames({
+                                [styles.validation]: validation && !validation['name'],
+                                [styles.removeValidate]: name
+                            })}
                             onChange={(value: string) => setName(value)}
                         />
                     </div>
@@ -228,7 +237,11 @@ export default function AddClinicModal({
                             type="number"
                             label="Phone number"
                             value={phone}
-                            onChange={(value: string) => setPhone(value)}
+                            onChange={(value: string) => {setPhone(value)}}
+                            className={classNames({
+                                [styles.validation]: validation && !validation['phone'],
+                                [styles.removeValidate]: phone
+                            })}
                         />
                     </div>
                     <div className={classNames(styles.modalContentRow, styles.workingHours)}>
@@ -236,7 +249,10 @@ export default function AddClinicModal({
                         <input 
                             type="text"
                             readOnly
-                            className={styles.workingInp}
+                            className={classNames(styles.workingInp, {
+                                [styles.validationForHours]: validation && validation['workingHours'],
+                                [styles.removeWorkingValidations]: getFirstStartEndHours(workingHours) != undefined
+                            })}
                             value={getFirstStartEndHours(workingHours)?.startHour && 
                                 getFirstStartEndHours(workingHours)?.startHour + 
                                 ' - ' + 
@@ -250,11 +266,26 @@ export default function AddClinicModal({
                         />
                     </div>
                     <div className={styles.modalContentRow}>
+                        <Select
+                            label="Municipalities"
+                            labelStyle="outside"
+                            onChange={(e) => {setMunicipal(e)}}
+                            value={municipal}
+                            options={municipalities?.map((item)=> ({label: item.title, value: item.id}))}
+                            inputClassname={classNames({
+                                [styles.validationForSelect]: validation && !validation['municipal'],
+                                [styles.removeSelectValidation]: municipal
+                            })}
+                        />
                         <Input
                             type="text"
                             label="Address"
                             value={address}
                             onChange={(value: string) => setAddress(value)}
+                            className={classNames({
+                                [styles.validation]: validation && !validation['address'],
+                                [styles.removeValidate]: address
+                            })}
                         />
                     </div>
                     <div className={styles.modalContentRow}>
@@ -264,6 +295,10 @@ export default function AddClinicModal({
                             multiline
                             value={about}
                             onChange={(value: string) => setAbout(value)}
+                            className={classNames({
+                                [styles.validation]: validation && !validation['about'],
+                                [styles.removeValidate]: about
+                            })} 
                         />
                     </div>
                     <div className={styles.modalContentRow}>
@@ -275,6 +310,11 @@ export default function AddClinicModal({
                             onChange={() => { setEligable(!eligable) }}
                         />
                     </div>
+                    {
+                        validOpen && <div>
+                            *please fill all the inputs
+                        </div>
+                    }
                 </div>
                 <div className={styles.whiteSpace}></div>
                 <div className={styles.modalActions}>
@@ -289,9 +329,20 @@ export default function AddClinicModal({
                         variant="fill"
                         onClick={() => {
                             {
-                                name && address ?
+                                name && phone && address && about && uploadPhoto ?
                                     addClinics()
-                                    : alert('Fields are not filled')
+                                    : setValidation(()=>(
+                                        {
+                                            name, 
+                                            phone, 
+                                            address,
+                                            about,
+                                            uploadPhoto,
+                                            municipal,
+                                            workingHours: getFirstStartEndHours(workingHours) == undefined
+                                        }
+                                    ))
+                                    setValidOpen(true)
                             }
                         }
                         }

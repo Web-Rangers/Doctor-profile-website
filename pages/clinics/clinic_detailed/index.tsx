@@ -1,5 +1,5 @@
 import { ReactSVG } from 'react-svg';
-import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, Input, TableServices, getList, AddBranchModal, dayz, getFirstStartEndHours, RichObjectTreeView, AlreadyExistClinic } from 'components';
+import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, Input, Button, getList, AddBranchModal, dayz, getFirstStartEndHours, RichObjectTreeView, AlreadyExistClinic } from 'components';
 import StarRatings from 'react-star-ratings';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
@@ -120,7 +120,7 @@ export default function ClinicDetailed() {
         branch.refetch()
         services.refetch();
 
-        console.log(doctors)
+        console.log(data)
     }, [id])
 
 
@@ -161,10 +161,8 @@ export default function ClinicDetailed() {
         let newData = services?.data?.map((item)=>(item.services[0])).filter((item)=> item.parentServiceId == null);
         
         setServices(newData)
-        console.log('this is services data', newData)
     },[services?.data])
 
-    console.log(existClinic)
 
     return (
         <>
@@ -425,6 +423,12 @@ export default function ClinicDetailed() {
                                 <div className={styles.servicesTable}>
                                     <div className={styles.servicesHeader}>
                                         <h2>Services</h2>
+                                        <Button 
+                                            label="Add Service"
+                                            variant="fill"
+                                            size="large"
+                                            className={styles.serviceBtn}
+                                        />
                                         <div className={styles.servicesSearch}>
                                             <Input 
                                                 type="text"
@@ -439,7 +443,9 @@ export default function ClinicDetailed() {
                                     {
                                         <RichObjectTreeView 
                                             data={serviceData} 
+                                            originalData={services?.data?.map((item)=>(item.services[0]))}
                                             pagination={{ pageSize: 8, initialPage: 1 }} 
+                                            contractId={data?.contracts?.contractId}
                                         />
                                     }
                                 </div>
@@ -469,18 +475,18 @@ export default function ClinicDetailed() {
                                 <StuffTab
                                     id={id}
                                     stuff={doctors?.data?.content?.map(
-                                        (i) => ({
+                                        (i) => (
+                                            {
                                             icon: i.pictureUrl,
-                                            address: '11 Simon Chikovani St',
-                                            amountOfOrders: 143,
-                                            city: 'Akhaltsikhe',
+                                            address: data?.address?.address,
+                                            amountOfOrders: '',
+                                            city: '',
                                             clinic: i.clinics[0].displayName,
                                             description:
                                                 `${i.professions[0].name} • ${i.doctorType ==='CLINIC_DOCTOR' ? 'Clinic Doctor' : 'Freelancer'}`,
                                             gender: i.gender === 'm' ? 'Male' : 'Female',
                                             name: i.firstName + ' ' + i.lastName,
-                                            rating: 4.7,
-                                            registrationDate: '04.11.2017',
+                                            registrationDate: '',
                                         })
                                     )}
                                 />

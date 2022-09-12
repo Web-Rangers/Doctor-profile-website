@@ -16,6 +16,7 @@ interface SelectProps {
   className?: string;
   labelStyle?: "inside" | "outside";
   disabled?: boolean;
+  inputClassname?: string;
 }
 
 export default function Select({
@@ -26,6 +27,7 @@ export default function Select({
   value,
   className,
   labelStyle = "inside",
+  inputClassname
 }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(
@@ -49,7 +51,7 @@ export default function Select({
       >
         {disabled ? null : (
           <div
-            className={styles.body}
+            className={classNames(styles.body, inputClassname)}
             onClick={() => {
               setIsOpen(!isOpen);
             }}

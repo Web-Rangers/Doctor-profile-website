@@ -6,11 +6,13 @@ import tableStyles from "styles/components/Table.module.scss";
 import { useState, useEffect } from "react";
 import { useClinicsData } from "components/useClinicsData";
 import axios from "axios";
+import {getList} from 'components';
 import { useQuery, useMutation } from "@tanstack/react-query";
 import Fuse from "fuse.js";
 
 export default function Clinics({ list }) {
   const { data, refetch, status } = useClinicsData();
+  var municipalities = useQuery(["key", 'municipalities'], ()=> { return getList(`municipalities`, '1') });
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -187,7 +189,6 @@ export default function Clinics({ list }) {
     setSearchValue(e.target.value);
   };
 
-  console.log(existClinic.isOpen)
   return (
     <>
       {
@@ -223,6 +224,7 @@ export default function Clinics({ list }) {
           }}
           isOpen={existClinic.isOpen}
           setExistClinic={(bol)=> setExistClinic({isOpen: bol.isOpen, data: bol.data})}
+          municipalities={municipalities?.data}
         />
       )}
       <div className={styles.container}>
