@@ -14,6 +14,7 @@ interface CertificateData {
 	issueDate?: string;
 	issuer?: any;
 	title?: string;
+	files?: any[];
 }
 
 interface CertificateModalProps {
@@ -35,13 +36,14 @@ export default function AddDoctorCertificate({
 	const [fileLimit, setFileLimit] = useState(false);
 
 	const [requestBody, setRequestBody] = useState({
+		doctorId: id,
 		issuer: null,
 		title: null,
 		credentialId: null,
-		issueDate: null,
 		credentialInfo: null,
+		issueDate: null,
 		expirationDate: null,
-		doctorId: id,
+		files: null,
 	});
 
 	const handleUploadFiles = (files) => {
@@ -71,48 +73,58 @@ export default function AddDoctorCertificate({
 		setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
 	};
 
-	const uploadFile = async () => {
+	// const uploadFile = async () => {
+	// 	let formData = new FormData();
+
+	// 	for (var i = 0; i < uploadedFiles.length; i++) {
+	// 		formData.append('pictureFile', uploadedFiles[i]);
+	// 	}
+	// 	console.log('data', formData);
+	// 	return axios
+	// 		.post(
+	// 			`https://asclepius.pirveli.ge/asclepius/v1/api/gallery/doctor/${id}`,
+	// 			formData,
+	// 			{
+	// 				headers: {
+	// 					'Content-Type': 'multipart/form-data',
+	// 				},
+	// 			}
+	// 		)
+	// 		.then((response) => {
+	// 			console.log('this is response hbfsjdbc', response);
+	// 			refetch();
+	// 		})
+	// 		.catch((error) => {
+	// 			if (error.response) console.log(error.response);
+	// 		});
+	// };
+
+	const requestFormData = async (id) => {
 		let formData = new FormData();
+		formData.append('doctorId', id);
+		formData.append('issuer', requestBody?.issuer);
+		formData.append('title', requestBody?.title);
+		formData.append('credentialId', requestBody?.credentialId);
+		formData.append('credentialInfo', requestBody?.credentialInfo);
+		formData.append('issueDate', requestBody?.issueDate);
+		formData.append('expirationDate', requestBody?.expirationDate);
 
 		for (var i = 0; i < uploadedFiles.length; i++) {
-			formData.append('pictureFile', uploadedFiles[i]);
+			formData.append('files', uploadedFiles[i]);
 		}
-		console.log('data', formData);
+
 		return axios
 			.post(
-				`https://asclepius.pirveli.ge/asclepius/v1/api/gallery/doctor/${id}`,
+				`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/${id}/certificates`,
 				formData,
 				{
 					headers: {
-						'Content-Type': 'multipart/form-data',
-					},
-				}
-			)
-			.then((response) => {
-				console.log('this is response hbfsjdbc', response);
-				refetch();
-			})
-			.catch((error) => {
-				if (error.response) console.log(error.response);
-			});
-	};
-
-	console.log('uploadFile', uploadedFiles);
-
-	const requestFormData = async () => {
-		return axios
-			.post(
-				`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers/${id}/certificates`,
-				requestBody,
-				{
-					headers: {
-						'Content-Type': 'application/json',
+						'Content-Type': `multipart/form-data`,
 					},
 				}
 			)
 			.then((response) => {
 				console.log('this is response res', response);
-				uploadFile();
 				onClose();
 				refetch();
 			})
@@ -248,7 +260,7 @@ export default function AddDoctorCertificate({
 								label='Save'
 								size='large'
 								variant='fill'
-								onClick={() => requestFormData()}
+								onClick={() => requestFormData(id)}
 							/>
 						</div>
 					</div>

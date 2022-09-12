@@ -26,8 +26,6 @@ export default function AddDoctor() {
 	const clinicId = router.query.id ?? null;
 	const branchId = router.query.branchId ?? null;
 
-	console.log('branchId', branchId);
-
 	const [requestBody, setRequestBody] = useState({
 		firstName: null,
 		lastName: null,
@@ -52,7 +50,7 @@ export default function AddDoctor() {
 		branch: [],
 	});
 
-	var branchDetail = useQuery(['key', 'branch'], () => {
+	const branchDetail = useQuery(['key', 'branch'], () => {
 		return getList(
 			`clinics/${requestBody?.clinicBranchIds || clinicId}/branches/`,
 			requestBody?.clinicBranchIds || clinicId
@@ -69,11 +67,11 @@ export default function AddDoctor() {
 				)(new Set())
 		  );
 
-	console.log('branch data', requestBody?.clinicBranchIds || clinicId);
+	console.log('branch data', branchData);
 
 	useEffect(() => {
 		branchDetail.refetch();
-	}, [clinicId, requestBody?.clinicBranchIds]);
+	}, [branchDetail, clinicId, requestBody.clinicBranchIds]);
 
 	const clinics = useClinicsData();
 
@@ -108,17 +106,14 @@ export default function AddDoctor() {
 				}
 			)
 			.then((response) => {
-				console.log(response);
+				console.log('1', response);
 				router.push('/doctors');
 			})
 			.catch((error) =>
 				setError((prev) => ({ ...prev, isError: true, errorMessage: error }))
 			);
 	};
-	console.log(
-		'requestBody.clinicBranchIds || clinicId',
-		requestBody.clinicBranchIds || clinicId
-	);
+
 	useEffect(() => {
 		setOptionLists((prev) => ({
 			...prev,
@@ -139,7 +134,7 @@ export default function AddDoctor() {
 				{ label: 'Another job title', value: '2' },
 			],
 		}));
-	}, [branchData, requestBody.clinicBranchIds]);
+	}, [clinicId, requestBody.clinicBranchIds, branchData]);
 
 	return (
 		<div className={pageStyles.container}>
@@ -269,7 +264,7 @@ export default function AddDoctor() {
 				<Card cardTitle='Job information'>
 					<div className={styles.row}>
 						<div className={styles.smallColumnLeft}>
-							{branchId ? null : (
+							{branchId || clinicId ? null : (
 								<Select
 									label='Type'
 									labelStyle='outside'
@@ -301,7 +296,7 @@ export default function AddDoctor() {
 							)}
 							<Input
 								label='ID'
-								type='number'
+								type='text'
 								maxLength={11}
 								onChange={(value) =>
 									setRequestBody((prev) => ({ ...prev, personalId: value }))

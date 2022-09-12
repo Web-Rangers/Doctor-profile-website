@@ -17,12 +17,12 @@ export default function DoctorsList() {
 	});
 
 	useEffect(() => {
-	const allData = freelance?.data?.content?.concat(
-		clinicdoctors?.data?.content
-	);
-	  setAllData(allData)
-	}, [freelance?.data, clinicdoctors?.data])
-	
+		const allData = freelance?.data?.content?.concat(
+			clinicdoctors?.data?.content
+		);
+		setAllData(allData);
+	}, [freelance?.data, clinicdoctors?.data]);
+
 	return (
 		<Tabs>
 			<TabPanel className={tabStyles.tabPanel}>

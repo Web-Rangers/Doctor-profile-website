@@ -50,6 +50,16 @@ export default function DoctorsDetailed() {
 		}
 	);
 
+	const clinicDoctor = useQuery(['key', 'clinicdoctorDetailed'], () => {
+		return getDoctor(id);
+	});
+
+	const doctorData =
+		clinicDoctor?.data?.doctorType === 'CLINIC_DOCTOR'
+			? clinicDoctor?.data
+			: data;
+
+	console.log('clinicDoctor', doctorData);
 	if (router.isReady) {
 		refetch();
 	}
@@ -58,30 +68,28 @@ export default function DoctorsDetailed() {
 		return getFreeLancerCertificate(id);
 	});
 
-	console.log('education', certificateEducation?.data?.educations);
-
 	useEffect(() => {
-		let numbers = data?.contactInfos.map((contact) => {
+		let numbers = doctorData?.contactInfos?.map((contact) => {
 			if (contact?.type.value == 'mobile') {
 				return [contact.value];
 			}
 		});
 
-		let emails = data?.contactInfos.map((contact) => {
+		let emails = doctorData?.contactInfos?.map((contact) => {
 			if (contact?.type.value == 'mail') {
 				return [contact.value];
 			}
 		});
 		setPhone(numbers);
 		setEmail(emails);
-	}, [data]);
+	}, [doctorData]);
 
 	return (
 		<>
 			{false && <AddOrder />}
 			{isOpen && (
 				<EditDoctorModal
-					data={data}
+					data={doctorData}
 					onClose={() => setIsOpen(false)}
 					onSave={(newData) => {
 						setIsOpen(false);
@@ -114,19 +122,19 @@ export default function DoctorsDetailed() {
 					<Card className={styles.doctorRow}>
 						<div className={styles.imageContainer}>
 							<img
-								src={`${data?.pictureUrl + `&?${new Date().getTime()}`}`}
+								src={`${doctorData?.pictureUrl + `&?${new Date().getTime()}`}`}
 								alt='doctor'
 								className={styles.image}
 							/>
 						</div>
 						<div className={styles.infoContainer}>
 							<div className={styles.name}>
-								{data != null ? data?.firstName : ''}
+								{doctorData != null ? doctorData?.firstName : ''}
 							</div>
 							<div className={styles.speciality}>
 								{' '}
-								{data != null
-									? data?.professions && data?.professions[0].name
+								{doctorData != null
+									? doctorData?.professions && doctorData?.professions[0].name
 									: ''}
 							</div>
 							<div className={styles.mail}>
@@ -200,22 +208,25 @@ export default function DoctorsDetailed() {
 										setIsOpen(false);
 									}}
 									doctor={{
-										firstName: data != null ? data?.firstName : '',
-										lastName: data != null ? data?.lastName : '',
-										pictureFile: data != null ? data?.pictureUrl : '',
-										phone: data != null ? phone : '',
-										email: data != null ? email : '',
+										firstName: doctorData != null ? doctorData?.firstName : '',
+										lastName: doctorData != null ? doctorData?.lastName : '',
+										pictureFile:
+											doctorData != null ? doctorData?.pictureUrl : '',
+										phone: doctorData != null ? phone : '',
+										email: doctorData != null ? email : '',
 
-										aboutMe: data != null ? data?.aboutMe : '',
-										clinic: data != null ? data?.clinic : '',
+										aboutMe: doctorData != null ? doctorData?.aboutMe : '',
+										clinic: doctorData != null ? doctorData?.clinic : '',
 										clinicAddress:
 											'4140 Parker Rd. Allentown, New Mexico 31134',
-										dateOfBirth: data != null ? data?.dateOfBirth : '',
-										gender: data != null ? data?.gender : '',
-										iban: data != null ? data?.iban : '',
-										id: data != null ? data?.id : '',
-										idNumber: data != null ? data?.idNumber : '',
-										doctorType: data != null ? data?.doctorType : '',
+										dateOfBirth:
+											doctorData != null ? doctorData?.dateOfBirth : '',
+										gender: doctorData != null ? doctorData?.gender : '',
+										iban: doctorData != null ? doctorData?.iban : '',
+										id: doctorData != null ? doctorData?.id : '',
+										idNumber: doctorData != null ? doctorData?.idNumber : '',
+										doctorType:
+											doctorData != null ? doctorData?.doctorType : '',
 
 										media: [
 											{
@@ -250,48 +261,56 @@ export default function DoctorsDetailed() {
 											price: '100',
 											doctorCommission: '10',
 											platformCommission: '40',
+											serviceDuration: '15',
 										},
 										{
 											name: 'Cardiology',
 											price: '100',
 											doctorCommission: '10',
 											platformCommission: '40',
+											serviceDuration: '15',
 										},
 										{
 											name: 'Dental',
 											price: '100',
 											doctorCommission: '10',
 											platformCommission: '40',
+											serviceDuration: '15',
 										},
 										{
 											name: 'General Medicine',
 											price: '100',
 											doctorCommission: '10',
 											platformCommission: '40',
+											serviceDuration: '15',
 										},
 										{
 											name: 'Orthopedics',
 											price: '100',
 											doctorCommission: '10',
 											platformCommission: '40',
+											serviceDuration: '15',
 										},
 										{
 											name: 'Pediatrics',
 											price: '100',
 											doctorCommission: '10',
 											platformCommission: '40',
+											serviceDuration: '15',
 										},
 										{
 											name: 'Psychiatry',
 											price: '100',
 											doctorCommission: '10',
 											platformCommission: '40',
+											serviceDuration: '15',
 										},
 										{
 											name: 'Surgery',
 											price: '100',
 											doctorCommission: '10',
 											platformCommission: '40',
+											serviceDuration: '15',
 										},
 									]}
 								/>

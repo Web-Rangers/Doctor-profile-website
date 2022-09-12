@@ -139,7 +139,7 @@ export default function Branch() {
 			const getCurrentDay =
 				branchDetail?.data != null &&
 				branchDetail?.data?.workingHours?.filter((e) => e.dayId === item.days);
-			if (getCurrentDay.length > 0) {
+			if (getCurrentDay?.length > 0) {
 				return {
 					...item,
 					startHour: getCurrentDay[0]?.startHour,
