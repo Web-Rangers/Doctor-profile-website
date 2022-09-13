@@ -69,9 +69,12 @@ export default function AddDoctor() {
 	async function refetchBranch(value) {
 		try {
 			const response = await fetch(
-				`https://asclepius.pirveli.ge/asclepius/v1/api/clinics/${value}/branches/`
+				`https://asclepius.pirveli.ge/asclepius/v1/api/clinics/${
+					value || clinicId
+				}/branches/`
 			);
 			const res = await response.json();
+			console.log('res', res);
 			setRequestBody((prev) => ({ ...prev, clinicBranchIds: value }));
 			let branches = res?.filter(
 				(
@@ -96,6 +99,10 @@ export default function AddDoctor() {
 			console.log(error);
 		}
 	}
+
+	useEffect(() => {
+		clinicId ? refetchBranch(clinicId) : null;
+	}, [clinicId]);
 
 	useEffect(() => {
 		clinics.refetch();
