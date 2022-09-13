@@ -272,15 +272,15 @@ export function AddServicesModal({
                 onClick={()=> {
                     const serv = services.map((item)=>{
                         return {
-                            "contractId": contractId,
-                            "serviceId": item.id,
-                            "paramValues": [
+                            "contract_id": contractId,
+                            "service_id": item.id,
+                            "param_values": [
                               {
-                                "parameterId": null,
-                                "numberValue": null,
-                                "stringValue": "string",
-                                "dateValue": null,
-                                "serviceParamValueListId": inp[item.title]
+                                "parameter_id": null,
+                                "number_value": null,
+                                "string_value": "string",
+                                "date_value": null,
+                                "service_param_value_list_id": inp[item.title]
                               }
                             ]
                           }

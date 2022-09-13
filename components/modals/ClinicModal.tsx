@@ -93,6 +93,8 @@ export default function ClinicModal({
     const [registrationDate, setRegistrationDate] = useState(
         data?.registrationDate
     );
+    const [validOpen, setValidOpen] = useState(false);
+    const [validation, setValidation] = useState<any>();
 
     const modifyClinic = async () => {
         let formData = new FormData()
@@ -247,12 +249,20 @@ export default function ClinicModal({
                         label="E-mail"
                         value={email && email}
                         onChange={(value: string) => setEmail(value)}
+                        className={classNames({
+                            [styles.validation]: validation && !validation['email'],
+                            [styles.removeValidate]: email
+                        })}
                     />
                     <Input
                         type="number"
                         label="Phone number"
                         value={phone}
                         onChange={(value: string) => setPhone(value)}
+                        className={classNames({
+                            [styles.validation]: validation && !validation['phone'],
+                            [styles.removeValidate]: phone
+                        })}
                     />
                 </div>
                 <div className={classNames(styles.modalContentRow, styles.workingHours)}>
@@ -276,12 +286,20 @@ export default function ClinicModal({
                         onChange={(e) => {setMunicipaly(e)}}
                         value={municipaly}
                         options={municipalities?.map((item)=> ({label: item.title, value: item.id}))}
+                        inputClassname={classNames({
+                            [styles.validationForSelect]: validation && !validation['municipaly'],
+                            [styles.removeSelectValidation]: municipaly
+                        })}
                     />
                     <Input
                         type="text"
                         label="Address"
                         value={address}
                         onChange={(value: string) => setAddress(value)}
+                        className={classNames({
+                            [styles.validation]: validation && !validation['address'],
+                            [styles.removeValidate]: address
+                        })}
                     />
                 </div>
                 <div className={styles.modalContentRow}>
@@ -291,8 +309,20 @@ export default function ClinicModal({
                         multiline
                         value={about}
                         onChange={(value: string) => setAbout(value)}
+                        className={classNames({
+                            [styles.validation]: validation && !validation['about'],
+                            [styles.removeValidate]: about
+                        })}
                     />
                 </div>
+                {
+                    validOpen && <div className={styles.redFlag}>
+                        *please fill all the inputs 
+                        {
+                            (validation && !validation['uploadPhoto']) && ' and Upload photo'
+                        }
+                    </div>
+                }
             </div>
             <div className={styles.whiteSpace}></div>
             <div className={styles.modalActions}>
@@ -307,12 +337,21 @@ export default function ClinicModal({
                     variant="fill"
                     onClick={() =>
                         {
-                            if(email.includes('@')){
-                                clinicUpdate();
-                            }else {
-                                alert('write correct email')
+                            {
+                                phone && address && about && image && email && getFirstStartEndHours(workingHours) != undefined ?
+                                clinicUpdate() : setValidation(()=>(
+                                    {
+                                        phone, 
+                                        address,
+                                        about,
+                                        uploadPhoto: image,
+                                        municipaly,
+                                        workingHours: getFirstStartEndHours(workingHours) == undefined
+                                    }
+                                ))
+                                setValidOpen(true)
                             }
-                    }
+                        }
                     }
                     size="large"
                 />

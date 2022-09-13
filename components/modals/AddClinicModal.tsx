@@ -8,6 +8,8 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { useClinicsData, encodeImageFileAsURL, Select } from 'components';
 import Image from 'next/image';
 import { ReactSVG } from 'react-svg';
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 
 interface ClinicData {
     name?: string;
@@ -332,7 +334,7 @@ export default function AddClinicModal({
                         variant="fill"
                         onClick={() => {
                             {
-                                name && phone && address && about && uploadPhoto ?
+                                name && phone && address && about && uploadPhoto && getFirstStartEndHours(workingHours) != undefined ?
                                     addClinics()
                                     : setValidation(()=>(
                                         {

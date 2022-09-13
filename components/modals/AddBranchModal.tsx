@@ -95,6 +95,8 @@ export default function AddBranchModal({
             active: false
         }
     ]);
+    const [validOpen, setValidOpen] = useState(false);
+    const [validation, setValidation] = useState<any>();
 
     const addClinic = async () => {
         let formData = new FormData()
@@ -129,6 +131,12 @@ export default function AddBranchModal({
                     isOpen: true
                 })
             }
+            onSave?.call(null, {
+                phone,
+                address,
+                time,
+                about,
+            })
         })
     }
     
@@ -226,6 +234,10 @@ export default function AddBranchModal({
                             label="Name"
                             value={name}
                             onChange={(value: string) => setName(value)}
+                            className={classNames({
+                                [styles.validation]: validation && !validation['name'],
+                                [styles.removeValidate]: name
+                            })}
                         />
                     </div>
                     <div className={styles.modalContentRow}>
@@ -234,6 +246,10 @@ export default function AddBranchModal({
                             label="Phone number"
                             value={phone}
                             onChange={(value: string) => setPhone(value)}
+                            className={classNames({
+                                [styles.validation]: validation && !validation['phone'],
+                                [styles.removeValidate]: phone
+                            })}
                         />
                     </div>
                     <div className={classNames(styles.modalContentRow, styles.workingHours)}>
@@ -241,12 +257,15 @@ export default function AddBranchModal({
                         <input 
                             type="text"
                             readOnly
-                            className={styles.workingInp}
                             value={getFirstStartEndHours(workingHours)?.startHour && 
                                 getFirstStartEndHours(workingHours)?.startHour + 
                                 ' - ' + 
                                 getFirstStartEndHours(workingHours)?.endHour
                             }
+                            className={classNames(styles.workingInp, {
+                                [styles.validationForHours]: validation && validation['workingHours'],
+                                [styles.removeWorkingValidations]: getFirstStartEndHours(workingHours) != undefined
+                            })}
                         />
                         <ReactSVG 
                             className={styles.workingIcon} 
@@ -261,12 +280,20 @@ export default function AddBranchModal({
                             onChange={(e) => {setMunicipaly(e)}}
                             value={municipaly}
                             options={municipalities?.map((item)=> ({label: item.title, value: item.id}))}
+                            inputClassname={classNames({
+                                [styles.validationForSelect]: validation && !validation['municipaly'],
+                                [styles.removeSelectValidation]: municipaly
+                            })}
                         />
                         <Input
                             type="text"
                             label="Address"
                             value={address}
                             onChange={(value: string) => setAddress(value)}
+                            className={classNames({
+                                [styles.validation]: validation && !validation['address'],
+                                [styles.removeValidate]: address
+                            })}
                         />
                     </div>
                     <div className={styles.modalContentRow}>
@@ -276,6 +303,10 @@ export default function AddBranchModal({
                             multiline
                             value={about}
                             onChange={(value: string) => setAbout(value)}
+                            className={classNames({
+                                [styles.validation]: validation && !validation['about'],
+                                [styles.removeValidate]: about
+                            })}
                         />
                     </div>
                     <div className={styles.modalContentRow}>
@@ -287,6 +318,14 @@ export default function AddBranchModal({
                             onChange={() => { setEligable(!eligable) }}
                         />
                     </div>
+                    {
+                        validOpen && <div className={styles.redFlag}>
+                            *please fill all the inputs 
+                            {
+                                (validation && !validation['uploadPhoto']) && ' and Upload photo'
+                            }
+                        </div>
+                    }
                 </div>
                 <div className={styles.whiteSpace}></div>
                 <div className={styles.modalActions}>
@@ -301,16 +340,21 @@ export default function AddBranchModal({
                         variant="fill"
                         onClick={() => {
                             {
-                                name && address ?
+                                name && address && phone && about && uploadPhoto && municipaly && getFirstStartEndHours(workingHours) != undefined ?
                                     addClinics()
-                                    : alert('Fields are not filled')
+                                    : setValidation(()=>(
+                                        {
+                                            name, 
+                                            phone, 
+                                            address,
+                                            about,
+                                            uploadPhoto,
+                                            municipaly,
+                                            workingHours: getFirstStartEndHours(workingHours) == undefined
+                                        }
+                                    ))
+                                    setValidOpen(true)
                             }
-                            onSave?.call(null, {
-                                phone,
-                                address,
-                                time,
-                                about,
-                            })
                         }
                         }
                         size="large"
