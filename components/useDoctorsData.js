@@ -64,3 +64,12 @@ export const getFreeLancerCertificate = async (id) => {
 	).data;
 	return res;
 };
+
+export const getFreeLancerCervices = async () => {
+	const res = (
+		await axios.get(
+			`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers/contract-type-to-services`
+		)
+	).data;
+	return res;
+};
