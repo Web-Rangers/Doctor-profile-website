@@ -5,7 +5,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 import Link from 'next/link';
 import styles from 'styles/components/multiSelectTree.module.scss';
-import { CheckBox, Modal, Input, Button } from 'components';
+import { CheckBox, Modal, Input, Button, createTree } from 'components';
 import Select from 'react-select';
 import { style } from '@mui/system';
 import {useEffect, useState, useCallback} from 'react';
@@ -21,13 +21,15 @@ interface RenderTree {
     id: string;
     title: string;
     children?: readonly RenderTree[];
+    variant?: string;
 }
   
 export default function RichObjectTreeView({
     data,
     originalData,
     pagination,
-    contractId
+    contractId,
+    variant
 }) {
     const [options, setOptions] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
@@ -43,8 +45,8 @@ export default function RichObjectTreeView({
         node: null
     });
 
-    var service = useQuery(["key", 'service'], ()=> { return getList(`accounting/contract-to-service/391/`, '391') });
-
+    var service = useQuery(["key", 'service'], ()=> { return getList(`clinics/contract-to-service/`, currentService) });
+   
     function recurseServices(parentId) {
         if(parentId != null){
             const service = originalData?.filter((item)=> item.id == parentId)[0];
@@ -60,11 +62,13 @@ export default function RichObjectTreeView({
     async function addService(item) {
         await axios.post('/asclepius/v1/api/accounting/contract-to-service', item)
                     .then((response)=> console.log(response))
-                    .catch((error)=> console.log(error))
+                    .catch((error)=> alert(error.response.data.message))
     }
 
     useEffect(()=>{
         service.refetch();
+
+        console.log('added services', service?.data)
     },[service?.data])
 
     const renderTree = (nodes: RenderTree) => {
@@ -74,14 +78,17 @@ export default function RichObjectTreeView({
                     <div 
                         className={styles.checkbox}
                     >
-                        <CheckBox className={styles.disabledCheckbox} id={nodes?.id} />
+                        {
+                            variant == 'current' ? <CheckBox className={styles.disabledCheckbox} id={nodes?.id} checked /> : <CheckBox className={styles.disabledCheckbox} id={nodes?.id} />
+                        }
                     </div>
                     <div>{nodes?.id}</div>
                     <div>{nodes?.title}</div>
                     <div>{nodes?.descriptionId ? nodes?.descriptionId : ''}</div>
                     <div></div>
                     <div>{nodes?.code}</div>
-                    <button 
+                    {
+                        variant == 'current' ? <button>edit</button> : <button 
                         className={styles.addService}
                         onClick={(e)=> {
                             recurseServices(nodes?.parentServiceId)
@@ -99,6 +106,8 @@ export default function RichObjectTreeView({
                     >
                         Add Service
                     </button>
+                    }
+                    
                 </div>
             </>
         }>
@@ -142,7 +151,7 @@ export default function RichObjectTreeView({
                 currentPage * (pagination.pageSize || 10)
             )
         );
-    }, [currentPage]);
+    }, [currentPage, data]);
 
     return <>
             {
@@ -276,17 +285,21 @@ export function AddServicesModal({
                             "service_id": item.id,
                             "param_values": [
                               {
-                                "parameter_id": null,
-                                "number_value": null,
-                                "string_value": "string",
+                                "parameter_id": item?.serviceParameters[0]?.id,
+                                "number_value": inp[item.title] ? parseInt(inp[item.title]) : null,
+                                "string_value": null,
                                 "date_value": null,
-                                "service_param_value_list_id": inp[item.title]
+                                "service_param_value_list_id": null
                               }
                             ]
                           }
                     })
                     for(let i = 0; i < serv?.length; i++) {
-                        addService(serv[i])
+                        if(serv[i].param_values[0].number_value){
+                            addService(serv[i])
+                        }else {
+                            alert('param id is empty')
+                        }
                     }
                 }}
             />

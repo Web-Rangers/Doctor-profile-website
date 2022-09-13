@@ -7,6 +7,6 @@ export const getList = async (endpoint, id) => {
         `https://asclepius.pirveli.ge/asclepius/v1/api/${endpoint}`
       )
     ).data;
-
+    
     return res;
 };

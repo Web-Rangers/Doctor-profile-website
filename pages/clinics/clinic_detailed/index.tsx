@@ -1,5 +1,5 @@
 import { ReactSVG } from 'react-svg';
-import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, Input, Button, getList, AddBranchModal, dayz, getFirstStartEndHours, RichObjectTreeView, AlreadyExistClinic } from 'components';
+import { AddServicesModal, Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, Input, Button, getList, AddBranchModal, dayz, getFirstStartEndHours, RichObjectTreeView, AlreadyExistClinic, createTree } from 'components';
 import StarRatings from 'react-star-ratings';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
@@ -7,7 +7,7 @@ import tabStyles from 'styles/components/Tabs/tabs.module.scss';
 import styles from 'styles/pages/clinic_detailed.module.scss';
 import Breadcrumbs from 'nextjs-breadcrumbs';
 import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import BranchTab from 'components/tabs/BranchTab';
 import { useRouter } from 'next/router'
 import { useClinicData } from 'components';
@@ -78,7 +78,7 @@ export default function ClinicDetailed() {
             active: false
         }
     ]);
-    const [serviceData, setServices] = useState([]);
+    const [serviceAddModal, serServiceAddModal] = useState(false);
     
     const [showMore, setShowMore] = useState(false);
 
@@ -87,41 +87,15 @@ export default function ClinicDetailed() {
 
     var doctors = useQuery(["key", 'doctors'], ()=> { return getList(`clinics/${id}/doctors?page=0&size=5`, id) });
     var branch = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${id}/branches/`, id) });
-    var services = useQuery(["key", 'services'], ()=> { return getList(`clinics/contract-type-to-services`, id) });
 
     const [existClinic, setExistClinic] = useState({
         isOpen: false,
         data: null,
     })
 
-    function createTree(data) {
-        let newData = data?.map((item)=>(item.services[0]));
-        const idMapping = newData?.reduce((acc, el, i) => {
-            acc[el.id] = i;
-            return acc;
-          }, {});
-
-        let root: any;
-
-        newData?.forEach((el) => {
-            if (el.parentServiceId === null) {
-                root = el;
-                return;
-            }
-            const parentEl = newData[idMapping[el.parentServiceId]];
-            parentEl.children = [...(parentEl.children || []), el];
-        });
-
-        return root
-    }
-
     useEffect(()=> {
         refetch()
         doctors.refetch()
-        branch.refetch()
-        services.refetch();
-
-        console.log(data)
     }, [id])
 
 
@@ -156,17 +130,11 @@ export default function ClinicDetailed() {
 
     },[data, setWorkingHours])
 
-    useEffect(()=>{
-        const tree = createTree(services?.data)
-        
-        let newData = services?.data?.map((item)=>(item.services[0])).filter((item)=> item.parentServiceId == null);
-        
-        setServices(newData)
-    },[services?.data])
-
-
     return (
         <>
+            {
+                serviceAddModal && <AddServicesModal onClose={()=> serServiceAddModal(false)}/>
+            }
             {
                 existClinic.isOpen && <AlreadyExistClinic data={existClinic} onClose={()=> setExistClinic({isOpen: false, data: null})} />
             }
@@ -212,7 +180,7 @@ export default function ClinicDetailed() {
                                 <div className={styles.clinicName}>
                                     {data?.displayName}
                                 </div>
-                                <div className={styles.clinicRating}>
+                                {/* <div className={styles.clinicRating}>
                                     <StarRatings
                                         rating={4}
                                         starRatedColor="#FFC14E"
@@ -232,7 +200,7 @@ export default function ClinicDetailed() {
                                     <span className={styles.clinicRatingMax}>
                                         5
                                     </span>
-                                </div>
+                                </div> */}
                                 <div 
                                     className={classNames(styles.clinicInf)}
                                     onClick={()=> setWorkingHoursOpen(!workingHoursOpen)}
@@ -431,6 +399,7 @@ export default function ClinicDetailed() {
                                             variant="fill"
                                             size="large"
                                             className={styles.serviceBtn}
+                                            onClick={()=> serServiceAddModal(true)}
                                         />
                                         <div className={styles.servicesSearch}>
                                             <Input 
@@ -443,14 +412,7 @@ export default function ClinicDetailed() {
                                             />
                                         </div>
                                     </div>
-                                    {
-                                        <RichObjectTreeView 
-                                            data={serviceData} 
-                                            originalData={services?.data?.map((item)=>(item.services[0]))}
-                                            pagination={{ pageSize: 8, initialPage: 1 }} 
-                                            contractId={data?.contracts?.contractId}
-                                        />
-                                    }
+                                    <Services contractId={data?.contracts?.contractId} />
                                 </div>
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
@@ -512,6 +474,30 @@ export default function ClinicDetailed() {
             </div>
         </>
     );
+}
+
+
+export function Services(contractId) {
+    const [service, setServices] = useState([]);
+    var services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${contractId.contractId}`, contractId.contractId) });
+    console.log(contractId, 'tis is')
+    useEffect(()=>{
+        const tree = createTree(services?.data, 'current')
+        
+        let newData = services?.data?.map((item)=>(item)).filter((item)=> item.parentServiceId == null);
+        console.log('this is services data', services?.data)
+        setServices(newData)
+    },[services?.data])
+
+    return <>
+        <RichObjectTreeView 
+            data={service ? service : [] } 
+            originalData={services?.data && services?.data?.map((item)=>(item))}
+            pagination={{ pageSize: 8, initialPage: 1 }} 
+            contractId={contractId}
+            variant={"current"}
+        />
+    </>
 }
 
 ClinicDetailed.getLayout = (page) => {

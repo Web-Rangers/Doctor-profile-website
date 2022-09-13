@@ -13,3 +13,4 @@ export { default as AddSubserviceModal } from './AddSubserviceModal.js';
 export { default as AddCardModal } from './AddCardModal.js';
 export { default as AddBranchModal } from './AddBranchModal';
 export { default as AlreadyExistClinic } from './AlreadyExistClinic.js';
+export { default as AddServicesModal } from './AddServicesModal.js';
