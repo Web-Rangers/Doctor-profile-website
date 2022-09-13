@@ -3,7 +3,7 @@ import { Button, Card, Input, Select, encodeImageFileAsURL } from 'components';
 import SideBarLayout from 'layouts/SideBarLayout';
 
 import Breadcrumbs from 'nextjs-breadcrumbs';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styles from 'styles/pages/addDoctor.module.scss';
 import pageStyles from 'styles/pages/page.module.scss';
 import { useClinicsData } from 'components/useClinicsData';
@@ -26,6 +26,8 @@ export default function AddDoctor() {
 	const clinicId = router.query.id ?? null;
 	const branchId = router.query.branchId ?? null;
 
+	const clinics = useClinicsData();
+
 	const [requestBody, setRequestBody] = useState({
 		firstName: null,
 		lastName: null,
@@ -37,7 +39,7 @@ export default function AddDoctor() {
 		dateOfBirth: null,
 		iban: null,
 		aboutMe: null,
-		clinicBranchIds: null,
+		clinicBranchIds: '701',
 		type: null,
 		branch: null,
 		pictureFile: null,
@@ -50,30 +52,72 @@ export default function AddDoctor() {
 		branch: [],
 	});
 
-	const branchDetail = useQuery(['key', 'branch'], () => {
+	const [branchOption, setBranchOption] = useState([]);
+
+	const branchDetail = useQuery(['key', 'branchForClinic'], () => {
 		return getList(
 			`clinics/${requestBody?.clinicBranchIds || clinicId}/branches/`,
 			requestBody?.clinicBranchIds || clinicId
 		);
 	});
 
-	const branchData = branchId
-		? null
-		: branchDetail?.data?.filter(
+	async function refetchBranch(value) {
+		try {
+			const response = await fetch(
+				`https://asclepius.pirveli.ge/asclepius/v1/api/clinics/${value}/branches/`
+			);
+			const res = await response.json();
+
+			setRequestBody((prev) => ({ ...prev, clinicBranchIds: value }));
+
+			let branches = res?.filter(
 				(
 					(ids) =>
 					({ id }) =>
 						!ids.has(id) && ids.add(id)
 				)(new Set())
-		  );
+			);
 
-	console.log('branch data', branchData);
+			setBranchOption(
+				branches?.map((item) => {
+					return {
+						label: item.displayName,
+						value: item.id,
+					};
+				})
+			);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
 	useEffect(() => {
-		branchDetail.refetch();
-	}, [branchDetail, clinicId, requestBody.clinicBranchIds]);
+		clinics.refetch();
+	}, [clinicId, clinics]);
 
-	const clinics = useClinicsData();
+	// const branchData = useCallback(() => {
+	// 	let branches = branchDetail?.data?.filter(
+	// 		(
+	// 			(ids) =>
+	// 			({ id }) =>
+	// 				!ids.has(id) && ids.add(id)
+	// 		)(new Set())
+	// 	);
+
+	// 	setRequestBody((prev) => ({
+	// 		...prev,
+	// 		branch: null,
+	// 	}));
+	// 	setOptionLists((prev) => ({
+	// 		...prev,
+	// 		branch: branches?.map((item) => {
+	// 			return {
+	// 				label: item.displayName,
+	// 				value: item.id,
+	// 			};
+	// 		}),
+	// 	}));
+	// }, [requestBody?.clinicBranchIds, clinics, branchDetail]);
 
 	const makeListItems = (data) => {
 		const list = data?.data?.map((item) => ({
@@ -106,7 +150,6 @@ export default function AddDoctor() {
 				}
 			)
 			.then((response) => {
-				console.log('1', response);
 				router.push('/doctors');
 			})
 			.catch((error) =>
@@ -121,20 +164,13 @@ export default function AddDoctor() {
 				{ label: 'freelancer', value: 'FREELANCER' },
 				{ label: 'Clinic doctor', value: 'CLINIC_DOCTOR' },
 			],
-			clinic: clinics?.data ? makeListItems(clinics) : [],
-			branch: branchData?.map((item) => {
-				return {
-					label: item.displayName,
-					value: item.id,
-				};
-			}),
-
+			clinic: clinics.data ? makeListItems(clinics) : [],
 			job: [
 				{ label: 'Job title', value: '1' },
 				{ label: 'Another job title', value: '2' },
 			],
 		}));
-	}, [clinicId, requestBody.clinicBranchIds, branchData]);
+	}, [clinicId, requestBody.clinicBranchIds]);
 
 	return (
 		<div className={pageStyles.container}>
@@ -286,12 +322,7 @@ export default function AddDoctor() {
 									labelStyle='outside'
 									options={optionLists.clinic}
 									value={requestBody.clinicBranchIds}
-									onChange={(value) => {
-										setRequestBody((prev) => ({
-											...prev,
-											clinicBranchIds: value,
-										}));
-									}}
+									onChange={(value) => refetchBranch(value)}
 								/>
 							)}
 							<Input
@@ -318,11 +349,9 @@ export default function AddDoctor() {
 									disabled={requestBody.type === 'FREELANCER' ? true : false}
 									label='Branch'
 									labelStyle='outside'
-									options={optionLists.branch}
+									options={branchOption}
 									onChange={(value) => {
-										requestBody.branch
-											? null
-											: setRequestBody((prev) => ({ ...prev, branch: value }));
+										setRequestBody((prev) => ({ ...prev, branch: value }));
 									}}
 									value={requestBody.branch}
 								/>

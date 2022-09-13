@@ -60,8 +60,6 @@ export default function AboutDoctorTab({
 	const [aboutMe, setAboutMe] = useState(doctor?.aboutMe);
 	const [isOpen, setIsOpen] = useState(false);
 
-	console.log('email', doctor);
-
 	const modifyDoctor = async () => {
 		let formData = new FormData();
 		formData.append('firstName', doctor?.firstName);
