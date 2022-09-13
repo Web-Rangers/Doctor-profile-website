@@ -277,7 +277,7 @@ div.modal {
 
 .validation {
     div {
-        border: 1px solid red!important;
+        border: 1px solid #E32323!important;
     }
 }
 
@@ -288,11 +288,11 @@ div.modal {
 }
 
 .validationForHours {
-    border: 1px solid red!important;
+    border: 1px solid #E32323!important;
 }
 
 .validationForSelect {
-    border: 1px solid red!important;
+    border: 1px solid #E32323!important;
 }
 
 .removeWorkingValidations, .removeSelectValidation{
@@ -301,6 +301,10 @@ div.modal {
 
 .removeSelectValidation {
     h2 {
-        color: red
+        color: #E32323
     }
+}
+
+.redFlag {
+    color: #E32323;
 }

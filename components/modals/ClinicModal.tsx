@@ -1,4 +1,4 @@
-import { encodeImageFileAsURL, Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz } from 'components';
+import { encodeImageFileAsURL, Select, Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz } from 'components';
 import { useState, useEffect } from 'react';
 import styles from 'styles/components/Modals/ClinicModal.module.scss';
 import axios from 'axios';
@@ -27,6 +27,7 @@ interface ClinicModalProps {
     onCancel?: () => void;
     data: ClinicData;
     refetch?: () => void;
+    municipalities?: any;
 }
 
 export default function ClinicModal({
@@ -34,7 +35,8 @@ export default function ClinicModal({
     onSave,
     onCancel,
     data,
-    refetch
+    refetch,
+    municipalities
 }: ClinicModalProps) {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -87,7 +89,7 @@ export default function ClinicModal({
     ]);
     const [uploadPhoto, setUploadPhoto] = useState('');
     const [image, setImage] = useState<any>(`${data?.logoUrl + `&?${new Date().getTime()}`}`);
-
+    const [municipaly, setMunicipaly] = useState(data?.address.municipality.id)
     const [registrationDate, setRegistrationDate] = useState(
         data?.registrationDate
     );
@@ -97,7 +99,7 @@ export default function ClinicModal({
         formData.append('phone', phone)
         formData.append('address', address)
         formData.append('description', about)
-        formData.append('cityId', '80')
+        formData.append('cityId', municipaly)
         formData.append('email', email)
         formData.append('pictureFile', image)
 
@@ -136,6 +138,8 @@ export default function ClinicModal({
 
     setPhone(numbers[0]?.value);
     setEmail(emails[0]?.value);
+
+    console.log(municipalities)
   }, [data]);
 
     useEffect(()=>{
@@ -266,6 +270,13 @@ export default function ClinicModal({
                     />
                 </div>
                 <div className={styles.modalContentRow}>
+                    <Select
+                        label="Municipalities"
+                        labelStyle="outside"
+                        onChange={(e) => {setMunicipaly(e)}}
+                        value={municipaly}
+                        options={municipalities?.map((item)=> ({label: item.title, value: item.id}))}
+                    />
                     <Input
                         type="text"
                         label="Address"

@@ -83,6 +83,7 @@ export default function ClinicDetailed() {
     const [showMore, setShowMore] = useState(false);
 
     var { data, refetch } = useQuery(["key", 'clinics'], ()=> { return getList(`clinics/${id}`, id) });
+    var municipalities = useQuery(["key", 'municipalities'], ()=> { return getList(`municipalities`, '1') });
 
     var doctors = useQuery(["key", 'doctors'], ()=> { return getList(`clinics/${id}/doctors?page=0&size=5`, id) });
     var branch = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${id}/branches/`, id) });
@@ -178,6 +179,7 @@ export default function ClinicDetailed() {
                     }}
                     onCancel={() => setClinicEdtModalIsOpen(false)}
                     refetch={()=> refetch()}
+                    municipalities={municipalities?.data}
                 />
             )}
             {addBranchModal && (
@@ -191,6 +193,7 @@ export default function ClinicDetailed() {
                     refetch={()=> branch.refetch()}
                     isOpen={existClinic.isOpen}
                     setExistClinic={(bol)=> setExistClinic({isOpen: bol.isOpen, data: bol.data})}
+                    municipalities={municipalities?.data}
                 />
             )}
             <div className={styles.container}>

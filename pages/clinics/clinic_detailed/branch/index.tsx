@@ -100,6 +100,7 @@ export default function Branch() {
 
     var branchDetail = useQuery(["key", 'branch'], ()=> { return getList(`clinics/${id}`, id) });
     var branchDoctors = useQuery(["key", 'branchDoctors'], ()=> { return getList(`clinics/${id}/doctors?page=0&size=5`, id) });
+    var municipalities = useQuery(["key", 'municipalities'], ()=> { return getList(`municipalities`, '1') });
 
     useEffect(()=> {
         branchDetail.refetch();

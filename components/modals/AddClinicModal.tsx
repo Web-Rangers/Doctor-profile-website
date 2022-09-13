@@ -311,8 +311,11 @@ export default function AddClinicModal({
                         />
                     </div>
                     {
-                        validOpen && <div>
-                            *please fill all the inputs
+                        validOpen && <div className={styles.redFlag}>
+                            *please fill all the inputs 
+                            {
+                                (validation && !validation['uploadPhoto']) && ' and Upload photo'
+                            }
                         </div>
                     }
                 </div>

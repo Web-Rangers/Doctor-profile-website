@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from 'styles/components/Modals/ClinicModal.module.scss';
-import { Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz } from 'components';
+import { Input, Button, Select, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz } from 'components';
 import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
@@ -28,6 +28,7 @@ interface ClinicModalProps {
     refetch?: () => void;
     isOpen?:boolean;
     setExistClinic?: any;
+    municipalities?: any;
 }
 
 export default function AddBranchModal({
@@ -37,7 +38,8 @@ export default function AddBranchModal({
     id,
     refetch,
     isOpen,
-    setExistClinic
+    setExistClinic,
+    municipalities
 }: ClinicModalProps) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -48,6 +50,7 @@ export default function AddBranchModal({
     const [image, setImage] = useState<File>()
     const [uploadPhoto, setUploadPhoto] = useState('');
     const [openWorkHours, setOpenWorkHours] = useState(false);
+    const [municipaly, setMunicipaly] = useState('');
     const [workingHours, setWorkingHours] = useState([
         {
             days: 1,
@@ -101,7 +104,7 @@ export default function AddBranchModal({
         formData.append('address', address)
         formData.append('description', about)
         formData.append('parentId', id)
-        formData.append('cityId', '80')
+        formData.append('cityId', municipaly)
         formData.append('eligibleForVAT', JSON.stringify(eligable))
 
         for(let i = 0; i < workingHours.length; i++){
@@ -252,6 +255,13 @@ export default function AddBranchModal({
                         />
                     </div>
                     <div className={styles.modalContentRow}>
+                        <Select
+                            label="Municipalities"
+                            labelStyle="outside"
+                            onChange={(e) => {setMunicipaly(e)}}
+                            value={municipaly}
+                            options={municipalities?.map((item)=> ({label: item.title, value: item.id}))}
+                        />
                         <Input
                             type="text"
                             label="Address"

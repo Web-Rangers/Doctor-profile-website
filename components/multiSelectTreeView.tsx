@@ -58,7 +58,7 @@ export default function RichObjectTreeView({
     }
 
     async function addService(item) {
-        await axios.post('/asclepius/v1/api/accounting/add-contract-service', item)
+        await axios.post('/asclepius/v1/api/accounting/contract-to-service', item)
                     .then((response)=> console.log(response))
                     .catch((error)=> console.log(error))
     }
