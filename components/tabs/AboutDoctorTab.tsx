@@ -4,6 +4,7 @@ import { ReactSVG } from 'react-svg';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import AddDoctorCertificate from 'components/modals/AddDoctorCertificate';
 
 interface Media {
 	src: string;
@@ -57,8 +58,7 @@ export default function AboutDoctorTab({
 	const [iban, setIban] = useState(doctor?.iban);
 	const [gender, setGender] = useState<string>(doctor?.gender);
 	const [aboutMe, setAboutMe] = useState(doctor?.aboutMe);
-
-	console.log('email', doctor);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const modifyDoctor = async () => {
 		let formData = new FormData();
@@ -275,10 +275,20 @@ export default function AboutDoctorTab({
 						label={'Add certificate'}
 						size='large'
 						variant='fill'
-						onClick={() => {}}
+						onClick={() => setIsOpen(true)}
 					/>
 				}
 			>
+				{isOpen && (
+					<AddDoctorCertificate
+						data={null}
+						onClose={() => setIsOpen(false)}
+						onSave={(newData) => {
+							setIsOpen(false);
+						}}
+					/>
+				)}
+
 				<div className={styles.mediaContainer}>
 					{doctor.media?.map((media, index) => (
 						<div

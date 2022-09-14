@@ -1,6 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from 'styles/components/Modals/ClinicModal.module.scss';
-import { Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz, AlreadyExistClinic} from 'components';
+import {
+	Input,
+	Button,
+	Modal,
+	CheckBox,
+	activeWorkingHours,
+	getFirstStartEndHours,
+	handleChange,
+	dayz,
+} from 'components';
 import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
@@ -12,14 +21,14 @@ import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 
 interface ClinicData {
-    name?: string;
-    email?: string;
-    phone?: string;
-    address?: string;
-    time?: string;
-    registrationDate?: string;
-    about?: string;
-    image?: any;
+	name?: string;
+	email?: string;
+	phone?: string;
+	address?: string;
+	time?: string;
+	registrationDate?: string;
+	about?: string;
+	image?: any;
 }
 
 interface ClinicModalProps {

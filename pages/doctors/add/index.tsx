@@ -3,14 +3,15 @@ import { Button, Card, Input, Select, encodeImageFileAsURL } from 'components';
 import SideBarLayout from 'layouts/SideBarLayout';
 
 import Breadcrumbs from 'nextjs-breadcrumbs';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styles from 'styles/pages/addDoctor.module.scss';
 import pageStyles from 'styles/pages/page.module.scss';
 import { useClinicsData } from 'components/useClinicsData';
 import axios from 'axios';
 import { ReactSVG } from 'react-svg';
 import StuffModal from '../../../components/modals/StuffModal';
-
+import { useQuery } from '@tanstack/react-query';
+import { getList } from 'components';
 import { useRouter } from 'next/router';
 
 export default function AddDoctor() {
@@ -22,6 +23,10 @@ export default function AddDoctor() {
 	const [uploadStaticPhoto, setUploadPhoto] = useState(``);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const router = useRouter();
+	const clinicId = router.query.id ?? null;
+	const branchId = router.query.branchId ?? null;
+
+	const clinics = useClinicsData();
 
 	const [requestBody, setRequestBody] = useState({
 		firstName: null,
@@ -34,7 +39,7 @@ export default function AddDoctor() {
 		dateOfBirth: null,
 		iban: null,
 		aboutMe: null,
-		clinicBranchIds: null,
+		clinicBranchIds: '701',
 		type: null,
 		branch: null,
 		pictureFile: null,
@@ -47,8 +52,72 @@ export default function AddDoctor() {
 		branch: [],
 	});
 
-	console.log('requestBody', requestBody);
-	const clinics = useClinicsData();
+	const [branchOption, setBranchOption] = useState([]);
+
+	const branchDetail = useQuery(['key', 'branchForClinic'], () => {
+		return getList(
+			`clinics/${requestBody?.clinicBranchIds || clinicId}/branches/`,
+			requestBody?.clinicBranchIds || clinicId
+		);
+	});
+
+	async function refetchBranch(value) {
+		try {
+			const response = await fetch(
+				`https://asclepius.pirveli.ge/asclepius/v1/api/clinics/${value}/branches/`
+			);
+			const res = await response.json();
+
+			setRequestBody((prev) => ({ ...prev, clinicBranchIds: value }));
+
+			let branches = res?.filter(
+				(
+					(ids) =>
+					({ id }) =>
+						!ids.has(id) && ids.add(id)
+				)(new Set())
+			);
+
+			setBranchOption(
+				branches?.map((item) => {
+					return {
+						label: item.displayName,
+						value: item.id,
+					};
+				})
+			);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	useEffect(() => {
+		clinics.refetch();
+	}, [clinicId, clinics]);
+
+	// const branchData = useCallback(() => {
+	// 	let branches = branchDetail?.data?.filter(
+	// 		(
+	// 			(ids) =>
+	// 			({ id }) =>
+	// 				!ids.has(id) && ids.add(id)
+	// 		)(new Set())
+	// 	);
+
+	// 	setRequestBody((prev) => ({
+	// 		...prev,
+	// 		branch: null,
+	// 	}));
+	// 	setOptionLists((prev) => ({
+	// 		...prev,
+	// 		branch: branches?.map((item) => {
+	// 			return {
+	// 				label: item.displayName,
+	// 				value: item.id,
+	// 			};
+	// 		}),
+	// 	}));
+	// }, [requestBody?.clinicBranchIds, clinics, branchDetail]);
 
 	const makeListItems = (data) => {
 		const list = data?.data?.map((item) => ({
@@ -70,7 +139,9 @@ export default function AddDoctor() {
 			.post(
 				requestBody.type === 'FREELANCER'
 					? '/asclepius/v1/api/doctors/freelancers'
-					: `/asclepius/v1/api/clinics/${requestBody.clinicBranchIds}/doctors`,
+					: `/asclepius/v1/api/clinics/${
+							requestBody.clinicBranchIds || clinicId
+					  }/doctors`,
 				formData,
 				{
 					headers: {
@@ -79,7 +150,6 @@ export default function AddDoctor() {
 				}
 			)
 			.then((response) => {
-				console.log(response);
 				router.push('/doctors');
 			})
 			.catch((error) =>
@@ -94,20 +164,13 @@ export default function AddDoctor() {
 				{ label: 'freelancer', value: 'FREELANCER' },
 				{ label: 'Clinic doctor', value: 'CLINIC_DOCTOR' },
 			],
-			clinic: clinics?.data ? makeListItems(clinics) : [],
-			branch: [
-				{
-					label: '4140 Parker Rd. Allentown, New Mexico 31134',
-					value: '1',
-				},
-				{ label: 'Another Branch', value: '2' },
-			],
+			clinic: clinics.data ? makeListItems(clinics) : [],
 			job: [
 				{ label: 'Job title', value: '1' },
 				{ label: 'Another job title', value: '2' },
 			],
 		}));
-	}, [clinics?.isLoading]);
+	}, [clinicId, requestBody.clinicBranchIds]);
 
 	return (
 		<div className={pageStyles.container}>
@@ -237,35 +300,34 @@ export default function AddDoctor() {
 				<Card cardTitle='Job information'>
 					<div className={styles.row}>
 						<div className={styles.smallColumnLeft}>
-							<Select
-								label='Type'
-								labelStyle='outside'
-								options={optionLists.type}
-								onChange={(value) => {
-									setRequestBody((prev) => ({
-										...prev,
-										type: value,
-										iban: '',
-									}));
-								}}
-								value={requestBody.type}
-							/>
-							<Select
-								disabled={requestBody.type === 'FREELANCER' ? true : false}
-								label='Clinic'
-								labelStyle='outside'
-								options={optionLists.clinic}
-								value={requestBody.clinicBranchIds}
-								onChange={(value) => {
-									setRequestBody((prev) => ({
-										...prev,
-										clinicBranchIds: value,
-									}));
-								}}
-							/>
+							{branchId || clinicId ? null : (
+								<Select
+									label='Type'
+									labelStyle='outside'
+									options={optionLists.type}
+									onChange={(value) => {
+										setRequestBody((prev) => ({
+											...prev,
+											type: value,
+											iban: '',
+										}));
+									}}
+									value={requestBody.type}
+								/>
+							)}
+							{clinicId ? null : (
+								<Select
+									disabled={requestBody.type === 'FREELANCER' ? true : false}
+									label='Clinic'
+									labelStyle='outside'
+									options={optionLists.clinic}
+									value={requestBody.clinicBranchIds}
+									onChange={(value) => refetchBranch(value)}
+								/>
+							)}
 							<Input
 								label='ID'
-								type='number'
+								type='text'
 								maxLength={11}
 								onChange={(value) =>
 									setRequestBody((prev) => ({ ...prev, personalId: value }))
@@ -282,16 +344,18 @@ export default function AddDoctor() {
 								}}
 								value={requestBody.professionId}
 							/>
-							<Select
-								disabled={requestBody.type === 'FREELANCER' ? true : false}
-								label='Branch'
-								labelStyle='outside'
-								options={optionLists.branch}
-								onChange={(value) => {
-									setRequestBody((prev) => ({ ...prev, branch: value }));
-								}}
-								value={requestBody.branch}
-							/>
+							{branchId ? null : (
+								<Select
+									disabled={requestBody.type === 'FREELANCER' ? true : false}
+									label='Branch'
+									labelStyle='outside'
+									options={branchOption}
+									onChange={(value) => {
+										setRequestBody((prev) => ({ ...prev, branch: value }));
+									}}
+									value={requestBody.branch}
+								/>
+							)}
 							<Input
 								disabled={requestBody.type === 'FREELANCER' ? false : true}
 								label='IBAN'
