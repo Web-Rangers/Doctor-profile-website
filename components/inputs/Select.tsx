@@ -1,11 +1,11 @@
-import classNames from "classnames";
-import { useEffect, useState } from "react";
-import { ReactSVG } from "react-svg";
-import styles from "styles/components/Inputs/Select.module.scss";
+import classNames from 'classnames';
+import { useEffect, useState } from 'react';
+import { ReactSVG } from 'react-svg';
+import styles from 'styles/components/Inputs/Select.module.scss';
 
 interface Option {
-  label: string;
-  value: string;
+	label: string;
+	value: string;
 }
 
 interface SelectProps {
@@ -29,15 +29,15 @@ export default function Select({
   labelStyle = "inside",
   inputClassname
 }: SelectProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(
-    options.find((option) => option.value === value)
-  );
+	const [isOpen, setIsOpen] = useState(false);
+	const [selected, setSelected] = useState(
+		options?.find((option) => option.value === value)
+	);
 
-  useEffect(() => {
-    setSelected(options.find((option) => option.value === value));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
+	useEffect(() => {
+		setSelected(options.find((option) => option.value === value));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [value]);
 
   return (
     <div className={classNames(styles.container, className)}>

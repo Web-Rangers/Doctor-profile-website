@@ -8,6 +8,16 @@ export const getDoctors = async () => {
 	return res;
 };
 
+export const getDoctor = async (id) => {
+	if (!id) return null;
+	const res = (
+		await axios.get(
+			`https://asclepius.pirveli.ge/asclepius/v1/api/clinics/doctors/${id}?page=0&size=5`
+		)
+	).data;
+	return res;
+};
+
 export const getDoctorCertificate = async (id) => {
 	if (!id) return null;
 	const res = (
@@ -50,6 +60,15 @@ export const getFreeLancerCertificate = async (id) => {
 	const res = (
 		await axios.get(
 			`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers/${id}/educations-certificates`
+		)
+	).data;
+	return res;
+};
+
+export const getFreeLancerCervices = async () => {
+	const res = (
+		await axios.get(
+			`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers/contract-type-to-services`
 		)
 	).data;
 	return res;
