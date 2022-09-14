@@ -4,7 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import styles from 'styles/components/Modals/addserviceModal.module.scss';
 
 export default function AddServicesModal({
-    onClose
+    onClose,
+    contractId
 }) {
     const [services, setServices] = useState([]);
     var getServices = useQuery(["key", 'allservices'], ()=> { return getList(`clinics/contract-type-to-services`, '1') });
@@ -21,9 +22,9 @@ export default function AddServicesModal({
         <Modal onBackClick={onClose} className={styles.addService}> 
             <RichObjectTreeView 
                 data={services ? services : [] } 
-                originalData={getServices?.data && getServices?.data?.map((item)=>(item))}
+                originalData={getServices?.data ? getServices?.data?.map((item)=>(item.services)[0]) : []}
                 pagination={{ pageSize: 4, initialPage: 1 }} 
-                contractId={null}
+                contractId={contractId}
                 variant={"all services"}
             />
         </Modal>

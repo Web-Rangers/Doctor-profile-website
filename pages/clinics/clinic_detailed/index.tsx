@@ -133,7 +133,7 @@ export default function ClinicDetailed() {
     return (
         <>
             {
-                serviceAddModal && <AddServicesModal onClose={()=> serServiceAddModal(false)}/>
+                serviceAddModal && <AddServicesModal contractId={data?.contracts?.contractId} onClose={()=> serServiceAddModal(false)}/>
             }
             {
                 existClinic.isOpen && <AlreadyExistClinic data={existClinic} onClose={()=> setExistClinic({isOpen: false, data: null})} />
@@ -445,10 +445,10 @@ export default function ClinicDetailed() {
                                             icon: i.pictureUrl,
                                             address: data?.address?.address,
                                             amountOfOrders: '',
-                                            city: '',
+                                            city: data?.address.municipality.title,
                                             clinic: i.clinics[0].displayName,
                                             description:
-                                                `${i.professions[0].name} • ${i.doctorType ==='CLINIC_DOCTOR' ? 'Clinic Doctor' : 'Freelancer'}`,
+                                                `${i.professions && i.professions[0].name} • ${i.doctorType ==='CLINIC_DOCTOR' ? 'Clinic Doctor' : 'Freelancer'}`,
                                             gender: i.gender === 'm' ? 'Male' : 'Female',
                                             name: i.firstName + ' ' + i.lastName,
                                             registrationDate: '',

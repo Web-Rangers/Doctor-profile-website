@@ -15,6 +15,7 @@ import {getList} from 'components';
 import axios from 'axios';
 
 interface RenderTree {
+    serviceParameterValues: any;
     parentServiceId?: any;
     code: string;
     descriptionId: string;
@@ -50,7 +51,7 @@ export default function RichObjectTreeView({
     function recurseServices(parentId) {
         if(parentId != null){
             const service = originalData?.filter((item)=> item.id == parentId)[0];
-            if(services.filter((item)=> item.id == service.id).length == 0){
+            if(data.filter((item)=> item.id == service.id)){
                 setServices((prev) => ([...prev, service]))
             }
             return recurseServices(service?.parentServiceId)
@@ -60,15 +61,15 @@ export default function RichObjectTreeView({
     }
 
     async function addService(item) {
-        await axios.post('/asclepius/v1/api/accounting/contract-to-service', item)
-                    .then((response)=> console.log(response))
-                    .catch((error)=> alert(error.response.data.message))
+        for(let i = 0; i < item.length; i++){
+            await axios.post('/asclepius/v1/api/accounting/contract-to-service', item[i])
+                        .then((response)=> console.log(response))
+                        .catch((error)=> alert(error.response.data.message))
+        }
     }
 
     useEffect(()=>{
         service.refetch();
-
-        console.log('added services', service?.data)
     },[service?.data])
 
     const renderTree = (nodes: RenderTree) => {
@@ -86,7 +87,7 @@ export default function RichObjectTreeView({
                     <div>{nodes?.title}</div>
                     <div>{nodes?.descriptionId ? nodes?.descriptionId : ''}</div>
                     <div></div>
-                    <div>{nodes?.code}</div>
+                    <div>{nodes?.serviceParameterValues && nodes?.serviceParameterValues[0]?.serviceParamNumberValue}</div>
                     {
                         variant == 'current' ? <button>edit</button> : <button 
                         className={styles.addService}
@@ -98,6 +99,7 @@ export default function RichObjectTreeView({
                             }
                             setCurrentService(nodes)
                             e.stopPropagation(); 
+
                             setIsModalOpen({
                                 isOpen: true,
                                 node: nodes
@@ -152,7 +154,6 @@ export default function RichObjectTreeView({
             )
         );
     }, [currentPage, data]);
-
     return <>
             {
                 isModalOpen.isOpen && 
@@ -245,6 +246,7 @@ export function AddServicesModal({
     addService
 }) {
     const [inp, setInp] = useState({})
+
     return <>
         <Modal className={styles.services} onBackClick={()=> {setServices([]); setIsModalOpen({
             isOpen: false,
@@ -279,7 +281,7 @@ export function AddServicesModal({
                 variant='fill'
                 size="large"
                 onClick={()=> {
-                    const serv = services.map((item)=>{
+                    const serv = services.sort((a,b)=> a.id - b.id).map((item)=>{
                         return {
                             "contract_id": contractId,
                             "service_id": item.id,
@@ -294,13 +296,7 @@ export function AddServicesModal({
                             ]
                           }
                     })
-                    for(let i = 0; i < serv?.length; i++) {
-                        if(serv[i].param_values[0].number_value){
-                            addService(serv[i])
-                        }else {
-                            alert('param id is empty')
-                        }
-                    }
+                    addService(serv)
                 }}
             />
         </Modal>
