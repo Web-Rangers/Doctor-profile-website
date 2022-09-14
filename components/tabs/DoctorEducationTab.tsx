@@ -5,6 +5,9 @@ import { useState } from 'react';
 import tableStyles from 'styles/components/Table.module.scss';
 import AddDoctorEducation from 'components/modals/AddDoctorEducation';
 import AddDoctorCertificate from 'components/modals/AddDoctorCertificate';
+import Image from 'next/image';
+import { style } from '@mui/system';
+import { InsertEmoticon } from '@mui/icons-material';
 
 interface Media {
 	src: string;
@@ -90,9 +93,20 @@ export default function DoctorEducationTab({
 }: DoctorEducationTabProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isOpenCertificate, setIsOpenCertificate] = useState(false);
+	const [openPhoto, setOpenPhoto] = useState(false);
 	//   const router = useRouter();
 	//   const id = router.query.id ?? null;
 
+	const openImage = () => {
+		const selectedImage = education?.map((item) =>
+			item.galleryList.filter(
+				(id) => id === item.galleryList.map((item) => item.id)
+			)
+		);
+		console.log(' selectedImage', selectedImage);
+	};
+
+	openImage();
 	return (
 		<>
 			<Card
@@ -145,7 +159,7 @@ export default function DoctorEducationTab({
 					/>
 				)}
 				<div className={styles.educationContainer}>
-					{education.map((educationItem) => (
+					{education?.map((educationItem) => (
 						<Card
 							key={educationItem.school}
 							className={styles.educationCard}
@@ -174,9 +188,19 @@ export default function DoctorEducationTab({
 											key={mediaItem.alt}
 											className={styles.media}
 										>
+											{openPhoto && (
+												<Image
+													src={mediaItem.url}
+													width='500px'
+													height='500px'
+													alt=''
+													className={styles.educationPhoto}
+												/>
+											)}
 											<ReactSVG
 												src={'/images/icons/cards/camera.svg'}
 												className={styles.icon}
+												onClick={() => setOpenPhoto(true)}
 											/>
 											<div className={styles.mediaText}>{mediaItem.alt}</div>
 										</div>

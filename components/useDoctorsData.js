@@ -49,7 +49,7 @@ export const getFreeLancerEdu = async (id) => {
 	if (!id) return null;
 	const res = (
 		await axios.get(
-			`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers/${id}/educations`
+			`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/educations/${id}`
 		)
 	).data;
 	return res;
@@ -59,7 +59,17 @@ export const getFreeLancerCertificate = async (id) => {
 	if (!id) return null;
 	const res = (
 		await axios.get(
-			`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers/${id}/educations-certificates`
+			`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/${id}/certificates`
+		)
+	).data;
+	return res;
+};
+
+export const getFreeLancerEducations = async (id) => {
+	if (!id) return null;
+	const res = (
+		await axios.get(
+			`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/${id}/educations`
 		)
 	).data;
 	return res;
@@ -70,6 +80,13 @@ export const getFreeLancerCervices = async () => {
 		await axios.get(
 			`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers/contract-type-to-services`
 		)
+	).data;
+	return res;
+};
+
+export const getProfession = async () => {
+	const res = (
+		await axios.get(`https://asclepius.pirveli.ge/asclepius/v1/api/professions`)
 	).data;
 	return res;
 };

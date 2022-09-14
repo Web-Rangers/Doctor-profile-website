@@ -18,6 +18,8 @@ export {
 	getDoctorCertificate,
 	getDoctor,
 	getFreeLancerCervices,
+	getFreeLancerEducations,
+	getProfession,
 } from './useDoctorsData';
 export { encodeImageFileAsURL } from './uploadImageBase64';
 export { default as GenerateBreadcrumbs } from './generateBreadcrumbs.js';

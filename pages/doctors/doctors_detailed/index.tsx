@@ -19,6 +19,7 @@ import {
 	getFreelancerDoctor,
 	getFreeLancerCertificate,
 	getDoctor,
+	getFreeLancerEducations,
 } from 'components/useDoctorsData';
 import { useQuery } from '@tanstack/react-query';
 import EditDoctorModal from 'components/modals/EditDoctorModal';
@@ -64,11 +65,15 @@ export default function DoctorsDetailed() {
 		refetch();
 	}
 
-	var certificateEducation = useQuery(['key', 'freeLancerCertificate'], () => {
+	const certificates = useQuery(['key', 'freeLancerCertificate'], () => {
 		return getFreeLancerCertificate(id);
 	});
 
-	useEffect(() => {
+	const education = useQuery(['key', 'freeLancerEducation'], () => {
+		return getFreeLancerEducations(id);
+	});
+
+	const educations = useEffect(() => {
 		let numbers = doctorData?.contactInfos?.map((contact) => {
 			if (contact?.type.value == 'mobile') {
 				return [contact.value];
@@ -83,6 +88,9 @@ export default function DoctorsDetailed() {
 		setPhone(numbers);
 		setEmail(emails);
 	}, [doctorData]);
+
+	console.log('education', education.data);
+	console.log('sertificate', certificates.data);
 
 	return (
 		<>
@@ -317,8 +325,8 @@ export default function DoctorsDetailed() {
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>
 								<DoctorEducationTab
-									certificates={certificateEducation?.data?.certificates}
-									education={certificateEducation?.data?.educations}
+									certificates={certificates?.data}
+									education={education?.data}
 								/>
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>

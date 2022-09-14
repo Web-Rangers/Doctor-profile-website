@@ -33,14 +33,15 @@ export default function AddDoctorEducation({
 	const [fileLimit, setFileLimit] = useState(false);
 
 	const [requestBody, setRequestBody] = useState({
-		doctorId: id,
-		mediaFileId: null,
-		degree: null,
 		school: null,
+		degree: null,
 		fieldsOfStudy: null,
 		dateStart: null,
 		dateEnd: null,
+		files: null,
 	});
+
+	console.log('upload files', uploadedFiles);
 
 	const handleUploadFiles = (files) => {
 		const uploaded = [...uploadedFiles];
@@ -69,47 +70,60 @@ export default function AddDoctorEducation({
 		setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
 	};
 
-	const uploadFile = async () => {
-		let formData = new FormData();
+	// const uploadFile = async () => {
+	// 	let formData = new FormData();
+	// 	formData.append('school', requestBody?.school);
+	// 	formData.append('degree', requestBody?.degree);
+	// 	formData.append('fieldsOfStudy', requestBody?.fieldsOfStudy);
+	// 	formData.append('dateEnd', requestBody?.dateEnd);
+	// 	formData.append('dateStart', requestBody?.dateStart);
 
-		for (var i = 0; i < uploadedFiles.length; i++) {
-			formData.append('pictureFile', uploadedFiles[i]);
-		}
-		console.log('data', formData);
-		return axios
-			.post(
-				`https://asclepius.pirveli.ge/asclepius/v1/api/gallery/doctor/${id}/educations`,
-				formData,
-				{
-					headers: {
-						'Content-Type': 'multipart/form-data',
-					},
-				}
-			)
-			.then((response) => {
-				console.log('this is response hbfsjdbc', response);
-				refetch();
-			})
-			.catch((error) => {
-				if (error.response) console.log(error.response);
-			});
-	};
+	// 	for (var i = 0; i < uploadedFiles.length; i++) {
+	// 		formData.append('files', uploadedFiles[i]);
+	// 	}
+
+	// 	return axios
+	// 		.post(
+	// 			`https://asclepius.pirveli.ge/asclepius/v1/api/gallery/doctor/${id}/educations`,
+	// 			formData,
+	// 			{
+	// 				headers: {
+	// 					'Content-Type': 'multipart/form-data',
+	// 				},
+	// 			}
+	// 		)
+	// 		.then((response) => {
+	// 			console.log('this is response hbfsjdbc', response);
+	// 			refetch();
+	// 		})
+	// 		.catch((error) => {
+	// 			if (error.response) console.log(error.response);
+	// 		});
+	// };
 
 	const requestFormData = async () => {
+		let formData = new FormData();
+		formData.append('school', requestBody?.school);
+		formData.append('degree', requestBody?.degree);
+		formData.append('fieldsOfStudy', requestBody?.fieldsOfStudy);
+		formData.append('dateEnd', requestBody?.dateEnd);
+		formData.append('dateStart', requestBody?.dateStart);
+
+		for (var i = 0; i < uploadedFiles.length; i++) {
+			formData.append('files', uploadedFiles[i]);
+		}
 		return axios
 			.post(
 				`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/${id}/educations`,
-				requestBody,
+				formData,
 				{
 					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
+						'Content-Type': `multipart/form-data`,
 					},
 				}
 			)
 			.then((response) => {
 				console.log('this is response', response);
-				uploadFile();
 				onClose();
 				refetch();
 			})
