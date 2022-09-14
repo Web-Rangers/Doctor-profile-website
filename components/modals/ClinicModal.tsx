@@ -120,15 +120,30 @@ export default function ClinicModal({
                 'Content-Type': `multipart/form-data`,
             },
         }).then((response) => { refetch(); 
+            setValidOpen(false)
             onSave?.call(null, {
             email,
             phone,
             address,
             registrationDate,
             about,
-        }) }).catch(err=> {
-            alert(`გადაამოწმე working hourse, 00:00-23:59მდე შუალედში უნდა იყოს ყველა დრო. დანარჩენი ველები არ უნდა იყოს ცარიელი`)
+        }) }).catch(error=> {
+            alert(error)
         })
+    }
+
+    function validations() {
+        setValidation(()=>(
+            {
+                phone, 
+                address,
+                about,
+                uploadPhoto,
+                municipaly,
+                workingHours: getFirstStartEndHours(workingHours) == undefined
+            }
+        ))
+        setValidOpen(true)
     }
 
   const { mutate: clinicUpdate } = useMutation(modifyClinic);
@@ -270,7 +285,10 @@ export default function ClinicModal({
                     <input 
                         type="text"
                         readOnly
-                        className={styles.workingInp}
+                        className={classNames(styles.workingInp, {
+                            [styles.validationForHours]: validation && validation['workingHours'],
+                            [styles.removeWorkingValidations]: getFirstStartEndHours(workingHours) != undefined
+                        })}
                         value={getFirstStartEndHours(workingHours)?.startHour && getFirstStartEndHours(workingHours)?.startHour + ' - ' + getFirstStartEndHours(workingHours)?.endHour}
                     />
                     <ReactSVG 
@@ -339,17 +357,7 @@ export default function ClinicModal({
                         {
                             {
                                 phone && address && about && image && email && getFirstStartEndHours(workingHours) != undefined ?
-                                clinicUpdate() : setValidation(()=>(
-                                    {
-                                        phone, 
-                                        address,
-                                        about,
-                                        uploadPhoto: image,
-                                        municipaly,
-                                        workingHours: getFirstStartEndHours(workingHours) == undefined
-                                    }
-                                ))
-                                setValidOpen(true)
+                                clinicUpdate() : validations()
                             }
                         }
                     }

@@ -132,6 +132,7 @@ export default function AddClinicModal({
         }).then((response) => { 
             if(response.status == 201){
                 refetch(); 
+                setValidOpen(false)
             }else {
                 // alert('Clinic with this name already exists')
                 setExistClinic({
@@ -144,6 +145,21 @@ export default function AddClinicModal({
     }
     
     const { mutate: addClinics } = useMutation(addClinic);
+
+    function validations() {
+        setValidation(()=>(
+            {
+                name, 
+                phone, 
+                address,
+                about,
+                uploadPhoto,
+                municipal,
+                workingHours: getFirstStartEndHours(workingHours) == undefined
+            }
+        ))
+        setValidOpen(true)
+    }
 
     return (
         <>
@@ -345,18 +361,7 @@ export default function AddClinicModal({
                             {
                                 name && phone && address && about && uploadPhoto && getFirstStartEndHours(workingHours) != undefined ?
                                     addClinics()
-                                    : setValidation(()=>(
-                                        {
-                                            name, 
-                                            phone, 
-                                            address,
-                                            about,
-                                            uploadPhoto,
-                                            municipal,
-                                            workingHours: getFirstStartEndHours(workingHours) == undefined
-                                        }
-                                    ))
-                                    setValidOpen(true)
+                                    : validations()
                             }
                         }
                         }
