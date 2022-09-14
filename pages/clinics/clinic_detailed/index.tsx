@@ -1,5 +1,22 @@
 import { ReactSVG } from 'react-svg';
-import { AddServicesModal, Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, Input, Button, getList, AddBranchModal, dayz, getFirstStartEndHours, RichObjectTreeView, AlreadyExistClinic, createTree } from 'components';
+import { AddServicesModal, 
+         Card, 
+         ClinicModal, 
+         OffersTab, 
+         StuffTab, 
+         GalleryTab, 
+         GenerateBreadcrumbs, 
+         Input, 
+         Button, 
+         getList, 
+         AddBranchModal, 
+         dayz, 
+         getFirstStartEndHours, 
+         RichObjectTreeView, 
+         AlreadyExistClinic, 
+         createTree, 
+         AddPhotoToGallery
+        } from 'components';
 import StarRatings from 'react-star-ratings';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
@@ -81,12 +98,14 @@ export default function ClinicDetailed() {
     const [serviceAddModal, serServiceAddModal] = useState(false);
     
     const [showMore, setShowMore] = useState(false);
+    const [addGalleryPic, setGalleryPic] = useState(false);
 
-    var { data, refetch } = useQuery(["key", 'clinics'], ()=> { return getList(`clinics/${id}`, id) });
-    var municipalities = useQuery(["key", 'municipalities'], ()=> { return getList(`municipalities`, '1') });
+    let { data, refetch } = useQuery(["key", 'clinics'], ()=> { return getList(`clinics/${id}`, id) });
+    let municipalities = useQuery(["key", 'municipalities'], ()=> { return getList(`municipalities`, '1') });
 
-    var doctors = useQuery(["key", 'doctors'], ()=> { return getList(`clinics/${id}/doctors?page=0&size=5`, id) });
-    var branch = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${id}/branches/`, id) });
+    let doctors = useQuery(["key", 'doctors'], ()=> { return getList(`clinics/${id}/doctors?page=0&size=5`, id) });
+    let branch = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${id}/branches/`, id) });
+    let gallery = useQuery(["key", 'gallery'], ()=> { return getList(`gallery/clinic/${id}`, id) });
 
     const [existClinic, setExistClinic] = useState({
         isOpen: false,
@@ -96,6 +115,9 @@ export default function ClinicDetailed() {
     useEffect(()=> {
         refetch()
         doctors.refetch()
+        gallery.refetch()
+
+        console.log(gallery)
     }, [id])
 
 
@@ -132,6 +154,9 @@ export default function ClinicDetailed() {
 
     return (
         <>
+            {
+                addGalleryPic && <AddPhotoToGallery clinicId={id} />
+            }
             {
                 serviceAddModal && <AddServicesModal contractId={data?.contracts?.contractId} onClose={()=> serServiceAddModal(false)}/>
             }
@@ -458,6 +483,7 @@ export default function ClinicDetailed() {
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
                                 <GalleryTab
+                                    setGalleryPic={setGalleryPic}
                                     images={Array.from(new Array(6).keys()).map(
                                         (i) => ({
                                             src:

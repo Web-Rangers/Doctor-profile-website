@@ -9,6 +9,7 @@ interface Image {
 interface GalleryTabProps {
     className?: string;
     images?: Image[];
+    setGalleryPic?: any;
 }
 
 interface GalleryActionsProps {
@@ -42,7 +43,7 @@ const GalleryActions = ({
     );
 };
 
-export default function GalleryTab({ images = [] }: GalleryTabProps) {
+export default function GalleryTab({ setGalleryPic, images = [] }: GalleryTabProps) {
     const [isEdit, setIsEdit] = useState(false);
     return (
         <Card
@@ -53,6 +54,7 @@ export default function GalleryTab({ images = [] }: GalleryTabProps) {
                         setIsEdit(!isEdit);
                     }}
                     isEdit={isEdit}
+                    onAdd={()=> setGalleryPic(true)}
                 />
             }
         >
