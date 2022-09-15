@@ -23,8 +23,6 @@ export default function DoctorsList() {
 		setAllData(allData);
 	}, [freelance?.data, clinicdoctors?.data]);
 
-	console.log('freelance', clinicdoctors);
-
 	return (
 		<Tabs>
 			<TabPanel className={tabStyles.tabPanel}>

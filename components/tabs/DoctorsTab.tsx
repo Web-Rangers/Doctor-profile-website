@@ -80,6 +80,8 @@ interface DoctorsTabProps {
 export default function DoctorsTab({ doctors }: DoctorsTabProps) {
 	const sortDoctors = doctors?.sort((a, b) => b.id - a.id);
 
+	console.log('sortDoctors', sortDoctors);
+
 	return (
 		<>
 			<div className={style.doctorsHeader}>

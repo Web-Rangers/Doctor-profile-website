@@ -1,213 +1,221 @@
 .container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 .pageHeader {
-  width: 100%;
-  height: 60px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  background: transparent;
-  padding: 0;
+	width: 100%;
+	height: 60px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	background: transparent;
+	padding: 0;
 }
 
 .pageHeaderLeft {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: row;
-  gap: 55px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	flex-direction: row;
+	gap: 55px;
 }
 
 .pageBody {
-  width: 100%;
-  margin-top: 40px;
-  height: calc(100% - 80px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: stretch;
-  background: transparent;
-  padding: 0;
-  gap: 30px;
+	width: 100%;
+	margin-top: 40px;
+	height: calc(100% - 80px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: stretch;
+	background: transparent;
+	padding: 0;
+	gap: 30px;
 
-  > .tabContainer {
-    width: 100%;
-  }
+	> .tabContainer {
+		width: 100%;
+	}
 }
 
 .breadcrumbs {
-  display: flex;
-  flex-direction: row;
+	display: flex;
+	flex-direction: row;
 
-  color: #8f8f8f;
-  gap: 15px;
-  li::marker {
-    content: "";
-  }
-  li:not(:last-child) {
-    a {
-      color: #2751f2;
-    }
+	color: #8f8f8f;
+	gap: 15px;
+	li::marker {
+		content: '';
+	}
+	li:not(:last-child) {
+		a {
+			color: #2751f2;
+		}
 
-    &::after {
-      content: ">";
-      margin-left: 15px;
-    }
-  }
+		&::after {
+			content: '>';
+			margin-left: 15px;
+		}
+	}
 }
 
 .doctorRow {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  flex: 0 0 250px;
-  padding: 30px;
-  margin: 0;
-  gap: 30px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	width: 100%;
+	flex: 0 0 250px;
+	padding: 30px;
+	margin: 0;
+	gap: 30px;
 }
 
 .imageContainer {
-  flex: 1 0 180px;
-  max-width: 180px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+	flex: 1 0 180px;
+	max-width: 180px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 .image {
-  width: 100%;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 50%;
+	width: 100%;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 50%;
 }
 
 .infoContainer {
-  flex: 1 0 auto;
-  height: 100%;
-  padding-left: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
+	flex: 1 0 auto;
+	height: 100%;
+	padding-left: 15px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: space-between;
 }
 
 .name {
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 32px;
-  letter-spacing: 0.04em;
-  text-align: left;
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 32px;
+	letter-spacing: 0.04em;
+	text-align: left;
 }
 
 .speciality,
 .mail,
 .phone {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 24px;
-  letter-spacing: 0.04em;
-  text-align: left;
-  div {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	align-items: center;
+	justify-content: flex-start;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 24px;
+	letter-spacing: 0.04em;
+	text-align: left;
+	div {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 }
 
 .edit {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  cursor: pointer;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	justify-content: flex-start;
+	cursor: pointer;
 }
 .iconContainer {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  div {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	div {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 }
 
 .modal {
-  display: flex;
-  flex-direction: column;
-  min-width: 800px;
-  gap: 35px;
-  .modalTitle {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 32px;
-    letter-spacing: 0.04em;
-    text-align: left;
-  }
-  .modalHeader {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 60px;
-    background: transparent;
-    padding: 0;
-    .close {
-      cursor: pointer;
-    }
-  }
+	display: flex;
+	flex-direction: column;
+	min-width: 800px;
+	gap: 35px;
+	.modalTitle {
+		font-size: 24px;
+		font-weight: 700;
+		line-height: 32px;
+		letter-spacing: 0.04em;
+		text-align: left;
+	}
+	.modalHeader {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		height: 60px;
+		background: transparent;
+		padding: 0;
+		.close {
+			cursor: pointer;
+		}
+	}
 
-  .modalBody {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    .photoChange {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 35px;
+	.modalBody {
+		display: flex;
+		flex-direction: column;
+		gap: 25px;
+		.photoChange {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+			gap: 35px;
 
-      .doctorImage {
-        width: 176px;
-        height: 160px;
-        object-fit: cover;
-        object-position: center;
-      }
-    }
-    .editRow {
-      display: flex;
-      flex-direction: row;
-      gap: 35px;
-      .editColumn {
-        flex: 1 0 calc(50% - 35px);
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
-      }
-    }
-  }
+			.doctorImage {
+				width: 176px;
+				height: 160px;
+				object-fit: cover;
+				object-position: center;
+			}
+		}
+		.editRow {
+			display: flex;
+			flex-direction: row;
+			gap: 35px;
+			.editColumn {
+				flex: 1 0 calc(50% - 35px);
+				display: flex;
+				flex-direction: column;
+				gap: 25px;
+			}
+		}
+	}
 }
 
 .whiteSpace {
-  flex: 1 1 auto;
+	flex: 1 1 auto;
+}
+.activeBtn {
+	background-color: #2751f2;
+	color: #ffffff;
+}
+.deactiveBtn {
+	background-color: #f35959;
+	color: #ffffff;
 }

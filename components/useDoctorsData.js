@@ -92,3 +92,21 @@ export const getProfession = async () => {
 	).data;
 	return res;
 };
+
+export const deactivateFreLancerDoctor = async (id) => {
+	const res = (
+		await axios.get(
+			`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers/${id}/deactivate`
+		)
+	).data;
+	return res;
+};
+
+export const activateFreLancerDoctor = async (id) => {
+	const res = (
+		await axios.get(
+			`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers/${id}/activate`
+		)
+	).data;
+	return res;
+};

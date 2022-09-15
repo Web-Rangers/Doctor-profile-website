@@ -20,6 +20,8 @@ import {
 	getFreeLancerCertificate,
 	getDoctor,
 	getFreeLancerEducations,
+	deactivateFreLancerDoctor,
+	activateFreLancerDoctor,
 } from 'components/useDoctorsData';
 import { useQuery } from '@tanstack/react-query';
 import EditDoctorModal from 'components/modals/EditDoctorModal';
@@ -43,6 +45,7 @@ export default function DoctorsDetailed() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [email, setEmail] = useState('');
 	const [phone, setPhone] = useState('');
+	const [active, setActive] = useState(true);
 
 	var { data, refetch, isLoading, isError, error, status } = useQuery(
 		['key', 'doctorDetailed'],
@@ -115,9 +118,15 @@ export default function DoctorsDetailed() {
 							variant='fill'
 						/>
 						<Button
-							label='Deactivate an account'
+							label={active ? 'activate an account' : 'Deactivate an account'}
 							size='large'
 							variant='outline'
+							className={active ? styles.activeBtn : styles.deactiveBtn}
+							onClick={() =>
+								active
+									? (deactivateFreLancerDoctor(id), setActive(false))
+									: (activateFreLancerDoctor(id), setActive(true))
+							}
 						/>
 					</div>
 					<Breadcrumbs

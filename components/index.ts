@@ -20,6 +20,8 @@ export {
 	getFreeLancerCervices,
 	getFreeLancerEducations,
 	getProfession,
+	deactivateFreLancerDoctor,
+	activateFreLancerDoctor,
 } from './useDoctorsData';
 export { encodeImageFileAsURL } from './uploadImageBase64';
 export { default as GenerateBreadcrumbs } from './generateBreadcrumbs.js';
