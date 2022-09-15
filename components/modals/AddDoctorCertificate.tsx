@@ -73,32 +73,6 @@ export default function AddDoctorCertificate({
 		setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
 	};
 
-	// const uploadFile = async () => {
-	// 	let formData = new FormData();
-
-	// 	for (var i = 0; i < uploadedFiles.length; i++) {
-	// 		formData.append('pictureFile', uploadedFiles[i]);
-	// 	}
-	// 	console.log('data', formData);
-	// 	return axios
-	// 		.post(
-	// 			`https://asclepius.pirveli.ge/asclepius/v1/api/gallery/doctor/${id}`,
-	// 			formData,
-	// 			{
-	// 				headers: {
-	// 					'Content-Type': 'multipart/form-data',
-	// 				},
-	// 			}
-	// 		)
-	// 		.then((response) => {
-	// 			console.log('this is response hbfsjdbc', response);
-	// 			refetch();
-	// 		})
-	// 		.catch((error) => {
-	// 			if (error.response) console.log(error.response);
-	// 		});
-	// };
-
 	const requestFormData = async (id) => {
 		let formData = new FormData();
 		formData.append('doctorId', id);

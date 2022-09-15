@@ -93,20 +93,10 @@ export default function DoctorEducationTab({
 }: DoctorEducationTabProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isOpenCertificate, setIsOpenCertificate] = useState(false);
-	const [openPhoto, setOpenPhoto] = useState(false);
+
 	//   const router = useRouter();
 	//   const id = router.query.id ?? null;
 
-	const openImage = () => {
-		const selectedImage = education?.map((item) =>
-			item.galleryList.filter(
-				(id) => id === item.galleryList.map((item) => item.id)
-			)
-		);
-		console.log(' selectedImage', selectedImage);
-	};
-
-	openImage();
 	return (
 		<>
 			<Card
@@ -184,26 +174,11 @@ export default function DoctorEducationTab({
 								<div className={styles.value}>{educationItem.dateEnd}</div>
 								<div className={styles.mediaValue}>
 									{educationItem?.galleryList?.map((mediaItem) => (
-										<div
-											key={mediaItem.alt}
-											className={styles.media}
-										>
-											{openPhoto && (
-												<Image
-													src={mediaItem.url}
-													width='500px'
-													height='500px'
-													alt=''
-													className={styles.educationPhoto}
-												/>
-											)}
-											<ReactSVG
-												src={'/images/icons/cards/camera.svg'}
-												className={styles.icon}
-												onClick={() => setOpenPhoto(true)}
-											/>
-											<div className={styles.mediaText}>{mediaItem.alt}</div>
-										</div>
+										<ImageItem
+											alt={mediaItem.alt}
+											key={mediaItem.id}
+											url={mediaItem.url}
+										/>
 									))}
 								</div>
 							</div>
@@ -223,3 +198,36 @@ export default function DoctorEducationTab({
 		</>
 	);
 }
+
+const ImageItem = (props) => {
+	const [openPhoto, setOpenPhoto] = useState(false);
+	return (
+		<div
+			key={props.alt}
+			className={styles.media}
+		>
+			{openPhoto && (
+				<>
+					<Image
+						src={props.url}
+						width='500px'
+						height='500px'
+						alt=''
+						className={styles.educationPhoto}
+					/>
+					<ReactSVG
+						src={'/images/icons/inputs/x.svg'}
+						className={styles.icon}
+						onClick={() => setOpenPhoto(false)}
+					/>
+				</>
+			)}
+			<ReactSVG
+				src={'/images/icons/cards/camera.svg'}
+				className={styles.icon}
+				onClick={() => setOpenPhoto(true)}
+			/>
+			<div className={styles.mediaText}>{props.alt}</div>
+		</div>
+	);
+};

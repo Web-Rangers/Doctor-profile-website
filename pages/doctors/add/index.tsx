@@ -87,6 +87,7 @@ export default function AddDoctor() {
 			);
 			const res = await response.json();
 			setRequestBody((prev) => ({ ...prev, clinicBranchIds: value }));
+			console.log('res', res);
 			let branches = res?.filter(
 				(
 					(ids) =>
@@ -112,8 +113,8 @@ export default function AddDoctor() {
 	}
 
 	useEffect(() => {
-		clinicId ? refetchBranch(clinicId) : null;
-	}, [clinicId]);
+		clinicId ? refetchBranch(clinicId || requestBody.clinicBranchIds) : null;
+	}, [clinicId, requestBody.clinicBranchIds]);
 
 	useEffect(() => {
 		clinics.refetch();
@@ -128,15 +129,34 @@ export default function AddDoctor() {
 		return list;
 	};
 
+	const requestNewProffesion = () => {
+		return axios
+			.post(
+				`https://asclepius.pirveli.ge/asclepius/v1/api/professions`,
+				{ name: searchValue },
+				{
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				}
+			)
+			.then((response) => {
+				requestFormData(response?.data.id);
+			})
+			.catch((error) =>
+				setError((prev) => ({ ...prev, isError: true, errorMessage: error }))
+			);
+	};
+
 	const requestFormData = (id) => {
 		console.log('this request send');
-		let formData = new FormData();
 
+		let formData = new FormData();
+		formData.append('professionId', id);
+		console.log('id', id);
 		for (const [key, value] of Object.entries(requestBody)) {
 			formData.append(key, value);
 		}
-
-		formData.append('professionId', id);
 
 		return axios
 			.post(
@@ -154,25 +174,6 @@ export default function AddDoctor() {
 			)
 			.then((response) => {
 				router.push('/doctors');
-			})
-			.catch((error) =>
-				setError((prev) => ({ ...prev, isError: true, errorMessage: error }))
-			);
-	};
-
-	const requestNewProffesion = () => {
-		return axios
-			.post(
-				`https://asclepius.pirveli.ge/asclepius/v1/api/professions`,
-				{ name: searchValue },
-				{
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				}
-			)
-			.then((response) => {
-				requestFormData(response?.data.id);
 			})
 			.catch((error) =>
 				setError((prev) => ({ ...prev, isError: true, errorMessage: error }))
@@ -448,7 +449,9 @@ export default function AddDoctor() {
 						onClick={() =>
 							requestBody?.personalId.length !== 11
 								? alert('personal Id should be 11 charachters')
-								: requestNewProffesion()
+								: requestBody.professionId === null
+								? requestNewProffesion()
+								: requestFormData(requestBody.professionId)
 						}
 					/>
 				</div>

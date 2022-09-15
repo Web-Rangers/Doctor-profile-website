@@ -3,7 +3,9 @@ import axios from 'axios';
 
 export const getDoctors = async () => {
 	const res = (
-		await axios.get(`/asclepius/v1/api/clinics/doctors?page=0&size=5`)
+		await axios.get(
+			`https://asclepius.pirveli.ge/asclepius/v1/api/clinics/doctors?page=0&size=5`
+		)
 	).data;
 	return res;
 };

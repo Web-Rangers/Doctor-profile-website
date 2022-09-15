@@ -70,37 +70,6 @@ export default function AddDoctorEducation({
 		setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
 	};
 
-	// const uploadFile = async () => {
-	// 	let formData = new FormData();
-	// 	formData.append('school', requestBody?.school);
-	// 	formData.append('degree', requestBody?.degree);
-	// 	formData.append('fieldsOfStudy', requestBody?.fieldsOfStudy);
-	// 	formData.append('dateEnd', requestBody?.dateEnd);
-	// 	formData.append('dateStart', requestBody?.dateStart);
-
-	// 	for (var i = 0; i < uploadedFiles.length; i++) {
-	// 		formData.append('files', uploadedFiles[i]);
-	// 	}
-
-	// 	return axios
-	// 		.post(
-	// 			`https://asclepius.pirveli.ge/asclepius/v1/api/gallery/doctor/${id}/educations`,
-	// 			formData,
-	// 			{
-	// 				headers: {
-	// 					'Content-Type': 'multipart/form-data',
-	// 				},
-	// 			}
-	// 		)
-	// 		.then((response) => {
-	// 			console.log('this is response hbfsjdbc', response);
-	// 			refetch();
-	// 		})
-	// 		.catch((error) => {
-	// 			if (error.response) console.log(error.response);
-	// 		});
-	// };
-
 	const requestFormData = async () => {
 		let formData = new FormData();
 		formData.append('school', requestBody?.school);
