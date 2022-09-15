@@ -12,7 +12,7 @@ import Fuse from "fuse.js";
 
 export default function Clinics({ list }) {
   const { data, refetch, status } = useClinicsData();
-  var municipalities = useQuery(["key", 'municipalities'], ()=> { return getList(`municipalities`, '1') });
+  let municipalities = useQuery(["key", 'municipalities'], ()=> { return getList(`municipalities`, '1') });
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");

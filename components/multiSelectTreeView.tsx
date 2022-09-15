@@ -5,7 +5,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 import Link from 'next/link';
 import styles from 'styles/components/multiSelectTree.module.scss';
-import { CheckBox, Modal, Input, Button, createTree } from 'components';
+import { CheckBox, Modal, Input, Button, createTree, EditService } from 'components';
 import Select from 'react-select';
 import { style } from '@mui/system';
 import {useEffect, useState, useCallback} from 'react';
@@ -23,6 +23,8 @@ interface RenderTree {
     title: string;
     children?: readonly RenderTree[];
     variant?: string;
+    refetch?: any;
+    alreadyExistServices?:any;
 }
   
 export default function RichObjectTreeView({
@@ -30,7 +32,9 @@ export default function RichObjectTreeView({
     originalData,
     pagination,
     contractId,
-    variant
+    variant,
+    refetch = null,
+    alreadyExistServices = null
 }) {
     const [options, setOptions] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
@@ -39,14 +43,17 @@ export default function RichObjectTreeView({
 
     const [services, setServices] = useState([]);
     const [currentService, setCurrentService] = useState(null);
-    const [check, setCheck] = useState([]);
+    const [editService, setEditService] = useState({
+        isOpen: false,
+        data: null,
+    })
 
     const [isModalOpen, setIsModalOpen] = useState({
         isOpen: false,
         node: null
     });
 
-    var service = useQuery(["key", 'service'], ()=> { return getList(`clinics/contract-to-service/`, currentService) });
+    let service = useQuery(["key", 'service'], ()=> { return getList(`clinics/contract-to-service/`, currentService) });
    
     function recurseServices(parentId) {
         if(parentId != null){
@@ -73,6 +80,7 @@ export default function RichObjectTreeView({
     },[service?.data])
 
     const renderTree = (nodes: RenderTree) => {
+        let state = alreadyExistServices?.filter((e)=> e.id == nodes?.id).length > 0;
         return (<TreeItem key={nodes?.id} nodeId={nodes?.id} label={
             <>
                 <div className={styles.table}>
@@ -80,7 +88,12 @@ export default function RichObjectTreeView({
                         className={styles.checkbox}
                     >
                         {
-                            variant == 'current' ? <CheckBox className={styles.disabledCheckbox} id={nodes?.id} checked /> : <CheckBox className={styles.disabledCheckbox} id={nodes?.id} />
+                            variant == 'current' ? <CheckBox className={styles.disabledCheckbox} id={nodes?.id} checked /> : 
+                                                    (
+                                                        state ? 
+                                                        <CheckBox className={styles.disabledCheckbox} id={nodes?.id} checked /> : 
+                                                        <CheckBox className={styles.disabledCheckbox} id={nodes?.id} />
+                                                    )
                         }
                     </div>
                     <div>{nodes?.id}</div>
@@ -89,25 +102,30 @@ export default function RichObjectTreeView({
                     <div></div>
                     <div>{nodes?.serviceParameterValues && nodes?.serviceParameterValues[0]?.serviceParamNumberValue}</div>
                     {
-                        variant == 'current' ? <button>edit</button> : <button 
-                        className={styles.addService}
-                        onClick={(e)=> {
-                            recurseServices(nodes?.parentServiceId)
+                        variant == 'current' ? <button onClick={()=> setEditService((prev)=> ({...prev, isOpen: true, data: nodes, refetch: ()=> service.refetch()}))}>edit</button> : 
+                        (
+                            state ? 
+                            'something' : 
+                            <button 
+                                className={styles.addService}
+                                onClick={(e)=> {
+                                    recurseServices(nodes?.parentServiceId)
 
-                            if(services.filter((item)=> item.id == nodes?.id).length == 0){
-                                setServices((prev) => ([...prev, nodes]))
-                            }
-                            setCurrentService(nodes)
-                            e.stopPropagation(); 
+                                    if(services.filter((item)=> item.id == nodes?.id).length == 0){
+                                        setServices((prev) => ([...prev, nodes]))
+                                    }
+                                    setCurrentService(nodes)
+                                    e.stopPropagation(); 
 
-                            setIsModalOpen({
-                                isOpen: true,
-                                node: nodes
-                            })
-                        }}
-                    >
-                        Add Service
-                    </button>
+                                    setIsModalOpen({
+                                        isOpen: true,
+                                        node: nodes
+                                    })
+                                }}
+                            >
+                                Add Service
+                            </button> 
+                        )
                     }
                     
                 </div>
@@ -156,6 +174,9 @@ export default function RichObjectTreeView({
     }, [currentPage, data]);
     return <>
             {
+                editService.isOpen && <EditService data={editService.data} refetch={()=> refetch()} onClose={()=> setEditService({isOpen: false, data:null})} />
+            }
+            {
                 isModalOpen.isOpen && 
                 <AddServicesModal 
                     node={isModalOpen.node} 
@@ -164,6 +185,7 @@ export default function RichObjectTreeView({
                     setIsModalOpen={setIsModalOpen}
                     contractId={contractId}
                     addService={(item)=>addService(item)}
+                    alreadyExistServices={alreadyExistServices}
                 />
             }
             {<TreeView
@@ -243,9 +265,17 @@ export function AddServicesModal({
     setServices,
     setIsModalOpen,
     contractId,
-    addService
+    addService,
+    alreadyExistServices
 }) {
     const [inp, setInp] = useState({})
+
+    const state = services.map((item)=> {
+        const filtermeth = alreadyExistServices.filter((e)=> e.id == item.id);
+        if(!(filtermeth.length > 0)){
+            return item
+        }
+    }).filter(item=>item != undefined)
 
     return <>
         <Modal className={styles.services} onBackClick={()=> {setServices([]); setIsModalOpen({
@@ -254,7 +284,7 @@ export function AddServicesModal({
         })}}>
             <h2>if you want to add service, you should add parent services too</h2>
                 {
-                    services?.map((serv)=>{
+                    state?.sort((a,b)=> a.id - b.id).map((serv)=>{
                         return <>
                             <div className={styles.servicesBlock}>
                                 {
@@ -281,7 +311,7 @@ export function AddServicesModal({
                 variant='fill'
                 size="large"
                 onClick={()=> {
-                    const serv = services.sort((a,b)=> a.id - b.id).map((item)=>{
+                    const serv = state.sort((a,b)=> a.id - b.id).map((item)=>{
                         return {
                             "contract_id": contractId,
                             "service_id": item.id,

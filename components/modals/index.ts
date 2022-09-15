@@ -15,3 +15,4 @@ export { default as AddBranchModal } from './AddBranchModal';
 export { default as AlreadyExistClinic } from './AlreadyExistClinic.js';
 export { default as AddServicesModal } from './AddServicesModal.js';
 export { default as AddPhotoToGallery } from './AddPhotoToGallery';
+export { default as EditService } from './EditService';

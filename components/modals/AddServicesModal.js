@@ -5,7 +5,8 @@ import styles from 'styles/components/Modals/addserviceModal.module.scss';
 
 export default function AddServicesModal({
     onClose,
-    contractId
+    contractId,
+    alreadyExistServices
 }) {
     const [services, setServices] = useState([]);
     var getServices = useQuery(["key", 'allservices'], ()=> { return getList(`clinics/contract-type-to-services`, '1') });
@@ -26,6 +27,7 @@ export default function AddServicesModal({
                 pagination={{ pageSize: 4, initialPage: 1 }} 
                 contractId={contractId}
                 variant={"all services"}
+                alreadyExistServices={alreadyExistServices}
             />
         </Modal>
     </>

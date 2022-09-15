@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Modal, Button } from 'components';
+import { Modal, Button, debounce } from 'components';
 import {useState} from 'react';
 import styles from 'styles/components/Modals/AddPhotoToGallery.module.scss';
 
@@ -38,6 +38,8 @@ export default function AddPhotoToGallery({clinicId}) {
         setUploadedFiles(removeImg)
     }
 
+    const processChange = debounce(() => sendRequest(uploadedFiles));
+
     async function sendRequest(uploadedFiles) {
         for(let i = 0; i < uploadedFiles.length; i++){
             let formData = new FormData()
@@ -71,7 +73,7 @@ export default function AddPhotoToGallery({clinicId}) {
                 ))}
 			</div>
 
-            <button onClick={()=> sendRequest(uploadedFiles)}>Add Photos</button>
+            <button onClick={()=> processChange(uploadedFiles)}>Add Photos</button>
         </Modal>
     </>
 }

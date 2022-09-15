@@ -106,6 +106,8 @@ export default function ClinicDetailed() {
     let doctors = useQuery(["key", 'doctors'], ()=> { return getList(`clinics/${id}/doctors?page=0&size=5`, id) });
     let branch = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${id}/branches/`, id) });
     let gallery = useQuery(["key", 'gallery'], ()=> { return getList(`gallery/clinic/${id}`, id) });
+    let services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${data?.contracts?.contractId}`, data?.contracts?.contractId) });
+    const [service, setServices] = useState('');
 
     const [existClinic, setExistClinic] = useState({
         isOpen: false,
@@ -114,10 +116,10 @@ export default function ClinicDetailed() {
 
     useEffect(()=> {
         refetch()
+        branch.refetch()
         doctors.refetch()
         gallery.refetch()
-
-        console.log(gallery)
+        services.refetch()
     }, [id])
 
 
@@ -158,7 +160,7 @@ export default function ClinicDetailed() {
                 addGalleryPic && <AddPhotoToGallery clinicId={id} />
             }
             {
-                serviceAddModal && <AddServicesModal contractId={data?.contracts?.contractId} onClose={()=> serServiceAddModal(false)}/>
+                serviceAddModal && <AddServicesModal contractId={data?.contracts?.contractId} onClose={()=> serServiceAddModal(false)} alreadyExistServices={services?.data}/>
             }
             {
                 existClinic.isOpen && <AlreadyExistClinic data={existClinic} onClose={()=> setExistClinic({isOpen: false, data: null})} />
@@ -505,8 +507,8 @@ export default function ClinicDetailed() {
 
 export function Services(contractId) {
     const [service, setServices] = useState([]);
-    var services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${contractId.contractId}`, contractId.contractId) });
-    console.log(contractId, 'tis is')
+    let services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${contractId.contractId}`, contractId.contractId) });
+
     useEffect(()=>{
         const tree = createTree(services?.data, 'current')
         
@@ -522,6 +524,7 @@ export function Services(contractId) {
             pagination={{ pageSize: 8, initialPage: 1 }} 
             contractId={contractId}
             variant={"current"}
+            refetch={()=> services.refetch()}
         />
     </>
 }
