@@ -121,7 +121,6 @@ export default function ClinicDetailed() {
         services.refetch()
     }, [id])
 
-
     useEffect(()=>{
         let numbers = data?.contactInfos.map((contact)=>{
             if(contact?.type.value == 'mobile') {
@@ -159,7 +158,7 @@ export default function ClinicDetailed() {
                 addGalleryPic && <AddPhotoToGallery clinicId={id} onClose={()=> setGalleryPic(false)} refetch={()=> gallery.refetch()} />
             }
             {
-                serviceAddModal && <AddServicesModal contractId={data?.contracts?.contractId} onClose={()=> serServiceAddModal(false)} alreadyExistServices={services?.data}/>
+                serviceAddModal && <AddServicesModal contractId={data?.contracts?.contractId} onClose={()=> serServiceAddModal(false)} alreadyExistServices={services?.data} refetch={services}/>
             }
             {
                 existClinic.isOpen && <AlreadyExistClinic data={existClinic} onClose={()=> setExistClinic({isOpen: false, data: null})} />
@@ -505,7 +504,7 @@ export function Services(contractId) {
         const tree = createTree(services?.data, 'current')
         
         let newData = services?.data?.map((item)=>(item)).filter((item)=> item.parentServiceId == null);
-        console.log('this is services data', services?.data)
+
         setServices(newData)
     },[services?.data])
 

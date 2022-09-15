@@ -70,9 +70,13 @@ export default function RichObjectTreeView({
     async function addService(item) {
         for(let i = 0; i < item.length; i++){
             await axios.post('/asclepius/v1/api/accounting/contract-to-service', item[i])
-                        .then((response)=> console.log(response))
-                        .catch((error)=> alert(error.response.data.message))
+                        .then((response)=> {
+                            console.log(response)
+                        })
+                        .catch((error)=> alert(error))
         }
+        setIsModalOpen({node: null, isOpen: false})
+        refetch()
     }
 
     useEffect(()=>{
@@ -102,7 +106,16 @@ export default function RichObjectTreeView({
                     <div></div>
                     <div>{nodes?.serviceParameterValues && nodes?.serviceParameterValues[0]?.serviceParamNumberValue}</div>
                     {
-                        variant == 'current' ? <button onClick={()=> setEditService((prev)=> ({...prev, isOpen: true, data: nodes, refetch: ()=> service.refetch()}))}>edit</button> : 
+                        variant == 'current' ? <button 
+                                                    className={styles.editBtn} 
+                                                    onClick={(e)=> {
+                                                        e.defaultPrevented = true;
+                                                        setEditService((prev)=> 
+                                                                            ({...prev, isOpen: true, data: nodes, refetch: ()=> service.refetch()})
+                                                                            );
+                                                    }}>
+                            <ReactSVG src="/images/icons/table/edit.svg" />
+                        </button> : 
                         (
                             state ? 
                             'something' : 

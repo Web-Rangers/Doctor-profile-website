@@ -1,6 +1,7 @@
 import styles from 'styles/components/Tabs/GalleryTab.module.scss';
 import { Card, Button, GalleryCard } from 'components';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 interface Image {
     url: string;
@@ -60,7 +61,7 @@ export default function GalleryTab({ setGalleryPic, images = [] }: GalleryTabPro
                     isEdit={isEdit}
                     onAdd={()=> setGalleryPic(true)}
                     collector={collector}
-                    onDelete={()=> console.log(collector)}
+                    onDelete={()=> {removeImage(collector); setIsEdit(false)}}
                 />
             }
         >
@@ -80,4 +81,16 @@ export default function GalleryTab({ setGalleryPic, images = [] }: GalleryTabPro
             </div>
         </Card>
     );
+}
+
+export async function removeImage(collector) {
+    const requestBody:object = {
+        'ids': collector
+    }
+
+    await axios.delete('/asclepius/v1/api/gallery/clinic/urlListByIdList',  requestBody)
+                    .then((response)=>console.log)
+                    .catch(error=>alert(error))
+
+    console.log(requestBody)
 }

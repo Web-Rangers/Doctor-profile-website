@@ -6,11 +6,12 @@ import styles from 'styles/components/Modals/addserviceModal.module.scss';
 export default function AddServicesModal({
     onClose,
     contractId,
-    alreadyExistServices
+    alreadyExistServices,
+    refetch
 }) {
     const [services, setServices] = useState([]);
     var getServices = useQuery(["key", 'allservices'], ()=> { return getList(`clinics/contract-type-to-services`, '1') });
-
+    
     useEffect(()=>{
         const tree = createTree(getServices?.data)
         
@@ -28,6 +29,7 @@ export default function AddServicesModal({
                 contractId={contractId}
                 variant={"all services"}
                 alreadyExistServices={alreadyExistServices}
+                refetch={()=> refetch.refetch()}
             />
         </Modal>
     </>
