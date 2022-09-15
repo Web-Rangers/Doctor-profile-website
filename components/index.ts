@@ -26,3 +26,4 @@ export { getFirstStartEndHours, handleChange, activeWorkingHours, dayz } from '.
 export { default as RichObjectTreeView} from './multiSelectTreeView';
 export {createTree} from './createTree.js';
 export {debounce} from './debounce.js'
+export {niceBytes} from './bytesConverter.js';

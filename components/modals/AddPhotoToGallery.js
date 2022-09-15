@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { Modal, Button, debounce } from 'components';
+import { Modal, Button, debounce, niceBytes } from 'components';
 import {useState} from 'react';
+import { ReactSVG } from 'react-svg';
 import styles from 'styles/components/Modals/AddPhotoToGallery.module.scss';
 
 const MAX_COUNT = 5;
 
-export default function AddPhotoToGallery({clinicId}) {
+export default function AddPhotoToGallery({clinicId, onClose, refetch}) {
     const [uploadedFiles, setUploadedFiles] = useState([])
     const [fileLimit, setFileLimit] = useState(false);
 
@@ -51,14 +52,16 @@ export default function AddPhotoToGallery({clinicId}) {
                 },
             }).then((response) => { 
                 console.log(response)
-            })
+                refetch()
+                onClose()
+            }).catch(error=> alert(error.response.data.message))
         }
 
         return true
-    } 
+    }
 
     return <>
-        <Modal>
+        <Modal onBackClick={onClose}>
             <div>
                 <label className={styles.customLabel} htmlFor='upfile'>Upload Photos</label>
                 <input type="file" id="upfile" multiple="multiple" onChange={handleFileEvent} className={styles.hidden}/>
@@ -66,14 +69,28 @@ export default function AddPhotoToGallery({clinicId}) {
 
             <div className={styles.uploadedFileList}>
 				{uploadedFiles.map(file => (
-                    <div>
-                        {file.name}
-                        <button onClick={()=> removeImage(file.name)}>remove</button>
+                    <div className={styles.uploadPicDet}>
+                        <div className={styles.fileInfo}>
+                            <span>{file.name}</span>
+                            <span>{niceBytes(file.size)}</span>
+                        </div>
+                        <button 
+                            className={styles.removeFileBtn}
+                            onClick={()=> removeImage(file.name)}>
+                            <ReactSVG
+                                src="/images/icons/clinics/removeImage.svg"
+                            />
+                        </button>
                     </div>
                 ))}
 			</div>
 
-            <button onClick={()=> processChange(uploadedFiles)}>Add Photos</button>
+            <Button
+                label='Add Photos'
+                variant='fill'
+                size='large' 
+                onClick={()=> processChange(uploadedFiles)} 
+            />
         </Modal>
     </>
 }

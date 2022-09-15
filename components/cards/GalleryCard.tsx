@@ -10,6 +10,9 @@ interface GalleryCardProps {
     src?: string;
     isEdit?: boolean;
     id?: string;
+    setCollector?: any;
+    imgInfo?: any;
+    collector?: any;
 }
 
 export default function GalleryCard({
@@ -18,6 +21,9 @@ export default function GalleryCard({
     src,
     isEdit,
     id,
+    setCollector,
+    collector,
+    imgInfo,
     ...props
 }: GalleryCardProps) {
     const [isSelect, setIsSelect] = useState(false);
@@ -30,7 +36,15 @@ export default function GalleryCard({
                         id={id}
                         checked={isSelect}
                         className={styles.checkbox}
-                        onChange={(newValue) => setIsSelect(newValue)}
+                        onChange={(newValue) => {
+                            if(!isSelect){
+                                setCollector((prev)=> ([...prev, imgInfo.galleryId]))
+                            }else {
+                                const newArray = collector.filter((e)=> e != imgInfo)
+                                setCollector(newArray)
+                            }
+                            setIsSelect(newValue)
+                        }}
                     />
                 </div>
             )}

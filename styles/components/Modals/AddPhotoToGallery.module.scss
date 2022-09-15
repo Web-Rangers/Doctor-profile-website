@@ -34,8 +34,34 @@
     position: absolute;
     z-index: -1;
     display: none;
+} 
+
+.uploadPicDet {
+    width: 658px;
+    border:1px solid #B3B1BB;
+    margin-bottom:15px;
 }
 
-.uploadedFileList {
-    width: 500px;
+.removeFileBtn {
+    background-color: transparent;
+    border:none;
+    outline:none;
+    cursor:pointer;
+}
+
+.uploadPicDet {
+    display: flex;
+    padding:16px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.fileInfo {
+    display: flex;
+    flex-direction: column;
+    span{
+        &:nth-child(2){
+            color: #B3B1BB;;
+        }
+    }
 }

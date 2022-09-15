@@ -107,7 +107,6 @@ export default function ClinicDetailed() {
     let branch = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${id}/branches/`, id) });
     let gallery = useQuery(["key", 'gallery'], ()=> { return getList(`gallery/clinic/${id}`, id) });
     let services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${data?.contracts?.contractId}`, data?.contracts?.contractId) });
-    const [service, setServices] = useState('');
 
     const [existClinic, setExistClinic] = useState({
         isOpen: false,
@@ -157,7 +156,7 @@ export default function ClinicDetailed() {
     return (
         <>
             {
-                addGalleryPic && <AddPhotoToGallery clinicId={id} />
+                addGalleryPic && <AddPhotoToGallery clinicId={id} onClose={()=> setGalleryPic(false)} refetch={()=> gallery.refetch()} />
             }
             {
                 serviceAddModal && <AddServicesModal contractId={data?.contracts?.contractId} onClose={()=> serServiceAddModal(false)} alreadyExistServices={services?.data}/>
@@ -486,14 +485,7 @@ export default function ClinicDetailed() {
                             <TabPanel className={tabStyles.tabPanel}>
                                 <GalleryTab
                                     setGalleryPic={setGalleryPic}
-                                    images={Array.from(new Array(6).keys()).map(
-                                        (i) => ({
-                                            src:
-                                                '/images/gallery/photo' +
-                                                (i + 1) +
-                                                '.png',
-                                        })
-                                    )}
+                                    images={gallery?.data?.sort((a,b)=> b.galleryId - a.galleryId)}
                                 />
                             </TabPanel>
                         </Tabs>

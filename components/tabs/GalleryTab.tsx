@@ -1,9 +1,9 @@
 import styles from 'styles/components/Tabs/GalleryTab.module.scss';
 import { Card, Button, GalleryCard } from 'components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Image {
-    src: string;
+    url: string;
 }
 
 interface GalleryTabProps {
@@ -17,6 +17,7 @@ interface GalleryActionsProps {
     onEdit?: () => void;
     onAdd?: () => void;
     onDelete?: () => void;
+    collector?: any;
 }
 
 const GalleryActions = ({
@@ -24,6 +25,7 @@ const GalleryActions = ({
     onAdd,
     isEdit,
     onDelete,
+    collector = null
 }: GalleryActionsProps) => {
     return (
         <div className={styles.actions}>
@@ -45,6 +47,8 @@ const GalleryActions = ({
 
 export default function GalleryTab({ setGalleryPic, images = [] }: GalleryTabProps) {
     const [isEdit, setIsEdit] = useState(false);
+    const [collector, setCollector] = useState([]);
+    
     return (
         <Card
             cardTitle="Photo gallery"
@@ -55,17 +59,22 @@ export default function GalleryTab({ setGalleryPic, images = [] }: GalleryTabPro
                     }}
                     isEdit={isEdit}
                     onAdd={()=> setGalleryPic(true)}
+                    collector={collector}
+                    onDelete={()=> console.log(collector)}
                 />
             }
         >
             <div className={styles.galleryCardContainer}>
-                {images.map(({ src }, i) => (
+                {images.map((img, i) => (
                     <GalleryCard
                         id={'gallery' + i}
                         key={'gallery' + i}
-                        src={src}
+                        src={img.url}
                         className={styles.galleryCard}
                         isEdit={isEdit}
+                        setCollector={setCollector}
+                        collector={collector}
+                        imgInfo={img}
                     />
                 ))}
             </div>
