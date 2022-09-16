@@ -110,3 +110,21 @@ export const activateFreLancerDoctor = async (id) => {
 	).data;
 	return res;
 };
+
+export const deactivateDoctor = async (id, clinicId) => {
+	const res = (
+		await axios.get(
+			`https://asclepius.pirveli.ge/asclepius/v1/api/clinics/${clinicId}/doctors/${id}/deactivate`
+		)
+	).data;
+	return res;
+};
+
+export const activateDoctor = async (id, clinicId) => {
+	const res = (
+		await axios.get(
+			`https://asclepius.pirveli.ge/asclepius/v1/api/clinics/${clinicId}/doctors/${id}/activate`
+		)
+	).data;
+	return res;
+};

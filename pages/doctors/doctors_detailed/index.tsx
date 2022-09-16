@@ -22,6 +22,8 @@ import {
 	getFreeLancerEducations,
 	deactivateFreLancerDoctor,
 	activateFreLancerDoctor,
+	deactivateDoctor,
+	activateDoctor,
 } from 'components/useDoctorsData';
 import { useQuery } from '@tanstack/react-query';
 import EditDoctorModal from 'components/modals/EditDoctorModal';
@@ -67,6 +69,8 @@ export default function DoctorsDetailed() {
 	if (router.isReady) {
 		refetch();
 	}
+
+	const clinicId = doctorData?.clinics.map((item) => item.id);
 
 	const certificates = useQuery(['key', 'freeLancerCertificate'], () => {
 		return getFreeLancerCertificate(id);
@@ -124,8 +128,12 @@ export default function DoctorsDetailed() {
 							className={active ? styles.activeBtn : styles.deactiveBtn}
 							onClick={() =>
 								active
-									? (deactivateFreLancerDoctor(id), setActive(false))
-									: (activateFreLancerDoctor(id), setActive(true))
+									? doctorData?.doctorType === 'FREELANCER'
+										? (deactivateFreLancerDoctor(id), setActive(false))
+										: (deactivateDoctor(id, clinicId), setActive(false))
+									: doctorData?.doctorType === 'FREELANCER'
+									? (activateFreLancerDoctor(id), setActive(true))
+									: (activateDoctor(id, clinicId), setActive(true))
 							}
 						/>
 					</div>

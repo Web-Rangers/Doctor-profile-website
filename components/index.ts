@@ -22,6 +22,8 @@ export {
 	getProfession,
 	deactivateFreLancerDoctor,
 	activateFreLancerDoctor,
+	deactivateDoctor,
+	activateDoctor,
 } from './useDoctorsData';
 export { encodeImageFileAsURL } from './uploadImageBase64';
 export { default as GenerateBreadcrumbs } from './generateBreadcrumbs.js';
