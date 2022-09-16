@@ -20,7 +20,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 import { getList } from 'components';
-import { GenerateBreadcrumbs, getFirstStartEndHours, dayz } from 'components';
+import { GenerateBreadcrumbs, getFirstStartEndHours, dayz, AddPhotoToGallery, AddServicesModal, RichObjectTreeView, createTree } from 'components';
 
 interface ActionProps {
 	icon?: string;
@@ -100,15 +100,21 @@ export default function Branch() {
 			active: false,
 		},
 	]);
-	
+	const [addGalleryPic, setGalleryPic] = useState(false);
+	const [serviceAddModal, serServiceAddModal] = useState(false);
+
     let branchDetail = useQuery(["key", 'branch'], ()=> { return getList(`clinics/${id}`, id) });
     let branchDoctors = useQuery(["key", 'branchDoctors'], ()=> { return getList(`clinics/${id}/doctors?page=0&size=5`, id) });
     let  municipalities = useQuery(["key", 'municipalities'], ()=> { return getList(`municipalities`, '1') });
+    let gallery = useQuery(["key", 'gallery'], ()=> { return getList(`gallery/clinic/${id}`, id) });
+    let services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${branchDetail?.data?.contracts?.contractId}`, branchDetail?.data?.contracts?.contractId) });
 
 	useEffect(() => {
 		branchDetail.refetch();
 		branchDoctors.refetch();
-	}, [id]);
+		gallery.refetch();
+		services.refetch();
+	}, [id, branchDetail?.data]);
 
 	useEffect(() => {
 		let numbers =
@@ -153,6 +159,12 @@ export default function Branch() {
 
 	return (
 		<>
+			{
+				addGalleryPic && <AddPhotoToGallery clinicId={id} onClose={()=> setGalleryPic(false)} refetch={()=> gallery.refetch()} />
+            }
+			{
+				serviceAddModal && <AddServicesModal contractId={branchDetail?.data?.contracts?.contractId} onClose={()=> serServiceAddModal(false)} alreadyExistServices={services?.data} refetch={services}/>
+			}
 			{branchModalIsOpen && (
 				<BranchModal
 					onClose={() => setBranchModalIsOpen(false)}
@@ -368,14 +380,19 @@ export default function Branch() {
 								</Tab>
 							</TabList>
 							<TabPanel className={tabStyles.tabPanel}>
-								<ServicesTab
-									services={Array.from(new Array(50).keys()).map((x) => {
-										return {
-											name: 'Service ' + x,
-											enabled: true,
-										};
-									})}
-								/>
+								<div className={styles.servicesTable}>
+									<div className={styles.servicesHeader}>
+										<h2>Services</h2>
+										<Button 
+											label="Add Service"
+											variant="fill"
+											size="large"
+											className={styles.serviceBtn}
+											onClick={()=> serServiceAddModal(true)}
+										/>
+									</div>
+									<Services contractId={branchDetail?.data?.contracts?.contractId} />
+								</div>
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>
 								<OffersTab
@@ -417,9 +434,9 @@ export default function Branch() {
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>
 								<GalleryTab
-									images={Array.from(new Array(6).keys()).map((i) => ({
-										src: '/images/gallery/photo' + (i + 1) + '.png',
-									}))}
+									setGalleryPic={setGalleryPic}
+									images={gallery?.data?.sort((a,b)=> b.galleryId - a.galleryId)}
+									refetch={()=> gallery.refetch()}
 								/>
 							</TabPanel>
 						</Tabs>
@@ -428,6 +445,30 @@ export default function Branch() {
 			</div>
 		</>
 	);
+}
+
+export function Services(contractId) {
+    const [service, setServices] = useState([]);
+    let services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${contractId.contractId}`, contractId.contractId) });
+
+    useEffect(()=>{
+        const tree = createTree(services?.data, 'current')
+        
+        let newData = services?.data?.map((item)=>(item)).filter((item)=> item.parentServiceId == null);
+
+        setServices(newData)
+    },[services?.data])
+
+    return <>
+        <RichObjectTreeView 
+            data={service ? service : [] } 
+            originalData={services?.data && services?.data?.map((item)=>(item))}
+            pagination={{ pageSize: 8, initialPage: 1 }} 
+            contractId={contractId}
+            variant={"current"}
+            refetch={()=> services.refetch()}
+        />
+    </>
 }
 
 Branch.getLayout = (page) => {

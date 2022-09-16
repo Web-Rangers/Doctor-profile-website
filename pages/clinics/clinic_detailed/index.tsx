@@ -485,6 +485,7 @@ export default function ClinicDetailed() {
                                 <GalleryTab
                                     setGalleryPic={setGalleryPic}
                                     images={gallery?.data?.sort((a,b)=> b.galleryId - a.galleryId)}
+                                    refetch={()=> gallery.refetch()}
                                 />
                             </TabPanel>
                         </Tabs>

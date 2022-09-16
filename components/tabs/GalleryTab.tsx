@@ -11,6 +11,7 @@ interface GalleryTabProps {
     className?: string;
     images?: Image[];
     setGalleryPic?: any;
+    refetch?: any;
 }
 
 interface GalleryActionsProps {
@@ -46,7 +47,7 @@ const GalleryActions = ({
     );
 };
 
-export default function GalleryTab({ setGalleryPic, images = [] }: GalleryTabProps) {
+export default function GalleryTab({ setGalleryPic, images = [], refetch }: GalleryTabProps) {
     const [isEdit, setIsEdit] = useState(false);
     const [collector, setCollector] = useState([]);
     
@@ -61,7 +62,7 @@ export default function GalleryTab({ setGalleryPic, images = [] }: GalleryTabPro
                     isEdit={isEdit}
                     onAdd={()=> setGalleryPic(true)}
                     collector={collector}
-                    onDelete={()=> {removeImage(collector); setIsEdit(false)}}
+                    onDelete={()=> {removeImage(collector, refetch); setIsEdit(false); setCollector([])}}
                 />
             }
         >
@@ -83,14 +84,11 @@ export default function GalleryTab({ setGalleryPic, images = [] }: GalleryTabPro
     );
 }
 
-export async function removeImage(collector) {
-    const requestBody:object = {
-        'ids': collector
-    }
-
-    await axios.delete('/asclepius/v1/api/gallery/clinic/urlListByIdList',  requestBody)
-                    .then((response)=>console.log)
+export async function removeImage(collector, refetch) {
+    await axios.delete('/asclepius/v1/api/gallery/clinic/urlListByIdList', {
+        data: { 'ids': collector}
+    })
+                    .then((response)=>refetch())
                     .catch(error=>alert(error))
 
-    console.log(requestBody)
 }

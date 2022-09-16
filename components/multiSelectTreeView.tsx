@@ -103,13 +103,14 @@ export default function RichObjectTreeView({
                     <div>{nodes?.id}</div>
                     <div>{nodes?.title}</div>
                     <div>{nodes?.descriptionId ? nodes?.descriptionId : ''}</div>
-                    <div></div>
+                    <div>
+                    </div>
                     <div>{nodes?.serviceParameterValues && nodes?.serviceParameterValues[0]?.serviceParamNumberValue}</div>
                     {
                         variant == 'current' ? <button 
                                                     className={styles.editBtn} 
                                                     onClick={(e)=> {
-                                                        e.defaultPrevented = true;
+                                                        e.stopPropagation();
                                                         setEditService((prev)=> 
                                                                             ({...prev, isOpen: true, data: nodes, refetch: ()=> service.refetch()})
                                                                             );

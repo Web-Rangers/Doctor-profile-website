@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Modal} from 'components';
+import { Modal, Input, Button } from 'components';
 import axios from 'axios';
 
 export default function EditServiceModal({data, refetch, onClose}) {
@@ -18,9 +18,18 @@ export default function EditServiceModal({data, refetch, onClose}) {
 
     return <>
         <Modal onBackClick={()=> onClose()}>
-            <input value={body.numberValue} onChange={(e)=> {setBody((prev)=>({...prev, numberValue: e.target.value}))}} />
-
-            <button onClick={()=> editRequest()}>Edit</button>
+            <h2>Edit service</h2>
+            <Input 
+                label="Service duration"
+                value={body.numberValue}
+                onChange={(e)=> {setBody((prev)=>({...prev, numberValue: e}))}} 
+            />
+            <Button 
+                label="Edit"
+                variant="fill"
+                size="large"
+                onClick={()=> editRequest()} 
+            />
         </Modal>
     </>
 }
