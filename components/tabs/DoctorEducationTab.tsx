@@ -1,13 +1,14 @@
 import styles from 'styles/components/Tabs/DoctorEducationTab.module.scss';
 import { Card, Button, Table } from 'components';
 import { ReactSVG } from 'react-svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import tableStyles from 'styles/components/Table.module.scss';
 import AddDoctorEducation from 'components/modals/AddDoctorEducation';
 import AddDoctorCertificate from 'components/modals/AddDoctorCertificate';
 import Image from 'next/image';
-import { style } from '@mui/system';
-import { InsertEmoticon } from '@mui/icons-material';
+import classNames from 'classnames';
+import EditDoctorCertificate from 'components/modals/EditDoctorCertificate';
+import EditDoctorEducation from 'components/modals/EditDoctorEducation';
 
 interface Media {
 	src: string;
@@ -23,6 +24,7 @@ interface Certificate {
 	issueDate?: string;
 	issuer?: any;
 	title?: string;
+	galleryList?: any[];
 }
 
 interface Education {
@@ -40,62 +42,110 @@ interface DoctorEducationTabProps {
 	education?: Education[];
 }
 
-const certificatesColumns = [
-	{
-		key: 'title',
-		title: 'Title',
-		dataIndex: 'title',
-	},
-	{
-		key: 'issuer',
-		title: 'Issuing organization',
-		dataIndex: 'issuer',
-	},
-	{
-		key: 'expirationDate',
-		title: 'Issued date',
-		dataIndex: 'expirationDate',
-	},
-	{
-		key: 'credentialId',
-		title: 'Creditial ID',
-		dataIndex: 'credentialId',
-	},
-	{
-		key: 'credentialInfo',
-		title: 'Creditial URL',
-		dataIndex: 'credentialInfo',
-	},
-	{
-		key: 'action',
-		title: '',
-		dataIndex: 'id',
-		render: (action, key) => {
-			return (
-				<div
-					className={`${tableStyles.tableIconCellTemplate} ${styles.smallIcon} ${styles.action}`}
-					key={key}
-					onClick={() => {}}
-				>
-					<img
-						alt=''
-						src='/images/icons/cards/more.svg'
-					/>
-				</div>
-			);
-		},
-	},
-];
-
 export default function DoctorEducationTab({
 	certificates = [],
 	education = [],
 }: DoctorEducationTabProps) {
 	const [isOpen, setIsOpen] = useState(false);
+	const [isOpenEdit, setIsOpenEdit] = useState(false);
 	const [isOpenCertificate, setIsOpenCertificate] = useState(false);
+	const [openModal, setOpenModal] = useState(false);
+
+	const certificatesColumns = [
+		{
+			key: 'title',
+			title: 'Title',
+			dataIndex: 'title',
+		},
+		{
+			key: 'issuer',
+			title: 'Issuing organization',
+			dataIndex: 'issuer',
+		},
+		{
+			key: 'expirationDate',
+			title: 'Issued date',
+			dataIndex: 'expirationDate',
+		},
+		{
+			key: 'credentialId',
+			title: 'Creditial ID',
+			dataIndex: 'credentialId',
+		},
+		{
+			key: 'credentialInfo',
+			title: 'Creditial URL',
+			dataIndex: 'credentialInfo',
+		},
+		{
+			key: 'id',
+			title: '',
+			dataIndex: 'id',
+			render: (record, key) => {
+				// eslint-disable-next-line react-hooks/rules-of-hooks
+				const [open, setOpen] = useState(false);
+				// eslint-disable-next-line react-hooks/rules-of-hooks
+				const [openModal, setOpenModal] = useState(false);
+
+				const currentdata = certificates?.filter((item) => item.id == record);
+
+				return (
+					<>
+						<div className={styles.more}>
+							<ReactSVG
+								onClick={() => {
+									setOpen(!open);
+									console.log('click', open);
+								}}
+								src={'/images/icons/cards/more.svg'}
+								className={styles.moreIcon}
+							/>
+						</div>
+						<div
+							className={classNames(styles.morButton, {
+								[styles.activeMoreBlock]: open,
+							})}
+						>
+							<div className={styles.btns}>
+								<div className={styles.moreBtn}>
+									<ReactSVG
+										src={'/images/icons/table/edit.svg'}
+										className={styles.iconContainer}
+										onClick={() => (setOpenModal(true), setOpen(!open))}
+									/>
+
+									{openModal && (
+										<EditDoctorCertificate
+											data={currentdata[0]}
+											onClose={() => setOpenModal(false)}
+											onSave={(newData) => {
+												setOpenModal(false);
+											}}
+										/>
+									)}
+									<span onClick={() => (setOpenModal(true), setOpen(!open))}>
+										Edit
+									</span>
+								</div>
+								<div className={styles.moreBtn}>
+									<ReactSVG
+										src={'/images/icons/table/delete.svg'}
+										className={styles.iconContainer}
+									/>
+
+									<span>Delete</span>
+								</div>
+							</div>
+						</div>
+					</>
+				);
+			},
+		},
+	];
 
 	//   const router = useRouter();
-	//   const id = router.query.id ?? null;
+	// //   const id = router.query.id ?? null;
+	console.log('map', education);
 
 	return (
 		<>
@@ -149,9 +199,9 @@ export default function DoctorEducationTab({
 					/>
 				)}
 				<div className={styles.educationContainer}>
-					{education?.map((educationItem) => (
+					{education?.map((educationItem, index) => (
 						<Card
-							key={educationItem.school}
+							key={index}
 							className={styles.educationCard}
 						>
 							<div className={styles.column}>
@@ -183,12 +233,58 @@ export default function DoctorEducationTab({
 								</div>
 							</div>
 							<div className={styles.column}>
-								<div onClick={() => {}}>
-									<ReactSVG
-										alt=''
-										src='/images/icons/cards/more.svg'
-										className={styles.editIcon}
-									/>
+								<div key={index}>
+									<div className={styles.more}>
+										<ReactSVG
+											onClick={() => {
+												setIsOpenEdit(!isOpenEdit);
+												console.log('click', isOpenEdit);
+											}}
+											src={'/images/icons/cards/more.svg'}
+											className={styles.moreIcon}
+										/>
+									</div>
+									<div
+										className={classNames(styles.morButton, {
+											[styles.activeMoreBlock]: isOpenEdit,
+										})}
+									>
+										<div className={styles.btns}>
+											<div className={styles.moreBtn}>
+												<ReactSVG
+													src={'/images/icons/table/edit.svg'}
+													className={styles.iconContainer}
+													onClick={() => (
+														setOpenModal(true), setIsOpenEdit(isOpenEdit)
+													)}
+												/>
+
+												{openModal && (
+													<EditDoctorEducation
+														data={educationItem}
+														onClose={() => setOpenModal(false)}
+														onSave={(newData) => {
+															setOpenModal(false);
+														}}
+													/>
+												)}
+												<span
+													onClick={() => (
+														setOpenModal(true), setIsOpenEdit(!isOpen)
+													)}
+												>
+													Edit
+												</span>
+											</div>
+											<div className={styles.moreBtn}>
+												<ReactSVG
+													src={'/images/icons/table/delete.svg'}
+													className={styles.iconContainer}
+												/>
+												<span>Delete</span>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</Card>

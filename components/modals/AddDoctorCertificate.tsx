@@ -142,22 +142,25 @@ export default function AddDoctorCertificate({
 							}
 						></Input>
 						<div className={styles.editRow}>
-							<DatePicker
+							<Input
+								type='date'
 								label='Issue date'
-								mode='single'
 								placeholder='01.01.2000'
 								onChange={(e) =>
 									setRequestBody((prev) => ({ ...prev, issueDate: e }))
 								}
-							/>
-							<DatePicker
+								value={requestBody?.issueDate}
+							></Input>
+
+							<Input
+								type='date'
 								label='End date'
-								mode='single'
 								placeholder='01.01.2000'
 								onChange={(e) =>
 									setRequestBody((prev) => ({ ...prev, expirationDate: e }))
 								}
-							/>
+								value={requestBody?.expirationDate}
+							></Input>
 						</div>
 					</div>
 					<div className={styles.editRow}>

@@ -89,3 +89,39 @@ div.tableCell {
 	justify-content: center;
 	align-items: center;
 }
+
+.iconContainer {
+	margin-left: 18px;
+}
+
+.more {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	.moreIcon {
+		margin-right: 10px;
+	}
+}
+.morButton {
+	display: none;
+}
+.activeMoreBlock {
+	display: flex;
+	position: absolute;
+	right: 147px;
+	margin-top: 50px;
+	width: 140px;
+	flex-direction: column;
+	background-color: #fff;
+	box-shadow: 1px 3px 13px rgba(190, 187, 203, 0.6);
+	z-index: 22;
+	.moreBtn {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		margin: 10px 10px;
+		.iconContainer {
+			margin-right: 10px;
+		}
+	}
+}

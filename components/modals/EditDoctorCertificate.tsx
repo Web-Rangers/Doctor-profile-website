@@ -5,43 +5,47 @@ import { ReactSVG } from 'react-svg';
 import { useRouter } from 'next/router';
 import styles from 'styles/components/Modals/AddDoctorEducation.module.scss';
 
-interface EducationData {
-	school?: string;
-	degree?: string;
-	fieldOfStudy?: string;
-	dateStart?: string;
-	dateEnd?: string;
-	galleryList?: any;
+interface CertificateData {
+	credentialId?: string | any;
+	credentialInfo?: string | any;
+	doctorId?: string;
+	expirationDate?: string | any;
+	id?: string;
+	issueDate?: string | any;
+	issuer?: any;
+	title?: string | any;
+	galleryList?: any[];
 }
 
-interface EducationModalProps {
-	onSave?: (newData: EducationData) => void;
-	data: EducationData;
+interface EditCertificateModalProps {
+	onSave?: (newData: CertificateData) => void;
+	data: CertificateData;
 	onClose?: () => void;
 	refetch?: () => void;
 }
 
 const MAX_COUNT = 5;
-export default function AddDoctorEducation({
+export default function EditDoctorCertificate({
 	onClose,
 	data,
 	refetch,
-}: EducationModalProps) {
+}: EditCertificateModalProps) {
 	const router = useRouter();
 	const id = router.query.id ?? null;
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [fileLimit, setFileLimit] = useState(false);
 
 	const [requestBody, setRequestBody] = useState({
-		school: null,
-		degree: null,
-		fieldsOfStudy: null,
-		dateStart: null,
-		dateEnd: null,
-		files: null,
+		id: data?.id,
+		doctorId: data?.doctorId,
+		issuer: data?.issuer,
+		title: data?.title,
+		credentialId: data?.credentialId,
+		credentialInfo: data?.credentialInfo,
+		issueDate: data?.issueDate,
+		expirationDate: data?.expirationDate,
+		files: data?.galleryList,
 	});
-
-	console.log('upload files', uploadedFiles);
 
 	const handleUploadFiles = (files) => {
 		const uploaded = [...uploadedFiles];
@@ -70,20 +74,23 @@ export default function AddDoctorEducation({
 		setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
 	};
 
-	const requestFormData = async () => {
+	const requestFormData = async (id) => {
 		let formData = new FormData();
-		formData.append('school', requestBody?.school);
-		formData.append('degree', requestBody?.degree);
-		formData.append('fieldsOfStudy', requestBody?.fieldsOfStudy);
-		formData.append('dateEnd', requestBody?.dateEnd);
-		formData.append('dateStart', requestBody?.dateStart);
+		formData.append('doctorId', id);
+		formData.append('issuer', requestBody?.issuer);
+		formData.append('title', requestBody?.title);
+		formData.append('credentialId', requestBody?.credentialId);
+		formData.append('credentialInfo', requestBody?.credentialInfo);
+		formData.append('issueDate', requestBody?.issueDate);
+		formData.append('expirationDate', requestBody?.expirationDate);
 
 		for (var i = 0; i < uploadedFiles.length; i++) {
 			formData.append('files', uploadedFiles[i]);
 		}
+
 		return axios
-			.post(
-				`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/${id}/educations`,
+			.put(
+				`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/${id}/certificates/${requestBody?.id}`,
 				formData,
 				{
 					headers: {
@@ -92,7 +99,7 @@ export default function AddDoctorEducation({
 				}
 			)
 			.then((response) => {
-				console.log('this is response', response);
+				console.log('this is response res', response);
 				onClose();
 				refetch();
 			})
@@ -101,48 +108,54 @@ export default function AddDoctorEducation({
 			});
 	};
 
+	console.log('dataa here', data?.title);
+
 	return (
 		<Modal onBackClick={onClose}>
 			<Card
-				cardTitle='Education information'
+				cardTitle='Edit Certificates'
 				className={styles.card}
 			>
 				<div className={styles.cardBody}>
 					<div className={styles.editRow}>
 						<Input
 							type='text'
-							label='School'
+							label='Name'
 							placeholder='Enter school...'
 							onChange={(e) =>
-								setRequestBody((prev) => ({ ...prev, school: e }))
+								setRequestBody((prev) => ({ ...prev, title: e }))
 							}
+							value={requestBody?.title}
 						></Input>
 						<Input
 							type='text'
-							label='Degree'
+							label='Issuing organization'
 							placeholder='Enter degree...'
 							onChange={(e) =>
-								setRequestBody((prev) => ({ ...prev, degree: e }))
+								setRequestBody((prev) => ({ ...prev, issuer: e }))
 							}
+							value={requestBody?.issuer}
 						></Input>
 					</div>
 					<div className={styles.editRow}>
 						<Input
 							type='text'
-							label='Fields of study'
+							label='Credential ID'
 							placeholder='Enter school...'
 							onChange={(e) =>
-								setRequestBody((prev) => ({ ...prev, fieldsOfStudy: e }))
+								setRequestBody((prev) => ({ ...prev, credentialId: e }))
 							}
+							value={requestBody?.credentialId}
 						></Input>
 						<div className={styles.editRow}>
 							<Input
 								type='date'
-								label='Start Date'
+								label='Issue date'
 								placeholder='01.01.2000'
 								onChange={(e) =>
-									setRequestBody((prev) => ({ ...prev, dateStart: e }))
+									setRequestBody((prev) => ({ ...prev, issueDate: e }))
 								}
+								value={requestBody?.issueDate}
 							></Input>
 
 							<Input
@@ -150,10 +163,22 @@ export default function AddDoctorEducation({
 								label='End date'
 								placeholder='01.01.2000'
 								onChange={(e) =>
-									setRequestBody((prev) => ({ ...prev, dateEnd: e }))
+									setRequestBody((prev) => ({ ...prev, expirationDate: e }))
 								}
+								value={requestBody?.expirationDate}
 							></Input>
 						</div>
+					</div>
+					<div className={styles.editRow}>
+						<Input
+							type='text'
+							label='Credential URL'
+							placeholder='Enter credential url...'
+							onChange={(e) =>
+								setRequestBody((prev) => ({ ...prev, credentialInfo: e }))
+							}
+							value={requestBody?.credentialInfo}
+						></Input>
 					</div>
 					<div className={styles.fileInput}>
 						<ReactSVG
@@ -161,7 +186,6 @@ export default function AddDoctorEducation({
 							className={styles.iconContainer}
 						/>
 						<span>Drag and drop your files here</span>
-
 						<input
 							id='fileUpload'
 							type='file'
@@ -180,19 +204,12 @@ export default function AddDoctorEducation({
 						{uploadedFiles ? (
 							<>
 								{uploadedFiles.map((file, index) => {
-									console.log('fileeee', file.size);
 									return (
 										<div
 											className={styles.file}
 											key={index}
 										>
 											<div className={styles.info}>
-												<img
-													src={file}
-													width='20px'
-													height='20px'
-													alt='photo'
-												/>
 												<div className={styles.name}>{file.name}</div>
 												<div className={styles.size}>{file.size}</div>
 											</div>
@@ -213,24 +230,24 @@ export default function AddDoctorEducation({
 						<Button
 							className={styles.add}
 							variant='text'
-							label='+Add one more education'
+							label='+Add one more certificate'
 							size='large'
 						/>
+						<div className={styles.modalFooter}>
+							<Button
+								label='Cancel'
+								size='large'
+								variant='outline'
+								onClick={onClose}
+							/>
+							<Button
+								label='Save'
+								size='large'
+								variant='fill'
+								onClick={() => requestFormData(id)}
+							/>
+						</div>
 					</div>
-				</div>
-				<div className={styles.modalFooter}>
-					<Button
-						label='Cancel'
-						size='large'
-						variant='outline'
-						onClick={onClose}
-					/>
-					<Button
-						label='Save'
-						size='large'
-						variant='fill'
-						onClick={() => requestFormData()}
-					/>
 				</div>
 			</Card>
 		</Modal>

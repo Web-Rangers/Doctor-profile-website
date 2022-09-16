@@ -6,12 +6,13 @@ import { useRouter } from 'next/router';
 import styles from 'styles/components/Modals/AddDoctorEducation.module.scss';
 
 interface EducationData {
-	school?: string;
-	degree?: string;
-	fieldOfStudy?: string;
-	dateStart?: string;
-	dateEnd?: string;
+	school?: string | any;
+	degree?: string | any;
+	fieldOfStudy?: string | any;
+	dateStart?: string | any;
+	dateEnd?: string | any;
 	galleryList?: any;
+	id?: string;
 }
 
 interface EducationModalProps {
@@ -22,7 +23,7 @@ interface EducationModalProps {
 }
 
 const MAX_COUNT = 5;
-export default function AddDoctorEducation({
+export default function EditDoctorEducation({
 	onClose,
 	data,
 	refetch,
@@ -33,15 +34,16 @@ export default function AddDoctorEducation({
 	const [fileLimit, setFileLimit] = useState(false);
 
 	const [requestBody, setRequestBody] = useState({
-		school: null,
-		degree: null,
-		fieldsOfStudy: null,
-		dateStart: null,
-		dateEnd: null,
-		files: null,
+		school: data?.school,
+		degree: data?.degree,
+		fieldsOfStudy: data?.fieldOfStudy,
+		dateStart: data?.dateStart,
+		dateEnd: data?.dateEnd,
+		files: data?.galleryList,
+		id: data?.id,
 	});
 
-	console.log('upload files', uploadedFiles);
+	console.log('data', data);
 
 	const handleUploadFiles = (files) => {
 		const uploaded = [...uploadedFiles];
@@ -82,8 +84,8 @@ export default function AddDoctorEducation({
 			formData.append('files', uploadedFiles[i]);
 		}
 		return axios
-			.post(
-				`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/${id}/educations`,
+			.put(
+				`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/${id}/educations/${requestBody.id}`,
 				formData,
 				{
 					headers: {
@@ -104,7 +106,7 @@ export default function AddDoctorEducation({
 	return (
 		<Modal onBackClick={onClose}>
 			<Card
-				cardTitle='Education information'
+				cardTitle='Edit Education information'
 				className={styles.card}
 			>
 				<div className={styles.cardBody}>
@@ -116,6 +118,7 @@ export default function AddDoctorEducation({
 							onChange={(e) =>
 								setRequestBody((prev) => ({ ...prev, school: e }))
 							}
+							value={requestBody?.school}
 						></Input>
 						<Input
 							type='text'
@@ -124,6 +127,7 @@ export default function AddDoctorEducation({
 							onChange={(e) =>
 								setRequestBody((prev) => ({ ...prev, degree: e }))
 							}
+							value={requestBody?.degree}
 						></Input>
 					</div>
 					<div className={styles.editRow}>
@@ -134,6 +138,7 @@ export default function AddDoctorEducation({
 							onChange={(e) =>
 								setRequestBody((prev) => ({ ...prev, fieldsOfStudy: e }))
 							}
+							value={requestBody?.fieldsOfStudy}
 						></Input>
 						<div className={styles.editRow}>
 							<Input
@@ -143,6 +148,7 @@ export default function AddDoctorEducation({
 								onChange={(e) =>
 									setRequestBody((prev) => ({ ...prev, dateStart: e }))
 								}
+								value={requestBody?.dateStart}
 							></Input>
 
 							<Input
@@ -152,6 +158,7 @@ export default function AddDoctorEducation({
 								onChange={(e) =>
 									setRequestBody((prev) => ({ ...prev, dateEnd: e }))
 								}
+								value={requestBody?.dateEnd}
 							></Input>
 						</div>
 					</div>

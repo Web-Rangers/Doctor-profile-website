@@ -70,7 +70,7 @@ export default function DoctorsDetailed() {
 		refetch();
 	}
 
-	const clinicId = doctorData?.clinics.map((item) => item.id);
+	const clinicId = doctorData?.clinics?.map((item) => item.id);
 
 	const certificates = useQuery(['key', 'freeLancerCertificate'], () => {
 		return getFreeLancerCertificate(id);
@@ -80,21 +80,21 @@ export default function DoctorsDetailed() {
 		return getFreeLancerEducations(id);
 	});
 
-	// const educations = useEffect(() => {
-	// 	let numbers = doctorData?.contactInfos?.map((contact) => {
-	// 		if (contact?.type.value == 'mobile') {
-	// 			return [contact.value];
-	// 		}
-	// 	});
+	const educations = useEffect(() => {
+		let numbers = doctorData?.contactInfos?.map((contact) => {
+			if (contact?.type.value == 'mobile') {
+				return [contact.value];
+			}
+		});
 
-	// 	let emails = doctorData?.contactInfos?.map((contact) => {
-	// 		if (contact?.type.value == 'mail') {
-	// 			return [contact.value];
-	// 		}
-	// 	});
-	// 	setPhone(numbers);
-	// 	setEmail(emails);
-	// }, [doctorData]);
+		let emails = doctorData?.contactInfos?.map((contact) => {
+			if (contact?.type.value == 'mail') {
+				return [contact.value];
+			}
+		});
+		setPhone(numbers);
+		setEmail(emails);
+	}, [doctorData]);
 
 	console.log('education', education.data);
 	console.log('sertificate', certificates?.data);
