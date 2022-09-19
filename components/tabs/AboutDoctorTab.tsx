@@ -259,7 +259,9 @@ export default function AboutDoctorTab({
 						</div>
 						<div className={styles.subInfo}>
 							<div className={styles.infoTitle}>Gender</div>
-							<div className={styles.infoText}>{doctor.gender}</div>
+							<div className={styles.infoText}>
+								{gender === 'm' ? 'Male' : 'Female'}
+							</div>
 						</div>
 					</div>
 					<div className={styles.info}>

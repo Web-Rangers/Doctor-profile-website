@@ -1,10 +1,16 @@
 import styles from 'styles/components/Tabs/DoctorEducationTab.module.scss';
 import { Card, Button, Table } from 'components';
 import { ReactSVG } from 'react-svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import tableStyles from 'styles/components/Table.module.scss';
 import AddDoctorEducation from 'components/modals/AddDoctorEducation';
 import AddDoctorCertificate from 'components/modals/AddDoctorCertificate';
+import Image from 'next/image';
+import classNames from 'classnames';
+import EditDoctorCertificate from 'components/modals/EditDoctorCertificate';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import DoctorEducationPopup from './DoctorEducationPopup';
 
 interface Media {
 	src: string;
@@ -20,6 +26,7 @@ interface Certificate {
 	issueDate?: string;
 	issuer?: any;
 	title?: string;
+	galleryList?: any[];
 }
 
 interface Education {
@@ -29,6 +36,7 @@ interface Education {
 	dateStart?: string;
 	dateEnd?: string;
 	galleryList?: any;
+	id?: any;
 }
 
 interface DoctorEducationTabProps {
@@ -37,61 +45,124 @@ interface DoctorEducationTabProps {
 	education?: Education[];
 }
 
-const certificatesColumns = [
-	{
-		key: 'title',
-		title: 'Title',
-		dataIndex: 'title',
-	},
-	{
-		key: 'issuer',
-		title: 'Issuing organization',
-		dataIndex: 'issuer',
-	},
-	{
-		key: 'expirationDate',
-		title: 'Issued date',
-		dataIndex: 'expirationDate',
-	},
-	{
-		key: 'credentialId',
-		title: 'Creditial ID',
-		dataIndex: 'credentialId',
-	},
-	{
-		key: 'credentialInfo',
-		title: 'Creditial URL',
-		dataIndex: 'credentialInfo',
-	},
-	{
-		key: 'action',
-		title: '',
-		dataIndex: 'id',
-		render: (action, key) => {
-			return (
-				<div
-					className={`${tableStyles.tableIconCellTemplate} ${styles.smallIcon} ${styles.action}`}
-					key={key}
-					onClick={() => {}}
-				>
-					<img
-						alt=''
-						src='/images/icons/cards/more.svg'
-					/>
-				</div>
-			);
-		},
-	},
-];
-
 export default function DoctorEducationTab({
 	certificates = [],
 	education = [],
 }: DoctorEducationTabProps) {
+	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
 	const [isOpenCertificate, setIsOpenCertificate] = useState(false);
-	//   const router = useRouter();
-	//   const id = router.query.id ?? null;
+
+	const id = router.query.id ?? null;
+	const certificateId = certificates?.map((item) => item.id);
+	const educationId = education?.map((item) => item.id);
+
+	console.log('educationId', educationId, certificateId);
+
+	const removeCertificate = async () => {
+		return axios
+			.delete(
+				`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/${id}/certificates/${certificateId}`
+			)
+			.then((response) => {});
+	};
+
+	useEffect(() => {}, [certificates]);
+
+	const certificatesColumns = [
+		{
+			key: 'title',
+			title: 'Title',
+			dataIndex: 'title',
+		},
+		{
+			key: 'issuer',
+			title: 'Issuing organization',
+			dataIndex: 'issuer',
+		},
+		{
+			key: 'expirationDate',
+			title: 'Issued date',
+			dataIndex: 'expirationDate',
+		},
+		{
+			key: 'credentialId',
+			title: 'Creditial ID',
+			dataIndex: 'credentialId',
+		},
+		{
+			key: 'credentialInfo',
+			title: 'Creditial URL',
+			dataIndex: 'credentialInfo',
+		},
+		{
+			key: 'id',
+			title: '',
+			dataIndex: 'id',
+			render: (record, key) => {
+				// eslint-disable-next-line react-hooks/rules-of-hooks
+				const [open, setOpen] = useState(false);
+				// eslint-disable-next-line react-hooks/rules-of-hooks
+				const [openModal, setOpenModal] = useState(false);
+
+				const currentdata = certificates?.filter((item) => item.id == record);
+
+				return (
+					<>
+						<div className={styles.more}>
+							<ReactSVG
+								onClick={() => {
+									setOpen(!open);
+									console.log('click', open);
+								}}
+								src={'/images/icons/cards/more.svg'}
+								className={styles.moreIcon}
+							/>
+						</div>
+						<div
+							className={classNames(styles.morButton, {
+								[styles.activeMoreBlock]: open,
+							})}
+						>
+							<div className={styles.btns}>
+								<div className={styles.moreBtn}>
+									<ReactSVG
+										src={'/images/icons/table/edit.svg'}
+										className={styles.iconContainer}
+										onClick={() => (setOpenModal(true), setOpen(!open))}
+									/>
+
+									{openModal && (
+										<EditDoctorCertificate
+											data={currentdata[0]}
+											onClose={() => setOpenModal(false)}
+											onSave={(newData) => {
+												setOpenModal(false);
+											}}
+										/>
+									)}
+									<span onClick={() => (setOpenModal(true), setOpen(!open))}>
+										Edit
+									</span>
+								</div>
+								<div
+									className={styles.moreBtn}
+									onClick={() => removeCertificate()}
+								>
+									<ReactSVG
+										src={'/images/icons/table/delete.svg'}
+										className={styles.iconContainer}
+									/>
+
+									<span>Delete</span>
+								</div>
+							</div>
+						</div>
+					</>
+				);
+			},
+		},
+	];
 
 	return (
 		<>
@@ -145,9 +216,9 @@ export default function DoctorEducationTab({
 					/>
 				)}
 				<div className={styles.educationContainer}>
-					{education.map((educationItem) => (
+					{education?.map((educationItem, index) => (
 						<Card
-							key={educationItem.school}
+							key={index}
 							className={styles.educationCard}
 						>
 							<div className={styles.column}>
@@ -170,28 +241,19 @@ export default function DoctorEducationTab({
 								<div className={styles.value}>{educationItem.dateEnd}</div>
 								<div className={styles.mediaValue}>
 									{educationItem?.galleryList?.map((mediaItem) => (
-										<div
-											key={mediaItem.alt}
-											className={styles.media}
-										>
-											<ReactSVG
-												src={'/images/icons/cards/camera.svg'}
-												className={styles.icon}
-											/>
-											<div className={styles.mediaText}>{mediaItem.alt}</div>
-										</div>
+										<ImageItem
+											alt={mediaItem.alt}
+											key={mediaItem.id}
+											url={mediaItem.url}
+										/>
 									))}
 								</div>
 							</div>
-							<div className={styles.column}>
-								<div onClick={() => {}}>
-									<ReactSVG
-										alt=''
-										src='/images/icons/cards/more.svg'
-										className={styles.editIcon}
-									/>
-								</div>
-							</div>
+							<DoctorEducationPopup
+								data={educationItem}
+								id={id}
+								educationId={educationItem?.id}
+							/>
 						</Card>
 					))}
 				</div>
@@ -199,3 +261,36 @@ export default function DoctorEducationTab({
 		</>
 	);
 }
+
+const ImageItem = (props) => {
+	const [openPhoto, setOpenPhoto] = useState(false);
+	return (
+		<div
+			key={props.alt}
+			className={styles.media}
+		>
+			{openPhoto && (
+				<>
+					<Image
+						src={props.url}
+						width='500px'
+						height='500px'
+						alt=''
+						className={styles.educationPhoto}
+					/>
+					<ReactSVG
+						src={'/images/icons/inputs/x.svg'}
+						className={styles.icon}
+						onClick={() => setOpenPhoto(false)}
+					/>
+				</>
+			)}
+			<ReactSVG
+				src={'/images/icons/cards/camera.svg'}
+				className={styles.icon}
+				onClick={() => setOpenPhoto(true)}
+			/>
+			<div className={styles.mediaText}>{props.alt}</div>
+		</div>
+	);
+};

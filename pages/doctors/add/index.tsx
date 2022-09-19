@@ -1,18 +1,24 @@
 import classNames from 'classnames';
-import { Button, Card, Input, Select, encodeImageFileAsURL } from 'components';
+import {
+	Button,
+	Card,
+	Input,
+	Select,
+	encodeImageFileAsURL,
+	getProfession,
+} from 'components';
 import SideBarLayout from 'layouts/SideBarLayout';
-
 import Breadcrumbs from 'nextjs-breadcrumbs';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import styles from 'styles/pages/addDoctor.module.scss';
 import pageStyles from 'styles/pages/page.module.scss';
 import { useClinicsData } from 'components/useClinicsData';
 import axios from 'axios';
 import { ReactSVG } from 'react-svg';
 import StuffModal from '../../../components/modals/StuffModal';
-import { useQuery } from '@tanstack/react-query';
-import { getList } from 'components';
 import { useRouter } from 'next/router';
+import { useQuery } from '@tanstack/react-query';
+import Fuse from 'fuse.js';
 
 export default function AddDoctor() {
 	const [error, setError] = useState({
@@ -28,6 +34,15 @@ export default function AddDoctor() {
 
 	const clinics = useClinicsData();
 
+	const clinicData = clinics.isLoading
+		? 'Loading'
+		: clinics.isError
+		? 'Error!'
+		: clinics.data
+		? clinics.data
+		: [];
+	const [searchValue, setSearchValue] = useState('');
+	const [show, setShow] = useState(false);
 	const [requestBody, setRequestBody] = useState({
 		firstName: null,
 		lastName: null,
@@ -39,7 +54,7 @@ export default function AddDoctor() {
 		dateOfBirth: null,
 		iban: null,
 		aboutMe: null,
-		clinicBranchIds: '701',
+		clinicBranchIds: null,
 		type: null,
 		branch: null,
 		pictureFile: null,
@@ -47,29 +62,32 @@ export default function AddDoctor() {
 
 	const [optionLists, setOptionLists] = useState({
 		type: [],
-		job: [],
 		clinic: [],
 		branch: [],
 	});
 
 	const [branchOption, setBranchOption] = useState([]);
+	// const branchDetail = useQuery(['key', 'branchForClinic'], () => {
+	// 	return getList(
+	// 		`clinics/${requestBody?.clinicBranchIds || clinicId}/branches/`,
+	// 		requestBody?.clinicBranchIds || clinicId
+	// 	);
+	// });
 
-	const branchDetail = useQuery(['key', 'branchForClinic'], () => {
-		return getList(
-			`clinics/${requestBody?.clinicBranchIds || clinicId}/branches/`,
-			requestBody?.clinicBranchIds || clinicId
-		);
+	const professions = useQuery(['key', 'professions'], () => {
+		return getProfession();
 	});
 
 	async function refetchBranch(value) {
 		try {
 			const response = await fetch(
-				`https://asclepius.pirveli.ge/asclepius/v1/api/clinics/${value}/branches/`
+				`https://asclepius.pirveli.ge/asclepius/v1/api/clinics/${
+					value || clinicId
+				}/branches/`
 			);
 			const res = await response.json();
-
 			setRequestBody((prev) => ({ ...prev, clinicBranchIds: value }));
-
+			console.log('res', res);
 			let branches = res?.filter(
 				(
 					(ids) =>
@@ -77,7 +95,10 @@ export default function AddDoctor() {
 						!ids.has(id) && ids.add(id)
 				)(new Set())
 			);
-
+			setRequestBody((prev) => ({
+				...prev,
+				branch: null,
+			}));
 			setBranchOption(
 				branches?.map((item) => {
 					return {
@@ -92,32 +113,12 @@ export default function AddDoctor() {
 	}
 
 	useEffect(() => {
+		clinicId ? refetchBranch(clinicId || requestBody.clinicBranchIds) : null;
+	}, [clinicId, requestBody.clinicBranchIds]);
+
+	useEffect(() => {
 		clinics.refetch();
 	}, [clinicId, clinics]);
-
-	// const branchData = useCallback(() => {
-	// 	let branches = branchDetail?.data?.filter(
-	// 		(
-	// 			(ids) =>
-	// 			({ id }) =>
-	// 				!ids.has(id) && ids.add(id)
-	// 		)(new Set())
-	// 	);
-
-	// 	setRequestBody((prev) => ({
-	// 		...prev,
-	// 		branch: null,
-	// 	}));
-	// 	setOptionLists((prev) => ({
-	// 		...prev,
-	// 		branch: branches?.map((item) => {
-	// 			return {
-	// 				label: item.displayName,
-	// 				value: item.id,
-	// 			};
-	// 		}),
-	// 	}));
-	// }, [requestBody?.clinicBranchIds, clinics, branchDetail]);
 
 	const makeListItems = (data) => {
 		const list = data?.data?.map((item) => ({
@@ -128,9 +129,31 @@ export default function AddDoctor() {
 		return list;
 	};
 
-	const requestFormData = () => {
-		let formData = new FormData();
+	const requestNewProffesion = () => {
+		return axios
+			.post(
+				`https://asclepius.pirveli.ge/asclepius/v1/api/professions`,
+				{ name: searchValue },
+				{
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				}
+			)
+			.then((response) => {
+				requestFormData(response?.data.id);
+			})
+			.catch((error) =>
+				setError((prev) => ({ ...prev, isError: true, errorMessage: error }))
+			);
+	};
 
+	const requestFormData = (id) => {
+		console.log('this request send');
+
+		let formData = new FormData();
+		formData.append('professionId', id);
+		console.log('id', id);
 		for (const [key, value] of Object.entries(requestBody)) {
 			formData.append(key, value);
 		}
@@ -164,13 +187,20 @@ export default function AddDoctor() {
 				{ label: 'freelancer', value: 'FREELANCER' },
 				{ label: 'Clinic doctor', value: 'CLINIC_DOCTOR' },
 			],
-			clinic: clinics.data ? makeListItems(clinics) : [],
-			job: [
-				{ label: 'Job title', value: '1' },
-				{ label: 'Another job title', value: '2' },
-			],
+			clinic: clinicData ? makeListItems(clinics) : [],
 		}));
-	}, [clinicId, requestBody.clinicBranchIds]);
+	}, [clinicId, requestBody.clinicBranchIds, clinicData]);
+
+	const fuse = new Fuse(professions.isLoading ? [] : professions?.data, {
+		includeScore: true,
+		threshold: 0.4,
+		keys: ['name'],
+	});
+
+	const result = fuse.search(searchValue);
+	const searchResult = searchValue
+		? result.map((result) => result.item)
+		: professions?.data;
 
 	return (
 		<div className={pageStyles.container}>
@@ -335,15 +365,45 @@ export default function AddDoctor() {
 							/>
 						</div>
 						<div className={classNames(styles.columnRight, styles.inputColumn)}>
-							<Select
-								label='Job title'
-								labelStyle='outside'
-								options={optionLists.job}
-								onChange={(value) => {
-									setRequestBody((prev) => ({ ...prev, professionId: value }));
-								}}
-								value={requestBody.professionId}
-							/>
+							<div className={styles.dropdownContiner}>
+								<span className={styles.label}>Job title</span>
+								<input
+									id='search-input'
+									className={styles.input}
+									type='text'
+									value={searchValue}
+									onChange={(e) => {
+										searchValue.length <= 1 ? setShow(false) : setShow(true);
+										setSearchValue(e.target.value);
+									}}
+								/>
+								{show && (
+									<>
+										<div className={styles.dropdown}>
+											{professions.isLoading
+												? null
+												: searchResult.map((item) => (
+														<div
+															key={item.id}
+															className={styles.dropdownItem}
+															onClick={() => {
+																setSearchValue(item.name),
+																	setRequestBody((prev) => ({
+																		...prev,
+																		professionId: item.id,
+																	}));
+																setShow(false);
+															}}
+														>
+															<div className={styles.dropdownListItem}>
+																{item.name}
+															</div>
+														</div>
+												  ))}
+										</div>
+									</>
+								)}
+							</div>
 							{branchId ? null : (
 								<Select
 									disabled={requestBody.type === 'FREELANCER' ? true : false}
@@ -389,7 +449,9 @@ export default function AddDoctor() {
 						onClick={() =>
 							requestBody?.personalId.length !== 11
 								? alert('personal Id should be 11 charachters')
-								: requestFormData()
+								: requestBody.professionId === null
+								? requestNewProffesion()
+								: requestFormData(requestBody.professionId)
 						}
 					/>
 				</div>

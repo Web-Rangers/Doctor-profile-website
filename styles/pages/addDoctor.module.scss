@@ -1,158 +1,212 @@
 .row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex-wrap: nowrap;
-  gap: 35px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-wrap: nowrap;
+	gap: 35px;
 }
 
 .smallColumnLeft {
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 45%;
-  gap: 25px;
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 45%;
+	gap: 25px;
 }
 
 .columnLeft {
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 65%;
-  gap: 25px;
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 65%;
+	gap: 25px;
 }
 
 .columnRight {
-  flex: 1 0 calc(35% - 35px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 25px;
+	flex: 1 0 calc(35% - 35px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 25px;
 }
 
 .inputColumn {
-  align-items: unset;
-  justify-content: unset;
+	align-items: unset;
+	justify-content: unset;
 }
 
 .halfw {
-  flex: 1 0 calc(50% - 35px);
+	flex: 1 0 calc(50% - 35px);
 }
 
 .label {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 30px;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 21px;
-  letter-spacing: 0.04em;
-  text-align: left;
-  color: #312e45;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	gap: 30px;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 21px;
+	letter-spacing: 0.04em;
+	text-align: left;
+	color: #312e45;
 }
 
 .doctorImage {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center;
+	width: 160px;
+	height: 160px;
+	border-radius: 50%;
+	object-fit: cover;
+	object-position: center;
 }
 
 .aboutMe {
-  margin-top: 25px;
+	margin-top: 25px;
 }
 
 .buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: flex-end;
-  width: 100%;
-  gap: 35px;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	justify-content: flex-end;
+	width: 100%;
+	gap: 35px;
 }
 
 .upload {
-  display: none;
+	display: none;
 }
 
 .upBtn {
-  font-family: "RedHatDisplay";
-  height: 40px;
-  padding: 10px 20px;
-  margin-bottom: 0;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.42857143;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: none;
-  border-radius: 4px;
-  transition: all 0.2s ease-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background-color: #2751f2;
-  color: #ffffff;
-  height: 60px;
-  padding: 18px 45px;
-  font-size: 17px;
+	font-family: 'RedHatDisplay';
+	height: 40px;
+	padding: 10px 20px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: none;
+	border-radius: 4px;
+	transition: all 0.2s ease-out;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	background-color: #2751f2;
+	color: #ffffff;
+	height: 60px;
+	padding: 18px 45px;
+	font-size: 17px;
 }
 .addDoctorBtn {
-  width: 225px;
-  height: 60px;
-  border-radius: 4px;
-  background-color: #2751f2;
-  color: #ffffff;
+	width: 225px;
+	height: 60px;
+	border-radius: 4px;
+	background-color: #2751f2;
+	color: #ffffff;
 }
 .doctorsHeader {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  background-color: #f0f0f0;
-  gap: 22px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	background-color: #f0f0f0;
+	gap: 22px;
 }
 .doctorTitle {
-  font-family: "Red Hat Display";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 32px;
-  letter-spacing: 0.04em;
-  color: #1c1a27;
+	font-family: 'Red Hat Display';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 32px;
+	letter-spacing: 0.04em;
+	color: #1c1a27;
 }
 .breadcrumbs {
-  display: flex;
-  flex-direction: row;
+	display: flex;
+	flex-direction: row;
 
-  color: #8f8f8f;
-  gap: 15px;
-  li::marker {
-    content: "";
-  }
-  li:not(:last-child) {
-    a {
-      color: #2751f2;
-    }
+	color: #8f8f8f;
+	gap: 15px;
+	li::marker {
+		content: '';
+	}
+	li:not(:last-child) {
+		a {
+			color: #2751f2;
+		}
 
-    &::after {
-      content: ">";
-      margin-left: 15px;
-    }
-  }
+		&::after {
+			content: '>';
+			margin-left: 15px;
+		}
+	}
 }
 .activeBreadcrumb {
-  color: red;
+	color: red;
 }
 .tabRow {
-  padding-left: 50px;
+	padding-left: 50px;
+}
+
+.dropdownContiner {
+	position: relative;
+	.label {
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 21px;
+		letter-spacing: 0.04em;
+		text-align: left;
+		color: #312e45;
+	}
+	.input {
+		display: flex;
+		flex-direction: row;
+		min-height: 55px;
+		width: 100%;
+		border: 1px solid #b3b1bb;
+		border-radius: 4px;
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 24px;
+		letter-spacing: 0em;
+		text-align: left;
+		color: #312e45;
+		background-color: #fff;
+		padding-left: 20px;
+	}
+	.dropdown {
+		position: absolute;
+		height: auto;
+		border: 1px solid #b3b1bb;
+		border-top: none;
+		z-index: 999;
+		background-color: #ffffff;
+		width: 100%;
+		border-radius: 4px;
+		// padding-left: 20px;
+		font-size: 18px;
+		font-weight: 400;
+		line-height: 16px;
+		letter-spacing: 0em;
+		color: #312e45;
+	}
+
+	.dropdownItem:hover {
+		background-color: #486cf8;
+		color: #fff;
+		height: 55px;
+		justify-content: center;
+	}
+	.dropdownListItem {
+		padding: 20px;
+	}
 }

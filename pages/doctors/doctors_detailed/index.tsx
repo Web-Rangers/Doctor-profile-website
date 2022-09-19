@@ -7,6 +7,7 @@ import {
 	Card,
 	DoctorEducationTab,
 	DoctorServicesTab,
+	getList,
 } from 'components';
 import SideBarLayout from 'layouts/SideBarLayout';
 import Breadcrumbs from 'nextjs-breadcrumbs';
@@ -19,9 +20,15 @@ import {
 	getFreelancerDoctor,
 	getFreeLancerCertificate,
 	getDoctor,
+	getFreeLancerEducations,
+	deactivateFreLancerDoctor,
+	activateFreLancerDoctor,
+	deactivateDoctor,
+	activateDoctor,
 } from 'components/useDoctorsData';
 import { useQuery } from '@tanstack/react-query';
 import EditDoctorModal from 'components/modals/EditDoctorModal';
+import MultiSelectTreeViewDoctor from 'components/multiSelectTreeViewDoctor';
 
 interface ActionProps {
 	icon?: string;
@@ -42,6 +49,8 @@ export default function DoctorsDetailed() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [email, setEmail] = useState('');
 	const [phone, setPhone] = useState('');
+	const [active, setActive] = useState(true);
+	const [serviceData, setServices] = useState([]);
 
 	var { data, refetch, isLoading, isError, error, status } = useQuery(
 		['key', 'doctorDetailed'],
@@ -64,11 +73,17 @@ export default function DoctorsDetailed() {
 		refetch();
 	}
 
-	var certificateEducation = useQuery(['key', 'freeLancerCertificate'], () => {
+	const clinicId = doctorData?.clinics?.map((item) => item.id);
+
+	const certificates = useQuery(['key', 'freeLancerCertificate'], () => {
 		return getFreeLancerCertificate(id);
 	});
 
-	useEffect(() => {
+	const education = useQuery(['key', 'freeLancerEducation'], () => {
+		return getFreeLancerEducations(id);
+	});
+
+	const educations = useEffect(() => {
 		let numbers = doctorData?.contactInfos?.map((contact) => {
 			if (contact?.type.value == 'mobile') {
 				return [contact.value];
@@ -83,6 +98,51 @@ export default function DoctorsDetailed() {
 		setPhone(numbers);
 		setEmail(emails);
 	}, [doctorData]);
+
+	console.log('education', education.data);
+	console.log('sertificate', certificates?.data);
+
+	var services = useQuery(['key', 'services'], () => {
+		return getList(`clinics/contract-type-to-services`, id);
+	});
+
+	function createTree(data) {
+		let newData = data?.map((item) => item.services[0]);
+		const idMapping = newData?.reduce((acc, el, i) => {
+			acc[el.id] = i;
+			return acc;
+		}, {});
+
+		let root: any;
+
+		newData?.forEach((el) => {
+			if (el.parentServiceId === null) {
+				root = el;
+				return;
+			}
+			const parentEl = newData[idMapping[el.parentServiceId]];
+			parentEl.children = [...(parentEl.children || []), el];
+		});
+
+		return root;
+	}
+
+	useEffect(() => {
+		refetch();
+
+		services.refetch();
+	}, [id]);
+
+	useEffect(() => {
+		const tree = createTree(services?.data);
+
+		let newData = services?.data
+			?.map((item) => item.services[0])
+			.filter((item) => item.parentServiceId == null);
+
+		setServices(newData);
+		console.log('this is services data', newData);
+	}, [services?.data]);
 
 	return (
 		<>
@@ -107,9 +167,19 @@ export default function DoctorsDetailed() {
 							variant='fill'
 						/>
 						<Button
-							label='Deactivate an account'
+							label={active ? 'activate an account' : 'Deactivate an account'}
 							size='large'
 							variant='outline'
+							className={active ? styles.activeBtn : styles.deactiveBtn}
+							onClick={() =>
+								active
+									? doctorData?.doctorType === 'FREELANCER'
+										? (deactivateFreLancerDoctor(id), setActive(false))
+										: (deactivateDoctor(id, clinicId), setActive(false))
+									: doctorData?.doctorType === 'FREELANCER'
+									? (activateFreLancerDoctor(id), setActive(true))
+									: (activateDoctor(id, clinicId), setActive(true))
+							}
 						/>
 					</div>
 					<Breadcrumbs
@@ -254,7 +324,13 @@ export default function DoctorsDetailed() {
 								/>
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>
-								<DoctorServicesTab
+								{
+									<MultiSelectTreeViewDoctor
+										data={serviceData}
+										pagination={{ pageSize: 8, initialPage: 1 }}
+									/>
+								}
+								{/* <DoctorServicesTab
 									services={[
 										{
 											name: 'Neurology',
@@ -313,12 +389,14 @@ export default function DoctorsDetailed() {
 											serviceDuration: '15',
 										},
 									]}
-								/>
+								/> */}
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>
 								<DoctorEducationTab
-									certificates={certificateEducation?.data?.certificates}
-									education={certificateEducation?.data?.educations}
+									certificates={
+										certificates.isLoading ? 'Loading' : certificates?.data
+									}
+									education={education.isLoading ? 'Loading' : education?.data}
 								/>
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>
