@@ -13,6 +13,7 @@ import {ReactSVG} from 'react-svg';
 import { useQuery } from "@tanstack/react-query";
 import {getList} from 'components';
 import axios from 'axios';
+import classNames from 'classnames';
 
 interface RenderTree {
     serviceParameterValues: any;
@@ -85,6 +86,7 @@ export default function RichObjectTreeView({
 
     const renderTree = (nodes: RenderTree) => {
         let state = alreadyExistServices?.filter((e)=> e.id == nodes?.id).length > 0;
+        let classes = [];
         return (<TreeItem key={nodes?.id} nodeId={nodes?.id} label={
             <>
                 <div className={styles.table}>
@@ -108,9 +110,18 @@ export default function RichObjectTreeView({
                         {
                             variant == 'current' && 
                                 <>
-                                    <form onSubmit={(e)=>{e.preventDefault(); console.log(e)}}>
-                                        <input className={styles.priceInput} type="text" />
-                                        <input type="submit" hidden={true} />
+                                    <form>
+                                        <input className={styles.priceInput} type="text" onFocus={(e)=> {
+                                            e.target.nextElementSibling.classList.add(styles.active)
+                                        }} onBlur={(e)=> {e.target.nextElementSibling.classList.remove(styles.active)}} />
+                                        <input 
+                                            className={classNames(styles.priceSend, classes)} 
+                                            type="submit" 
+                                            value="add" 
+                                            onClick={(e)=>{
+                                                e.preventDefault();
+                                            }} 
+                                        />
                                     </form>
                                 </>
                         }

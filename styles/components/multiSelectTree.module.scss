@@ -146,19 +146,24 @@
     cursor:pointer;
 }
 
+.priceSend {
+    margin-left:10px;
+    background: transparent;
+    border:1px solid#ddd;
+    cursor:pointer;
+    opacity: 0;
+}
+
 .priceInput {
     outline:none;
     background:transparent;
     border:1px solid#ddd;
     width: 50%;
     &:focus {
-        background-color: red;
-        .btnSave {
-            display: block;
-        }
+        background-color: rgb(241, 241, 241);
     }
 }
 
-.btnSave {
-    display: none;
+.active {
+    opacity: 1;
 }
