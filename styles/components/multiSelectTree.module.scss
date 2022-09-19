@@ -145,3 +145,20 @@
     border:none;
     cursor:pointer;
 }
+
+.priceInput {
+    outline:none;
+    background:transparent;
+    border:1px solid#ddd;
+    width: 50%;
+    &:focus {
+        background-color: red;
+        .btnSave {
+            display: block;
+        }
+    }
+}
+
+.btnSave {
+    display: none;
+}

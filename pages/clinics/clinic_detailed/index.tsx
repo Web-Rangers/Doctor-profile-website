@@ -17,20 +17,15 @@ import { AddServicesModal,
          createTree, 
          AddPhotoToGallery
         } from 'components';
-import StarRatings from 'react-star-ratings';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
 import tabStyles from 'styles/components/Tabs/tabs.module.scss';
 import styles from 'styles/pages/clinic_detailed.module.scss';
-import Breadcrumbs from 'nextjs-breadcrumbs';
 import classNames from 'classnames';
 import { useEffect, useState, useCallback } from 'react';
 import BranchTab from 'components/tabs/BranchTab';
 import { useRouter } from 'next/router'
-import { useClinicData } from 'components';
-import Link from 'next/link';
 import { useQuery } from "@tanstack/react-query";
-import Image from 'next/image';
 
 interface ActionProps {
     icon?: string;

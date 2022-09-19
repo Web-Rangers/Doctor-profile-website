@@ -102,8 +102,18 @@ export default function RichObjectTreeView({
                     </div>
                     <div>{nodes?.id}</div>
                     <div>{nodes?.title}</div>
-                    <div>{nodes?.descriptionId ? nodes?.descriptionId : ''}</div>
-                    <div>
+                    <div
+                        onClick={(e)=> e.stopPropagation()}
+                    >
+                        {
+                            variant == 'current' && 
+                                <>
+                                    <form onSubmit={(e)=>{e.preventDefault(); console.log(e)}}>
+                                        <input className={styles.priceInput} type="text" />
+                                        <input type="submit" hidden={true} />
+                                    </form>
+                                </>
+                        }
                     </div>
                     <div>{nodes?.serviceParameterValues && nodes?.serviceParameterValues[0]?.serviceParamNumberValue}</div>
                     {
@@ -214,7 +224,6 @@ export default function RichObjectTreeView({
                     <div></div>
                     <div>Service Id</div>
                     <div>Service name</div>
-                    <div>Type of service</div>
                     <div>Price</div>
                     <div>Duration</div>
                 </div>
