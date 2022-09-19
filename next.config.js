@@ -15,35 +15,13 @@ module.exports = {
 
   async rewrites() {
     return [
+     
       {
-        source: "/asclepius/v1/api/clinics/",
-        destination: "https://asclepius.pirveli.ge/asclepius/v1/api/clinics/",
-      },
-      {
-        source: "/asclepius/v1/api/clinics/search",
+        source: "/asclepius/v1/:path*",
         destination:
-          "https://asclepius.pirveli.ge/asclepius/v1/api/clinics/search",
+          "https://asclepius.pirveli.ge/asclepius/v1/:path*",
       },
-      {
-        source: "/asclepius/v1/api/clinics/:path*",
-        destination:
-          "https://asclepius.pirveli.ge/asclepius/v1/api/clinics/:path*",
-      },
-      {
-        source: "/asclepius/v1/api/clinics/:path*/doctors",
-        destination:
-          "https://asclepius.pirveli.ge/asclepius/v1/api/clinics/:path*/doctors",
-      },
-      {
-        source: "/asclepius/v1/api/doctors/freelancers:path*",
-        destination:
-          "https://asclepius.pirveli.ge/asclepius/v1/api/doctors/freelancers:path*",
-      },
-      {
-        source: "/asclepius/v1/api/payment/bog/checkout/orders",
-        destination:
-          "https://asclepius.pirveli.ge/asclepius/v1/api/payment/bog/checkout/orders",
-      },
+     
     ];
   },
 };

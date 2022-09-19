@@ -1,4 +1,4 @@
-import { encodeImageFileAsURL, Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz } from 'components';
+import { encodeImageFileAsURL, Select, Input, Button, Modal, CheckBox, activeWorkingHours, getFirstStartEndHours, handleChange, dayz } from 'components';
 import { useState, useEffect } from 'react';
 import styles from 'styles/components/Modals/ClinicModal.module.scss';
 import axios from 'axios';
@@ -27,6 +27,7 @@ interface ClinicModalProps {
     onCancel?: () => void;
     data: ClinicData;
     refetch?: () => void;
+    municipalities?: any;
 }
 
 export default function ClinicModal({
@@ -34,7 +35,8 @@ export default function ClinicModal({
     onSave,
     onCancel,
     data,
-    refetch
+    refetch,
+    municipalities
 }: ClinicModalProps) {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -87,17 +89,19 @@ export default function ClinicModal({
     ]);
     const [uploadPhoto, setUploadPhoto] = useState('');
     const [image, setImage] = useState<any>(`${data?.logoUrl + `&?${new Date().getTime()}`}`);
-
+    const [municipaly, setMunicipaly] = useState(data?.address.municipality.id)
     const [registrationDate, setRegistrationDate] = useState(
         data?.registrationDate
     );
+    const [validOpen, setValidOpen] = useState(false);
+    const [validation, setValidation] = useState<any>();
 
     const modifyClinic = async () => {
         let formData = new FormData()
         formData.append('phone', phone)
         formData.append('address', address)
         formData.append('description', about)
-        formData.append('cityId', '80')
+        formData.append('cityId', municipaly)
         formData.append('email', email)
         formData.append('pictureFile', image)
 
@@ -116,15 +120,30 @@ export default function ClinicModal({
                 'Content-Type': `multipart/form-data`,
             },
         }).then((response) => { refetch(); 
+            setValidOpen(false)
             onSave?.call(null, {
             email,
             phone,
             address,
             registrationDate,
             about,
-        }) }).catch(err=> {
-            alert(`გადაამოწმე working hourse, 00:00-23:59მდე შუალედში უნდა იყოს ყველა დრო. დანარჩენი ველები არ უნდა იყოს ცარიელი`)
+        }) }).catch(error=> {
+            alert(error)
         })
+    }
+
+    function validations() {
+        setValidation(()=>(
+            {
+                phone, 
+                address,
+                about,
+                uploadPhoto,
+                municipaly,
+                workingHours: getFirstStartEndHours(workingHours) == undefined
+            }
+        ))
+        setValidOpen(true)
     }
 
   const { mutate: clinicUpdate } = useMutation(modifyClinic);
@@ -136,6 +155,8 @@ export default function ClinicModal({
 
     setPhone(numbers[0]?.value);
     setEmail(emails[0]?.value);
+
+    console.log(municipalities)
   }, [data]);
 
     useEffect(()=>{
@@ -243,12 +264,20 @@ export default function ClinicModal({
                         label="E-mail"
                         value={email && email}
                         onChange={(value: string) => setEmail(value)}
+                        className={classNames({
+                            [styles.validation]: validation && !validation['email'],
+                            [styles.removeValidate]: email
+                        })}
                     />
                     <Input
                         type="number"
                         label="Phone number"
                         value={phone}
                         onChange={(value: string) => setPhone(value)}
+                        className={classNames({
+                            [styles.validation]: validation && !validation['phone'],
+                            [styles.removeValidate]: phone
+                        })}
                     />
                 </div>
                 <div className={classNames(styles.modalContentRow, styles.workingHours)}>
@@ -256,7 +285,10 @@ export default function ClinicModal({
                     <input 
                         type="text"
                         readOnly
-                        className={styles.workingInp}
+                        className={classNames(styles.workingInp, {
+                            [styles.validationForHours]: validation && validation['workingHours'],
+                            [styles.removeWorkingValidations]: getFirstStartEndHours(workingHours) != undefined
+                        })}
                         value={getFirstStartEndHours(workingHours)?.startHour && getFirstStartEndHours(workingHours)?.startHour + ' - ' + getFirstStartEndHours(workingHours)?.endHour}
                     />
                     <ReactSVG 
@@ -266,11 +298,26 @@ export default function ClinicModal({
                     />
                 </div>
                 <div className={styles.modalContentRow}>
+                    <Select
+                        label="Municipalities"
+                        labelStyle="outside"
+                        onChange={(e) => {setMunicipaly(e)}}
+                        value={municipaly}
+                        options={municipalities?.map((item)=> ({label: item.title, value: item.id}))}
+                        inputClassname={classNames({
+                            [styles.validationForSelect]: validation && !validation['municipaly'],
+                            [styles.removeSelectValidation]: municipaly
+                        })}
+                    />
                     <Input
                         type="text"
                         label="Address"
                         value={address}
                         onChange={(value: string) => setAddress(value)}
+                        className={classNames({
+                            [styles.validation]: validation && !validation['address'],
+                            [styles.removeValidate]: address
+                        })}
                     />
                 </div>
                 <div className={styles.modalContentRow}>
@@ -280,8 +327,20 @@ export default function ClinicModal({
                         multiline
                         value={about}
                         onChange={(value: string) => setAbout(value)}
+                        className={classNames({
+                            [styles.validation]: validation && !validation['about'],
+                            [styles.removeValidate]: about
+                        })}
                     />
                 </div>
+                {
+                    validOpen && <div className={styles.redFlag}>
+                        *please fill all the inputs 
+                        {
+                            (validation && !validation['uploadPhoto']) && ' and Upload photo'
+                        }
+                    </div>
+                }
             </div>
             <div className={styles.whiteSpace}></div>
             <div className={styles.modalActions}>
@@ -296,12 +355,11 @@ export default function ClinicModal({
                     variant="fill"
                     onClick={() =>
                         {
-                            if(email.includes('@')){
-                                clinicUpdate();
-                            }else {
-                                alert('write correct email')
+                            {
+                                phone && address && about && image && email && getFirstStartEndHours(workingHours) != undefined ?
+                                clinicUpdate() : validations()
                             }
-                    }
+                        }
                     }
                     size="large"
                 />

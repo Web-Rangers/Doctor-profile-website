@@ -25,7 +25,7 @@ export default function Cards() {
         promotion: 'Nominal',
         card_type: 'Percentage',
         buffer: '5 days',
-        image: 'images/cards/card.png'
+        image: '/images/cards/card.png'
     },
     {
         name: 'Gold card',
@@ -36,7 +36,7 @@ export default function Cards() {
         promotion: 'Nominal',
         card_type: 'Percentage',
         buffer: '5 days',
-        image: 'images/cards/card.png'
+        image: '/images/cards/card.png'
     },
     {
         name: 'Platinum card',
@@ -47,7 +47,7 @@ export default function Cards() {
         promotion: 'Nominal',
         card_type: 'Percentage',
         buffer: '5 days',
-        image: 'images/cards/card.png'
+        image: '/images/cards/card.png'
     }]
 
     const offerColumns = [
