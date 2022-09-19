@@ -68,8 +68,8 @@ export default function AddPhotoToGallery({clinicId, onClose, refetch}) {
             </div>
 
             <div className={styles.uploadedFileList}>
-				{uploadedFiles.map(file => (
-                    <div className={styles.uploadPicDet}>
+				{uploadedFiles.map((file, key) => (
+                    <div key={key} className={styles.uploadPicDet}>
                         <div className={styles.fileInfo}>
                             <span>{file.name}</span>
                             <span>{niceBytes(file.size)}</span>
