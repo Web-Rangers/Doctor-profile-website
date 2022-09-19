@@ -87,7 +87,8 @@ const BranchModal = ({
     ]);
     const [uploadPhoto, setUploadPhoto] = useState('');
     const [image, setImage] = useState<any>(data?.logoUrl + `&?${new Date().getTime()}`);
-
+    const [validOpen, setValidOpen] = useState(false);
+    const [validation, setValidation] = useState<any>();
     const editBranch = async () => {
         let formData = new FormData()
         formData.append('phone', phone)
@@ -104,8 +105,6 @@ const BranchModal = ({
                 formData.append('endHours', workingHours[i].endHour)
             }
         }
-
-        console.log('sadadasdssad')
      
         return axios.put(`/asclepius/v1/api/clinics/${data?.id}`, formData, {
             headers: {
@@ -114,7 +113,6 @@ const BranchModal = ({
         }).then((response) => { refetch(); onSave?.call(null, { phone, address, time, about })
     }).catch((err)=>{
             console.log(err)
-            alert(`გადაამოწმე working hourse, 00:00-23:59მდე შუალედში უნდა იყოს ყველა დრო. დანარჩენი ველები არ უნდა იყოს ცარიელი`)
         })
     }
     
@@ -142,6 +140,19 @@ const BranchModal = ({
         setWorkingHours(newWorkingHours)
 
     },[data, setWorkingHours])
+
+    function validations() {
+        setValidation(()=>(
+            {
+                phone, 
+                address,
+                about,
+                uploadPhoto,
+                workingHours: getFirstStartEndHours(workingHours) == undefined
+            }
+        ))
+        setValidOpen(true)
+    }
 
     return <>
             {
@@ -234,6 +245,10 @@ const BranchModal = ({
                         label="Phone number"
                         value={phone}
                         onChange={(value) => setPhone(value.toString())}
+                        className={classNames({
+                            [styles.validation]: validation && !validation['phone'],
+                            [styles.removeValidate]: phone
+                        })}
                     />
                     <Input type="select" label="Status" value="Open" />
                 </div>
@@ -243,14 +258,21 @@ const BranchModal = ({
                         label="email"
                         value={email}
                         onChange={(value) => setEmail(value.toString())}
+                        className={classNames({
+                            [styles.validation]: validation && !validation['email'],
+                            [styles.removeValidate]: email
+                        })}
                     />
                 </div>
                 <div className={classNames(styles.modalContentRow, styles.workingHours)}>
                     <h2>Working hours</h2>
                     <input
-                        className={styles.workingInp}
                         readOnly 
                         type="text"
+                        className={classNames(styles.workingInp, {
+                            [styles.validationForHours]: validation && validation['workingHours'],
+                            [styles.removeWorkingValidations]: getFirstStartEndHours(workingHours) != undefined
+                        })}
                         value={getFirstStartEndHours(workingHours)?.startHour && getFirstStartEndHours(workingHours)?.startHour + ' - ' + getFirstStartEndHours(workingHours)?.endHour}
                     />
                     <ReactSVG 
@@ -266,6 +288,10 @@ const BranchModal = ({
                         multiline
                         value={about}
                         onChange={(value) => setAbout(value.toString())}
+                        className={classNames({
+                            [styles.validation]: validation && !validation['about'],
+                            [styles.removeValidate]: about
+                        })}
                     />
                 </div>
             </div>
@@ -281,8 +307,9 @@ const BranchModal = ({
                     label="Save"
                     variant="fill"
                     onClick={() =>{
-                        edit()
-                    }
+                            phone && address && about && image && email && getFirstStartEndHours(workingHours) != undefined ?
+                            edit() : validations()
+                        }
                     }
                     size="large"
                 />

@@ -68,7 +68,7 @@ export default function StuffCard({
         <img alt="" src={data.icon} className={styles.icon} />
         <div className={styles.name}>{data.name}</div>
         <div className={styles.description}>{data.description}</div>
-        <div className={styles.clinicRating}>
+        {/* <div className={styles.clinicRating}>
           <StarRatings
             rating={data.rating}
             starRatedColor="#FFC14E"
@@ -80,7 +80,7 @@ export default function StuffCard({
           <span className={styles.clinicRatingCount}>{data.rating}</span>
           <span className={styles.clinicRatingDelimiter}>/</span>
           <span className={styles.clinicRatingMax}>5</span>
-        </div>
+        </div> */}
       </div>
       <div className={styles.cardDescription}>
         <div className={styles.datRow}>

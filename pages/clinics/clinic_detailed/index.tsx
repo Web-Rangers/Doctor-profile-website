@@ -1,19 +1,31 @@
 import { ReactSVG } from 'react-svg';
-import { Card, ClinicModal, OffersTab, StuffTab, GalleryTab, GenerateBreadcrumbs, Input, TableServices, getList, AddBranchModal, dayz, getFirstStartEndHours, RichObjectTreeView, AlreadyExistClinic } from 'components';
-import StarRatings from 'react-star-ratings';
+import { AddServicesModal, 
+         Card, 
+         ClinicModal, 
+         OffersTab, 
+         StuffTab, 
+         GalleryTab, 
+         GenerateBreadcrumbs, 
+         Input, 
+         Button, 
+         getList, 
+         AddBranchModal, 
+         dayz, 
+         getFirstStartEndHours, 
+         RichObjectTreeView, 
+         AlreadyExistClinic, 
+         createTree, 
+         AddPhotoToGallery
+        } from 'components';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
 import tabStyles from 'styles/components/Tabs/tabs.module.scss';
 import styles from 'styles/pages/clinic_detailed.module.scss';
-import Breadcrumbs from 'nextjs-breadcrumbs';
 import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import BranchTab from 'components/tabs/BranchTab';
 import { useRouter } from 'next/router'
-import { useClinicData } from 'components';
-import Link from 'next/link';
 import { useQuery } from "@tanstack/react-query";
-import Image from 'next/image';
 
 interface ActionProps {
     icon?: string;
@@ -78,51 +90,31 @@ export default function ClinicDetailed() {
             active: false
         }
     ]);
-    const [serviceData, setServices] = useState([]);
+    const [serviceAddModal, serServiceAddModal] = useState(false);
     
     const [showMore, setShowMore] = useState(false);
+    const [addGalleryPic, setGalleryPic] = useState(false);
 
-    var { data, refetch } = useQuery(["key", 'clinics'], ()=> { return getList(`clinics/${id}`, id) });
+    let { data, refetch } = useQuery(["key", 'clinics'], ()=> { return getList(`clinics/${id}`, id) });
+    let municipalities = useQuery(["key", 'municipalities'], ()=> { return getList(`municipalities`, '1') });
 
-    var doctors = useQuery(["key", 'doctors'], ()=> { return getList(`clinics/${id}/doctors?page=0&size=5`, id) });
-    var branch = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${id}/branches/`, id) });
-    var services = useQuery(["key", 'services'], ()=> { return getList(`clinics/contract-type-to-services`, id) });
+    let doctors = useQuery(["key", 'doctors'], ()=> { return getList(`clinics/${id}/doctors?page=0&size=5`, id) });
+    let branch = useQuery(["key", 'branches'], ()=> { return getList(`clinics/${id}/branches/`, id) });
+    let gallery = useQuery(["key", 'gallery'], ()=> { return getList(`gallery/clinic/${id}`, id) });
+    let services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${data?.contracts?.contractId}`, data?.contracts?.contractId) });
 
     const [existClinic, setExistClinic] = useState({
         isOpen: false,
         data: null,
     })
 
-    function createTree(data) {
-        let newData = data?.map((item)=>(item.services[0]));
-        const idMapping = newData?.reduce((acc, el, i) => {
-            acc[el.id] = i;
-            return acc;
-          }, {});
-
-        let root: any;
-
-        newData?.forEach((el) => {
-            if (el.parentServiceId === null) {
-                root = el;
-                return;
-            }
-            const parentEl = newData[idMapping[el.parentServiceId]];
-            parentEl.children = [...(parentEl.children || []), el];
-        });
-
-        return root
-    }
-
     useEffect(()=> {
         refetch()
-        doctors.refetch()
         branch.refetch()
-        services.refetch();
-
-        console.log(doctors)
+        doctors.refetch()
+        gallery.refetch()
+        services.refetch()
     }, [id])
-
 
     useEffect(()=>{
         let numbers = data?.contactInfos.map((contact)=>{
@@ -155,19 +147,14 @@ export default function ClinicDetailed() {
 
     },[data, setWorkingHours])
 
-    useEffect(()=>{
-        const tree = createTree(services?.data)
-        
-        let newData = services?.data?.map((item)=>(item.services[0])).filter((item)=> item.parentServiceId == null);
-        
-        setServices(newData)
-        console.log('this is services data', newData)
-    },[services?.data])
-
-    console.log(existClinic)
-
     return (
         <>
+            {
+                addGalleryPic && <AddPhotoToGallery clinicId={id} onClose={()=> setGalleryPic(false)} refetch={()=> gallery.refetch()} />
+            }
+            {
+                serviceAddModal && <AddServicesModal contractId={data?.contracts?.contractId} onClose={()=> serServiceAddModal(false)} alreadyExistServices={services?.data} refetch={services}/>
+            }
             {
                 existClinic.isOpen && <AlreadyExistClinic data={existClinic} onClose={()=> setExistClinic({isOpen: false, data: null})} />
             }
@@ -180,6 +167,7 @@ export default function ClinicDetailed() {
                     }}
                     onCancel={() => setClinicEdtModalIsOpen(false)}
                     refetch={()=> refetch()}
+                    municipalities={municipalities?.data}
                 />
             )}
             {addBranchModal && (
@@ -193,6 +181,7 @@ export default function ClinicDetailed() {
                     refetch={()=> branch.refetch()}
                     isOpen={existClinic.isOpen}
                     setExistClinic={(bol)=> setExistClinic({isOpen: bol.isOpen, data: bol.data})}
+                    municipalities={municipalities?.data}
                 />
             )}
             <div className={styles.container}>
@@ -211,7 +200,7 @@ export default function ClinicDetailed() {
                                 <div className={styles.clinicName}>
                                     {data?.displayName}
                                 </div>
-                                <div className={styles.clinicRating}>
+                                {/* <div className={styles.clinicRating}>
                                     <StarRatings
                                         rating={4}
                                         starRatedColor="#FFC14E"
@@ -231,7 +220,7 @@ export default function ClinicDetailed() {
                                     <span className={styles.clinicRatingMax}>
                                         5
                                     </span>
-                                </div>
+                                </div> */}
                                 <div 
                                     className={classNames(styles.clinicInf)}
                                     onClick={()=> setWorkingHoursOpen(!workingHoursOpen)}
@@ -425,6 +414,13 @@ export default function ClinicDetailed() {
                                 <div className={styles.servicesTable}>
                                     <div className={styles.servicesHeader}>
                                         <h2>Services</h2>
+                                        <Button 
+                                            label="Add Service"
+                                            variant="fill"
+                                            size="large"
+                                            className={styles.serviceBtn}
+                                            onClick={()=> serServiceAddModal(true)}
+                                        />
                                         <div className={styles.servicesSearch}>
                                             <Input 
                                                 type="text"
@@ -436,12 +432,7 @@ export default function ClinicDetailed() {
                                             />
                                         </div>
                                     </div>
-                                    {
-                                        <RichObjectTreeView 
-                                            data={serviceData} 
-                                            pagination={{ pageSize: 8, initialPage: 1 }} 
-                                        />
-                                    }
+                                    <Services contractId={data?.contracts?.contractId} />
                                 </div>
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
@@ -469,32 +460,27 @@ export default function ClinicDetailed() {
                                 <StuffTab
                                     id={id}
                                     stuff={doctors?.data?.content?.map(
-                                        (i) => ({
+                                        (i) => (
+                                            {
                                             icon: i.pictureUrl,
-                                            address: '11 Simon Chikovani St',
-                                            amountOfOrders: 143,
-                                            city: 'Akhaltsikhe',
+                                            address: data?.address?.address,
+                                            amountOfOrders: '',
+                                            city: data?.address.municipality.title,
                                             clinic: i.clinics[0].displayName,
                                             description:
-                                                `${i.professions[0].name} • ${i.doctorType ==='CLINIC_DOCTOR' ? 'Clinic Doctor' : 'Freelancer'}`,
+                                                `${i.professions && i.professions[0].name} • ${i.doctorType ==='CLINIC_DOCTOR' ? 'Clinic Doctor' : 'Freelancer'}`,
                                             gender: i.gender === 'm' ? 'Male' : 'Female',
                                             name: i.firstName + ' ' + i.lastName,
-                                            rating: 4.7,
-                                            registrationDate: '04.11.2017',
+                                            registrationDate: '',
                                         })
                                     )}
                                 />
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
                                 <GalleryTab
-                                    images={Array.from(new Array(6).keys()).map(
-                                        (i) => ({
-                                            src:
-                                                '/images/gallery/photo' +
-                                                (i + 1) +
-                                                '.png',
-                                        })
-                                    )}
+                                    setGalleryPic={setGalleryPic}
+                                    images={gallery?.data?.sort((a,b)=> b.galleryId - a.galleryId)}
+                                    refetch={()=> gallery.refetch()}
                                 />
                             </TabPanel>
                         </Tabs>
@@ -503,6 +489,31 @@ export default function ClinicDetailed() {
             </div>
         </>
     );
+}
+
+
+export function Services(contractId) {
+    const [service, setServices] = useState([]);
+    let services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${contractId.contractId}`, contractId.contractId) });
+
+    useEffect(()=>{
+        const tree = createTree(services?.data, 'current')
+        
+        let newData = services?.data?.map((item)=>(item)).filter((item)=> item.parentServiceId == null);
+
+        setServices(newData)
+    },[services?.data])
+
+    return <>
+        <RichObjectTreeView 
+            data={service ? service : [] } 
+            originalData={services?.data && services?.data?.map((item)=>(item))}
+            pagination={{ pageSize: 8, initialPage: 1 }} 
+            contractId={contractId}
+            variant={"current"}
+            refetch={()=> services.refetch()}
+        />
+    </>
 }
 
 ClinicDetailed.getLayout = (page) => {

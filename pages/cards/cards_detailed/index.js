@@ -2,7 +2,7 @@ import { useState } from 'react';
 import SideBarLayout from 'layouts/SideBarLayout';
 import classNames from "classnames";
 import Breadcrumbs from 'nextjs-breadcrumbs';
-import { Card, Button, Input, DatePicker, CheckBox, TableWithDropdowns, EditCard } from 'components';
+import { Card, Button, Input, DatePicker, CheckBox, TableWithDropdowns, EditCard, AddCardModal } from 'components';
 import styles from 'styles/pages/cardsDetailed.module.scss';
 import { ReactSVG } from "react-svg";
 import Image from 'next/image';
@@ -14,7 +14,8 @@ export default function CardsDetailed() {
     const [min, setMin] = useState(0);
     const [max, setMax] = useState(20);
     const [searchValue, setSearchValue] = useState('');
-    const [isModalOpen, setModalOpen] = useState(false)
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [createCard, setCreateCard] = useState(false);
 
     const cardDetails = {
         name: 'Silver Card',
@@ -178,7 +179,11 @@ export default function CardsDetailed() {
             members: 'Brooklyn Simmons',
         },
     ];
+    
     return <>
+        {
+            createCard && <AddCardModal />
+        }
         <div className={styles.cardsDetailedContainer}>
             <div className={styles.pageHeader}>
                 <div className={styles.headerTitle}
@@ -195,6 +200,7 @@ export default function CardsDetailed() {
                         className={styles.resetButton}
                         size="large"
                         variant="fill"
+                        onClick={()=> setCreateCard(true)}
                     />
                 </div>
                 <div className={styles.headerBreadcrumbs}>

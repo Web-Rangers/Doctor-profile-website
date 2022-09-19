@@ -1,14 +1,17 @@
 import styles from 'styles/components/Tabs/GalleryTab.module.scss';
 import { Card, Button, GalleryCard } from 'components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 interface Image {
-    src: string;
+    url: string;
 }
 
 interface GalleryTabProps {
     className?: string;
     images?: Image[];
+    setGalleryPic?: any;
+    refetch?: any;
 }
 
 interface GalleryActionsProps {
@@ -16,6 +19,7 @@ interface GalleryActionsProps {
     onEdit?: () => void;
     onAdd?: () => void;
     onDelete?: () => void;
+    collector?: any;
 }
 
 const GalleryActions = ({
@@ -23,6 +27,7 @@ const GalleryActions = ({
     onAdd,
     isEdit,
     onDelete,
+    collector = null
 }: GalleryActionsProps) => {
     return (
         <div className={styles.actions}>
@@ -42,8 +47,10 @@ const GalleryActions = ({
     );
 };
 
-export default function GalleryTab({ images = [] }: GalleryTabProps) {
+export default function GalleryTab({ setGalleryPic, images = [], refetch }: GalleryTabProps) {
     const [isEdit, setIsEdit] = useState(false);
+    const [collector, setCollector] = useState([]);
+    
     return (
         <Card
             cardTitle="Photo gallery"
@@ -53,20 +60,35 @@ export default function GalleryTab({ images = [] }: GalleryTabProps) {
                         setIsEdit(!isEdit);
                     }}
                     isEdit={isEdit}
+                    onAdd={()=> setGalleryPic(true)}
+                    collector={collector}
+                    onDelete={()=> {removeImage(collector, refetch); setIsEdit(false); setCollector([])}}
                 />
             }
         >
             <div className={styles.galleryCardContainer}>
-                {images.map(({ src }, i) => (
+                {images.map((img, i) => (
                     <GalleryCard
                         id={'gallery' + i}
                         key={'gallery' + i}
-                        src={src}
+                        src={img.url}
                         className={styles.galleryCard}
                         isEdit={isEdit}
+                        setCollector={setCollector}
+                        collector={collector}
+                        imgInfo={img}
                     />
                 ))}
             </div>
         </Card>
     );
+}
+
+export async function removeImage(collector, refetch) {
+    await axios.delete('/asclepius/v1/api/gallery/clinic/urlListByIdList', {
+        data: { 'ids': collector}
+    })
+                    .then((response)=>refetch())
+                    .catch(error=>alert(error))
+
 }
