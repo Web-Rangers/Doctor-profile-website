@@ -1,97 +1,110 @@
 .table {
-    width: 100%;
-    min-height: 50px;
-    display: grid;
-    border-radius: 4px;
-    grid-template-columns: 7% 27% 22% 18% 8% 12% 5%;
-    grid-auto-flow: column;
-    div {
-        margin:auto 0;
-    }
-    .checkbox {
-        padding-top:6px;
-    }
+	width: 100%;
+	min-height: 50px;
+	display: grid;
+	border-radius: 4px;
+	grid-template-columns: 7% 27% 22% 18% 8% 12% 5%;
+	grid-auto-flow: column;
+	div {
+		margin: auto 0;
+	}
+	.checkbox {
+		padding-top: 6px;
+	}
 }
 
 .tableHeader {
-    width: 100%;
-    min-height: 50px;
-    display: grid;
-    border-radius: 4px;
-    grid-template-columns: 10% 26% 21% 17% 8% 11%;
-    grid-auto-flow: column;
-    background-color: #d9def3;
-    border-radius: 4px;
-    div {
-        margin:auto 0;
-    }
+	width: 100%;
+	min-height: 50px;
+	display: grid;
+	border-radius: 4px;
+	grid-template-columns: 10% 26% 21% 17% 8% 11%;
+	grid-auto-flow: column;
+	background-color: #d9def3;
+	border-radius: 4px;
+	div {
+		margin: auto 0;
+	}
+}
+
+.tableHeaderForDoctor {
+	width: 100%;
+	min-height: 50px;
+	display: grid;
+	border-radius: 4px;
+	// grid-template-columns: 10% 26% 21% 17% 8% 11%;
+	grid-auto-flow: column;
+	background-color: #d9def3;
+	border-radius: 4px;
+	div {
+		margin: auto 0;
+	}
 }
 
 .tableClass {
-    width: calc(100% - 60px);
-    margin-bottom:20px;
+	width: calc(100% - 60px);
+	margin-bottom: 20px;
 }
 
-
 .pagination {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10px;
-    width: calc(100% - 72px);
-    margin-bottom:30px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 10px;
+	width: calc(100% - 72px);
+	margin-bottom: 30px;
 }
 
 .paginationControls {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 18px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 18px;
 }
 
 .recordCounter,
 .paginatorTitle {
-    color: #1c1a27;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 24px;
-    letter-spacing: 0.04em;
+	color: #1c1a27;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 24px;
+	letter-spacing: 0.04em;
 }
 
 .paginationButtons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-left: 40px;
-    gap: 40px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-left: 40px;
+	gap: 40px;
 }
 
 .paginationBtn {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
 }
 
 .paginationBtn * {
-    stroke: #63626d;
+	stroke: #63626d;
 }
 
 .disable,
 .disable * {
-    pointer-events: none;
-    stroke: #b3b1bb;
+	pointer-events: none;
+	stroke: #b3b1bb;
 }
 
 .pageSelect {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 20px;
-    letter-spacing: 0.04em;
-    text-align: center;
-    border-radius: 4px;
-    border: none;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 20px;
+	letter-spacing: 0.04em;
+	text-align: center;
+	border-radius: 4px;
+	border: none;
 }

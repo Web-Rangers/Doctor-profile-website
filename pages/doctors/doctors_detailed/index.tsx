@@ -7,6 +7,7 @@ import {
 	Card,
 	DoctorEducationTab,
 	DoctorServicesTab,
+	getList,
 } from 'components';
 import SideBarLayout from 'layouts/SideBarLayout';
 import Breadcrumbs from 'nextjs-breadcrumbs';
@@ -27,6 +28,7 @@ import {
 } from 'components/useDoctorsData';
 import { useQuery } from '@tanstack/react-query';
 import EditDoctorModal from 'components/modals/EditDoctorModal';
+import MultiSelectTreeViewDoctor from 'components/multiSelectTreeViewDoctor';
 
 interface ActionProps {
 	icon?: string;
@@ -48,6 +50,7 @@ export default function DoctorsDetailed() {
 	const [email, setEmail] = useState('');
 	const [phone, setPhone] = useState('');
 	const [active, setActive] = useState(true);
+	const [serviceData, setServices] = useState([]);
 
 	var { data, refetch, isLoading, isError, error, status } = useQuery(
 		['key', 'doctorDetailed'],
@@ -98,6 +101,48 @@ export default function DoctorsDetailed() {
 
 	console.log('education', education.data);
 	console.log('sertificate', certificates?.data);
+
+	var services = useQuery(['key', 'services'], () => {
+		return getList(`clinics/contract-type-to-services`, id);
+	});
+
+	function createTree(data) {
+		let newData = data?.map((item) => item.services[0]);
+		const idMapping = newData?.reduce((acc, el, i) => {
+			acc[el.id] = i;
+			return acc;
+		}, {});
+
+		let root: any;
+
+		newData?.forEach((el) => {
+			if (el.parentServiceId === null) {
+				root = el;
+				return;
+			}
+			const parentEl = newData[idMapping[el.parentServiceId]];
+			parentEl.children = [...(parentEl.children || []), el];
+		});
+
+		return root;
+	}
+
+	useEffect(() => {
+		refetch();
+
+		services.refetch();
+	}, [id]);
+
+	useEffect(() => {
+		const tree = createTree(services?.data);
+
+		let newData = services?.data
+			?.map((item) => item.services[0])
+			.filter((item) => item.parentServiceId == null);
+
+		setServices(newData);
+		console.log('this is services data', newData);
+	}, [services?.data]);
 
 	return (
 		<>
@@ -279,7 +324,13 @@ export default function DoctorsDetailed() {
 								/>
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>
-								<DoctorServicesTab
+								{
+									<MultiSelectTreeViewDoctor
+										data={serviceData}
+										pagination={{ pageSize: 8, initialPage: 1 }}
+									/>
+								}
+								{/* <DoctorServicesTab
 									services={[
 										{
 											name: 'Neurology',
@@ -338,12 +389,14 @@ export default function DoctorsDetailed() {
 											serviceDuration: '15',
 										},
 									]}
-								/>
+								/> */}
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>
 								<DoctorEducationTab
-									certificates={certificates?.data}
-									education={education?.data}
+									certificates={
+										certificates.isLoading ? 'Loading' : certificates?.data
+									}
+									education={education.isLoading ? 'Loading' : education?.data}
 								/>
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>

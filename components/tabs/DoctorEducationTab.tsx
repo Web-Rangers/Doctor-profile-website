@@ -8,7 +8,9 @@ import AddDoctorCertificate from 'components/modals/AddDoctorCertificate';
 import Image from 'next/image';
 import classNames from 'classnames';
 import EditDoctorCertificate from 'components/modals/EditDoctorCertificate';
-import EditDoctorEducation from 'components/modals/EditDoctorEducation';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import DoctorEducationPopup from './DoctorEducationPopup';
 
 interface Media {
 	src: string;
@@ -34,6 +36,7 @@ interface Education {
 	dateStart?: string;
 	dateEnd?: string;
 	galleryList?: any;
+	id?: any;
 }
 
 interface DoctorEducationTabProps {
@@ -46,10 +49,25 @@ export default function DoctorEducationTab({
 	certificates = [],
 	education = [],
 }: DoctorEducationTabProps) {
+	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
-	const [isOpenEdit, setIsOpenEdit] = useState(false);
 	const [isOpenCertificate, setIsOpenCertificate] = useState(false);
-	const [openModal, setOpenModal] = useState(false);
+
+	const id = router.query.id ?? null;
+	const certificateId = certificates?.map((item) => item.id);
+	const educationId = education?.map((item) => item.id);
+
+	console.log('educationId', educationId, certificateId);
+
+	const removeCertificate = async () => {
+		return axios
+			.delete(
+				`https://asclepius.pirveli.ge/asclepius/v1/api/doctors/${id}/certificates/${certificateId}`
+			)
+			.then((response) => {});
+	};
+
+	useEffect(() => {}, [certificates]);
 
 	const certificatesColumns = [
 		{
@@ -127,7 +145,10 @@ export default function DoctorEducationTab({
 										Edit
 									</span>
 								</div>
-								<div className={styles.moreBtn}>
+								<div
+									className={styles.moreBtn}
+									onClick={() => removeCertificate()}
+								>
 									<ReactSVG
 										src={'/images/icons/table/delete.svg'}
 										className={styles.iconContainer}
@@ -142,10 +163,6 @@ export default function DoctorEducationTab({
 			},
 		},
 	];
-
-	//   const router = useRouter();
-	// //   const id = router.query.id ?? null;
-	console.log('map', education);
 
 	return (
 		<>
@@ -232,61 +249,11 @@ export default function DoctorEducationTab({
 									))}
 								</div>
 							</div>
-							<div className={styles.column}>
-								<div key={index}>
-									<div className={styles.more}>
-										<ReactSVG
-											onClick={() => {
-												setIsOpenEdit(!isOpenEdit);
-												console.log('click', isOpenEdit);
-											}}
-											src={'/images/icons/cards/more.svg'}
-											className={styles.moreIcon}
-										/>
-									</div>
-									<div
-										className={classNames(styles.morButton, {
-											[styles.activeMoreBlock]: isOpenEdit,
-										})}
-									>
-										<div className={styles.btns}>
-											<div className={styles.moreBtn}>
-												<ReactSVG
-													src={'/images/icons/table/edit.svg'}
-													className={styles.iconContainer}
-													onClick={() => (
-														setOpenModal(true), setIsOpenEdit(isOpenEdit)
-													)}
-												/>
-
-												{openModal && (
-													<EditDoctorEducation
-														data={educationItem}
-														onClose={() => setOpenModal(false)}
-														onSave={(newData) => {
-															setOpenModal(false);
-														}}
-													/>
-												)}
-												<span
-													onClick={() => (
-														setOpenModal(true), setIsOpenEdit(!isOpen)
-													)}
-												>
-													Edit
-												</span>
-											</div>
-											<div className={styles.moreBtn}>
-												<ReactSVG
-													src={'/images/icons/table/delete.svg'}
-													className={styles.iconContainer}
-												/>
-												<span>Delete</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+							<DoctorEducationPopup
+								data={educationItem}
+								id={id}
+								educationId={educationItem?.id}
+							/>
 						</Card>
 					))}
 				</div>

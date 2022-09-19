@@ -99,9 +99,9 @@ export default function MultiSelectTreeViewDoctor({ data, pagination }) {
 					defaultExpandIcon={<ChevronRightIcon />}
 					sx={{ flexGrow: 1, maxWidth: 1200, overflowY: 'auto' }}
 				>
-					<div className={styles.tableHeader}>
+					<div className={styles.tableHeaderForDoctor}>
 						<div></div>
-						<div>Service name</div>
+						<div>Service name </div>
 						<div>Price</div>
 						<div>Doctors commission</div>
 						<div>Platform commission</div>
