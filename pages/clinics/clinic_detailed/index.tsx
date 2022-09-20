@@ -26,6 +26,7 @@ import { useEffect, useState, useCallback } from 'react';
 import BranchTab from 'components/tabs/BranchTab';
 import { useRouter } from 'next/router'
 import { useQuery } from "@tanstack/react-query";
+import Fuse from 'fuse.js';
 
 interface ActionProps {
     icon?: string;
@@ -90,7 +91,7 @@ export default function ClinicDetailed() {
             active: false
         }
     ]);
-    const [serviceAddModal, serServiceAddModal] = useState(false);
+    const [serviceAddModal, setServiceAddModal] = useState(false);
     
     const [showMore, setShowMore] = useState(false);
     const [addGalleryPic, setGalleryPic] = useState(false);
@@ -153,7 +154,7 @@ export default function ClinicDetailed() {
                 addGalleryPic && <AddPhotoToGallery clinicId={id} onClose={()=> setGalleryPic(false)} refetch={()=> gallery.refetch()} />
             }
             {
-                serviceAddModal && <AddServicesModal contractId={data?.contracts?.contractId} onClose={()=> serServiceAddModal(false)} alreadyExistServices={services?.data} refetch={services}/>
+                serviceAddModal && <AddServicesModal contractId={data?.contracts?.contractId} onClose={()=> setServiceAddModal(false)} alreadyExistServices={services?.data} refetch={services}/>
             }
             {
                 existClinic.isOpen && <AlreadyExistClinic data={existClinic} onClose={()=> setExistClinic({isOpen: false, data: null})} />
@@ -417,27 +418,7 @@ export default function ClinicDetailed() {
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
                                 <div className={styles.servicesTable}>
-                                    <div className={styles.servicesHeader}>
-                                        <h2>Services</h2>
-                                        <Button 
-                                            label="Add Service"
-                                            variant="fill"
-                                            size="large"
-                                            className={styles.serviceBtn}
-                                            onClick={()=> serServiceAddModal(true)}
-                                        />
-                                        <div className={styles.servicesSearch}>
-                                            <Input 
-                                                type="text"
-                                                className={styles.servInput}
-                                            />
-                                            <ReactSVG 
-                                                className={styles.searchIcon}
-                                                src="/images/icons/inputs/search.svg" 
-                                            />
-                                        </div>
-                                    </div>
-                                    <Services contractId={data?.contracts?.contractId} />
+                                    <Services contractId={data?.contracts?.contractId} setServiceAddModal={()=>setServiceAddModal(true)}/>
                                 </div>
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
@@ -496,22 +477,50 @@ export default function ClinicDetailed() {
     );
 }
 
-
-export function Services(contractId) {
+export function Services({contractId, setServiceAddModal}) {
     const [service, setServices] = useState([]);
-    let services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${contractId.contractId}`, contractId.contractId) });
+    let services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${contractId}`, contractId) });
+    const [searchValue, setSearchValue] = useState('');
 
     useEffect(()=>{
+        services.refetch();
+
         const tree = createTree(services?.data, 'current')
         
         let newData = services?.data?.map((item)=>(item)).filter((item)=> item.parentServiceId == null);
 
         setServices(newData)
-    },[services?.data])
+    },[services?.data, contractId])
+
+    const fuse = new Fuse(service, {keys: ["title"]});
 
     return <>
+        <div className={styles.servicesHeader}>
+            <h2>Services</h2>
+            <Button 
+                label="Add Service"
+                variant="fill"
+                size="large"
+                className={styles.serviceBtn}
+                onClick={()=> setServiceAddModal(true)}
+            />
+            <div className={styles.servicesSearch}>
+                <Input 
+                    type="text"
+                    className={styles.servInput}
+                    value={searchValue}
+                    onChange={(e)=> {
+                        setSearchValue(e.toString())
+                    }}
+                />
+                <ReactSVG 
+                    className={styles.searchIcon}
+                    src="/images/icons/inputs/search.svg" 
+                />
+            </div>
+        </div>
         <RichObjectTreeView 
-            data={service ? service : [] } 
+            data={service ? searchValue != '' ? fuse.search(searchValue).map((e)=> e.item) :  service : [] } 
             originalData={services?.data && services?.data?.map((item)=>(item))}
             pagination={{ pageSize: 8, initialPage: 1 }} 
             contractId={contractId}
