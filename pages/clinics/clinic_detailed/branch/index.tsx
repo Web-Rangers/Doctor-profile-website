@@ -202,7 +202,7 @@ export default function Branch() {
 					<div className={styles.pageHeaderLeft}>
 						<h3>Branch</h3>
 						{
-							branchDetail?.data.isActive ? 
+							branchDetail?.data?.isActive ? 
 							<Button
 								label='Deactivate branch'
 								size='large'
