@@ -317,7 +317,7 @@ export default function ClinicDetailed() {
                                         Registration date
                                     </div>
                                     <div className={styles.dataValue}>
-                                        {data?.registrationDate}
+                                        {data?.regDate}
                                     </div>
                                 </div>
                                 <div className={styles.dataRow}>
