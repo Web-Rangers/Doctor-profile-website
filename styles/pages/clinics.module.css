@@ -3,6 +3,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .tableRow {
@@ -119,4 +120,52 @@
     display: flex;
     justify-content: center;
     gap:20px;
+}
+
+.tableWorkingHours {
+    display: none;
+    position: absolute;
+    margin:70px 20px 0;
+    width: 348px;
+    height: 400px;
+    background-color:#fff;
+    padding: 30px;
+    right:0;
+    z-index:9999;
+}
+
+.activeWorkHours {
+    display: block;
+}
+
+.dayOfWeek {
+    margin-bottom:19px;
+    display: flex;
+    font-size:18px;
+}
+
+.dayOfWeek span{
+    display: block;
+    width: 60px;
+    font-size:18px;
+    font-weight: 500;
+}
+
+.workHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom:30px;
+}
+
+.workHeader h2 {
+    margin: 0;
+}
+
+.tableRow:nth-child(n+6) .tableWorkingHours {
+    margin-top:-410px;
+}
+
+.x {
+    cursor:pointer;
 }
