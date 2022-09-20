@@ -18,9 +18,10 @@ import Breadcrumbs from 'nextjs-breadcrumbs';
 import classNames from 'classnames';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { getList } from 'components';
 import { GenerateBreadcrumbs, getFirstStartEndHours, dayz, AddPhotoToGallery, AddServicesModal, RichObjectTreeView, createTree } from 'components';
+import axios from 'axios';
 
 interface ActionProps {
 	icon?: string;
@@ -109,6 +110,27 @@ export default function Branch() {
     let gallery = useQuery(["key", 'gallery'], ()=> { return getList(`gallery/clinic/${id}`, id) });
     let services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${branchDetail?.data?.contracts?.contractId}`, branchDetail?.data?.contracts?.contractId) });
 
+
+	const deactiveBranch = async (id) => {
+		return axios.get(`/asclepius/v1/api/clinics/${id}/deactivate`).then((response) => {
+			branchDetail?.refetch();
+		});
+	  };
+	
+	const { mutate: deactive } = useMutation((id: any) =>
+		deactiveBranch(id)
+	);
+
+	const activateBranch = async (id) => {
+		return axios.get(`/asclepius/v1/api/clinics/${id}/activate`).then((response) => {
+			branchDetail?.refetch();
+		});
+	  };
+	
+	const { mutate: activate } = useMutation((id: any) =>
+		activateBranch(id)
+	);
+
 	useEffect(() => {
 		branchDetail.refetch();
 		branchDoctors.refetch();
@@ -179,11 +201,20 @@ export default function Branch() {
 				<div className={cDStyles.pageHeader}>
 					<div className={styles.pageHeaderLeft}>
 						<h3>Branch</h3>
-						<Button
-							label='Deactivate branch'
-							size='large'
-							variant='fill'
-						/>
+						{
+							branchDetail?.data.isActive ? 
+							<Button
+								label='Deactivate branch'
+								size='large'
+								variant='fill'
+								onClick={()=> deactive(id)}
+							/> : <Button
+								label='Active branch'
+								size='large'
+								variant='fill'
+								onClick={()=> activate(id)}
+							/>
+						}
 					</div>
 					<GenerateBreadcrumbs customParams={[parentId, id]} />
 				</div>

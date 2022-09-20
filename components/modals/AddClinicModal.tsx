@@ -10,15 +10,13 @@ import {
 	handleChange,
 	dayz,
 } from 'components';
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import classNames from 'classnames';
 import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useClinicsData, encodeImageFileAsURL, Select } from 'components';
 import Image from 'next/image';
 import { ReactSVG } from 'react-svg';
-import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
 
 interface ClinicData {
 	name?: string;
@@ -131,10 +129,9 @@ export default function AddClinicModal({
             },
         }).then((response) => { 
             if(response.status == 201){
-                refetch(); 
+                refetch()
                 setValidOpen(false)
             }else {
-                // alert('Clinic with this name already exists')
                 setExistClinic({
                     data: response.data,
                     isOpen: true
@@ -149,8 +146,8 @@ export default function AddClinicModal({
     function validations() {
         setValidation(()=>(
             {
-                name, 
-                phone, 
+                name,
+                phone,
                 address,
                 about,
                 uploadPhoto,

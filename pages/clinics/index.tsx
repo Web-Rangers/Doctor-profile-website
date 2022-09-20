@@ -1,14 +1,15 @@
 import { ReactSVG } from "react-svg";
-import { Table, AddClinicModal, Button, AlreadyExistClinic } from "components";
+import { Table, AddClinicModal, Button, AlreadyExistClinic, dayz, getFirstStartEndHours } from "components";
 import SideBarLayout from "layouts/SideBarLayout";
 import styles from "styles/pages/clinics.module.css";
 import tableStyles from "styles/components/Table.module.scss";
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useClinicsData } from "components/useClinicsData";
 import axios from "axios";
 import {getList} from 'components';
 import { useQuery, useMutation } from "@tanstack/react-query";
 import Fuse from "fuse.js";
+import classNames from 'classnames';
 
 export default function Clinics({ list }) {
   const { data, refetch, status } = useClinicsData();
@@ -26,6 +27,51 @@ export default function Clinics({ list }) {
     active:false,
     id: null
   });
+
+  const [workingHours, setWorkingHours] = useState([
+    {
+        days: 1,
+        endHour: '',
+        startHour: '',
+        active: true
+    },
+    {
+        days: 2,
+        endHour: '',
+        startHour: '',
+        active: true
+    },
+    {
+        days: 3,
+        endHour: '',
+        startHour: '',
+        active: true
+    },
+    {
+        days: 4,
+        endHour: '',
+        startHour: '',
+        active: true
+    },
+    {
+        days: 5,
+        endHour: '',
+        startHour: '',
+        active: true
+    },
+    {
+        days: 6,
+        endHour: '',
+        startHour: '',
+        active: false
+    },
+    {
+        days: 7,
+        endHour: '',
+        startHour: '',
+        active: false
+    }
+]);
 
   const removeClinic = async (id) => {
     return axios.get(`/asclepius/v1/api/clinics/${id}/deactivate`).then((response) => {
@@ -121,9 +167,24 @@ export default function Clinics({ list }) {
       title: "Working hours",
       dataIndex: "workingHours",
       render: (record) => {
+        const [state, setState] = useState(false);
+        const newWorkingHours = workingHours?.map((item)=>{
+          const getCurrentDay = record != null && record.filter((e)=> e.dayId === item.days);
+          if(getCurrentDay.length > 0){
+              return {...item, startHour: getCurrentDay[0]?.startHour, endHour: getCurrentDay[0]?.endHour, active: true}
+          } else {
+              return {...item, active: false}
+          }
+        })
         return (
           <>
-            <div className={styles.dataCheck}>
+            <div 
+              className={styles.dataCheck}
+              onClick={(e)=> {
+                e.stopPropagation(); 
+                setState(!state)
+              }}
+            >
               <img
                 src="/images/icons/table/i.svg"
                 alt=""
@@ -133,6 +194,65 @@ export default function Clinics({ list }) {
               <span>{record[0]?.startHour}</span>
               <span>-</span>
               <span>{record[0]?.endHour}</span>
+            </div>
+            <div className={classNames(styles.tableWorkingHours, {
+                [styles.activeWorkHours]: state 
+              })}
+              onClick={(e)=> {e.stopPropagation()}}
+            >
+              <div className={styles.workHeader}>
+                <h2>Work schedule</h2>
+                <div className={styles.x} onClick={()=>setState(false)}>
+                  <ReactSVG src="/images/icons/inputs/x.svg" />
+                </div>
+              </div>
+              {newWorkingHours.map((_,i)=> {
+                switch(i) {
+                  case 0: 
+                    return <>
+                      <div className={styles.dayOfWeek}>
+                        <span>Mon</span> {newWorkingHours[i]?.startHour ? `${newWorkingHours[i]?.startHour} - ${newWorkingHours[i]?.endHour} `: 'Day off'}
+                      </div>
+                    </> 
+                  case 1: 
+                    return <>
+                      <div className={styles.dayOfWeek}>
+                        <span>Tue</span> {newWorkingHours[i]?.startHour ? `${newWorkingHours[i]?.startHour} - ${newWorkingHours[i]?.endHour} `: 'Day off'}
+                      </div>
+                    </>
+                  case 2: 
+                    return <>
+                      <div className={styles.dayOfWeek}>
+                        <span>Wed</span> {newWorkingHours[i]?.startHour ? `${newWorkingHours[i]?.startHour} - ${newWorkingHours[i]?.endHour} `: 'Day off'}
+                      </div>
+                    </> 
+                  case 3: 
+                    return <>
+                      <div className={styles.dayOfWeek}>
+                        <span>Thu</span> {newWorkingHours[i]?.startHour ? `${newWorkingHours[i]?.startHour} - ${newWorkingHours[i]?.endHour} `: 'Day off'}
+                      </div>
+                    </> 
+                  case 4: 
+                    return <>
+                      <div className={styles.dayOfWeek}>
+                        <span>Fri</span> {newWorkingHours[i]?.startHour ? `${newWorkingHours[i]?.startHour} - ${newWorkingHours[i]?.endHour} `: 'Day off'}
+                      </div>
+                    </> 
+                  case 5: 
+                    return <>
+                      <div className={styles.dayOfWeek}>
+                        <span>Sat</span> {newWorkingHours[i]?.startHour ? `${newWorkingHours[i]?.startHour} - ${newWorkingHours[i]?.endHour} `: 'Day off'}
+                      </div>  
+                    </> 
+                  case 6: 
+                    return <>
+                      <div className={styles.dayOfWeek}>
+                        <span>Sun</span> {newWorkingHours[i]?.startHour ? `${newWorkingHours[i]?.startHour} - ${newWorkingHours[i]?.endHour} `: 'Day off'}
+                      </div>
+                    </> 
+                }
+                return <></>
+              })}
             </div>
           </>
         );
