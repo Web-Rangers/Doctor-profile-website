@@ -237,7 +237,12 @@ export default function ClinicDetailed() {
                                     <div className={classNames(styles.workingHoursBlock, {
                                         [styles.openWorkingHours]: workingHoursOpen
                                     })}>
-                                        <h2>Work schedule</h2>
+                                        <div className={styles.workingHoursHeader}>
+                                            <h2>Work schedule</h2>
+                                            <div className={styles.xclose} onClick={()=>setWorkingHoursOpen(false)}>
+                                                <ReactSVG src="/images/icons/inputs/x.svg" />
+                                            </div>
+                                        </div>
                                         <div className={styles.workHoursList}>
                                             {
                                                 workingHours?.map((item)=>{
