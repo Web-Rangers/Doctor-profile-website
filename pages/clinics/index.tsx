@@ -105,6 +105,8 @@ export default function Clinics({ list }) {
     }
   }
 
+  const [workHourTable, setWorkHourTable] = useState('');
+
   const columns = [
     {
       key: "logoUrl",
@@ -167,7 +169,6 @@ export default function Clinics({ list }) {
       title: "Working hours",
       dataIndex: "workingHours",
       render: (record) => {
-        const [state, setState] = useState(false);
         const newWorkingHours = workingHours?.map((item)=>{
           const getCurrentDay = record != null && record.filter((e)=> e.dayId === item.days);
           if(getCurrentDay.length > 0){
@@ -182,7 +183,9 @@ export default function Clinics({ list }) {
               className={styles.dataCheck}
               onClick={(e)=> {
                 e.stopPropagation(); 
-                setState(!state)
+                setWorkHourTable(record[0].clinicId)
+                console.log(workHourTable, record)
+
               }}
             >
               <img
@@ -196,13 +199,13 @@ export default function Clinics({ list }) {
               <span>{record[0]?.endHour}</span>
             </div>
             <div className={classNames(styles.tableWorkingHours, {
-                [styles.activeWorkHours]: state 
+                [styles.activeWorkHours]: workHourTable == record[0].clinicId 
               })}
               onClick={(e)=> {e.stopPropagation()}}
             >
               <div className={styles.workHeader}>
                 <h2>Work schedule</h2>
-                <div className={styles.x} onClick={()=>setState(false)}>
+                <div className={styles.x} onClick={()=>setWorkHourTable('')}>
                   <ReactSVG src="/images/icons/inputs/x.svg" />
                 </div>
               </div>
