@@ -418,7 +418,7 @@ export default function ClinicDetailed() {
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
                                 <div className={styles.servicesTable}>
-                                    <Services contractId={data?.contracts?.contractId} setServiceAddModal={()=>setServiceAddModal(true)}/>
+                                    <Services currentServices={services} contractId={data?.contracts?.contractId} setServiceAddModal={()=>setServiceAddModal(true)}/>
                                 </div>
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
@@ -479,20 +479,19 @@ export default function ClinicDetailed() {
     );
 }
 
-export function Services({contractId, setServiceAddModal}) {
+export function Services({currentServices, contractId, setServiceAddModal}) {
     const [service, setServices] = useState([]);
-    let services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${contractId}`, contractId) });
     const [searchValue, setSearchValue] = useState('');
 
     useEffect(()=>{
-        services.refetch();
+        currentServices.refetch();
 
-        const tree = createTree(services?.data, 'current')
+        const tree = createTree(currentServices?.data, 'current')
         
-        let newData = services?.data?.map((item)=>(item)).filter((item)=> item.parentServiceId == null);
+        let newData = currentServices?.data?.map((item)=>(item)).filter((item)=> item.parentServiceId == null);
 
         setServices(newData)
-    },[services?.data, contractId])
+    },[currentServices?.data, contractId])
 
     const fuse = new Fuse(service, {keys: ["title"]});
 
@@ -523,11 +522,11 @@ export function Services({contractId, setServiceAddModal}) {
         </div>
         <RichObjectTreeView 
             data={service ? searchValue != '' ? fuse.search(searchValue).map((e)=> e.item) :  service : [] } 
-            originalData={services?.data && services?.data?.map((item)=>(item))}
+            originalData={currentServices?.data && currentServices?.data?.map((item)=>(item))}
             pagination={{ pageSize: 8, initialPage: 1 }} 
             contractId={contractId}
             variant={"current"}
-            refetch={()=> services.refetch()}
+            refetch={()=> currentServices.refetch()}
         />
     </>
 }
