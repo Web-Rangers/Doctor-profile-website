@@ -10,7 +10,9 @@ export default function Services({currentServices, contractId, setServiceAddModa
 
     useEffect(()=>{
         currentServices.refetch();
+    },[])
 
+    useEffect(()=>{
         const tree = createTree(currentServices?.data, 'current')
         
         let newData = currentServices?.data?.map((item)=>(item)).filter((item)=> item.parentServiceId == null);
