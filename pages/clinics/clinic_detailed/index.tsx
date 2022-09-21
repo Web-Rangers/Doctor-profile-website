@@ -448,6 +448,7 @@ export default function ClinicDetailed() {
                                     stuff={doctors?.data?.content?.map(
                                         (i) => (
                                             {
+                                            id: i.id,
                                             icon: i.pictureUrl,
                                             address: data?.address?.address,
                                             amountOfOrders: '',

@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import styles from "styles/components/Cards/StuffCard.module.scss";
-import StarRatings from "react-star-ratings";
 import { ReactSVG } from "react-svg";
 import { useState } from "react";
-import Image from "next/image";
+import Link from 'next/link';
 
 interface stuffData {
+  id?: any;
   icon?: string;
   name?: string;
   description?: string;
@@ -24,6 +24,8 @@ interface StuffCardProps {
   data: stuffData;
   onEdit?: () => void;
   onDelete?: () => void;
+  id?: any;
+  branchId?: any;
 }
 
 export default function StuffCard({
@@ -32,9 +34,12 @@ export default function StuffCard({
   data,
   onEdit,
   onDelete,
+  id,
+  branchId,
   ...props
 }: StuffCardProps) {
   const [isOpen, setIsOpen] = useState(false);
+  console.log(data?.id, id)
   return (
     <div className={classNames([styles.cardBody, className])}>
       <div className={styles.cardActions}>
@@ -47,13 +52,15 @@ export default function StuffCard({
           className={styles.actionsList}
           style={isOpen ? { display: "block" } : {}}
         >
-          <div className={styles.actionItem} onClick={onEdit}>
-            <ReactSVG
-              src="/images/icons/cards/edit.svg"
-              className={styles.iconContainer}
-            />
-            <span>Edit</span>
-          </div>
+          <Link href={`/doctors/edit?clinic=${id}&doctor=${data?.id}`}>
+            <div className={styles.actionItem} onClick={onEdit}>
+              <ReactSVG
+                src="/images/icons/cards/edit.svg"
+                className={styles.iconContainer}
+              />
+              <span>Edit</span>
+            </div>
+          </Link>
           <div className={styles.actionItem} onClick={onDelete}>
             <ReactSVG
               src="/images/icons/cards/delete.svg"
