@@ -413,7 +413,7 @@ export default function ClinicDetailed() {
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
                                 <div className={styles.servicesTable}>
-                                    <Services currentServices={services} contractId={data?.contracts?.contractId} setServiceAddModal={()=>setServiceAddModal(true)}/>
+                                    <Services currentServices={services} contractId={data?.contracts?.contractId} setServiceAddModal={()=>setServiceAddModal(true)} id={id}/>
                                 </div>
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>

@@ -121,8 +121,6 @@ export default function RichObjectTreeView({
                                             onClick={(e)=>{
                                                 e.preventDefault();
                                                 addPriceToProduct(contractId, nodes?.id, 200)
-                                                    .then((response)=> console.log(response))
-                                                    .catch((error)=> console.log)
                                             }} 
                                         />
                                     </form>
@@ -371,23 +369,22 @@ export function AddServicesModal({
 }
 
 export async function addPriceToProduct(contractId, serviceId, price) {
-    try{
-        const req = await fetch(`https://asclepius.pirveli.ge/asclepius/v1/api/transactions/generate-products`, {method: "POST", body: JSON.stringify({
-            "serviceIds": [
-                serviceId
-              ],
-              "contractId": contractId,
-              "price": price,
-              "productDescription": {
-                "titles": {
-                  1: null
-                }
-              }
-        })});
-        const res = req.json();
-
-        return res
-    }catch(error){
-        console.log(error)
+    let body = {
+        "serviceIds": [
+            serviceId
+          ],
+          "contractId": contractId,
+          "price": price,
+          "productDescription": {
+            "titles": {
+              1: null
+            }
+        }
     }
+
+    axios.post('https://asclepius.pirveli.ge/asclepius/v1/api/transactions/generate-products', body)
+                        .then((response)=> {
+                            console.log(response)
+                        })
+                        .catch((error)=> alert(error))
 }
