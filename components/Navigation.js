@@ -36,6 +36,11 @@ const links = [
         name: "Doctors"
     },
     {
+        img: "/images/icons/navigation/doctors.svg",
+        href: "/logs",
+        name: "Logs"
+    },
+    {
         img: "/images/icons/navigation/settings.svg",
         href: "/settings",
         name: "Settings"
