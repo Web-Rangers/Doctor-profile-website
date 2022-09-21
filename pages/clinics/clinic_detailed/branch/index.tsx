@@ -20,7 +20,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getList } from 'components';
-import { GenerateBreadcrumbs, getFirstStartEndHours, dayz, AddPhotoToGallery, AddServicesModal, RichObjectTreeView, createTree } from 'components';
+import { Input, Services, GenerateBreadcrumbs, getFirstStartEndHours, dayz, AddPhotoToGallery, AddServicesModal, RichObjectTreeView, createTree } from 'components';
 import axios from 'axios';
 
 interface ActionProps {
@@ -102,7 +102,7 @@ export default function Branch() {
 		},
 	]);
 	const [addGalleryPic, setGalleryPic] = useState(false);
-	const [serviceAddModal, serServiceAddModal] = useState(false);
+	const [serviceAddModal, setServiceAddModal] = useState(false);
 
     let branchDetail = useQuery(["key", 'branch'], ()=> { return getList(`clinics/${id}`, id) });
     let branchDoctors = useQuery(["key", 'branchDoctors'], ()=> { return getList(`clinics/${id}/doctors?page=0&size=5`, id) });
@@ -185,7 +185,7 @@ export default function Branch() {
 				addGalleryPic && <AddPhotoToGallery clinicId={id} onClose={()=> setGalleryPic(false)} refetch={()=> gallery.refetch()} />
             }
 			{
-				serviceAddModal && <AddServicesModal contractId={branchDetail?.data?.contracts?.contractId} onClose={()=> serServiceAddModal(false)} alreadyExistServices={services?.data} refetch={services}/>
+				serviceAddModal && <AddServicesModal contractId={branchDetail?.data?.contracts?.contractId} onClose={()=> setServiceAddModal(false)} alreadyExistServices={services?.data} refetch={services}/>
 			}
 			{branchModalIsOpen && (
 				<BranchModal
@@ -412,17 +412,7 @@ export default function Branch() {
 							</TabList>
 							<TabPanel className={tabStyles.tabPanel}>
 								<div className={styles.servicesTable}>
-									<div className={styles.servicesHeader}>
-										<h2>Services</h2>
-										<Button 
-											label="Add Service"
-											variant="fill"
-											size="large"
-											className={styles.serviceBtn}
-											onClick={()=> serServiceAddModal(true)}
-										/>
-									</div>
-									<Services contractId={branchDetail?.data?.contracts?.contractId} />
+									<Services currentServices={services} contractId={branchDetail?.data?.contracts?.contractId} setServiceAddModal={()=>setServiceAddModal(true)} />
 								</div>
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>
@@ -476,30 +466,6 @@ export default function Branch() {
 			</div>
 		</>
 	);
-}
-
-export function Services(contractId) {
-    const [service, setServices] = useState([]);
-    let services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${contractId.contractId}`, contractId.contractId) });
-
-    useEffect(()=>{
-        const tree = createTree(services?.data, 'current')
-        
-        let newData = services?.data?.map((item)=>(item)).filter((item)=> item.parentServiceId == null);
-
-        setServices(newData)
-    },[services?.data])
-
-    return <>
-        <RichObjectTreeView 
-            data={service ? service : [] } 
-            originalData={services?.data && services?.data?.map((item)=>(item))}
-            pagination={{ pageSize: 8, initialPage: 1 }} 
-            contractId={contractId}
-            variant={"current"}
-            refetch={()=> services.refetch()}
-        />
-    </>
 }
 
 Branch.getLayout = (page) => {

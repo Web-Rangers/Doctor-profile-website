@@ -6,16 +6,13 @@ import { AddServicesModal,
          StuffTab, 
          GalleryTab, 
          GenerateBreadcrumbs, 
-         Input, 
-         Button, 
          getList, 
          AddBranchModal, 
          dayz, 
          getFirstStartEndHours, 
-         RichObjectTreeView, 
          AlreadyExistClinic, 
-         createTree, 
-         AddPhotoToGallery
+         AddPhotoToGallery,
+         Services
         } from 'components';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SideBarLayout from 'layouts/SideBarLayout';
@@ -43,8 +40,6 @@ export default function ClinicDetailed() {
     const id = router.query.id ?? null;
     const[phoneNumber, setPhoneNumber] = useState('');
     const[email, setEmail] = useState('');
-    const [isEditModalOpen, setEditModalOpen] = useState(false);
-    const [tableSearch, setTableSearch] = useState('');
     const [workingHoursOpen, setWorkingHoursOpen] = useState(false);
     const [addBranchModal, setBranchModal] = useState(false);
     const [workingHours, setWorkingHours] = useState([
@@ -418,7 +413,7 @@ export default function ClinicDetailed() {
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
                                 <div className={styles.servicesTable}>
-                                    <Services contractId={data?.contracts?.contractId} setServiceAddModal={()=>setServiceAddModal(true)}/>
+                                    <Services currentServices={services} contractId={data?.contracts?.contractId} setServiceAddModal={()=>setServiceAddModal(true)}/>
                                 </div>
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
@@ -477,59 +472,6 @@ export default function ClinicDetailed() {
             </div>
         </>
     );
-}
-
-export function Services({contractId, setServiceAddModal}) {
-    const [service, setServices] = useState([]);
-    let services = useQuery(["key", 'services'], ()=> { return getList(`accounting/contract-to-service/${contractId}`, contractId) });
-    const [searchValue, setSearchValue] = useState('');
-
-    useEffect(()=>{
-        services.refetch();
-
-        const tree = createTree(services?.data, 'current')
-        
-        let newData = services?.data?.map((item)=>(item)).filter((item)=> item.parentServiceId == null);
-
-        setServices(newData)
-    },[services?.data, contractId])
-
-    const fuse = new Fuse(service, {keys: ["title"]});
-
-    return <>
-        <div className={styles.servicesHeader}>
-            <h2>Services</h2>
-            <Button 
-                label="Add Service"
-                variant="fill"
-                size="large"
-                className={styles.serviceBtn}
-                onClick={()=> setServiceAddModal(true)}
-            />
-            <div className={styles.servicesSearch}>
-                <Input 
-                    type="text"
-                    className={styles.servInput}
-                    value={searchValue}
-                    onChange={(e)=> {
-                        setSearchValue(e.toString())
-                    }}
-                />
-                <ReactSVG 
-                    className={styles.searchIcon}
-                    src="/images/icons/inputs/search.svg" 
-                />
-            </div>
-        </div>
-        <RichObjectTreeView 
-            data={service ? searchValue != '' ? fuse.search(searchValue).map((e)=> e.item) :  service : [] } 
-            originalData={services?.data && services?.data?.map((item)=>(item))}
-            pagination={{ pageSize: 8, initialPage: 1 }} 
-            contractId={contractId}
-            variant={"current"}
-            refetch={()=> services.refetch()}
-        />
-    </>
 }
 
 ClinicDetailed.getLayout = (page) => {
