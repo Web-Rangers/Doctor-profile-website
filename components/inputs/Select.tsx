@@ -74,7 +74,7 @@ export default function Select({
         <div
           className={classNames(styles.wrapper, { [styles.active]: isOpen })}
         >
-          {options.map((option) => (
+          {options?.map((option) => (
             <div
               key={option.value}
               className={classNames(styles.option, {
