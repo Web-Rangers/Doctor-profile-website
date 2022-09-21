@@ -319,3 +319,11 @@
     margin-left:auto;
     margin-right:30px;
 }
+
+.workingHoursHeader {
+    display: flex;
+    justify-content: space-between;
+    .xclose {
+        margin:30px;
+    }
+}

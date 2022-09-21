@@ -8,6 +8,14 @@ import { useState } from 'react';
 const branchColumns = [
 	{
 		key: 'address',
+		title: 'City',
+		dataIndex: 'address',
+		render: (city) => {
+			return <div className={styles.tableItem}>{city?.municipality?.title}</div>;
+		},
+	},
+	{
+		key: 'address',
 		title: 'Address',
 		dataIndex: 'address',
 		render: (city) => {

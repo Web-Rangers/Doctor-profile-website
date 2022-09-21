@@ -17,6 +17,7 @@ interface Stuff {
     name: string;
     rating: number;
     registrationDate: string;
+    id?:any;
 }
 
 interface StuffTabProps {
@@ -102,6 +103,8 @@ export default function StuffTab({
                         onDelete={() => {
                             setIsModalOpen(true);
                         }}
+                        id={id}
+                        branchId={branchId}
                     />
                 ))}
             </div>
