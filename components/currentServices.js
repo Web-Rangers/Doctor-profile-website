@@ -3,22 +3,24 @@ import {Button, Input, RichObjectTreeView, createTree} from 'components';
 import {ReactSVG} from 'react-svg';
 import Fuse from 'fuse.js';
 import styles from 'styles/pages/clinic_detailed.module.scss';
+import { create } from 'domain';
 
-export default function Services({currentServices, contractId, setServiceAddModal}) {
+export default function Services({currentServices, contractId, setServiceAddModal, id}) {
     const [service, setServices] = useState([]);
     const [searchValue, setSearchValue] = useState('');
 
     useEffect(()=>{
         currentServices.refetch();
-    },[])
+    },[contractId])
 
     useEffect(()=>{
         const tree = createTree(currentServices?.data, 'current')
-        
         let newData = currentServices?.data?.map((item)=>(item)).filter((item)=> item.parentServiceId == null);
+        
+        const unique = [...new Map(newData?.map((m) => [m.id, m])).values()];
 
-        setServices(newData)
-    },[currentServices?.data, contractId])
+        return setServices(unique)
+    },[currentServices?.data])
 
     const fuse = new Fuse(service, {keys: ["title"]});
 
