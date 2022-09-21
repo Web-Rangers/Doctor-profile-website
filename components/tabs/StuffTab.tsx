@@ -5,6 +5,7 @@ import { ReactSVG } from 'react-svg';
 import classNames from 'classnames';
 import Fuse from "fuse.js";
 import Link from 'next/link';
+import { deactivateDoctor } from 'components/useDoctorsData';
 
 interface Stuff {
     icon: string;
@@ -25,6 +26,7 @@ interface StuffTabProps {
     stuff?: Stuff[];
     id?: any;
     branchId?: any;
+    refetch?: any;
 }
 
 const StuffActions = ({searchValue, setSearchValue, id, branchId}) => {
@@ -72,10 +74,12 @@ export default function StuffTab({
     branchId,
     className,
     stuff = [],
+    refetch,
     ...props
 }: StuffTabProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchValue, setSearchValue] = useState('');
+    const [currentDoctor, setCurrentDoctor] = useState('')
 
     const fuse = new Fuse(stuff, {
         includeScore: true,
@@ -92,7 +96,13 @@ export default function StuffTab({
                 {isModalOpen && (
                     <StuffModal
                         onClose={() => setIsModalOpen(false)}
-                        onAccept={() => setIsModalOpen(false)}
+                        onAccept={() => {
+                            setIsModalOpen(false); 
+                            if(!branchId) deactivateDoctor(currentDoctor, id)
+                            else deactivateDoctor(currentDoctor, branchId)
+                            refetch()
+                            console.log(refetch(), 'refetchh')
+                        }}
                         onCancel={() => setIsModalOpen(false)}
                     />
                 )}
@@ -102,6 +112,7 @@ export default function StuffTab({
                         data={stuffData}
                         onDelete={() => {
                             setIsModalOpen(true);
+                            setCurrentDoctor(stuffData?.id)
                         }}
                         id={id}
                         branchId={branchId}

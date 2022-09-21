@@ -445,7 +445,8 @@ export default function ClinicDetailed() {
                             <TabPanel className={tabStyles.tabPanel}>
                                 <StuffTab
                                     id={id}
-                                    stuff={doctors?.data?.content?.map(
+                                    refetch={()=> doctors?.refetch()}
+                                    stuff={doctors?.data?.content?.filter((e)=> e.isActive != false).map(
                                         (i) => (
                                             {
                                             id: i.id,

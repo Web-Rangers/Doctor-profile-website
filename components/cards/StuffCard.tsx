@@ -52,7 +52,7 @@ export default function StuffCard({
           className={styles.actionsList}
           style={isOpen ? { display: "block" } : {}}
         >
-          <Link href={`/doctors/edit?clinic=${id}&doctor=${data?.id}`}>
+          <Link href={`/doctors/edit?clinicId=${id}&id=${data?.id}`}>
             <div className={styles.actionItem} onClick={onEdit}>
               <ReactSVG
                 src="/images/icons/cards/edit.svg"
