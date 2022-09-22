@@ -1,6 +1,6 @@
-import { Button, Input } from "components/inputs";
-import Link from "next/link";
-import styles from "styles/pages/authorization.module.scss";
+import { Button, Input } from 'components/inputs';
+import Link from 'next/link';
+import styles from 'styles/pages/authorization.module.scss';
 
 export default function Authorization() {
     return (
@@ -44,17 +44,17 @@ export default function Authorization() {
                             />
                         </Link>
                     </div>
-                        <div className={styles.row}>
-                            <span>{`Don't have account?`}</span>
-                            <Link href="/sign-up">
-                                <Button
-                                    className={styles.sgnUpBtn}
-                                    label="Registration"
-                                    size="large"
-                                    variant="text"
-                                />
-                            </Link>
-                        </div>
+                    <div className={styles.row}>
+                        <span>{`Don't have account?`}</span>
+                        <Link href="/sign-up">
+                            <Button
+                                className={styles.sgnUpBtn}
+                                label="Registration"
+                                size="large"
+                                variant="text"
+                            />
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
