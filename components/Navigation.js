@@ -13,6 +13,11 @@ const links = [
     {
         img: "/images/icons/navigation/doctors.svg",
         href: "/",
+        name: "Main"
+    },
+    {
+        img: "/images/icons/navigation/doctors.svg",
+        href: "/profile",
         name: "Profile"
     },
     {
