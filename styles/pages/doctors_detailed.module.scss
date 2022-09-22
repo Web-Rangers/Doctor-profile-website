@@ -62,21 +62,30 @@
 	}
 }
 
-.doctorRow {
+.doctorRow, .bigDoctorRow {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: flex-start;
 	width: 100%;
-	flex: 0 0 250px;
+	flex: 0 0 170px;
 	padding: 30px;
 	margin: 0;
 	gap: 30px;
+
+}
+
+.bigDoctorRow{
+	flex: 0 0 240px;
+	.imageContainer{
+		max-width: 180px;
+
+	}
 }
 
 .imageContainer {
-	flex: 1 0 180px;
-	max-width: 180px;
+	flex: 1 0 100px;
+	max-width: 100px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -110,7 +119,10 @@
 
 .speciality,
 .mail,
-.phone {
+.phone,
+.birthday,
+.work,
+.more {
 	display: flex;
 	flex-direction: row;
 	gap: 10px;
@@ -121,12 +133,34 @@
 	line-height: 24px;
 	letter-spacing: 0.04em;
 	text-align: left;
+	button{
+		padding: 0;
+	}
 	div {
 		height: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
+}
+
+.rating {
+	.currentRating{
+		margin-left: 10px;
+		color: #FFC14E;
+	}
+	.fullRating{
+		color: #B9B9BB;
+	}
+}
+
+.row {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .edit {

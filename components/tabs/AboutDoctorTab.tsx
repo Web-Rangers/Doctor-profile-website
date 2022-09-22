@@ -244,16 +244,6 @@ export default function AboutDoctorTab({
 					</div>
 					<div className={styles.info}>
 						<div className={styles.subInfo}>
-							<div className={styles.infoTitle}>Clinic</div>
-							<div className={styles.infoText}>{doctor.clinicAddress}</div>
-						</div>
-						<div className={styles.subInfo}>
-							<div className={styles.infoTitle}>Clinic</div>
-							<div className={styles.infoText}>{doctor.clinic}</div>
-						</div>
-					</div>
-					<div className={styles.info}>
-						<div className={styles.subInfo}>
 							<div className={styles.infoTitle}>IBAN</div>
 							<div className={styles.infoText}>{doctor.iban}</div>
 						</div>
@@ -265,6 +255,17 @@ export default function AboutDoctorTab({
 						</div>
 					</div>
 					<div className={styles.info}>
+						<div className={styles.subInfo}>
+							<div className={styles.infoTitle}>Place of work</div>
+							<div className={styles.infoText}>{doctor.clinicAddress}</div>
+						</div>
+						<div className={styles.subInfo}>
+							<div className={styles.infoTitle}>Type of employment</div>
+							<div className={styles.infoText}>{doctor.clinic}</div>
+						</div>
+					</div>
+					
+					<div className={styles.info}>
 						<div className={styles.infoTitle}>About me</div>
 						<div className={styles.infoText}>{doctor.aboutMe}</div>
 					</div>
@@ -274,7 +275,7 @@ export default function AboutDoctorTab({
 				cardTitle='Media files'
 				cardActions={
 					<Button
-						label={'Add certificate'}
+						label={'Add media'}
 						size='large'
 						variant='fill'
 						onClick={() => setIsOpen(true)}

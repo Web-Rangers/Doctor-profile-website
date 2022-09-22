@@ -20,13 +20,16 @@
     width: 820px;
 }
 
+.startCard {
+    width: min-content;
+}
+
 .startContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 40px;
-    width: 100%;
 
     > .startHeader {
         font-size: 24px;
@@ -42,25 +45,46 @@
         justify-items: center;
         align-items: center;
         gap: 35px;
-        width: 100%;
 
         > .startAction {
             cursor: pointer;
             transition: all 0.3s ease-out;
-            height: 340px;
-            padding: 42px;
-            gap: 35px;
+            width: 300px;
+            height: 260px;
+            gap: 15px;
             flex: 1;
             background: #ffffff;
             border-radius: 4px;
+            border: 1px solid #b3b1bb;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            > img {
-                height: 190px;
-                object-fit: cover;
-                object-position: center;
+            > .icon {
+                margin-bottom: 20px;
+                height: 85px;
+                width: 85px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 4px;
+                border: 1px solid #b3b1bb;
+                transition: all 0.3s ease-out;
+                div {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                svg {
+                    path {
+                        stroke: #2751f2;
+                        transition: all 0.3s ease-out;
+                    }
+                }
+            }
+            > .arrow {
+                opacity: 0;
+                transition: all 0.3s ease-out;
             }
             > .title {
                 font-size: 18px;
@@ -70,7 +94,19 @@
                 text-align: center;
             }
             &:hover {
-                transform: scale(1.02);
+                border: 1px solid #2751f2;
+                background-color: #edf1ff;
+                > .arrow {
+                    opacity: 1;
+                }
+                > .icon {
+                    background-color: #2751f2;
+                    svg {
+                        path {
+                            stroke: white;
+                        }
+                    }
+                }
             }
         }
     }
@@ -314,7 +350,7 @@
         letter-spacing: 0.04em;
         text-align: center;
     }
-    >button{
+    > button {
         padding-left: 90px;
         padding-right: 90px;
     }

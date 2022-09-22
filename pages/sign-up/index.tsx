@@ -26,31 +26,47 @@ export default function Authorization() {
     };
     const Start = () => {
         return (
-            <div className={styles.startContainer}>
-                <div className={styles.startHeader}>
-                    Select type of employment
-                </div>
-                <div className={styles.startActions}>
-                    <div
-                        className={styles.startAction}
-                        onClick={() => {
-                            setStep((origin) => origin + 1);
-                        }}
-                    >
-                        <img alt='' src="/images/signUp/self-employed.png" />
-                        <div className={styles.title}>Self-employed</div>
+            <Card
+                cardTitle="Select type of employment"
+                className={styles.startCard}
+            >
+                <div className={styles.startContainer}>
+                    <div className={styles.startActions}>
+                        <div
+                            className={styles.startAction}
+                            onClick={() => {
+                                setStep((origin) => origin + 1);
+                            }}
+                        >
+                            <div className={styles.icon}>
+                                <ReactSVG src={'/images/signUp/selfEmp.svg'} />
+                            </div>
+                            <div className={styles.title}>Self-employed</div>
+                            <ReactSVG
+                                src={'/images/signUp/arrowRight.svg'}
+                                className={styles.arrow}
+                            />
+                        </div>
+                        <div
+                            className={styles.startAction}
+                            onClick={() => {
+                                setStep((origin) => origin + 1);
+                            }}
+                        >
+                            <div className={styles.icon}>
+                                <ReactSVG
+                                    src={'/images/signUp/companyMemb.svg'}
+                                />
+                            </div>
+                            <div className={styles.title}>Company member</div>
+                            <ReactSVG
+                                src={'/images/signUp/arrowRight.svg'}
+                                className={styles.arrow}
+                            />
+                        </div>
                     </div>
-                    <div
-                        className={styles.startAction}
-                        onClick={() => {
-                            setStep((origin) => origin + 1);
-                        }}
-                    >
-                        <img alt='' src="/images/signUp/company member.png" />
-                        <div className={styles.title}>Company member</div>
-                    </div>
                 </div>
-            </div>
+            </Card>
         );
     };
     const PersonalData = () => {
@@ -337,7 +353,7 @@ export default function Authorization() {
                     <div className={styles.verificationRow}>
                         <div className={styles.photoContainer}>
                             <img
-                                alt=''
+                                alt=""
                                 className={styles.verificationImage}
                                 src="/images/signUp/passport.png"
                             />
@@ -366,7 +382,7 @@ export default function Authorization() {
                     <div className={styles.verificationRow}>
                         <div className={styles.photoContainer}>
                             <img
-                                alt=''
+                                alt=""
                                 className={styles.verificationImage}
                                 src="/images/signUp/diploma.png"
                             />
@@ -395,7 +411,7 @@ export default function Authorization() {
                     <div className={styles.verificationRow}>
                         <div className={styles.photoContainer}>
                             <img
-                                alt=''
+                                alt=""
                                 className={styles.verificationImage}
                                 src="/images/signUp/license.png"
                             />
@@ -424,7 +440,7 @@ export default function Authorization() {
                     <div className={styles.verificationRow}>
                         <div className={styles.photoContainer}>
                             <img
-                                alt=''
+                                alt=""
                                 className={styles.verificationImage}
                                 src="/images/signUp/expandedPhoto.png"
                             />
@@ -457,7 +473,7 @@ export default function Authorization() {
         return (
             <Card className={styles.card}>
                 <div className={styles.finishContainer}>
-                    <img alt='' src="/images/signUp/finish.png" />
+                    <img alt="" src="/images/signUp/finish.png" />
                     <div className={styles.finishText}>
                         Thank you for the information provided, our operators
                         are currently processing it. After processing, our

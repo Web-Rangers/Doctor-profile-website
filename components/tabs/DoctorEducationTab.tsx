@@ -71,19 +71,9 @@ export default function DoctorEducationTab({
 
 	const certificatesColumns = [
 		{
-			key: 'title',
-			title: 'Title',
-			dataIndex: 'title',
-		},
-		{
-			key: 'issuer',
-			title: 'Issuing organization',
-			dataIndex: 'issuer',
-		},
-		{
-			key: 'expirationDate',
-			title: 'Issued date',
-			dataIndex: 'expirationDate',
+			key: 'name',
+			title: 'Name',
+			dataIndex: 'name',
 		},
 		{
 			key: 'credentialId',
@@ -94,6 +84,16 @@ export default function DoctorEducationTab({
 			key: 'credentialInfo',
 			title: 'Creditial URL',
 			dataIndex: 'credentialInfo',
+		},
+		{
+			key: 'expirationDate',
+			title: 'Issued date',
+			dataIndex: 'expirationDate',
+		},
+		{
+			key: 'expirationDate',
+			title: 'Expiration date',
+			dataIndex: 'expirationDate',
 		},
 		{
 			key: 'id',
