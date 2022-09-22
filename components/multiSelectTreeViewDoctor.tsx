@@ -1,15 +1,15 @@
-import * as React from 'react';
-import TreeView from '@mui/lab/TreeView';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import TreeItem from '@mui/lab/TreeItem';
-import Link from 'next/link';
-import styles from 'styles/components/multiSelectTree.module.scss';
-import { CheckBox } from 'components';
-import Select from 'react-select';
-import { style } from '@mui/system';
-import { useEffect, useState, useCallback } from 'react';
-import { ReactSVG } from 'react-svg';
+import * as React from "react";
+import TreeView from "@mui/lab/TreeView";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import TreeItem from "@mui/lab/TreeItem";
+import Link from "next/link";
+import styles from "styles/components/multiSelectTree.module.scss";
+import { CheckBox } from "components";
+import Select from "react-select";
+import { style } from "@mui/system";
+import { useEffect, useState, useCallback } from "react";
+import { ReactSVG } from "react-svg";
 
 interface RenderTree {
 	code: string;
@@ -38,15 +38,13 @@ export default function MultiSelectTreeViewDoctor({ data, pagination }) {
 							</div>
 							<div>{nodes?.id}</div>
 							<div>{nodes?.title}</div>
-							<div>{nodes?.descriptionId ? nodes?.descriptionId : ''}</div>
+							<div>{nodes?.descriptionId ? nodes?.descriptionId : ""}</div>
 							<div>{nodes?.code}</div>
 						</div>
 					</>
 				}
 			>
-				{Array.isArray(nodes?.children)
-					? nodes?.children.map((node) => renderTree(node))
-					: null}
+				{Array.isArray(nodes?.children) ? nodes?.children.map((node) => renderTree(node)) : null}
 			</TreeItem>
 		);
 	};
@@ -75,29 +73,22 @@ export default function MultiSelectTreeViewDoctor({ data, pagination }) {
 		if (!pagination) return dataCallback(data);
 		setSelectedOption(options[currentPage - 1]);
 		setOptions(
-			Array.from(
-				Array(Math.ceil(data.length / (pagination.pageSize || 10))).keys()
-			).map((i) => ({ value: i + 1, label: i + 1 }))
+			Array.from(Array(Math.ceil(data.length / (pagination.pageSize || 10))).keys()).map((i) => ({ value: i + 1, label: i + 1 }))
 		);
 
-		dataCallback(
-			data.slice(
-				(currentPage - 1) * (pagination.pageSize || 10),
-				currentPage * (pagination.pageSize || 10)
-			)
-		);
+		dataCallback(data.slice((currentPage - 1) * (pagination.pageSize || 10), currentPage * (pagination.pageSize || 10)));
 	}, [currentPage]);
 
 	return (
 		<>
 			{
 				<TreeView
-					aria-label='rich object'
+					aria-label="rich object"
 					defaultCollapseIcon={<ExpandMoreIcon />}
-					defaultExpanded={['root']}
+					defaultExpanded={["root"]}
 					className={styles.tableClass}
 					defaultExpandIcon={<ChevronRightIcon />}
-					sx={{ flexGrow: 1, maxWidth: 1200, overflowY: 'auto' }}
+					sx={{ flexGrow: 1, maxWidth: 1200, overflowY: "auto" }}
 				>
 					<div className={styles.tableHeaderForDoctor}>
 						<div></div>
@@ -114,37 +105,31 @@ export default function MultiSelectTreeViewDoctor({ data, pagination }) {
 			}
 			{pagination ? (
 				<div className={styles.pagination}>
-					<div
-						className={styles.recordCounter}
-					>{`${getStartPage()}-${getEndPage()} of ${data.length} records`}</div>
+					<div className={styles.recordCounter}>{`${getStartPage()}-${getEndPage()} of ${data.length} records`}</div>
 					<div className={styles.paginationControls}>
 						<span className={styles.paginatorTitle}>The page you’er on</span>
 						{options.length > 0 && (
 							<Select
 								className={styles.pageSelect}
 								options={options}
-								placeholder=''
+								placeholder=""
 								defaultValue={options[0]}
-								menuPlacement='top'
+								menuPlacement="top"
 								value={selectedOption}
 								onChange={selectPage}
 							/>
 						)}
 						<div className={styles.paginationButtons}>
 							<ReactSVG
-								src='/images/icons/paginator/prev.svg'
-								className={`${styles.paginationBtn} ${
-									currentPage === 1 ? styles.disable : ''
-								}`}
+								src="/images/icons/paginator/prev.svg"
+								className={`${styles.paginationBtn} ${currentPage === 1 ? styles.disable : ""}`}
 								onClick={() => {
 									setCurrentPage((origin) => origin - 1);
 								}}
 							/>
 							<ReactSVG
-								src='/images/icons/paginator/next.svg'
-								className={`${styles.paginationBtn} ${
-									currentPage === options.length ? styles.disable : ''
-								}`}
+								src="/images/icons/paginator/next.svg"
+								className={`${styles.paginationBtn} ${currentPage === options.length ? styles.disable : ""}`}
 								onClick={() => {
 									setCurrentPage((origin) => origin + 1);
 								}}

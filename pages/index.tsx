@@ -281,7 +281,7 @@ export default function DoctorsDetailed() {
 							<TabPanel className={tabStyles.tabPanel}>
 								{
 									<MultiSelectTreeViewDoctor
-										data={serviceData}
+										data={serviceData ?? []}
 										pagination={{ pageSize: 8, initialPage: 1 }}
 									/>
 								}
