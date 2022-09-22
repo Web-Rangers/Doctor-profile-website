@@ -19,7 +19,7 @@ export default function Authorization() {
             </div>
             <div className={styles.signInContainer}>
                 <div className={styles.signIn}>
-                    <h3 className={styles.signInTitle}>Sign In</h3>
+                    <h3 className={styles.signInTitle}>Log In</h3>
                     <Input
                         className={styles.input}
                         label="Email"
@@ -37,24 +37,24 @@ export default function Authorization() {
                     <div className={styles.actions}>
                         <Link href="/">
                             <Button
-                                label="Sign In"
+                                label="Log In"
                                 size="large"
                                 className={styles.signInBtn}
                                 variant="fill"
                             />
                         </Link>
+                    </div>
                         <div className={styles.row}>
-                            <span>or</span>
+                            <span>{`Don't have account?`}</span>
                             <Link href="/sign-up">
                                 <Button
                                     className={styles.sgnUpBtn}
-                                    label="Sign up now"
+                                    label="Registration"
                                     size="large"
                                     variant="text"
                                 />
                             </Link>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
