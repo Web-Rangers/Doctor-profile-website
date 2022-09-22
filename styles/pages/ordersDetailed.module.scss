@@ -23,7 +23,7 @@
     color: #8f8f8f;
     gap: 15px;
     li::marker {
-        content: "";
+        content: '';
     }
     li:not(:last-child) {
         a {
@@ -31,7 +31,7 @@
         }
 
         &::after {
-            content: ">";
+            content: '>';
             margin-left: 15px;
         }
     }
@@ -41,10 +41,10 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin:35px 0 0;
+    margin: 35px 0 0;
     .colCard {
         width: 49%;
-        margin-bottom:25px;
+        margin-bottom: 25px;
         height: auto;
         .cardInfo {
             div {
@@ -54,7 +54,7 @@
                 h2 {
                     font-size: 18px;
                     font-weight: 400;
-                    color: #1C1A27;
+                    color: #1c1a27;
                     width: 200px;
                     display: flex;
                     align-items: center;
@@ -62,17 +62,17 @@
                         display: block;
                         width: 12px;
                         height: 12px;
-                        margin-right:10px;
-                        border-radius:50%;
+                        margin-right: 10px;
+                        border-radius: 50%;
                     }
                     .done {
-                        background-color: #7C1CA9;
+                        background-color: #00a875;
                     }
-                    .in_progress{
-                        background-color: #FFB224;
+                    .in_progress {
+                        background-color: #ffb224;
                     }
                     .waiting {
-                        background-color: #2751F2;
+                        background-color: #2751f2;
                     }
                 }
             }
@@ -80,11 +80,11 @@
     }
 }
 
-.tableCeil{
+.tableCeil {
     display: grid;
     grid-template-columns: 26% 22% 20% 20% 12% !important;
     span {
-        margin-bottom:30px;
+        margin-bottom: 30px;
     }
     .ceilTitle {
         font-weight: 500;
@@ -92,74 +92,166 @@
 }
 
 .comments {
-    margin-top:35px;
+    margin-top: 35px;
+    .inputContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+        .input {
+            flex: 1;
+        }
+        div {
+            display: flex;
+            align-items: center;
+        }
+        .send {
+            background: #d3dcff;
+            border-radius: 8px;
+            width: 60px;
+            height: 60px;
+            justify-content: center;
+            cursor: pointer;
+        }
+    }
 }
 
 .commentBtn {
-    float:right;
-    margin-top:15px;
+    float: right;
+    margin-top: 15px;
 }
 
 .commentList {
-    margin-top:10px;
+    border-top: 1px solid #b3b1bb;
+    margin-left: -30px;
+    margin-right: -30px;
+    max-height: 550px;
+    overflow-y: auto;
 }
 
 .commentForm {
     display: flex;
     align-items: flex-start;
-    margin-bottom:25px;
+    &.answer {
+        flex-direction: row-reverse;
+        .commentInfo {
+            p {
+                color: #ffffff;
+                background: #2751f2;
+            }
+        }
+    }
+    padding: 30px;
     .image {
-        margin-right:19px;
+        margin-right: 19px;
         width: 75px;
         height: 75px;
-        border-radius:50%;
+        border-radius: 50%;
         overflow: hidden;
         img {
             width: 100%;
         }
     }
     .commentInfo {
-        width: 100%;
+        max-width: 60%;
         h2 {
             margin: 0;
             font-weight: 400;
             font-size: 18px;
-            color: #1C1A27;
+            color: #1c1a27;
         }
         p {
-            margin-top:7px;
+            margin-top: 7px;
             font-weight: 400;
             font-size: 18px;
-            color: #1C1A27;
+            color: #ffffff;
+            background: #2751f2;
+            padding: 20px;
+            border-radius: 8px;
+            color: #1c1a27;
+            background: #eeebf3;
         }
     }
 }
 
 .order {
-    margin-top:35px;
+    margin-top: 35px;
+    height: min-content;
+    &.done {
+        border-left: 3px solid #00a875;
+    }
+    &.in_progress {
+        border-left: 3px solid #ffb224;
+    }
+    &.waiting {
+        border-left: 3px solid #2751f2;
+    }
     .orderBlock {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
         .more {
-            margin-top:15px;
-            cursor:pointer;
+            margin-top: 15px;
+            cursor: pointer;
         }
         h2 {
-            margin-right:35px;
+            margin-right: 35px;
         }
         div {
             display: flex;
             align-items: center;
             button {
                 padding: 10px 12px;
-                color:#2751F2;
-                background-color: #CAD4FB;
-                border:0;
-                margin-right:15px;
+                color: #2751f2;
+                background-color: #cad4fb;
+                border: 0;
+                margin-right: 15px;
                 font-weight: 500;
                 font-size: 17px;
             }
+        }
+    }
+}
+
+.mitingCard {
+    margin-top: 35px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    .callBtn {
+        flex-direction: row-reverse;
+        gap: 10px;
+        div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        svg {
+            path {
+                stroke: #fff;
+                fill: #fff;
+            }
+        }
+    }
+    .column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 30%;
+        .title {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 21px;
+            letter-spacing: 0.04em;
+            text-align: left;
+            color: #b3b1bb;
+        }
+        .value {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 24px;
+            letter-spacing: 0.04em;
+            text-align: left;
         }
     }
 }
@@ -171,7 +263,7 @@
         h2 {
             font-weight: 400;
             font-size: 16px;
-            color: #B3B1BB;
+            color: #b3b1bb;
         }
         span {
             display: flex;
@@ -180,17 +272,17 @@
                 display: block;
                 width: 12px;
                 height: 12px;
-                margin-right:10px;
-                border-radius:50%;
+                margin-right: 10px;
+                border-radius: 50%;
             }
             .done {
-                background-color: #7C1CA9;
+                background-color: #00a875;
             }
-            .in_progress{
-                background-color: #FFB224;
+            .in_progress {
+                background-color: #ffb224;
             }
             .waiting {
-                background-color: #2751F2;
+                background-color: #2751f2;
             }
         }
     }
@@ -198,5 +290,5 @@
 
 .revuew {
     display: flex;
-    gap:10px;
+    gap: 10px;
 }
