@@ -4,6 +4,7 @@ import {
     Button,
     Calendar,
     Card,
+    DoctorServicesTab,
     getList,
 } from 'components';
 import SideBarLayout from 'layouts/SideBarLayout';
@@ -23,6 +24,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import EditDoctorModal from 'components/modals/EditDoctorModal';
 import MultiSelectTreeViewDoctor from 'components/multiSelectTreeViewDoctor';
+import DoctorReviewsTab from 'components/tabs/DoctorReviewsTab';
 
 interface ActionProps {
     icon?: string;
@@ -233,9 +235,20 @@ export default function DoctorsDetailed() {
                                     />
                                     <span>Calender</span>
                                 </Tab>
+                                <Tab
+                                    className={tabStyles.tab}
+                                    tabIndex="4"
+                                    selectedClassName={tabStyles.selectedTab}
+                                >
+                                    <ReactSVG
+                                        src="/images/icons/tabs/chat-alt.svg"
+                                        className={styles.iconContainer}
+                                    />
+                                    <span>Reviews</span>
+                                </Tab>
                             </TabList>
                             <TabPanel className={tabStyles.tabPanel}>
-                                {
+                                {/* {
                                     <MultiSelectTreeViewDoctor
                                         data={serviceData ?? []}
                                         pagination={{
@@ -243,8 +256,8 @@ export default function DoctorsDetailed() {
                                             initialPage: 1,
                                         }}
                                     />
-                                }
-                                {/* <DoctorServicesTab
+                                } */}
+                                <DoctorServicesTab
 									services={[
 										{
 											name: 'Neurology',
@@ -303,10 +316,13 @@ export default function DoctorsDetailed() {
 											serviceDuration: '15',
 										},
 									]}
-								/> */}
+								/>
                             </TabPanel>
                             <TabPanel className={tabStyles.tabPanel}>
                                 <Calendar />
+                            </TabPanel>
+                            <TabPanel className={tabStyles.tabPanel}>
+                                <DoctorReviewsTab doctorId='0'/>
                             </TabPanel>
                         </Tabs>
                     </div>
