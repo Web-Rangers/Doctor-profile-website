@@ -1,0 +1,44 @@
+.actions {
+    display: flex;
+    gap: 30px;
+    height: 100%;
+}
+
+.cardContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-right: -30px;
+    margin-bottom: -30px;
+}
+
+.offerCard {
+    max-width: calc(33.333% - 30px);
+    width: 100%;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    color: #312e45;
+    gap: 20px;
+    .title {
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 29px;
+        letter-spacing: 0.04em;
+        text-align: left;
+    }
+    .description {
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.04em;
+        text-align: left;
+    }
+
+    .type {
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0.04em;
+        text-align: left;
+    }
+}

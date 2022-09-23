@@ -1,0 +1,59 @@
+.container {
+  margin-left: auto;
+  min-width: 240px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  gap: 10px;
+}
+
+.link {
+  height: 48px;
+  padding: 13px 15px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 22px;
+  letter-spacing: 0.7px;
+  color: #312e45;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+.link:hover {
+  background: #e3e7f5;
+}
+
+.active,
+.active:hover {
+  background: #2751f2;
+  color: #ffffff;
+}
+
+.linkImg {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.linkImg * {
+  stroke: #312e45;
+  fill: #312e45;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.active .linkImg * {
+  stroke: #ffffff;
+  fill: #ffffff;
+}
+
+.cardBtn {
+  margin-top:20px;
+}

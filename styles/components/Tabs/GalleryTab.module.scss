@@ -1,0 +1,20 @@
+.actions {
+    display: flex;
+    gap: 30px;
+    height: 100%;
+}
+
+.galleryCardContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-right: -30px;
+    margin-bottom: -30px;
+}
+
+.galleryCard {
+    max-width: calc(33.333% - 30px);
+    width: 100%;
+    margin-right: 30px;
+    margin-bottom: 30px;
+}

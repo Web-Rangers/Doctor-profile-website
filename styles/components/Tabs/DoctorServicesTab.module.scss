@@ -1,0 +1,41 @@
+div.tableRow {
+	background-color: transparent;
+	grid-template-columns: 25% 10% 20% 20% 15% 10%;
+	border-bottom: 2px solid #f4f7ff;
+}
+
+div.tableHeader {
+	background-color: #f4f7ff;
+	border-bottom: none;
+}
+
+div.tableCell {
+	padding: 20px 10px;
+}
+
+div.tableBody {
+	gap: 0;
+}
+
+.tableActons {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	justify-content: space-around;
+	div {
+		cursor: pointer;
+	}
+}
+
+.iconContainer {
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	div {
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}

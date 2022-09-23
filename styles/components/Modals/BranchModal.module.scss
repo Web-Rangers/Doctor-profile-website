@@ -1,0 +1,312 @@
+div.modal {
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-width: 800px;
+    min-height: 650px;
+    max-height: 90%;
+    overflow-y:auto;
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #BFCCFF;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #2751F2; 
+    }  
+    &::-webkit-scrollbar-thumb:hover {
+        background: #1641ed; 
+    }
+    .modalActions {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 35px;
+        justify-content: flex-end;
+    }
+}
+.modalTitle {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: 0.04em;
+    text-align: left;
+}
+
+.modalContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    .center{
+        align-items: center;
+        justify-content: center;
+    }
+    .modalContentRow {
+        display: flex;
+        flex-direction: row;
+        gap: 35px;
+        > * {
+            flex: 1 0 calc(30% - 35px);
+        }
+        > *:not(:last-child) {
+            flex: 1 0 calc(70% - 35px);
+        }
+        > .image {
+            flex: unset;
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            object-position: center;
+        }
+        > .imageChange {
+            flex: unset;
+            width: min-content;
+        }
+    }
+}
+
+.whiteSpace {
+    flex: 1 1 0%;
+}
+
+.outline {
+    border: 2px solid #2751f2;
+    background: transparent;
+    color: #2751f2;
+    border-radius: 4px;
+    padding: 15px 30px;
+    min-width: 160px;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        background: #dbe2fd;
+    }
+    &:active {
+        background: #0f32b7;
+        color: #fff;
+    }
+}
+
+.filled {
+    border: none;
+    min-width: 160px;
+    background: #2751f2;
+    color: #fff;
+    border-radius: 4px;
+    padding: 15px 30px;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        background: #4f72fa;
+    }
+    &:active {
+        background: #0f32b7;
+    }
+}
+
+.upInput {
+    position: absolute;
+    display: none;
+    z-index: -9999;
+}
+
+.upBtn {
+    width: 180px;
+    height: 180px;
+    position: absolute;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+.upBtnH:hover {
+    content:'';
+    width: 180px;
+    height: 180px;
+    position: absolute;
+    background-color: #000!important;
+    opacity: 0.3;
+}
+
+.workingHours {
+    position: relative;
+    display: block!important;
+    h2 {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 21px;
+        letter-spacing: 0.04em;
+        text-align: left;
+        color: #312e45;
+    }
+}
+
+.workingIcon{
+    position: absolute;
+    right:0;
+    top:50%;
+    margin-top:15px;
+    margin-right:15px;
+    cursor:pointer;
+}
+
+.workingHoursModal {
+    position: fixed;
+    width: 778px;
+    background: #FFFFFF;
+    box-shadow: 2px 6px 12px rgba(112, 108, 128, 0.45);
+    border-radius: 4px;
+    z-index: 9999999;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-width: 616px;
+    min-height: 575px;
+    max-height: 84%;
+    overflow-y: auto;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #BFCCFF;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #2751F2; 
+    }  
+    &::-webkit-scrollbar-thumb:hover {
+        background: #1641ed; 
+    }
+}
+
+.workingHoursModal h2 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    letter-spacing: 0.04em;
+    color: #1C1A27;
+}
+
+.workingHoursInputs {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    margin-top:35px;
+    margin-bottom:25px;
+}
+
+.dayz {
+    width: 28%;
+    padding: 0 30px;
+}
+
+.workingActive {
+    width: 10%;
+    padding: 0 30px;
+}
+
+.workingH {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    padding: 0 30px;
+}
+
+.lineImg {
+    margin: 0 12px;
+    margin-top:-10px;
+}
+
+.workingSaveBtn{
+    margin:auto auto 30px;
+    background: #2751F2;
+    border-radius: 4px;
+    height: 55px;
+    width: 185px;
+    cursor:pointer;
+}
+
+.closeWorkinBtn {
+    position: absolute;
+    right:0;
+    top:0;
+    margin:30px;
+    cursor:pointer;
+}
+
+.workingInput {
+    div {
+        div{ 
+            display: none!important;
+        }
+    }
+}
+
+.workingInp {
+    display: flex;
+    flex-direction: row;
+    min-height: 55px;
+    width: 100%;
+    border: 1px solid #b3b1bb;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #312e45;
+    background-color: #fff;
+    padding:20px;
+}
+
+
+.validation {
+    div {
+        border: 1px solid #E32323!important;
+    }
+}
+
+.removeValidate {
+    div {
+        border: 1px solid #b3b1bb!important;
+    }
+}
+
+.validationForHours {
+    border: 1px solid #E32323!important;
+}
+
+.validationForSelect {
+    border: 1px solid #E32323!important;
+}
+
+.removeWorkingValidations, .removeSelectValidation{
+    border: 1px solid #b3b1bb!important;
+}
+
+.removeSelectValidation {
+    h2 {
+        color: #E32323
+    }
+}
+
+.redFlag {
+    color: #E32323;
+}

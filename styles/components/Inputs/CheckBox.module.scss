@@ -1,0 +1,35 @@
+.checkBox {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    + label {
+        display: inline-flex;
+        align-items: center;
+        user-select: none;
+        cursor: pointer;
+        &::before {
+            content: ' ';
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            flex-grow: 0;
+            margin-right: 10px;
+            background: transparent;
+            border: 1px solid #B3B1BB;
+            border-radius: 2px;
+        }
+    }
+    &:checked {
+        + label {
+            &::before {
+                background: #2751f2;
+                border-color: #2751f2;
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 10'%3e%3cpath fill='%23fff' d='M13.8754 0.293C14.0628 0.480528 14.1682 0.734836 14.1682 1C14.1682 1.26516 14.0628 1.51947 13.8754 1.707L5.87538 9.707C5.68785 9.89447 5.43354 9.99979 5.16838 9.99979C4.90321 9.99979 4.6489 9.89447 4.46138 9.707L0.461376 5.707C0.279218 5.5184 0.178423 5.2658 0.180702 5.0036C0.18298 4.7414 0.288149 4.49059 0.473557 4.30518C0.658965 4.11977 0.909778 4.0146 1.17197 4.01233C1.43417 4.01005 1.68677 4.11084 1.87538 4.293L5.16838 7.586L12.4614 0.293C12.6489 0.105529 12.9032 0.000213623 13.1684 0.000213623C13.4335 0.000213623 13.6878 0.105529 13.8754 0.293Z'/%3e%3c/svg%3e");
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 14px;
+            }
+        }
+    }
+}

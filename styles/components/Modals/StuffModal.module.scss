@@ -1,0 +1,59 @@
+.modalText {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.04em;
+    text-align: left;
+}
+
+.modalActions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 30px;
+}
+
+.outline {
+    border: 2px solid #2751f2;
+    background: transparent;
+    color: #2751f2;
+    border-radius: 4px;
+    padding: 15px 30px;
+    min-width: 160px;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        background: #dbe2fd;
+    }
+    &:active {
+        background: #0f32b7;
+        color: #fff;
+    }
+}
+
+.filled {
+    border: none;
+    min-width: 160px;
+    background: #2751f2;
+    color: #fff;
+    border-radius: 4px;
+    padding: 15px 30px;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        background: #4f72fa;
+    }
+    &:active {
+        background: #0f32b7;
+    }
+}

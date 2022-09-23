@@ -1,0 +1,127 @@
+div.tableRow {
+	background-color: #f4f7ff;
+	grid-template-columns: 30% 16% 17% 14% 17% 6%;
+}
+
+div.tableHeader {
+	background-color: transparent;
+}
+
+div.tableCell {
+	padding: 20px 15px;
+}
+
+.educationContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.educationCard {
+	background-color: #f4f7ff;
+	box-shadow: none;
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+	.column {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		flex: 1 0 calc(20% - 20px);
+		.title {
+			font-size: 18px;
+			font-weight: 400;
+			line-height: 24px;
+			letter-spacing: 0.04em;
+			text-align: left;
+			color: #808083;
+		}
+		.value {
+			font-size: 18px;
+			font-weight: 400;
+			line-height: 24px;
+			letter-spacing: 0.04em;
+			text-align: left;
+			color: #312e45;
+		}
+
+		.mediaValue {
+			display: flex;
+			flex-direction: row;
+			gap: 5px;
+			flex-wrap: wrap;
+			color: #2751f2;
+			font-size: 18px;
+			font-weight: 400;
+			line-height: 24px;
+			letter-spacing: 0.04em;
+			text-align: left;
+			.media {
+				display: flex;
+				flex-direction: row;
+				gap: 5px;
+			}
+		}
+	}
+	.column:nth-child(2n) {
+		flex: 1 0 calc(30% - 20px);
+	}
+}
+
+.icon {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	div {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+.editIcon {
+	margin-top: -13px;
+	margin-left: -20px;
+}
+.educationPhoto {
+	position: absolute;
+	justify-content: center;
+	align-items: center;
+}
+
+.iconContainer {
+	margin-left: 18px;
+}
+
+.more {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	.moreIcon {
+		margin-right: 10px;
+	}
+}
+.morButton {
+	display: none;
+}
+.activeMoreBlock {
+	display: flex;
+	position: absolute;
+	right: 147px;
+	margin-top: 50px;
+	width: 140px;
+	flex-direction: column;
+	background-color: #fff;
+	box-shadow: 1px 3px 13px rgba(190, 187, 203, 0.6);
+	z-index: 22;
+	.moreBtn {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		margin: 10px 10px;
+		.iconContainer {
+			margin-right: 10px;
+		}
+	}
+}

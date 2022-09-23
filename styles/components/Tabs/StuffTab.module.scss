@@ -1,0 +1,51 @@
+.actions {
+    display: flex;
+    gap: 30px;
+    height: 100%;
+}
+
+.searchContainer {
+    height: 100%;
+    width: 385px;
+    background-color: #ffffff;
+    border: 1px solid #b3b1bb;
+    border-radius: 4px;
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 16px;
+    cursor: text;
+}
+
+.searchImg,
+.searchImg div {
+    height: 24px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    * {
+        fill: #312e45;
+    }
+}
+
+.searchInput {
+    border: none;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
+}
+
+
+.stuffCardContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}

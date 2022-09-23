@@ -1,0 +1,171 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.tableRow {
+    grid-template-columns: 7% 25% 24% 21% 15% 10%;
+}
+
+.pageHeader {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    padding: 0;
+}
+
+.headerLeft {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+}
+
+.searchContainer {
+    height: 100%;
+    width: 385px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 16px;
+    cursor: text;
+}
+
+.searchImg,
+.searchImg div {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.searchImg * {
+    fill: #312e45;
+}
+
+.searchInput {
+    border: none;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.searchInput:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.smallIcon {
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.smallIcon img {
+    width: 18px;
+    height: 18px;
+}
+
+.action {
+    cursor: pointer;
+}
+
+.dataCheck {
+    margin:auto;
+    display: flex;
+    align-items: center;
+}
+
+.dataCheck img {
+    margin-right:10px;
+}
+
+.address {
+    margin: auto 20px;
+}
+
+.popup {
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    background-color:#fff;
+    width: 600px;
+    box-shadow: 0 3px 9px rgb(228 228 228);
+    border-radius: 6px;
+}
+
+.popup h2 {
+    margin: 30px 20px;
+    text-align: center;
+}
+
+.btns {
+    margin: 60px 0 30px;
+    display: flex;
+    justify-content: center;
+    gap:20px;
+}
+
+.tableWorkingHours {
+    display: none;
+    position: absolute;
+    margin:70px 20px 0;
+    width: 348px;
+    height: 400px;
+    background-color:#fff;
+    padding: 30px;
+    right:0;
+    z-index:9999;
+}
+
+.activeWorkHours {
+    display: block;
+}
+
+.dayOfWeek {
+    margin-bottom:19px;
+    display: flex;
+    font-size:18px;
+}
+
+.dayOfWeek span{
+    display: block;
+    width: 60px;
+    font-size:18px;
+    font-weight: 500;
+}
+
+.workHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom:30px;
+}
+
+.workHeader h2 {
+    margin: 0;
+}
+
+.tableRow:nth-child(n+6) .tableWorkingHours {
+    margin-top:-410px;
+}
+
+.x {
+    cursor:pointer;
+}

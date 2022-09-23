@@ -1,0 +1,79 @@
+.modal {
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-width: 870px;
+    max-height: 90%;
+    overflow-y:auto;
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #BFCCFF;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #2751F2; 
+    }  
+    &::-webkit-scrollbar-thumb:hover {
+        background: #1641ed; 
+      }
+    .modalActions {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 35px;
+        justify-content: flex-end;
+    }
+    .modalContent {
+        .modalTitle {
+            h2 {
+                margin:0 0 35px;
+            }
+        }
+    }
+}
+
+.modalInputs {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    .modalInput {
+        width: 47%;
+        margin-bottom:25px;
+    }
+}
+
+.buffer {
+    h2 {
+        margin:0;
+        margin-bottom:15px;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 21px;
+        letter-spacing: 0.04em;
+        text-align: left;
+        color: #312e45;
+    }
+    div {
+        display: flex;
+        gap:15px;
+    }
+}
+
+.modalBtns {
+    margin-top:30px;
+    display: flex;
+    justify-content: flex-end;
+    gap:20px;
+}
+
+.checkboxBody {
+    display: block!important;
+    width: 100%!important;
+    padding-left:10px!important;
+}
+
+.checkboxBodySingle {
+    width: 100%!important;
+    padding-left:10px!important;
+}

@@ -1,0 +1,283 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    .pageHeader {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background: transparent;
+        padding: 0;
+        .headerLeft {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: left;
+            gap: 50px;
+        }
+        .addUser {
+            padding-left: 75px;
+            padding-right: 75px;
+        }
+    }
+    .cardContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        gap: 30px;
+        .filterContainer {
+            display: flex;
+            flex-direction: row;
+            gap: 25px;
+            .searchContainer {
+                height: 100%;
+                width: 340px;
+                background-color: #ffffff;
+                border-radius: 4px;
+                border: 1px solid #b3b1bb;
+                padding: 20px 18px;
+                display: flex;
+                flex-direction: row;
+                align-items: stretch;
+                gap: 16px;
+                cursor: text;
+            }
+
+            .searchImg,
+            .searchImg div {
+                width: 20px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .searchImg * {
+                fill: #312e45;
+            }
+
+            .searchInput {
+                border: none;
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 20px;
+                letter-spacing: 0em;
+                text-align: left;
+            }
+
+            .searchInput:focus {
+                outline: none;
+                box-shadow: none;
+            }
+
+            .dateInput {
+                max-width: 200px;
+            }
+
+            .whiteSpace {
+                flex: 1;
+            }
+        }
+        .table {
+            padding-top: 0;
+        }
+        .tableRow {
+            grid-template-columns: 5% 35% 13% 13% 15% 20% 20% 15% 18%;
+        }
+        .tableCell {
+            padding: 15px;
+        }
+    }
+}
+
+.iconContainer {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    div {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+button:active,
+button:focus {
+    .active {
+        svg {
+            path {
+                fill: #fff;
+            }
+        }
+    }
+}
+
+.filterBtnContainer {
+    position: relative;
+    .filtersContainer {
+        display: none;
+        &.open {
+            display: flex;
+        }
+        -webkit-box-shadow: 0px 0px 28px 5px rgba(0, 0, 0, 0.09);
+        -moz-box-shadow: 0px 0px 28px 5px rgba(0, 0, 0, 0.09);
+        box-shadow: 0px 0px 28px 5px rgba(0, 0, 0, 0.09);
+        border-radius: 4px;
+        z-index: 100;
+        background-color: #fff;
+        padding: 30px;
+        position: absolute;
+        top: 80px;
+        right: 0;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        min-width: 830px;
+        gap: 20px;
+        &::after {
+            content: ' ';
+            width: 0;
+            height: 0;
+            position: absolute;
+            background-color: transparent;
+            border: 15px solid transparent;
+            border-bottom: 15px solid #fff;
+            top: -30px;
+            right: 65px;
+        }
+    }
+    .divider {
+        border-top: 2px solid #b3b1bb;
+    }
+    .actionRow {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-content: center;
+        gap: 20px;
+        .resetButton {
+            color: #e32323;
+            flex-direction: row-reverse;
+            .iconContainer {
+                div {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+    .filterRow {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 15px;
+        .filterTitle {
+            flex: 1 0 35%;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 24px;
+            letter-spacing: 0.04em;
+            text-align: left;
+            color: #1c1a27;
+        }
+
+        .filterInput {
+            flex: 1 0 60%;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 25px;
+            .intervalInput {
+                max-width: 125px;
+            }
+            .divider {
+                width: 20px;
+                border-top: 1px solid #1c1a27;
+            }
+            .filterBtn {
+                padding: 18px 40px;
+            }
+        }
+    }
+}
+
+.nameCell {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    gap: 10px;
+    .photoContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .photo {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+        }
+    }
+    .nameCol {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: flex-start;
+        .name {
+            color: #1c1a27;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 24px;
+            letter-spacing: 0.04em;
+            text-align: left;
+        }
+
+        .gender {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 21px;
+            letter-spacing: 0.04em;
+            text-align: left;
+            color: #b3b1bb;
+        }
+    }
+}
+.actionCell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.breadcrumbs {
+    display: flex;
+    flex-direction: row;
+
+    color: #8f8f8f;
+    gap: 15px;
+    li::marker {
+        content: '';
+    }
+    li:not(:last-child) {
+        a {
+            color: #2751f2;
+        }
+
+        &::after {
+            content: '>';
+            margin-left: 15px;
+        }
+    }
+}

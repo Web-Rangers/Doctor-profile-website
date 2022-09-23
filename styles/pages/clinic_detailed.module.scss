@@ -1,0 +1,329 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.pageHeader {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    padding: 0;
+}
+
+.pageBody {
+    width: 100%;
+    margin-top: 40px;
+    height: calc(100% - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: stretch;
+    background: transparent;
+    padding: 0;
+    gap: 30px;
+    > .row {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: stretch;
+        gap: 35px;
+        > .colSmall {
+            flex-basis: calc(30% - 35px);
+            flex-grow: 1;
+            flex-shrink: 0;
+            > .smallCard {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                img {
+                    width: 100px!important;
+                    height:100px;
+                }
+                > .clinicIcon {
+                    height: 100px;
+                    width: 100px;
+                    border-radius: 50%;
+                    object-position: center;
+                    object-fit: cover;
+                }
+                > .clinicName {
+                    padding-top: 30px;
+                    font-size: 22px;
+                    font-weight: 700;
+                    line-height: 32px;
+                    letter-spacing: 0.04em;
+                    text-align: left;
+                }
+                > .clinicRating {
+                    padding-top: 30px;
+                    > .rating {
+                        margin-right: 15px;
+                    }
+                    > .clinicRatingCount,
+                    > .clinicRatingDelimiter,
+                    > .clinicRatingMax {
+                        font-size: 18px;
+                        font-weight: 400;
+                        line-height: 24px;
+                        letter-spacing: 0.04em;
+                        text-align: center;
+                        color: #b3b1bb;
+                    }
+                    > .clinicRatingCount {
+                        margin-left: 15px;
+                        color: #ffc14e;
+                    }
+                }
+                > .clinicInf {
+                    padding-top: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                    position: relative;
+                    cursor: pointer;
+                    > .clinicInfText {
+                        font-size: 18px;
+                        font-weight: 400;
+                        line-height: 24px;
+                        letter-spacing: 0.04em;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+        > .colLarge {
+            flex-basis: calc(70% - 35px);
+            flex-grow: 1;
+            flex-shrink: 0;
+        }
+    }
+
+    > .tabContainer {
+        width: 100%;
+    }
+}
+
+.iconContainer {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.dataRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: stretch;
+    background: transparent;
+    padding: 0;
+    margin-bottom: 30px;
+    gap: 30px;
+    &.noMargin {
+        margin: 0;
+    }
+}
+
+.dataIndex {
+    flex-basis: calc(35% - 30px);
+    height: 100%;
+    color: #b3b1bb;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.04em;
+    display: flex;
+    text-align: left;
+}
+
+.dataValue {
+    display: block;
+    display: -webkit-box;
+    flex-basis: calc(65% - 30px);
+    height: 100%;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 24px;
+    letter-spacing: 0.04em;
+    text-align: left;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    width: 200px;
+}
+
+.breadcrumbs {
+    display: flex;
+    flex-direction: row;
+
+    color: #8f8f8f;
+    gap: 15px;
+    li::marker {
+        content: '';
+    }
+    li:not(:last-child) {
+        a {
+            color: #2751f2;
+        }
+
+        &::after {
+            content: '>';
+            margin-left: 15px;
+        }
+    }
+}
+
+.textButton {
+    background: transparent;
+    border: none;
+    width: min-content;
+    white-space: nowrap;
+    color: #2751f2;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    cursor: pointer;
+}
+
+.activeAbout{
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    width: 200px;
+    -webkit-line-clamp: unset
+}
+
+.activeBreadcrumb {
+    color: red;
+}
+
+.breadcrumbs li:last-child{
+    pointer-events: none;
+}
+
+.servicesHeader {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:30px 30px;
+}
+ 
+.servicesTable {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 30px;
+}
+
+
+.servicesSearch {
+    position: relative;
+    .servInput {
+        width: 355px;
+    }
+    
+    .servInput input {
+        padding-left:50px!important;
+    }
+    .searchIcon {
+        position: absolute;
+        top:50%;
+        transform: translateY(-50%);
+        margin-left:20px;
+        margin-top:2px;
+    }
+}
+
+.table {
+    width: 100%;
+    padding: 0 30px 30px;
+}
+
+.workingHoursBlock {
+    display: none;
+}
+
+.openWorkingHours {
+    display: block;
+    position: absolute;
+    top:0;
+    margin-top:70px;
+    background-color: #FFFFFF;
+    width: 348px;
+    left:0;
+    margin-left:-35px;
+    height: 410px;
+    border-radius: 4px;
+    box-shadow: 5px 1px 27px #d1d1d1;
+    z-index:3;
+    h2 {
+        margin:0;
+        padding:30px;
+    }
+    &:after {
+        content:'';
+        position: absolute;
+        top:0;
+        margin-top:-10px;
+        width: 20px;
+        height: 20px;
+        margin-left:70px;
+        background-color: #fff;
+        transform: rotate(45deg);
+        z-index:4;
+    }
+}
+
+.workHoursList {
+    div {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0 30px;
+        margin: 0 0 24px 0;
+        h4 {
+            margin:0 34px 0 0;
+        }
+    }
+}
+
+.activeClinicInf {
+    color:#2751F2
+}
+
+.dayOff {
+    color: #8F8F8F
+}
+ 
+.serviceBtn {
+    margin-left:auto;
+    margin-right:30px;
+}
+
+.workingHoursHeader {
+    display: flex;
+    justify-content: space-between;
+    .xclose {
+        margin:30px;
+    }
+}
