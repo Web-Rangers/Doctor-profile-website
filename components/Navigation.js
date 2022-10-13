@@ -25,6 +25,16 @@ const links = [
         href: "/orders",
         name: "Orders"
     },
+    {
+        img: "/images/icons/navigation/staff.svg",
+        href: "/staff",
+        name: "Staff"
+    },
+    {
+        img: "/images/icons/navigation/settings.svg",
+        href: "/settings",
+        name: "Settings"
+    },
 
 ]
 

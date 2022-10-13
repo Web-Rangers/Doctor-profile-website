@@ -1,0 +1,91 @@
+.addStuffContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+.pageHeader {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    padding: 0;
+}
+
+
+.breadcrumbs {
+    display: flex;
+    flex-direction: row;
+    text-transform: capitalize;
+    color: #8f8f8f;
+    gap: 15px;
+    li::marker {
+        content: '';
+    }
+    li:not(:last-child) {
+        a {
+            color: #2751f2;
+        }
+
+        &::after {
+            content: '>';
+            margin-left: 15px;
+        }
+    }
+}
+
+.stuffInput {
+    width: 550px;
+    margin-bottom:25px;
+    span {
+        color: #1C1A27;
+    }
+    input {
+        &::placeholder {
+            color: #B3B1BB;
+        }
+    }
+}
+
+.radio {
+    margin-bottom:0;
+}
+
+.genderLabel {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 21px;
+    letter-spacing: 0.04em;
+    text-align: left;
+    color: #312e45;
+    margin-bottom:15px;
+}
+
+.radioOptions {
+    display: flex;
+    gap:25px;
+}
+
+.addStaffBtns {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0;
+    gap:25px;
+    button {
+        width: 180px;
+    }
+}
+
+.additionalInfo {
+    div {
+        justify-content: flex-start;
+    }
+}
+
+.cardBtn {
+    margin-left: 55px;
+}
