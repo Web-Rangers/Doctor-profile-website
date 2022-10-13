@@ -1,0 +1,87 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 35px; 
+}
+.pageHeader {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    padding: 0;
+}
+.headerLeft {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    gap: 50px;
+}
+.breadcrumbs {
+    display: flex;
+    flex-direction: row;
+    text-transform: capitalize;
+    color: #8f8f8f;
+    gap: 15px;
+    
+}
+.breadcrumbs li::marker {
+    content: '';
+}
+.breadcrumbs li:not(:last-child) a {
+    color: #2751f2;
+}
+.breadcrumbs li:not(:last-child)::after {
+    content: '>';
+    margin-left: 15px;
+}
+.notFullHeight{
+    height: initial;
+}
+
+/* employe page */
+.deactivateUser{
+    margin-right: auto;
+    margin-left: 35px;
+}
+.cardHeader{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.cardHeader h3{
+    margin: 0px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: 0.04em;
+    color: #1C1A27;
+}
+.table{
+    width: 100%;
+}
+.table th {
+    text-align: left;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: 0.04em;
+    color: #B3B1BB;
+}
+.table td {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: 0.04em;
+    color: #1C1A27;
+}
