@@ -150,7 +150,7 @@ export default function DatePicker({
                         setValuseDate(event.target.value)
                         onChange?.call(null, event.target.value)
                     }}
-                    className={mode === 'range' && styles.hideDefaultIcon}
+                    className={(mode === 'range' && styles.hideDefaultIcon) || ''}
                 />
                 {mode === 'range' && (<ReactSVG
                     src={'/images/icons/inputs/calendar.svg'}
