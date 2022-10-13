@@ -10,6 +10,7 @@ interface RadioProps {
     name?: string;
     onChange?: (checked: boolean) => void;
     id?: string;
+    value?: string;
 }
 
 export default function Radio({
@@ -18,6 +19,7 @@ export default function Radio({
     id,
     defaultChecked,
     name,
+    value = label || "",
 }: RadioProps) {
     const [isChecked, setIsChecked] = useState(defaultChecked);
     return (
@@ -27,6 +29,7 @@ export default function Radio({
                 type={'radio'}
                 className={classNames([styles.radio, className])}
                 name={name}
+                value={value}
             />
             <label htmlFor={id} className={styles.radioLabel}>
                 {label}

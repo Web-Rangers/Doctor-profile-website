@@ -1,10 +1,12 @@
 import classNames, { Value } from 'classnames';
 import styles from 'styles/components/Inputs/Input.module.scss';
 import { ReactSVG } from 'react-svg';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import next from 'next';
 import { start } from 'repl';
 import { DoctorServicesTab } from '..';
+import Image from 'next/image';
+import { Button } from 'components'
 
 enum DayName {
     Monday = 1,
@@ -76,7 +78,7 @@ function getPrevMonthDate(date: Date) {
     let year = date.getFullYear();
     let month = date.getMonth();
     if (month === 0) {
-        month = 12;
+        month = 11;
         year -= 1;
     } else {
         month -= 1;
@@ -119,6 +121,7 @@ interface DatePickerProps {
     placeholder?: string;
     onChange?: (value) => void;
     mode?: 'single' | 'range';
+    name?: string;
 }
 
 export default function DatePicker({
@@ -128,30 +131,39 @@ export default function DatePicker({
     placeholder,
     onChange,
     mode,
+    name
 }: DatePickerProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const [valueDate, setValuseDate] = useState(value ?? "")
+    const dateField = useRef<HTMLInputElement>()
     return (
         <div className={classNames([styles.inputContainer, className])}>
             {label && <span className={styles.label}>{label}</span>}
             <div className={styles.input}>
                 <input
-                    value={value}
+                    name={name}
+                    value={valueDate}
                     placeholder={placeholder}
-                    onChange={(event) =>
+                    type="date"
+                    ref={dateField}
+                    onChange={(event) => {
+                        setValuseDate(event.target.value)
                         onChange?.call(null, event.target.value)
-                    }
+                    }}
+                    className={mode === 'range' && styles.hideDefaultIcon}
                 />
-                <ReactSVG
+                {mode === 'range' && (<ReactSVG
                     src={'/images/icons/inputs/calendar.svg'}
                     className={classNames(styles.iconContainer)}
                     onClick={() => setIsOpen(!isOpen)}
-                />
+                />)}
                 {mode === 'single' && (
                     <Picker
                         isOpen={isOpen}
                         onClose={() => setIsOpen(false)}
                         onChange={(start) => {
-                            onChange?.call(null, start);
+                            setValuseDate(start)
+                            onChange?.call(null, start)
                         }}
                     />
                 )}
@@ -195,6 +207,7 @@ const Picker = ({ isOpen, onChange, onClose }: PickerProps) => {
         for (let i = 0; i < 7; i++) {
             days.push(
                 <DayHeader
+                    key={`dhp${i}`}
                     title={DayName[i]}
                     className={
                         i === 1 ? styles.left : i === 7 ? styles.right : null
@@ -226,6 +239,7 @@ const Picker = ({ isOpen, onChange, onClose }: PickerProps) => {
                         }
                         const dt = new Date(date.getFullYear(), date.getMonth(), i);
                         onChange(toJSONLocal(dt))
+                        onClose()
                     }}
                     number={i}
                     style={{
@@ -296,26 +310,60 @@ const Picker = ({ isOpen, onChange, onClose }: PickerProps) => {
         configureDays();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [date, selected]);
+
+    const blockRef = useRef<HTMLDivElement>()
+    
+    const [getClick, setGetClick] = useState(false)
+    useEffect(() => {
+        if (isOpen) {
+            window.addEventListener('click', clickNotOnBlock, {capture:true})
+        }
+        else {
+            window.removeEventListener('click', clickNotOnBlock, {capture:true})
+        }        
+        return () => {
+            window.removeEventListener('click', clickNotOnBlock, {capture:true})
+        };
+    }, [isOpen]);
+
+    const clickNotOnBlock = (e) => {
+        if (!e.composedPath().includes(blockRef.current)) {
+            onClose()
+        }
+    }
+
     return (
         <div
             className={classNames(styles.pickerContainer, {
                 [styles.closed]: !isOpen,
             })}
+            ref={blockRef}
         >
             <div className={styles.pickerHeader}>
                 <div
                     className={styles.moveBtn}
+                    style={{display:"flex"}}
                     onClick={() => setDate(getPrevMonthDate(date))}
                 >
-                    {'<'}
+                    <Image 
+                        src="/images/icons/calendar/chevron.svg"
+                        width={20}
+                        height={20}
+                        style={{transform:"rotateZ(180deg)"}}
+                    />
                 </div>
                 <div className={styles.date}>{`${MonthName[date.getMonth()]
                     }, ${date.getFullYear()}`}</div>
                 <div
                     className={styles.moveBtn}
+                    style={{display:"flex"}}
                     onClick={() => setDate(getNextMonthDate(date))}
                 >
-                    {'>'}
+                    <Image 
+                        src="/images/icons/calendar/chevron.svg"
+                        width={20}
+                        height={20}
+                    />
                 </div>
             </div>
             <div className={styles.calendar}>{days}</div>
@@ -343,6 +391,7 @@ const RangePicker = ({
         for (let i = 6; i < 13; i++) {
             days.push(
                 <DayHeader
+                    key={`dhrp${i}`}
                     title={DayName[i % 7]}
                     className={
                         i === 0 ? styles.left : i === 6 ? styles.right : null
@@ -472,6 +521,7 @@ const RangePicker = ({
         for (let i = 6; i < 13; i++) {
             days.push(
                 <DayHeader
+                    key={`dhrpn${i}`}
                     title={DayName[i % 7]}
                     className={
                         i === 0 ? styles.left : i === 6 ? styles.right : null

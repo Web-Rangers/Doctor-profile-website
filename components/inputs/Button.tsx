@@ -12,6 +12,7 @@ export interface ButtonProps {
     className?: string;
     width?: string | number;
     icon?: React.ReactNode;
+    type?: 'button' | 'submit' | 'reset';
 }
 
 const Button = ({
@@ -24,6 +25,7 @@ const Button = ({
     selected,
     className,
     icon,
+    type = 'button'
 }: ButtonProps) => {
     return (
         <button
@@ -39,6 +41,7 @@ const Button = ({
             )}
             onClick={onClick}
             disabled={disabled}
+            type={type}
         >
             {label}
             {icon}
