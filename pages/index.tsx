@@ -36,110 +36,12 @@ const EditAction = ({ onClick, icon }: ActionProps) => (
 );
 
 export default function DoctorsDetailed() {
-	const router = useRouter();
-	const id = router.query.id ?? null;
-	const [isOpen, setIsOpen] = useState(false);
-	const [email, setEmail] = useState('');
-	const [phone, setPhone] = useState('');
-	const [active, setActive] = useState(true);
-	const [serviceData, setServices] = useState([]);
-
-	var { data, refetch, isLoading, isError, error, status } = useQuery(
-		['key', 'doctorDetailed'],
-		() => {
-			return getFreelancerDoctor(id);
-		}
-	);
-
-	const clinicDoctor = useQuery(['key', 'clinicdoctorDetailed'], () => {
-		return getDoctor(id);
-	});
-
-	const doctorData =
-		clinicDoctor?.data?.doctorType === 'CLINIC_DOCTOR'
-			? clinicDoctor?.data
-			: data;
-
-	console.log('clinicDoctor', doctorData);
-	if (router.isReady) {
-		refetch();
-	}
-
-	const clinicId = doctorData?.clinics?.map((item) => item.id);
-
-	const certificates = useQuery(['key', 'freeLancerCertificate'], () => {
-		return getFreeLancerCertificate(id);
-	});
-
-	const education = useQuery(['key', 'freeLancerEducation'], () => {
-		return getFreeLancerEducations(id);
-	});
-
-	const educations = useEffect(() => {
-		let numbers = doctorData?.contactInfos?.map((contact) => {
-			if (contact?.type.value == 'mobile') {
-				return [contact.value];
-			}
-		});
-
-		let emails = doctorData?.contactInfos?.map((contact) => {
-			if (contact?.type.value == 'mail') {
-				return [contact.value];
-			}
-		});
-		setPhone(numbers);
-		setEmail(emails);
-	}, [doctorData]);
-
-	console.log('education', education.data);
-	console.log('sertificate', certificates?.data);
-
-	var services = useQuery(['key', 'services'], () => {
-		return getList(`clinics/contract-type-to-services`, id);
-	});
-
-	function createTree(data) {
-		let newData = data?.map((item) => item.services[0]);
-		const idMapping = newData?.reduce((acc, el, i) => {
-			acc[el.id] = i;
-			return acc;
-		}, {});
-
-		let root: any;
-
-		newData?.forEach((el) => {
-			if (el.parentServiceId === null) {
-				root = el;
-				return;
-			}
-			const parentEl = newData[idMapping[el.parentServiceId]];
-			parentEl.children = [...(parentEl.children || []), el];
-		});
-
-		return root;
-	}
-
-	useEffect(() => {
-		refetch();
-
-		services.refetch();
-	}, [id]);
-
-	useEffect(() => {
-		const tree = createTree(services?.data);
-
-		let newData = services?.data
-			?.map((item) => item.services[0])
-			.filter((item) => item.parentServiceId == null);
-
-		setServices(newData);
-		console.log('this is services data', newData);
-	}, [services?.data]);
+	
 
 	return (
 		<>
 			{false && <AddOrder />}
-			{isOpen && (
+			{/* {isOpen && (
 				<EditDoctorModal
 					data={doctorData}
 					onClose={() => setIsOpen(false)}
@@ -148,7 +50,7 @@ export default function DoctorsDetailed() {
 					}}
 					refetch={() => refetch()}
 				/>
-			)}
+			)} */}
 			<div className={styles.container}>
 				<div className={styles.pageHeader}>
 					<div className={styles.pageHeaderLeft}>
@@ -260,59 +162,54 @@ export default function DoctorsDetailed() {
 									services={[
 										{
 											name: 'Neurology',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
+											subservices:[
+												{
+													name: 'Online consultation',
+													price: '100',
+													platformCommission: '40',
+													serviceDuration: '15'
+												},
+												{
+													name: 'Deciphering analyzes',
+													price: '100',
+													platformCommission: '40',
+													serviceDuration: '15'
+												}
+											]
 										},
 										{
 											name: 'Cardiology',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
+											subservices:[
+												{
+													name: 'Online consultation',
+													price: '100',
+													platformCommission: '40',
+													serviceDuration: '15'
+												},
+												{
+													name: 'Deciphering analyzes',
+													price: '100',
+													platformCommission: '40',
+													serviceDuration: '15'
+												}
+											]
 										},
 										{
-											name: 'Dental',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
-										},
-										{
-											name: 'General Medicine',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
-										},
-										{
-											name: 'Orthopedics',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
-										},
-										{
-											name: 'Pediatrics',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
-										},
-										{
-											name: 'Psychiatry',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
-										},
-										{
-											name: 'Surgery',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
+											name: 'Endocrinology',
+											subservices:[
+												{
+													name: 'Online consultation',
+													price: '100',
+													platformCommission: '40',
+													serviceDuration: '15'
+												},
+												{
+													name: 'Deciphering analyzes',
+													price: '100',
+													platformCommission: '40',
+													serviceDuration: '15'
+												}
+											]
 										},
 									]}
 								/>

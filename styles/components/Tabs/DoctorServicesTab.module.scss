@@ -1,41 +1,65 @@
-div.tableRow {
-	background-color: transparent;
-	grid-template-columns: 25% 10% 20% 20% 15% 10%;
-	border-bottom: 2px solid #f4f7ff;
-}
-
-div.tableHeader {
-	background-color: #f4f7ff;
-	border-bottom: none;
-}
-
-div.tableCell {
-	padding: 20px 10px;
-}
-
-div.tableBody {
-	gap: 0;
-}
-
-.tableActons {
+.serviceBlock{
 	display: flex;
-	flex-direction: row;
-	gap: 10px;
-	justify-content: space-around;
-	div {
-		cursor: pointer;
-	}
+	flex-direction: column;	
+	border-radius: 4px;
+	overflow: hidden;
+	transition: all 0.2s ease-in-out;
+	border-left: 3px solid transparent
 }
-
-.iconContainer {
-	height: 100%;
+.serviceHeader{
+	background: #F4F7FF;
 	display: flex;
-	justify-content: center;
 	align-items: center;
-	div {
-		height: 100%;
+	padding: 20px;
+	gap: 15px;
+	justify-content: space-between;
+	cursor: pointer;
+
+	font-style: normal;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 24px;
+	letter-spacing: 0.04em;
+	color: #1C1A27;
+}
+.chevron{
+	display: flex;
+	transition: all .2s ease-in-out;
+}
+.services{
+	overflow: hidden;
+}
+.serviceTable{
+	padding: 30px 20px 20px;
+}
+.table{
+	width: 100%;
+	text-align: left;
+	tbody:before {
+		content: "-";
+    	display: block;
+    	line-height: 20px;
+    	color: transparent;
+	}
+	th {
+		font-style: normal;
+		font-weight: 500;
+		font-size: 17px;
+		line-height: 22px;
+		letter-spacing: 0.04em;
+		color: #B3B1BB;
+	}
+	td {
+		font-style: normal;
+		font-weight: 400;
+		font-size: 18px;
+		line-height: 24px;
+		letter-spacing: 0.04em;
+		color: #1C1A27;
+	}
+	.edit {
 		display: flex;
-		justify-content: center;
+		justify-content: flex-end;
 		align-items: center;
 	}
 }
