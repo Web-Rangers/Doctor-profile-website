@@ -7,31 +7,8 @@ import EditDoctorServiceModal from 'components/modals/EditDoctorServiceModal';
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 
-interface Service {
-	name: string;
-	subservices: {
-		name: string;
-		price: string;
-		platformCommission: string;
-		serviceDuration: string;
-	}[]
-}
-
-interface DoctorServicesTabProps {
-	className?: string;
-	services?: Service[];
-}
-
-const centerStyle = {
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'center',
-};
-
-export default function DoctorServicesTab({
-	services = [],
-}: DoctorServicesTabProps) {
-	
+export default function DoctorServicesTab({services = []}) {
+	console.log(services)
 	const [openAddModal, setOpenAddModal] = useState(false);
 
 	const [openEditModal, setOpenEditModal] = useState(false);
@@ -68,13 +45,17 @@ export default function DoctorServicesTab({
 						}}
 					/>
 				)}
-				<ServiceBlock service={null} />
+				<div className={styles.services}>
+					{services.map(service => (
+						<ServiceBlock key={service.id} service={service} />
+					))}
+				</div>			
 			</Card>
 		</>
 	);
 }
 
-function ServiceBlock({service: Service}) {
+function ServiceBlock({service}) {
 	const [open, setOpen] = useState(false)
 
 	return (
@@ -94,7 +75,7 @@ function ServiceBlock({service: Service}) {
 				className={styles.serviceHeader}
 				onClick={() => setOpen(!open)}
 			>
-				<span>Allergology</span>
+				<span>{service.title}</span>
 				<motion.div 
 					className={styles.chevron}
 					style={ 
@@ -114,6 +95,16 @@ function ServiceBlock({service: Service}) {
 			<motion.div 
 				className={styles.services}
 				transition={{ease:"easeInOut", duration: 0.2}}
+				initial={
+					open ? 
+					{ 
+						height: "auto"
+					} 
+					: 
+					{ 
+						height: "0px"
+					}
+				}
 				animate={ 
 					open ? 
 					{ 
@@ -137,24 +128,26 @@ function ServiceBlock({service: Service}) {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>Subservice name</td>
-								<td>Price</td>
-								<td>Service commission</td>
-								<td>Duration</td>
-								<td>
-									<div className={styles.edit}>
-										<Image 
-                	        			    src="/images/icons/staff/pencil.svg"
-                	        			    width={20}
-                	        			    height={20}
-                	        			    alt=""
-                	        			    style={{cursor:'pointer'}}
-                	        			    onClick={() => {}}
-                	        			/>
-									</div>								
-								</td>
-							</tr>
+							{service.services.map(serv => (
+								<tr key={`service-${serv.id}`}>
+									<td>{serv.title}</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td>
+										<div className={styles.edit}>
+											<Image 
+                	        				    src="/images/icons/staff/pencil.svg"
+                	        				    width={20}
+                	        				    height={20}
+                	        				    alt=""
+                	        				    style={{cursor:'pointer'}}
+                	        				    onClick={() => {}}
+                	        				/>
+										</div>								
+									</td>
+								</tr>
+							))}							
 						</tbody>
 					</table>
 				</div>

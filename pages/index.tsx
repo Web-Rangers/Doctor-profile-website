@@ -16,15 +16,18 @@ import tabStyles from 'styles/components/Tabs/tabs.module.scss';
 import { useRouter } from 'next/router';
 import StarRatings from 'react-star-ratings';
 import {
-	getFreelancerDoctor,
-	getFreeLancerCertificate,
+	getFreeLancerServices,
+	getDoctorsServices,
 	getDoctor,
-	getFreeLancerEducations,
 } from 'components/useDoctorsData';
 import { useQuery } from '@tanstack/react-query';
 import EditDoctorModal from 'components/modals/EditDoctorModal';
 import MultiSelectTreeViewDoctor from 'components/multiSelectTreeViewDoctor';
 import DoctorReviewsTab from 'components/tabs/DoctorReviewsTab';
+import { useSession } from "next-auth/react"
+import { signIn, signOut } from "next-auth/react"
+import Image from 'next/image'
+import Moment from 'react-moment';
 
 interface ActionProps {
 	icon?: string;
@@ -36,7 +39,39 @@ const EditAction = ({ onClick, icon }: ActionProps) => (
 );
 
 export default function DoctorsDetailed() {
-	
+	const { data: session, status } = useSession()
+
+	const doctor = useQuery(
+		['doctor'], 
+		() => getDoctor(session?.user?.id)
+	)
+	const servicesFreelancer = useQuery(
+		['doctorServicesFreelancer'], 
+		() => getFreeLancerServices()
+	)
+	const servicesClinics = useQuery(
+		['doctorServicesClinics'], 
+		() => getDoctorsServices()
+	)
+
+	useEffect(() => {
+		if (status == 'unauthenticated')
+			signIn("credentials", {
+				email: "forzaitalia@gmail.com",
+				password: "qwerty"
+			})
+			.then((res) => console.log(res))
+			.catch((err) => console.log(err))
+	},[status])
+
+	useEffect(()=>{
+		if (session?.user?.id)
+			doctor.refetch()
+	},[session])
+
+	if (status !='authenticated' || !doctor.data) {
+		return <></>
+	}
 
 	return (
 		<>
@@ -57,43 +92,52 @@ export default function DoctorsDetailed() {
 						<h3>Doctor</h3>
 					</div>
 					<Breadcrumbs
-						omitRootLabel={true}
-						listClassName={styles.breadcrumbs}
-						replaceCharacterList={[{ from: '_', to: ' ' }]}
-					/>
+                        omitRootLabel={false}
+                        rootLabel="Doctor's detailed page"
+                        listClassName={styles.breadcrumbs}
+                        replaceCharacterList={[{ from: '_', to: ' ' }]}
+                    />
 				</div>
 				<div className={styles.pageBody}>
 					<Card className={styles.doctorRow}>
 						<div className={styles.imageContainer}>
-							<img
-								src={`/images/doctors/doctor.png`}
+							<Image
+								src={`${doctor?.data?.pictureUrl}`}
 								alt="doctor"
+								width={100}
+								height={100}
 								className={styles.image}
 							/>
 						</div>
 						<div className={styles.infoContainer}>
-							<div className={styles.name}>Brooklyn Simmons</div>
+							<div className={styles.name}>{doctor?.data?.firstName} {doctor?.data?.lastName}</div>
 							<div className={styles.row}>
-								<div className={styles.speciality}>
-									Neurologist
+								<div className={styles.professions}>
+									{doctor?.data?.professions?.map((prof) => (
+										<span key={`prof-${prof.id}`} className={styles.speciality}>
+											{prof.name}
+										</span>
+									))}
 								</div>
 								<div className={styles.birthday}>
 									<ReactSVG
-										src={'/images/icons/inputs/mail.svg'}
+										src={'/images/icons/doctor/cake.svg'}
 									/>
-									<span>01.01.1990</span>
+									<Moment format='DD.MM.YYYY'>
+										{doctor?.data?.dateOfBirth}
+									</Moment>
 								</div>
 								<div className={styles.work}>
 									<ReactSVG
-										src={'/images/icons/inputs/phone.svg'}
+										src={'/images/icons/doctor/briefcase.svg'}
 									/>
 									<span>Self-employed</span>
 								</div>
 								<div className={styles.more}>
-									<Button label='See moree >' variant='text' size='large' />
+									<Button className={styles.seeMore} label='See more >' variant='text' size='large' />
 								</div>
 							</div>
-							<div className={styles.rating}>
+							{/* <div className={styles.rating}>
 								<StarRatings
 									rating={4}
 									starRatedColor="#FFC14E"
@@ -108,7 +152,7 @@ export default function DoctorsDetailed() {
 								<span className={styles.fullRating}>
 									{'/5'}
 								</span>
-							</div>
+							</div> */}
 						</div>
 					</Card>
 					<div className={styles.tabContainer}>
@@ -134,7 +178,7 @@ export default function DoctorsDetailed() {
 										src="/images/icons/tabs/calendar.svg"
 										className={styles.iconContainer}
 									/>
-									<span>Calender</span>
+									<span>Calendar</span>
 								</Tab>
 								<Tab
 									className={tabStyles.tab}
@@ -159,59 +203,14 @@ export default function DoctorsDetailed() {
                                     />
                                 } */}
 								<DoctorServicesTab
-									services={[
-										{
-											name: 'Neurology',
-											subservices:[
-												{
-													name: 'Online consultation',
-													price: '100',
-													platformCommission: '40',
-													serviceDuration: '15'
-												},
-												{
-													name: 'Deciphering analyzes',
-													price: '100',
-													platformCommission: '40',
-													serviceDuration: '15'
-												}
-											]
-										},
-										{
-											name: 'Cardiology',
-											subservices:[
-												{
-													name: 'Online consultation',
-													price: '100',
-													platformCommission: '40',
-													serviceDuration: '15'
-												},
-												{
-													name: 'Deciphering analyzes',
-													price: '100',
-													platformCommission: '40',
-													serviceDuration: '15'
-												}
-											]
-										},
-										{
-											name: 'Endocrinology',
-											subservices:[
-												{
-													name: 'Online consultation',
-													price: '100',
-													platformCommission: '40',
-													serviceDuration: '15'
-												},
-												{
-													name: 'Deciphering analyzes',
-													price: '100',
-													platformCommission: '40',
-													serviceDuration: '15'
-												}
-											]
-										},
-									]}
+									services={
+										doctor.data ? (
+											doctor.data.doctorType=='FREELANCER' ? 
+											servicesFreelancer.data 
+											: 
+											servicesClinics.data
+										) : []										
+									}
 								/>
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>

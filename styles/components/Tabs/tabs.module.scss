@@ -24,13 +24,14 @@
   gap: 10px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  border-bottom: 3px solid transparent;
   &:hover {
     background-color: #dbe2fd;
   }
 }
 
 .selectedTab {
-  border-bottom: 1px solid #2751f2;
+  border-bottom: 3px solid #2751f2;
 }
 
 .tabPanel {
