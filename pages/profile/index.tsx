@@ -150,23 +150,25 @@ export default function DoctorsDetailed() {
 					<Card className={styles.bigDoctorRow}>
 						<div className={styles.imageContainer}>
 							<img
-								src={`/images/doctors/doctor.png`}
-								alt="doctor"
+								src={`${data?.pictureUrl + `&?${new Date().getTime()}`}`}
+								alt='doctor'
 								className={styles.image}
 							/>
 						</div>
 						<div className={styles.infoContainer}>
-							<div className={styles.name}>Brooklyn Simmons</div>
+							<div className={styles.name}>{data != null ? data?.firstName+' '+data?.lastName : ''}</div>
 							<div className={styles.speciality}>
-							Neurologist
+								{data != null
+									? data?.professions && data?.professions[0].name
+									: ''}
 							</div>
 							<div className={styles.mail}>
 								<ReactSVG src={"/images/icons/inputs/mail.svg"} />
-								<span>{'simon_doctor@gmail.com'}</span>
+								<span>{email}</span>
 							</div>
 							<div className={styles.phone}>
 								<ReactSVG src={"/images/icons/inputs/phone.svg"} />
-								<span>{'(603) 555-0123'}</span>
+								<span>{phone}</span>
 							</div>
 						</div>
 						<EditAction

@@ -100,13 +100,12 @@
 }
 
 .infoContainer {
-	flex: 1 0 auto;
 	height: 100%;
-	padding-left: 15px;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	justify-content: space-between;
+	gap: 15px;
 }
 
 .name {
@@ -133,14 +132,14 @@
 	line-height: 24px;
 	letter-spacing: 0.04em;
 	text-align: left;
-	button{
-		padding: 0;
-	}
 	div {
 		height: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+	button{
+		padding: 0;
 	}
 }
 
@@ -155,12 +154,17 @@
 }
 
 .row {
-	height: 100%;
-	width: 100%;
+	width: calc(100% + 20px);
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
+	flex-wrap: wrap;
+	gap: 5px;
+	margin-right: -20px;
+	>*{
+		margin-right: 20px;
+	}
 }
 
 .edit {
@@ -252,4 +256,20 @@
 .deactiveBtn {
 	background-color: #f35959;
 	color: #ffffff;
+}
+
+.professions{
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	flex-wrap: wrap;
+	.speciality{
+		gap: 0;
+	}
+	.speciality:not(:last-child):after {
+		content: ",";
+	}
+}
+.seeMore{
+	height: auto;
 }

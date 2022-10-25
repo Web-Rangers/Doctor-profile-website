@@ -4,7 +4,7 @@ import axios from "axios";
 const getList = async () => {
   const res = (
     await axios.get(
-      `https://asclepius.pirveli.ge/asclepius/v1/api/clinics/search?name=`
+      `/asclepius/v1/api/clinics/search?name=`
     )
   ).data;
 

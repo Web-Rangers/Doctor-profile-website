@@ -16,15 +16,18 @@ import tabStyles from 'styles/components/Tabs/tabs.module.scss';
 import { useRouter } from 'next/router';
 import StarRatings from 'react-star-ratings';
 import {
-	getFreelancerDoctor,
-	getFreeLancerCertificate,
+	getFreeLancerServices,
+	getDoctorsServices,
 	getDoctor,
-	getFreeLancerEducations,
 } from 'components/useDoctorsData';
 import { useQuery } from '@tanstack/react-query';
 import EditDoctorModal from 'components/modals/EditDoctorModal';
 import MultiSelectTreeViewDoctor from 'components/multiSelectTreeViewDoctor';
 import DoctorReviewsTab from 'components/tabs/DoctorReviewsTab';
+import { useSession } from "next-auth/react"
+import { signIn, signOut } from "next-auth/react"
+import Image from 'next/image'
+import Moment from 'react-moment';
 
 interface ActionProps {
 	icon?: string;
@@ -36,110 +39,44 @@ const EditAction = ({ onClick, icon }: ActionProps) => (
 );
 
 export default function DoctorsDetailed() {
-	const router = useRouter();
-	const id = router.query.id ?? null;
-	const [isOpen, setIsOpen] = useState(false);
-	const [email, setEmail] = useState('');
-	const [phone, setPhone] = useState('');
-	const [active, setActive] = useState(true);
-	const [serviceData, setServices] = useState([]);
+	const { data: session, status } = useSession()
 
-	var { data, refetch, isLoading, isError, error, status } = useQuery(
-		['key', 'doctorDetailed'],
-		() => {
-			return getFreelancerDoctor(id);
-		}
-	);
-
-	const clinicDoctor = useQuery(['key', 'clinicdoctorDetailed'], () => {
-		return getDoctor(id);
-	});
-
-	const doctorData =
-		clinicDoctor?.data?.doctorType === 'CLINIC_DOCTOR'
-			? clinicDoctor?.data
-			: data;
-
-	console.log('clinicDoctor', doctorData);
-	if (router.isReady) {
-		refetch();
-	}
-
-	const clinicId = doctorData?.clinics?.map((item) => item.id);
-
-	const certificates = useQuery(['key', 'freeLancerCertificate'], () => {
-		return getFreeLancerCertificate(id);
-	});
-
-	const education = useQuery(['key', 'freeLancerEducation'], () => {
-		return getFreeLancerEducations(id);
-	});
-
-	const educations = useEffect(() => {
-		let numbers = doctorData?.contactInfos?.map((contact) => {
-			if (contact?.type.value == 'mobile') {
-				return [contact.value];
-			}
-		});
-
-		let emails = doctorData?.contactInfos?.map((contact) => {
-			if (contact?.type.value == 'mail') {
-				return [contact.value];
-			}
-		});
-		setPhone(numbers);
-		setEmail(emails);
-	}, [doctorData]);
-
-	console.log('education', education.data);
-	console.log('sertificate', certificates?.data);
-
-	var services = useQuery(['key', 'services'], () => {
-		return getList(`clinics/contract-type-to-services`, id);
-	});
-
-	function createTree(data) {
-		let newData = data?.map((item) => item.services[0]);
-		const idMapping = newData?.reduce((acc, el, i) => {
-			acc[el.id] = i;
-			return acc;
-		}, {});
-
-		let root: any;
-
-		newData?.forEach((el) => {
-			if (el.parentServiceId === null) {
-				root = el;
-				return;
-			}
-			const parentEl = newData[idMapping[el.parentServiceId]];
-			parentEl.children = [...(parentEl.children || []), el];
-		});
-
-		return root;
-	}
+	const doctor = useQuery(
+		['doctor'], 
+		() => getDoctor(session?.user?.id)
+	)
+	const servicesFreelancer = useQuery(
+		['doctorServicesFreelancer'], 
+		() => getFreeLancerServices()
+	)
+	const servicesClinics = useQuery(
+		['doctorServicesClinics'], 
+		() => getDoctorsServices()
+	)
 
 	useEffect(() => {
-		refetch();
+		if (status == 'unauthenticated')
+			signIn("credentials", {
+				email: "forzaitalia@gmail.com",
+				password: "qwerty"
+			})
+			.then((res) => console.log(res))
+			.catch((err) => console.log(err))
+	},[status])
 
-		services.refetch();
-	}, [id]);
+	useEffect(()=>{
+		if (session?.user?.id)
+			doctor.refetch()
+	},[session])
 
-	useEffect(() => {
-		const tree = createTree(services?.data);
-
-		let newData = services?.data
-			?.map((item) => item.services[0])
-			.filter((item) => item.parentServiceId == null);
-
-		setServices(newData);
-		console.log('this is services data', newData);
-	}, [services?.data]);
+	if (status !='authenticated' || !doctor.data) {
+		return <></>
+	}
 
 	return (
 		<>
 			{false && <AddOrder />}
-			{isOpen && (
+			{/* {isOpen && (
 				<EditDoctorModal
 					data={doctorData}
 					onClose={() => setIsOpen(false)}
@@ -148,50 +85,59 @@ export default function DoctorsDetailed() {
 					}}
 					refetch={() => refetch()}
 				/>
-			)}
+			)} */}
 			<div className={styles.container}>
 				<div className={styles.pageHeader}>
 					<div className={styles.pageHeaderLeft}>
 						<h3>Doctor</h3>
 					</div>
 					<Breadcrumbs
-						omitRootLabel={true}
-						listClassName={styles.breadcrumbs}
-						replaceCharacterList={[{ from: '_', to: ' ' }]}
-					/>
+                        omitRootLabel={false}
+                        rootLabel="Doctor's detailed page"
+                        listClassName={styles.breadcrumbs}
+                        replaceCharacterList={[{ from: '_', to: ' ' }]}
+                    />
 				</div>
 				<div className={styles.pageBody}>
 					<Card className={styles.doctorRow}>
 						<div className={styles.imageContainer}>
-							<img
-								src={`/images/doctors/doctor.png`}
+							<Image
+								src={`${doctor?.data?.pictureUrl}`}
 								alt="doctor"
+								width={100}
+								height={100}
 								className={styles.image}
 							/>
 						</div>
 						<div className={styles.infoContainer}>
-							<div className={styles.name}>Brooklyn Simmons</div>
+							<div className={styles.name}>{doctor?.data?.firstName} {doctor?.data?.lastName}</div>
 							<div className={styles.row}>
-								<div className={styles.speciality}>
-									Neurologist
+								<div className={styles.professions}>
+									{doctor?.data?.professions?.map((prof) => (
+										<span key={`prof-${prof.id}`} className={styles.speciality}>
+											{prof.name}
+										</span>
+									))}
 								</div>
 								<div className={styles.birthday}>
 									<ReactSVG
-										src={'/images/icons/inputs/mail.svg'}
+										src={'/images/icons/doctor/cake.svg'}
 									/>
-									<span>01.01.1990</span>
+									<Moment format='DD.MM.YYYY'>
+										{doctor?.data?.dateOfBirth}
+									</Moment>
 								</div>
 								<div className={styles.work}>
 									<ReactSVG
-										src={'/images/icons/inputs/phone.svg'}
+										src={'/images/icons/doctor/briefcase.svg'}
 									/>
 									<span>Self-employed</span>
 								</div>
 								<div className={styles.more}>
-									<Button label='See moree >' variant='text' size='large' />
+									<Button className={styles.seeMore} label='See more >' variant='text' size='large' />
 								</div>
 							</div>
-							<div className={styles.rating}>
+							{/* <div className={styles.rating}>
 								<StarRatings
 									rating={4}
 									starRatedColor="#FFC14E"
@@ -206,7 +152,7 @@ export default function DoctorsDetailed() {
 								<span className={styles.fullRating}>
 									{'/5'}
 								</span>
-							</div>
+							</div> */}
 						</div>
 					</Card>
 					<div className={styles.tabContainer}>
@@ -232,7 +178,7 @@ export default function DoctorsDetailed() {
 										src="/images/icons/tabs/calendar.svg"
 										className={styles.iconContainer}
 									/>
-									<span>Calender</span>
+									<span>Calendar</span>
 								</Tab>
 								<Tab
 									className={tabStyles.tab}
@@ -257,64 +203,14 @@ export default function DoctorsDetailed() {
                                     />
                                 } */}
 								<DoctorServicesTab
-									services={[
-										{
-											name: 'Neurology',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
-										},
-										{
-											name: 'Cardiology',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
-										},
-										{
-											name: 'Dental',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
-										},
-										{
-											name: 'General Medicine',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
-										},
-										{
-											name: 'Orthopedics',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
-										},
-										{
-											name: 'Pediatrics',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
-										},
-										{
-											name: 'Psychiatry',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
-										},
-										{
-											name: 'Surgery',
-											price: '100',
-											doctorCommission: '10',
-											platformCommission: '40',
-											serviceDuration: '15',
-										},
-									]}
+									services={
+										doctor.data ? (
+											doctor.data.doctorType=='FREELANCER' ? 
+											servicesFreelancer.data 
+											: 
+											servicesClinics.data
+										) : []										
+									}
 								/>
 							</TabPanel>
 							<TabPanel className={tabStyles.tabPanel}>
