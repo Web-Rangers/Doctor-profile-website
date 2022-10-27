@@ -26,6 +26,11 @@ const links = [
         name: "Orders"
     },
     {
+        img: "/images/icons/navigation/clinics.svg",
+        href: "/add_record",
+        name: "Clinics"
+    },
+    {
         img: "/images/icons/navigation/staff.svg",
         href: "/staff",
         name: "Staff"

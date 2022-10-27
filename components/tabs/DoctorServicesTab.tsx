@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 export default function DoctorServicesTab({services = []}) {
-	console.log(services)
+
 	const [openAddModal, setOpenAddModal] = useState(false);
 
 	const [openEditModal, setOpenEditModal] = useState(false);
@@ -75,7 +75,7 @@ function ServiceBlock({service}) {
 				className={styles.serviceHeader}
 				onClick={() => setOpen(!open)}
 			>
-				<span>{service.title}</span>
+				<span>{service?.title}</span>
 				<motion.div 
 					className={styles.chevron}
 					style={ 
@@ -128,7 +128,7 @@ function ServiceBlock({service}) {
 							</tr>
 						</thead>
 						<tbody>
-							{service.services.map(serv => (
+							{service?.services?.map(serv => (
 								<tr key={`service-${serv.id}`}>
 									<td>{serv.title}</td>
 									<td></td>
