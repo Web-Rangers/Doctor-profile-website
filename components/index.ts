@@ -3,6 +3,7 @@ export * from './inputs';
 export * from './modals';
 export * from './tabs';
 export * from './progress';
+export * from './record';
 export { default as Table } from './Table';
 export { default as TableWithDropdowns } from './TableWithDropdowns';
 export { default as TableWithSort } from './TableWithSort';
