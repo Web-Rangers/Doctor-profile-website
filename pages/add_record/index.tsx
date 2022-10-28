@@ -31,56 +31,68 @@ const EditAction = ({ onClick, icon }: ActionProps) => (
 );
 
 export default function AddRecord() {
+	const router = useRouter()
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.pageHeader}>
 				<div className={styles.pageHeaderLeft}>
-					<h3>Doctor</h3>
+					<h3>Add record</h3>
 				</div>
 				<Breadcrumbs
                     omitRootLabel={false}
                     rootLabel="Admin"
                     listClassName={styles.breadcrumbs}
-                    replaceCharacterList={[{ from: '_', to: ' ' }]}
+                    replaceCharacterList={[{ from: '_', to: ' ' }, { from: 'add record', to: 'Add record' }]}
+					omitIndexList={[1]}
                 />
 			</div>
 			<div className={styles.pageBody}>
-				<Card className={styles.clientSearch}>
-					<span className={styles.cardTitle}>
-						Client
-					</span>
-					<div className={styles.field}>
-						<Input
-                    	    label="Enter customer id to search"							
-                    	    placeholder="Type here"
-							className={styles.search}
-                    	/>
-						<Button
-                            label="Find a client"
-                            size="large"
-                            variant="fill"
-							onClick={()=>{}}
-                        />
-					</div>
-				</Card>
-
-				<Card className={styles.clientSelected}>
-					<Image 
-						src={`/images/users/user.png`}
-						width={75}
-						height={75}
-						style={{borderRadius:100}}
-					/>
-					<span>Name Surname</span>
-				</Card>				
-				<Card className={styles.availableServices}>
-					<span className={styles.servicesTitle}>
-						Services available
-					</span>
-					<ServicesForRecord />
-				</Card>
-
+				{router.query?.id && router.query?.service ? 
+					<Card className={styles.clientSearch}>
+						<span className={styles.cardTitle}>
+							Make an entry
+						</span>
+						
+					</Card>
+					:
+					<>
+						<Card className={styles.clientSearch}>
+							<span className={styles.cardTitle}>
+								Client
+							</span>
+							<div className={styles.field}>
+								<Input
+									label="Enter customer id to search"							
+									placeholder="Type here"
+									className={styles.search}
+								/>
+								<Button
+									label="Find a client"
+									size="large"
+									variant="fill"
+									onClick={()=>{}}
+								/>
+							</div>
+						</Card>
+					
+						<Card className={styles.clientSelected}>
+							<Image 
+								src={`/images/users/user.png`}
+								width={75}
+								height={75}
+								style={{borderRadius:100}}
+							/>
+							<span>Name Surname</span>
+						</Card>				
+						<Card className={styles.availableServices}>
+							<span className={styles.servicesTitle}>
+								Services available
+							</span>
+							<ServicesForRecord />
+						</Card>
+					</>
+				}
 			</div>
 		</div>
 	);

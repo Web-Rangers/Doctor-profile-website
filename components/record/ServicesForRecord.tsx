@@ -5,6 +5,8 @@ import { motion } from 'framer-motion'
 import Select from 'react-select'
 import { ReactSVG } from 'react-svg'
 import { useEffect } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function ServicesForRecord({services = [1,2,3,4,5,6,7,8,9,10,11,12,13,14]}) {
     const [currentPage, setCurrentPage] = useState([])    
@@ -71,6 +73,11 @@ export default function ServicesForRecord({services = [1,2,3,4,5,6,7,8,9,10,11,1
 // DELETE 'co'
 function ServiceBlock({service, co}) {
 	const [open, setOpen] = useState(false)
+	const router = useRouter()
+
+	const makeAnEntry = () => {
+		router.push({query:{id: 'test', service: 'test'}})
+	}
 
 	return (
 		<div 
@@ -138,7 +145,10 @@ function ServiceBlock({service, co}) {
 							<tr>
 								<td>Title</td>
 								<td>
-									<div className={styles.edit}>
+									<div 
+										className={styles.edit}
+										onClick={makeAnEntry}
+									>
 										<Image 
                 	        			    src="/images/icons/tabs/plus-circle.svg"
                 	        			    width={20}
@@ -147,13 +157,16 @@ function ServiceBlock({service, co}) {
                 	        			    onClick={() => {}}
                 	        			/>
                                         Make an entry
-									</div>								
+									</div>						
 								</td>
 							</tr>
                             <tr>
 								<td>Title</td>
 								<td>
-									<div className={styles.edit}>
+									<div 
+										className={styles.edit}
+										onClick={makeAnEntry}
+									>
 										<Image 
                 	        			    src="/images/icons/tabs/plus-circle.svg"
                 	        			    width={20}
@@ -162,7 +175,7 @@ function ServiceBlock({service, co}) {
                 	        			    onClick={() => {}}
                 	        			/>
                                         Make an entry
-									</div>								
+									</div>
 								</td>
 							</tr>
 						</tbody>
