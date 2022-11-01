@@ -14,6 +14,7 @@ import { useState } from 'react';
 import Breadcrumbs from 'nextjs-breadcrumbs';
 import classNames from 'classnames';
 import styles from 'styles/pages/orders.module.scss';
+import TableOrders from 'components/TableOrders';
 
 export default function Orders() {
     const [isModalOpen, setModalOpen] = useState(false);
@@ -28,8 +29,8 @@ export default function Orders() {
     const [status, setStatus] = useState('');
     const [labels, setLabels] = useState('');
     const [cardType, setCardType] = useState('');
-    const [min, setMin] = useState();
-    const [max, setMax] = useState();
+    const [min, setMin] = useState<number | string>();
+    const [max, setMax] = useState<number | string>();
 
     const headerCellStyle = {
         paddingLeft: '5px',
@@ -37,76 +38,69 @@ export default function Orders() {
     }
     const columns = [
         {
-            key: 'patient_name',
-            title: 'Patient name',
-            dataIndex: 'patient_name',
+            accessor: 'patient_name',
+            Header: 'Patient name',
         },
         {
-            key: 'service_name',
-            title: 'Name of Subservice',
-            dataIndex: 'service_name',
+            accessor: 'service_name',
+            Header: 'Name of Subservice',
         },
         {
-            key: 'status',
-            title: 'Status',
-            dataIndex: 'status',
-            render: (record, key) => {
-                return (
-                    <div className={styles.statusCell}>
-                        <span
-                            className={classNames(styles.statusBtn, {
-                                [styles.inprogress]: record == 'In progress',
-                                [styles.done]: record == 'Done',
-                                [styles.waiting]:
-                                    record == 'Waiting for approval',
-                                [styles.canceled]: record == 'Canceled',
-                            })}
-                        >
-                            {record}
-                        </span>
-                    </div>
-                );
+            accessor: 'status',
+            Header: 'Status',
+            Cell: (record, row) => (
+                <div className={styles.statusCell}>
+                    <span
+                        className={classNames(styles.statusBtn, {
+                            [styles.inprogress]: record.value == 'In progress',
+                            [styles.done]: record.value == 'Done',
+                            [styles.waiting]:
+                                record.value == 'Waiting for approval',
+                            [styles.canceled]: record.value == 'Canceled',
+                        })}
+                    >
+                        {record.value}
+                    </span>
+                </div>
+            ),
+        },
+        {
+            accessor: 'create_date',
+            Header: 'Create date',
+        },
+        {
+            accessor: 'service',
+            Header: 'Service Type',
+            cellProps: {
+                style: {
+                    textAlign: 'center'
+                },
             },
+            headerProps: {
+                style: {
+                    textAlign: 'center'
+                },
+            }
         },
         {
-            key: 'create_date',
-            title: 'Create date',
-            dataIndex: 'create_date',
-        },
-        {
-            key: 'service',
-            title: 'Service Type',
-            dataIndex: 'service',
-            cellStyle: {
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+            accessor: 'price',
+            Header: 'Price',
+            cellProps: {
+                style: {
+                    textAlign: 'right'
+                },
             },
-            headerStyle: {
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            },
-        },
-        {
-            key: 'price',
-            title: 'Price',
-            dataIndex: 'price',
-            cellStyle: {
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-            },
-            headerStyle: {
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
+            headerProps: {
+                style: {
+                    textAlign: 'right'
+                },
             }
         },
     ];
 
     const data = [
         {
+            id: 1,
             status: 'In progress',
             service_name:
                 'Electroencephalography with video monitoring (EEG video)',
@@ -117,6 +111,7 @@ export default function Orders() {
             isActive: true
         },
         {
+            id: 2,
             service: 'Home',
             service_name:
                 'Electroencephalography with video monitoring (EEG video)',
@@ -127,6 +122,7 @@ export default function Orders() {
             isActive: true
         },
         {
+            id: 3,
             service: 'Home',
             service_name:
                 'Electroencephalography with video monitoring (EEG video)',
@@ -137,6 +133,7 @@ export default function Orders() {
             isActive: true
         },
         {
+            id: 4,
             service: 'Online',
             service_name:
                 'Electroencephalography with video monitoring (EEG video)',
@@ -154,7 +151,8 @@ export default function Orders() {
                 <div className={styles.pageHeader}>
                     <h3>Orders</h3>
                     <Breadcrumbs
-                        omitRootLabel={true}
+                        omitRootLabel={false}
+                        rootLabel="Admin"
                         listClassName={styles.breadcrumbs}
                         replaceCharacterList={[{ from: '_', to: ' ' }]}
                     />
@@ -425,17 +423,9 @@ export default function Orders() {
                             <Button label="Apply" size="large" variant="fill" />
                         </div>
                     </div>
-                    <Table
+                    <TableOrders
                         columns={columns}
                         data={data}
-                        className={styles.table}
-                        rowClassName={styles.tableRow}
-                        cellClassName={styles.tableCell}
-                        headerClassName={styles.tableHeader}
-                        bodyClassName={styles.tableBody}
-                        pagination={{ pageSize: 10, initialPage: 1 }}
-                        dropdownClassname={styles.dropDwn}
-                        detailedUrl="./orders/orders_detailed"
                     />
                 </Card>
             </div>
